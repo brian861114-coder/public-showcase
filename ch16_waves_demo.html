@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="zh-TW" data-theme="light">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Chapter 16 Waves — 波動（示範版）</title>
+<script>MathJax={tex:{inlineMath:[['$','$']],displayMath:[['$$','$$']],tags:'ams'},options:{ignoreHtmlClass:'no-math'}};</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+:root{--bg:#fff;--b2:#F5F5F7;--b3:#E8F0FE;--tx:#1D1D1F;--t2:#1D1D1F;--ac:#007AFF;--bd:#D2D2D7;--sh:0 2px 8px rgba(0,0,0,.08);--fbd:#E5E5EA;--wbg:#FFF9F0;--wbd:#FFB340;--wtx:#B8700A;--nw:260px}
+[data-theme="dark"]{--bg:#1C1C1E;--b2:#2C2C2E;--b3:#1A2332;--tx:#F5F5F7;--t2:#A1A1A6;--ac:#0A84FF;--bd:#48484A;--fbd:#3A3A3C;--wbg:#2C2416;--wbd:#8B6914;--wtx:#FFB340}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth;scroll-padding-top:16px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Noto Sans TC','Microsoft JhengHei',sans-serif;background:var(--b2);color:var(--tx);line-height:1.9;display:flex;min-height:100vh}
+.sidebar{position:fixed;top:0;left:0;width:var(--nw);height:100vh;background:var(--bg);border-right:1px solid var(--bd);overflow-y:auto;z-index:100;padding:20px 16px;display:flex;flex-direction:column}
+.sh{margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--fbd)}.sh h2{font-size:14px;font-weight:600;color:var(--ac)}.sh .bk{font-size:11px;color:var(--t2)}
+.sn{flex:1}.sn ul{list-style:none}.sn a{display:block;padding:4px 10px;font-size:11px;color:var(--t2);text-decoration:none;border-radius:5px;transition:.12s}.sn a:hover{background:var(--b3);color:var(--ac)}.sn a.active{background:var(--b3);color:var(--ac);font-weight:500}.sn .ns{font-weight:600;font-size:12px;color:var(--tx);margin-top:10px;padding:2px 10px}.sn .nsub a{padding-left:20px;font-size:10px}
+.st{margin-top:auto;padding-top:12px;border-top:1px solid var(--fbd)}.st button{width:100%;padding:6px;border:1px solid var(--bd);border-radius:6px;background:var(--b2);color:var(--tx);cursor:pointer;font-size:12px}
+.main{margin-left:var(--nw);flex:1;max-width:1050px;padding:32px 40px 80px}
+.header{margin-bottom:32px;padding-bottom:20px;border-bottom:2px solid var(--ac)}.header .cl{font-size:12px;font-weight:600;color:var(--ac);letter-spacing:1px}.header h1{font-size:28px;font-weight:700;margin:6px 0}.header .meta{font-size:13px;color:var(--t2)}
+section{margin-bottom:44px}h2{font-size:20px;font-weight:700;color:var(--ac);margin-bottom:14px;padding-bottom:6px;border-bottom:1px solid var(--bd)}h3{font-size:16px;font-weight:600;color:var(--tx);margin:24px 0 10px}p{font-size:14px;color:var(--t2);margin-bottom:12px}strong{font-weight:600;color:var(--tx)}ul,ol{font-size:14px;color:var(--t2);margin-left:18px;margin-bottom:12px}
+.eq{text-align:center;margin:16px 0;font-size:15px}
+.figure{margin:24px 0;text-align:center}.figure img{max-width:100%;border-radius:8px;box-shadow:var(--sh);cursor:pointer}.figure img:hover{transform:scale(1.01)}.figure figcaption{margin-top:8px;font-size:12px;color:var(--t2)}
+.callout{background:var(--b3);border:1px solid var(--fbd);border-radius:8px;padding:14px 18px;margin:16px 0;font-size:13px}.callout strong{color:var(--ac)}
+.callout-warn{background:var(--wbg);border:1px solid var(--wbd);border-radius:8px;padding:14px 18px;margin:16px 0;font-size:13px}.callout-warn strong{color:var(--wtx)}
+.exbox{background:var(--wbg);border-left:3px solid var(--wbd);border-radius:0 8px 8px 0;padding:14px 18px;margin:16px 0;font-size:13px}.exbox .ext{font-weight:700;color:var(--wtx);font-size:11px;margin-bottom:4px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}thead th{background:var(--b3);padding:8px 12px;font-size:12px;font-weight:600;border-bottom:2px solid var(--bd)}tbody td{padding:8px 12px;border-bottom:1px solid var(--fbd)}tbody tr:nth-child(even){background:var(--b2)}
+code{background:var(--b3);padding:2px 6px;border-radius:4px;font-size:13px;font-family:'Cascadia Code','Consolas',monospace;color:var(--ac)}
+blockquote.sem{font-size:13px;color:var(--t2);margin:16px 0;padding:12px 18px;background:var(--b3);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;line-height:1.7}
+details.collapse-block{margin:16px 0;border:1px solid var(--bd);border-radius:8px;overflow:hidden;background:var(--bg)}details.collapse-block summary{padding:10px 16px;cursor:pointer;font-size:13px;font-weight:600;color:var(--ac);background:var(--b3);user-select:none}details.collapse-block summary:hover{filter:brightness(0.96)}details.collapse-block summary::marker{color:var(--ac)}details.collapse-block .coll-body{padding:14px 18px;font-size:13px;color:var(--t2);border-top:1px solid var(--bd)}
+.interactive-box{background:var(--b3);border:1px solid var(--fbd);border-radius:8px;padding:18px 20px;margin:20px 0}
+.interactive-box label{display:block;font-size:13px;font-weight:600;color:var(--tx);margin-bottom:6px}
+.interactive-box input[type="range"]{width:100%;margin:8px 0;accent-color:var(--ac)}
+.interactive-box .val-display{font-size:24px;font-weight:700;color:var(--ac);text-align:center;margin:8px 0}
+.interactive-box .val-note{font-size:12px;color:var(--t2);text-align:center}
+.interactive-box .param-row{display:flex;justify-content:space-between;font-size:12px;color:var(--t2)}
+.concept-link{color:var(--ac);text-decoration:none;border-bottom:1px dashed var(--ac);cursor:pointer;transition:.12s}.concept-link:hover{background:var(--b3);border-bottom-style:solid}
+.tip-term{color:var(--ac);border-bottom:1px dotted var(--ac);cursor:help;position:relative;display:inline-block}.tip-term .tip-card{visibility:hidden;opacity:0;position:absolute;bottom:130%;left:50%;transform:translateX(-50%);background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:12px 14px;box-shadow:var(--sh);width:260px;font-size:12px;line-height:1.6;color:var(--t2);transition:opacity .2s;z-index:200;pointer-events:none;text-align:left}.tip-term:hover .tip-card{visibility:visible;opacity:1}.tip-term .tip-card strong{color:var(--tx)}.tip-term .tip-card::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:var(--bd)}
+.progress-bar-wrap{background:var(--b2);height:6px;border-radius:3px;margin:8px 0;overflow:hidden}.progress-bar-fill{background:var(--ac);height:100%;width:0%;border-radius:3px;transition:width .4s}.progress-label{font-size:11px;color:var(--t2);text-align:right;margin-bottom:4px}.prog-check{display:flex;align-items:center;gap:8px;margin:6px 0;font-size:13px;cursor:pointer}.prog-check input[type="checkbox"]{accent-color:var(--ac);width:16px;height:16px;cursor:pointer}
+.split-panel{display:flex;gap:20px;margin:20px 0}.split-panel .panel{flex:1;min-width:0;background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:14px 16px}.split-panel .panel h4{font-size:13px;font-weight:600;color:var(--ac);margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid var(--fbd)}.split-panel .panel p{font-size:13px;line-height:1.8}
+.search-bar{display:flex;gap:8px;margin:16px 0}.search-bar input{flex:1;padding:8px 12px;border:1px solid var(--bd);border-radius:6px;font-size:13px;background:var(--bg);color:var(--tx);outline:none}.search-bar input:focus{border-color:var(--ac)}
+.tag-list{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}.tag{display:inline-block;padding:3px 10px;font-size:11px;border-radius:12px;background:var(--b3);color:var(--t2);border:1px solid var(--bd);cursor:pointer;transition:.12s;user-select:none}.tag.active{background:var(--ac);color:#fff;border-color:var(--ac)}.tag:hover{filter:brightness(0.94)}.highlight{background:#FFE066;padding:1px 2px;border-radius:2px;color:var(--tx)}
+.reading-settings{position:fixed;bottom:20px;right:20px;z-index:999}.reading-settings .rs-toggle{width:42px;height:42px;border-radius:50%;border:none;background:var(--ac);color:#fff;font-size:18px;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.2);transition:.2s}.reading-settings .rs-toggle:hover{transform:scale(1.08)}.reading-settings .rs-panel{position:absolute;bottom:52px;right:0;background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:16px;box-shadow:var(--sh);width:200px;display:none}.reading-settings .rs-panel.open{display:block}.reading-settings .rs-panel label{display:block;font-size:11px;font-weight:600;color:var(--t2);margin:10px 0 4px}.reading-settings .rs-panel .rs-row{display:flex;gap:4px}.reading-settings .rs-panel .rs-btn{flex:1;padding:4px;font-size:11px;border:1px solid var(--bd);border-radius:4px;background:var(--b2);color:var(--tx);cursor:pointer;text-align:center;transition:.12s}.reading-settings .rs-panel .rs-btn.active{background:var(--ac);color:#fff;border-color:var(--ac)}
+.demo-label{display:inline-block;padding:3px 10px;font-size:10px;font-weight:700;border-radius:4px;background:var(--ac);color:#fff;margin-right:8px;vertical-align:middle;letter-spacing:1px}
+.read-opt{text-align:justify;hyphens:auto;letter-spacing:0.02em}.read-opt p{margin-bottom:18px;line-height:2.0}
+/* PDF Panel — 50/50 split */
+.pdf-panel{position:fixed;top:0;right:0;width:calc(50vw - 130px);height:100vh;background:var(--bg);border-left:1px solid var(--bd);overflow-y:auto;z-index:99;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s}
+.pdf-panel.open{transform:translateX(0)}
+.pdf-panel .pdf-header{flex-shrink:0;padding:12px 14px;border-bottom:1px solid var(--fbd);background:var(--b2);display:flex;align-items:center;justify-content:space-between;gap:8px}
+.pdf-panel .pdf-header .pdf-title{font-size:13px;font-weight:600;color:var(--tx)}
+.pdf-panel .pdf-header .pdf-close{width:28px;height:28px;border:none;border-radius:50%;background:var(--b3);color:var(--tx);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:.12s}
+.pdf-panel .pdf-header .pdf-close:hover{background:var(--ac);color:#fff}
+.pdf-panel .pdf-nav{flex-shrink:0;padding:8px 14px;display:flex;align-items:center;justify-content:center;gap:12px;border-bottom:1px solid var(--fbd);font-size:12px}
+.pdf-panel .pdf-nav button{width:30px;height:30px;border:1px solid var(--bd);border-radius:6px;background:var(--b2);color:var(--tx);cursor:pointer;font-size:14px;transition:.12s;display:flex;align-items:center;justify-content:center}
+.pdf-panel .pdf-nav button:hover{background:var(--ac);color:#fff;border-color:var(--ac)}
+.pdf-panel .pdf-nav button:disabled{opacity:.3;cursor:default;pointer-events:none}
+.pdf-panel .pdf-nav .pdf-pg-info{font-weight:600;color:var(--ac);min-width:70px;text-align:center}
+.pdf-panel .pdf-body{flex:1;overflow-y:auto;padding:12px}
+.pdf-panel .pdf-body img{width:100%;border-radius:6px;box-shadow:var(--sh);cursor:pointer}
+.pdf-panel .pdf-body img:hover{transform:scale(1.02);transition:.2s}
+.pdf-toggle-btn{position:fixed;top:50%;right:0;transform:translateY(-50%);width:32px;height:80px;border:none;border-radius:8px 0 0 8px;background:var(--ac);color:#fff;cursor:pointer;font-size:14px;writing-mode:vertical-rl;letter-spacing:2px;z-index:98;box-shadow:-2px 0 8px rgba(0,0,0,.15);transition:.2s}
+.pdf-toggle-btn:hover{width:36px;filter:brightness(1.1)}
+.pdf-toggle-btn.hidden{display:none}
+body.has-pdf .main{margin-right:0;max-width:calc(50vw - 170px)}
+body.has-pdf .pdf-toggle-btn{right:calc(50vw - 130px);border-radius:0 8px 8px 0;box-shadow:2px 0 8px rgba(0,0,0,.15)}
+.pdf-panel .pdf-body img{max-height:calc(100vh - 100px);object-fit:contain}
+@media(max-width:1100px){body.has-pdf .main{margin-right:0;max-width:1050px}.pdf-panel{width:100vw}body.has-pdf .pdf-toggle-btn{right:0}}
+@media(max-width:768px){.sidebar{transform:translateX(-100%);transition:.3s}.sidebar.open{transform:translateX(0)}.main{margin-left:0;padding:20px 16px 60px}.split-panel{flex-direction:column}}
+@media print{.sidebar{display:none}.main{margin-left:0;max-width:100%;padding:0}}
+</style>
+</head>
+<body>
+
+<button class="pdf-toggle-btn" onclick="togglePdfPanel()" title="顯示/隱藏 PDF 原版對照">📄 原版對照</button>
+
+<nav class="sidebar">
+  <div class="sh"><div class="bk">University Physics — OpenStax</div><h2>Chapter 16</h2></div>
+  <div class="sn"><ul>
+    <li><a href="#preview">📋 16.0 本章預覽</a></li>
+    <li class="ns">16.1–16.2 波的基礎理論</li>
+    <li class="nsub"><a href="#s16-1">16.1 行進波（Traveling Waves）</a></li>
+    <li class="nsub"><a href="#s16-2">16.2 波的數學描述</a></li>
+    <li class="ns">16.3–16.4 波的物理特性</li>
+    <li class="nsub"><a href="#s16-3">16.3 弦上的波速</a></li>
+    <li class="nsub"><a href="#s16-4">16.4 波的能量與功率</a></li>
+    <li class="ns">16.5–16.6 波的疊加效應</li>
+    <li class="nsub"><a href="#s16-5">16.5 波的干涉</a></li>
+    <li class="nsub"><a href="#s16-6">16.6 駐波與共振</a></li>
+    <li><a href="#summary">📋 本章摘要</a></li>
+  </ul></div>
+  <div class="st"><button onclick="toggleTheme()">🌓 <span id="tl">深色模式</span></button></div>
+</nav>
+
+<main class="main read-opt">
+
+<header class="header">
+  <div class="cl">Unit 2 · Waves and Acoustics</div>
+  <h1>Chapter 16 · Waves（波動）</h1>
+  <div class="meta">University Physics Volume 1 — OpenStax · 原文 PDF p.763–818 · 示範版重點整理</div>
+</header>
+
+<section id="preview">
+<div class="callout">
+  <strong>📋 16.0 本章預覽</strong>
+  <p>波動是物理學中<strong>最核心的能量傳遞機制之一</strong>。從海浪拍打岸邊、吉他弦的振動、到地震波穿越地殼，波將能量從一處傳送到另一處，卻不傳送物質本身。本章建立在第十五章振盪的基礎上，將<strong>簡諧運動的概念推廣到連續介質中</strong>，系統性地介紹機械波的行為。</p>
+  <p>你將從波的基本特性（波長、頻率、振幅、波速）開始，學習如何用<strong>數學波函數</strong>精確描述波，接著探討波速如何由介質的彈性與慣性決定，理解波的能量如何正比於振幅平方，最後進入波的疊加——從干涉現象到駐波與共振，這些概念將成為後續學習<strong>聲音、電磁波與量子力學</strong>的基礎。</p>
+  <div class="callout-warn"><strong>⚡ 核心心法：</strong>波速 <code>v = λf</code> 是所有波動的統一關係式，但波速本身只取決於介質特性，不由頻率或波長決定。這一點是初學者最常搞混的地方。</div>
+</div>
+</section>
+
+<div class="figure">
+  <div style="background:var(--b3);border-radius:8px;padding:24px;display:flex;justify-content:center;align-items:center;gap:20px;font-size:13px;color:var(--t2);flex-wrap:wrap">
+    <div style="text-align:center"><div style="font-size:28px">🌊</div><strong style="color:var(--tx)">波的基本量</strong><br><span style="font-size:11px">v=λf, A, T, k, ω</span></div>
+    <span style="font-size:20px;color:var(--ac)">→</span>
+    <div style="text-align:center"><div style="font-size:28px">📐</div><strong style="color:var(--tx)">波函數</strong><br><span style="font-size:11px">y(x,t)=A sin(kx-ωt+φ)</span></div>
+    <span style="font-size:20px;color:var(--ac)">→</span>
+    <div style="text-align:center"><div style="font-size:28px">⚡</div><strong style="color:var(--tx)">波的能量</strong><br><span style="font-size:11px">P ∝ A²ω²</span></div>
+    <span style="font-size:20px;color:var(--ac)">→</span>
+    <div style="text-align:center"><div style="font-size:28px">🔄</div><strong style="color:var(--tx)">疊加與干涉</strong><br><span style="font-size:11px">駐波、共振、諧波</span></div>
+  </div>
+  <figcaption>📌 Ch16 總覽圖：從基本量 → 波函數 → 能量 → 疊加效應的邏輯鏈</figcaption>
+</div>
+
+<div class="search-bar">
+  <input type="text" id="searchBox" placeholder="🔍 搜尋本章關鍵字（如：波速、干涉、駐波、frequency）…">
+</div>
+
+<section id="s16-1">
+  <h2><span class="demo-label">C</span>16.1 行進波（Traveling Waves）</h2>
+
+  <h3>波的基本特性</h3>
+  <p>波（wave）是一種<strong>擾動的傳播</strong>——擾動從產生處向外移動，將能量與動量從一點傳遞到另一點，但<strong>不傳送物質</strong>。波有三種基本類型：<strong>機械波</strong>需要介質（如水波、聲波、地震波），由牛頓定律支配；<strong>電磁波</strong>由電場與磁場振盪構成，不需介質，可在真空中以光速傳播；<strong>物質波</strong>是量子力學的核心概念——所有物質粒子都具有波動性，由德布羅意（de Broglie）於 1924 年首先提出。</p>
+
+  <div class="callout"><strong>💡 三種波的對照：</strong>
+    <table style="margin:10px 0"><thead><tr><th>類型</th><th>需要介質？</th><th>範例</th><th>物理基礎</th></tr></thead><tbody>
+      <tr><td>機械波</td><td>是</td><td>水波、聲波、地震波</td><td>牛頓力學</td></tr>
+      <tr><td>電磁波</td><td>否</td><td>光、X 光、無線電波</td><td>Maxwell 方程式</td></tr>
+      <tr><td>物質波</td><td>否</td><td>電子繞射、中子干涉</td><td>量子力學</td></tr>
+    </tbody></table>
+  </div>
+
+  <h3>橫波與縱波</h3>
+  <p>機械波依介質擾動方向與波傳播方向的關係分為兩種：<strong>橫波（transverse wave）</strong>的介質擾動方向<strong>垂直於</strong>傳播方向，如弦上的波、水面漣漪。橫波有波峰（crest，最高點）與波谷（trough，最低點）。<strong>縱波（longitudinal wave）</strong>的介質擾動方向<strong>平行於</strong>傳播方向，如聲波在空氣中的疏密變化、彈簧的壓縮波。</p>
+
+  <div class="split-panel">
+    <div class="panel"><h4>🟢 橫波（Transverse）</h4>
+      <p>介質振動 ⟂ 傳播方向<br>例：弦波、水面波、S 地震波<br>有波峰與波谷</p>
+    </div>
+    <div class="panel"><h4>🔵 縱波（Longitudinal）</h4>
+      <p>介質振動 ∥ 傳播方向<br>例：聲波、P 地震波<br>有疏部與密部</p>
+    </div>
+  </div>
+
+  <h3>波的關鍵參數</h3>
+  <p>描述一個簡諧波需要以下五個基本量：</p>
+  <ul>
+    <li><strong>波長（wavelength）λ</strong>：相鄰兩個相同相位點之間的距離，通常取兩個相鄰波峰或波谷</li>
+    <li><strong>振幅（amplitude）A</strong>：介質偏離平衡位置的最大位移</li>
+    <li><strong>週期（period）T</strong>：完成一次完整振盪所需的時間，也是單一波長通過固定點所需時間</li>
+    <li><strong>頻率（frequency）f</strong>：單位時間內通過固定點的波數，f = 1/T，單位為赫茲（Hz）</li>
+    <li><strong>波速（wave speed）v</strong>：擾動在介質中傳播的速度</li>
+  </ul>
+
+  <div class="eq">$$v = \frac{\lambda}{T} = \lambda f \tag{16.1}$$</div>
+
+  <div class="callout-warn"><strong>⚡ 關鍵：v = λf 是所有波（機械波、聲波、光波）都適用的基本關係式。但波速 v 本身取決於<em>介質的特性</em>，而非由頻率或波長決定。當波從一種介質進入另一種介質時，v 會改變，導致 λ 改變，但 f 保持不變。</strong></div>
+
+  <div class="exbox"><div class="ext">📐 例題 16.1 — 弦上的波</div>
+    一條 30.00 m 的弦，一端固定在牆上。學生以 2.00 Hz 的頻率上下移動自由端，最大位移 20.00 cm。第一道波在 6.00 s 後到達牆面。<br><br>
+    <strong>(a) 波速：</strong>v = Δx/Δt = 30.00/6.00 = <strong>5.00 m/s</strong><br>
+    <strong>(b) 週期：</strong>T = 1/f = 1/2.00 = <strong>0.500 s</strong><br>
+    <strong>(c) 波長：</strong>λ = v/f = 5.00/2.00 = <strong>2.50 m</strong>
+  </div>
+</section>
+
+<section id="s16-2">
+  <h2><span class="demo-label">E</span>16.2 波的數學描述（Mathematics of Waves）</h2>
+
+  <h3>簡諧波函數</h3>
+  <p>當波通過介質時，介質中每個質點都在做<strong>簡諧運動</strong>。我們可以用一個數學函數——<strong>波函數（wave function）</strong>——來描述任意位置 x 在任意時間 t 的介質位移 y(x,t)。對一個沿 +x 方向以波速 v 傳播的正弦波：</p>
+
+  <div class="eq">$$y(x,t) = A \sin(kx - \omega t + \phi) \tag{16.4}$$</div>
+
+  <p>其中各符號的意義如下表：</p>
+
+  <table><thead><tr><th>符號</th><th>名稱</th><th>定義</th><th>單位</th></tr></thead><tbody>
+    <tr><td>A</td><td>振幅</td><td>最大位移</td><td>m</td></tr>
+    <tr><td>k</td><td>波數（wave number）</td><td>k = 2π/λ</td><td>rad/m</td></tr>
+    <tr><td>ω</td><td>角頻率</td><td>ω = 2π/T = 2πf</td><td>rad/s</td></tr>
+    <tr><td>φ</td><td>初始相位</td><td>t=0, x=0 時的相位</td><td>rad</td></tr>
+    <tr><td>kx − ωt + φ</td><td>相位（phase）</td><td>決定振盪狀態</td><td>rad</td></tr>
+  </tbody></table>
+
+  <p>波速與波數、角頻率的關係為：</p>
+  <div class="eq">$$v = \frac{\omega}{k} \tag{16.5}$$</div>
+
+  <div class="callout"><strong>💡 波函數的物理直覺：</strong>波函數 y(x,t) = A sin(kx − ωt + φ) 同時描述了<strong>空間中的形狀</strong>（由 kx 控制——固定某時刻 t，它是 x 的正弦函數，週期為 λ）和<strong>時間中的振盪</strong>（由 ωt 控制——固定某位置 x，它是 t 的正弦函數，週期為 T）。負號（kx − ωt）表示波向 +x 方向傳播；若為正號（kx + ωt），則向 −x 方向傳播。</div>
+
+  <div class="exbox"><div class="ext">📐 例題 16.3 — 從波函數讀取波形參數</div>
+    已知波函數 y(x,t) = 0.2 sin(6.28x − 1.57t) m（x 單位 m，t 單位 s）：<br><br>
+    A = <strong>0.2 m</strong>，k = <strong>6.28 rad/m</strong>，ω = <strong>1.57 rad/s</strong><br>
+    λ = 2π/k = 2π/6.28 = <strong>1.00 m</strong><br>
+    T = 2π/ω = 2π/1.57 = <strong>4.00 s</strong>，f = 1/T = <strong>0.25 Hz</strong><br>
+    v = ω/k = 1.57/6.28 = <strong>0.25 m/s</strong>（向 +x 方向）
+  </div>
+
+  <h3>線性波動方程式</h3>
+  <p>所有簡諧波函數都滿足一個更基本的方程式——<strong>線性波動方程式（linear wave equation）</strong>，它是物理學與工程學中最重要的方程式之一：</p>
+
+  <div class="eq">$$\frac{\partial^2 y}{\partial x^2} = \frac{1}{v^2}\frac{\partial^2 y}{\partial t^2} \tag{16.6}$$</div>
+
+  <p>任何滿足此方程式的函數都是<strong>線性波函數</strong>。一個非常重要的性質是：<strong>若 y₁ 和 y₂ 各自滿足波動方程式，則它們的任意線性組合 Ay₁ + By₂ 也滿足</strong>——這就是後續要討論的<strong>疊加原理（principle of superposition）</strong>的數學基礎。</p>
+
+  <div class="callout-warn"><strong>⚡ 線性 vs 非線性：</strong>疊加原理只對<strong>線性波</strong>成立。當振幅過大時，介質的回復力不再是線性的（例如巨浪破碎、大振幅聲波產生衝擊波），就不能用簡單疊加處理。本章只討論線性波。</div>
+</section>
+
+<section id="s16-3">
+  <h2><span class="demo-label">F</span>16.3 弦上的波速（Wave Speed on a Stretched String）</h2>
+
+  <h3>波速取決於介質特性</h3>
+  <p>對一條張緊的弦，波速由兩個因素決定：<strong>張力（tension）F<sub>T</sub></strong>——代表介質的彈性回復力，和<strong>線密度（linear density）μ = m/L</strong>——代表介質的慣性。透過對弦上一個小質量元素做牛頓第二定律分析，可以推導出：</p>
+
+  <div class="eq">$$v = \sqrt{\frac{F_T}{\mu}} \tag{16.8}$$</div>
+
+  <p>其中 F<sub>T</sub> 為弦的張力（單位 N），μ = m/L 為單位長度的質量（單位 kg/m）。這個關係式的物理意義非常直觀：<strong>張力越大（彈性回復力越強），波速越快；線密度越大（慣性越大），波速越慢。</strong></p>
+
+  <details class="collapse-block">
+    <summary>📖 推導過程（牛頓第二定律分析）</summary>
+    <div class="coll-body">
+      <p>考慮弦上一個小質量元素 Δm = μΔx。當弦被撥動產生橫波時，兩端張力的 y 分量不相等，產生淨回復力：F<sub>net,y</sub> = F<sub>T</sub>(∂y/∂x|<sub>x₂</sub> − ∂y/∂x|<sub>x₁</sub>)。</p>
+      <p>由牛頓第二定律：F<sub>net,y</sub> = (μΔx)a<sub>y</sub> = (μΔx)(∂²y/∂t²)。</p>
+      <p>取 Δx → 0 的極限，得到：μ(∂²y/∂t²) = F<sub>T</sub>(∂²y/∂x²)，即 ∂²y/∂x² = (μ/F<sub>T</sub>)(∂²y/∂t²)。</p>
+      <p>與線性波動方程式 ∂²y/∂x² = (1/v²)(∂²y/∂t²) 對比，得 v = √(F<sub>T</sub>/μ)。</p>
+    </div>
+  </details>
+
+  <div class="exbox"><div class="ext">📐 例題 16.5 — 吉他弦的波速</div>
+    高音 E 弦的線密度 μ<sub>high E</sub> = 3.09×10⁻⁴ kg/m，張力 56.40 N：<br>
+    v = √(56.40 / 3.09×10⁻⁴) = √(1.825×10⁵) ≈ <strong>427 m/s</strong><br><br>
+    低音 E 弦的 μ 約為高音弦的 20 倍。要保持相同波速，張力需增加約 20 倍：<br>
+    F<sub>T</sub> ≈ 20 × 56.40 ≈ 1128 N → 實際計算得約 <strong>1128 N</strong>。<br>
+    <strong>→ 這解釋了為什麼低音弦比高音弦更粗、張力更大。</strong>
+  </div>
+
+  <h3>流體中的縱波波速</h3>
+  <p>一般來說，任何介質中的波速都可寫成 √(彈性參數/慣性參數) 的形式。對流體（液體或氣體）中的縱波（如聲波）：</p>
+  <div class="eq">$$v = \sqrt{\frac{B}{\rho}} \tag{16.9}$$</div>
+  <p>其中 B 為體積模量（bulk modulus，代表流體的抗壓縮性），ρ 為密度。</p>
+
+  <div class="callout"><strong>💡 吉他調音的物理：</strong>吉他六根弦（E₂、A₂、D₃、G₃、B₃、E₄）的基本頻率分別為 82.41、110.00、146.83、196.00、246.94、329.63 Hz。弦長固定時，頻率由波速決定：f = v/λ。要改變音高，可調整張力（調音旋鈕）或改變有效長度（按弦）。粗弦的 μ 大→波速小→頻率低。</div>
+</section>
+
+<section id="s16-4">
+  <h2><span class="demo-label">R</span>16.4 波的能量與功率（Energy and Power of a Wave）</h2>
+
+  <h3>能量在波中的分布</h3>
+  <p>波在介質中傳播時，每個質量元素都在做簡諧運動，因此同時具有動能與位能。對一個弦上的正弦波 y(x,t) = A sin(kx − ωt)，經過對單一波長範圍的積分，可以得到：</p>
+  <ul>
+    <li>單一波長內的<strong>動能</strong> = 單一波長內的<strong>位能</strong></li>
+    <li>單一波長內的總能量：</li>
+  </ul>
+  <div class="eq">$$E_\lambda = \frac{1}{2}\mu \omega^2 A^2 \lambda \tag{16.10}$$</div>
+
+  <h3>時間平均功率</h3>
+  <p>波的功率定義為單位時間內通過固定點的能量。對正弦波，時間平均功率為單一波長的能量除以週期：</p>
+  <div class="eq">$$P_{\text{avg}} = \frac{1}{2}\mu \omega^2 A^2 v \tag{16.11}$$</div>
+
+  <div class="callout-warn"><strong>⚡ 功率正比於振幅平方與頻率平方：</strong>P ∝ A² 且 P ∝ ω²（即 P ∝ f²）。這意味著：若振幅加倍，功率變為 4 倍；若頻率加倍，功率也變為 4 倍。這個關係對所有機械波都成立，包括聲波——這就是為什麼大音量（大振幅）和高音調（高頻率）都需要更多能量。</div>
+
+  <h3>波的強度</h3>
+  <p><strong>強度（intensity）I</strong>定義為單位面積通過的功率：I = P/A，SI 單位為 W/m²。對於從點源向三維空間發散的球面波，波前表面積隨半徑平方增長（A = 4πr²），因此：</p>
+  <div class="eq">$$I = \frac{P}{4\pi r^2} \tag{16.12}$$</div>
+  <p>這解釋了為什麼<strong>離波源越遠，聲音越小</strong>——能量守恆，但分布在越來越大的面積上。</p>
+
+  <div class="interactive-box">
+    <label>🔬 互動：觀察頻率對功率的影響（調整滑桿）</label>
+    <input type="range" id="freqSlider" min="10" max="200" value="60" step="1" oninput="updatePower()">
+    <div class="param-row"><span>10 Hz</span><span>200 Hz</span></div>
+    <div class="val-display" id="powerDisplay">P ∝ f² × 常數</div>
+    <div class="val-note">P ∝ f²：頻率加倍→功率 4 倍。設 f=60 Hz 為基準 (P=1)，移動滑桿觀察相對功率變化。</div>
+  </div>
+
+  <div class="exbox"><div class="ext">📐 例題 16.6 — 弦振動器的功率</div>
+    一條長 2.00 m、質量 70.00 g 的弦，張力 90.0 N，以頻率 60 Hz、振幅 4.00 cm 振動：<br><br>
+    μ = 0.0700/2.00 = <strong>0.0350 kg/m</strong><br>
+    v = √(90.0/0.0350) = <strong>50.7 m/s</strong><br>
+    ω = 2π×60 = <strong>377 rad/s</strong><br>
+    P<sub>avg</sub> = ½ × 0.0350 × (377)² × (0.04)² × 50.7 ≈ <strong>201 W</strong>
+  </div>
+</section>
+
+<section id="s16-5">
+  <h2><span class="demo-label">J</span>16.5 波的干涉（Interference of Waves）</h2>
+
+  <h3>反射與邊界條件</h3>
+  <p>當波遇到介質邊界時會發生<strong>反射</strong>。反射波的相位取決於邊界條件：</p>
+  <ul>
+    <li><strong>固定端（fixed end）</strong>：反射波相位反轉 180°（π rad）——波峰反射為波谷。原因：牛頓第三定律——弦對牆施力向上，牆對弦施力向下。</li>
+    <li><strong>自由端（free end）</strong>：反射波與入射波同相——波峰反射為波峰。端點可自由移動，不受約束。</li>
+    <li><strong>介質變化</strong>：從低密度到高密度→反射波反相；從高密度到低密度→反射波同相。</li>
+  </ul>
+
+  <h3>疊加原理與干涉</h3>
+  <p><strong>疊加原理（principle of superposition）</strong>：當兩個或多個波在同一介質中相遇時，每個點的合成位移等於各波在該點造成位移的<strong>代數和</strong>。這源自波動方程式的線性性質。</p>
+
+  <div class="split-panel">
+    <div class="panel"><h4>🟢 建設性干涉</h4>
+      <p>兩個波<strong>同相</strong>（相位差 = 0, 2π, 4π...）<br>波峰對波峰、波谷對波谷<br>合成振幅 = A₁ + A₂（若 A₁=A₂，則為 2A）<br>波長不變</p>
+    </div>
+    <div class="panel"><h4>🔴 破壞性干涉</h4>
+      <p>兩個波<strong>反相</strong>（相位差 = π, 3π, 5π...）<br>波峰對波谷<br>合成振幅 = |A₁ − A₂|（若 A₁=A₂，則為 0，完全抵消）</p>
+    </div>
+  </div>
+
+  <h3>相位差造成的干涉結果</h3>
+  <p>考慮兩個完全相同（同 A、同 k、同 ω）但相位差為 φ 的正弦波：</p>
+  <div class="eq">$$y_R(x,t) = \left[2A\cos\left(\frac{\phi}{2}\right)\right] \sin\left(kx - \omega t + \frac{\phi}{2}\right) \tag{16.13}$$</div>
+  <p>合成波仍為正弦波，但振幅變為 2A·cos(φ/2)。</p>
+  <ul>
+    <li>φ = 0 → 振幅 = 2A（完全建設性干涉）</li>
+    <li>φ = π → 振幅 = 0（完全破壞性干涉）</li>
+    <li>φ = π/2 → 振幅 = √2·A ≈ 1.41A</li>
+  </ul>
+
+  <div class="callout"><strong>💡 干涉在日常生活中的例子：</strong>降噪耳機利用破壞性干涉——麥克風拾取環境噪音，耳機產生一個反相聲波，兩個波疊加後振幅歸零，你便聽不到噪音。音樂廳的聲學設計則利用建設性干涉來增強特定頻率的聲音。兩顆石頭丟入池塘產生的圓形漣漪互相穿過而不改變形狀，也是疊加原理的體現。</div>
+</section>
+
+<section id="s16-6">
+  <h2><span class="demo-label">Q</span>16.6 駐波與共振（Standing Waves and Resonance）</h2>
+
+  <h3>駐波的形成</h3>
+  <p>當兩個<strong>完全相同、行進方向相反</strong>的波在同一介質中疊加時，結果看起來像一個「站在原地振動」的波——這就是<strong>駐波（standing wave）</strong>。考慮 y₁ = A sin(kx − ωt) 向右傳播，y₂ = A sin(kx + ωt) 向左傳播：</p>
+
+  <div class="eq">$$y(x,t) = y_1 + y_2 = 2A \sin(kx) \cos(\omega t) \tag{16.14}$$</div>
+
+  <p>這個波函數的關鍵特徵：空間部分 sin(kx) 與時間部分 cos(ωt) 完全分離。某些位置永遠靜止（<strong>節點，nodes</strong>），某些位置振盪幅度最大（<strong>腹點，antinodes</strong>）。</p>
+
+  <table><thead><tr><th></th><th>位置條件</th><th>特性</th></tr></thead><tbody>
+    <tr><td><strong>節點 (Node)</strong></td><td>x = n·λ/2, n=0,1,2,...</td><td>位移恆為零，完全不動</td></tr>
+    <tr><td><strong>腹點 (Antinode)</strong></td><td>x = (2n+1)·λ/4, n=0,1,2,...</td><td>位移在 ±2A 之間振盪</td></tr>
+  </tbody></table>
+
+  <h3>兩端固定的弦——共振模態</h3>
+  <p>一條長度 L 的弦兩端固定時，兩端必然是節點（位移為零）。這意味著弦長必須等於半波長的整數倍：L = n·λ<sub>n</sub>/2。對應的<strong>特徵波長</strong>與<strong>特徵頻率</strong>為：</p>
+
+  <div class="eq">$$\lambda_n = \frac{2L}{n}, \quad f_n = n\frac{v}{2L} = n f_1, \quad n = 1,2,3,\ldots \tag{16.15}$$</div>
+
+  <p>其中 f₁ = v/(2L) 稱為<strong>基頻（fundamental frequency）</strong>，也稱為第一諧波。f₂ = 2f₁ 為第二諧波（第一泛音），f₃ = 3f₁ 為第三諧波（第二泛音），以此類推。所有諧波都是基頻的<strong>整數倍</strong>。</p>
+
+  <details class="collapse-block">
+    <summary>📖 駐波的推導（三角恆等式法）</summary>
+    <div class="coll-body">
+      <p>兩個反向行進的相同波：y₁ = A sin(kx − ωt)，y₂ = A sin(kx + ωt)。</p>
+      <p>利用三角恆等式 sin(α) + sin(β) = 2 sin((α+β)/2) cos((α−β)/2)：</p>
+      <p>y = A[sin(kx−ωt) + sin(kx+ωt)] = 2A sin(kx) cos(ωt)。</p>
+      <p>節點條件：sin(kx) = 0 → kx = nπ → x = nλ/2。</p>
+      <p>腹點條件：|sin(kx)| = 1 → kx = (2n+1)π/2 → x = (2n+1)λ/4。</p>
+      <p>兩端固定的邊界條件：x=0 和 x=L 都是節點 → L = nλ/2 → λ<sub>n</sub> = 2L/n → f<sub>n</sub> = nv/(2L)。</p>
+    </div>
+  </details>
+
+  <h3>共振（Resonance）</h3>
+  <p>當一個系統被以其<strong>自然頻率</strong>驅動時，即使驅動力很小，也能產生大振幅的振盪——這就是<strong>共振</strong>。在波的語境下，共振頻率就是系統的<strong>特徵頻率</strong>（f₁, f₂, f₃,...）。</p>
+
+  <div class="callout-warn"><strong>⚡ 共振的雙面性：</strong>共振可以是美妙的（樂器的共鳴箱放大聲音、微波爐以水分子共振頻率加熱），也可以是災難性的（1940 年 Tacoma Narrows 橋因風引起的共振而倒塌、建築物在地震中的共振破壞）。工程設計中必須仔細考慮共振頻率。</div>
+
+  <div class="exbox"><div class="ext">📐 吉他弦的共振頻率計算</div>
+    一根吉他弦長 L = 0.65 m，波速 v = 400 m/s：<br>
+    基頻 f₁ = v/(2L) = 400/(2×0.65) = <strong>307.7 Hz</strong>（接近 E₄ 的 329.6 Hz，可透過調音吻合）<br>
+    第二諧波 f₂ = 2×307.7 = <strong>615.4 Hz</strong><br>
+    第三諧波 f₃ = <strong>923.1 Hz</strong><br>
+    → 按弦改變 L 可演奏不同音高。例如按在弦長一半處，L 減半 → f 加倍 → 高八度。
+  </div>
+</section>
+
+<section id="summary">
+  <h2><span class="demo-label">L</span>本章摘要 — Chapter 16 重點回顧</h2>
+  <ol>
+    <li><strong>波的基本關係式</strong> v = λf 適用於所有類型的波。波速由介質的彈性與慣性決定，頻率由波源決定，波長隨之調整。</li>
+    <li><strong>三種波</strong>——機械波（需介質，由牛頓力學支配）、電磁波（不需介質，由 Maxwell 方程式支配）、物質波（量子力學，所有粒子皆有波動性）。</li>
+    <li><strong>橫波</strong>（擾動 ⟂ 傳播，如弦波）與<strong>縱波</strong>（擾動 ∥ 傳播，如聲波）是機械波的兩種基本形態。</li>
+    <li><strong>波函數</strong> y(x,t) = A sin(kx − ωt + φ) 完整描述簡諧波，其中 k = 2π/λ 為波數，ω = 2πf 為角頻率。</li>
+    <li><strong>線性波動方程式</strong> ∂²y/∂x² = (1/v²)∂²y/∂t² 是所有線性波必須滿足的偏微分方程，疊加原理由此導出。</li>
+    <li><strong>弦上的波速</strong> v = √(F<sub>T</sub>/μ)：張力越大越快，線密度越大越慢。</li>
+    <li><strong>波的能量</strong>正比於振幅平方與頻率平方：P = ½μω²A²v。</li>
+    <li><strong>波的強度</strong> I = P/A，球面波的強度以 I ∝ 1/r² 衰減。</li>
+    <li><strong>疊加原理</strong>：多個波同時存在時，合成位移為各波位移的代數和。這是干涉現象的基礎。</li>
+    <li><strong>建設性干涉</strong>（同相，振幅相加）與<strong>破壞性干涉</strong>（反相，振幅相減）是所有波動現象的核心機制。</li>
+    <li><strong>反射相位</strong>取決於邊界條件：固定端反相（π），自由端同相。</li>
+    <li><strong>駐波</strong> y = 2A sin(kx) cos(ωt)：由兩個反向行進的相同波疊加形成，有固定不動的節點和振幅最大的腹點。</li>
+    <li><strong>兩端固定的弦</strong>，其共振模態為 f<sub>n</sub> = n·v/(2L) = n·f₁，諧波為基頻的整數倍。</li>
+    <li><strong>共振</strong>發生在驅動頻率等於系統自然頻率時，可在微小驅動力下產生大振幅。</li>
+    <li>這些波的基礎概念將在後續章節中延伸至<strong>聲音（Ch17）、電磁波、光學與量子力學</strong>。</li>
+  </ol>
+</section>
+
+</main>
+
+<div class="reading-settings" id="readSettings">
+  <button class="rs-toggle" onclick="document.getElementById('rsPanel').classList.toggle('open')">⚙</button>
+  <div class="rs-panel" id="rsPanel">
+    <label>🌓 主題</label>
+    <div class="rs-row">
+      <button class="rs-btn" data-rs="light">淺色</button>
+      <button class="rs-btn" data-rs="dark">深色</button>
+    </div>
+    <label>🔤 字體大小</label>
+    <div class="rs-row">
+      <button class="rs-btn" data-rs="font-sm">小</button>
+      <button class="rs-btn active" data-rs="font-md">中</button>
+      <button class="rs-btn" data-rs="font-lg">大</button>
+    </div>
+    <label>📐 閱讀寬度</label>
+    <div class="rs-row">
+      <button class="rs-btn" data-rs="width-narrow">窄</button>
+      <button class="rs-btn active" data-rs="width-md">中</button>
+      <button class="rs-btn" data-rs="width-wide">寬</button>
+    </div>
+  </div>
+</div>
+
+<!-- PDF Panel -->
+<div class="pdf-panel" id="pdfPanel">
+  <div class="pdf-header">
+    <span class="pdf-title" id="pdfTitle">📄 原版 PDF 對照 — p.763</span>
+    <button class="pdf-close" onclick="togglePdfPanel()" title="關閉面板">✕</button>
+  </div>
+  <div class="pdf-nav">
+    <button id="pdfPrev" onclick="pdfPrevPage()" title="上一頁">◀</button>
+    <span class="pdf-pg-info" id="pdfPgInfo">763 / 818</span>
+    <button id="pdfNext" onclick="pdfNextPage()" title="下一頁">▶</button>
+  </div>
+  <div class="pdf-body" id="pdfBody">
+    <img id="pdfImg" src="pages/ch16_pages/ch16_page_763.png" alt="PDF page 763" loading="lazy" onclick="window.open(this.src,'_blank')">
+  </div>
+</div>
+
+<script>
+function toggleTheme(){const h=document.documentElement;const n=h.getAttribute('data-theme')==='light'?'dark':'light';h.setAttribute('data-theme',n);localStorage.setItem('theme',n);document.getElementById('tl').textContent=n==='dark'?'淺色模式':'深色模式';}
+const s=localStorage.getItem('theme')||'light';document.documentElement.setAttribute('data-theme',s);if(s==='dark')document.getElementById('tl').textContent='淺色模式';
+
+const secs=document.querySelectorAll('section[id]');const navs=document.querySelectorAll('.sn a');window.addEventListener('scroll',()=>{let c='';secs.forEach(s=>{if(window.scrollY>=s.offsetTop-80)c=s.getAttribute('id');});navs.forEach(a=>{a.classList.toggle('active',a.getAttribute('href')==='#'+c);});updatePdfPage(c);});
+
+// === PDF Panel ===
+var pdfPageMap={preview:[763,763],'s16-1':[764,768],'s16-2':[769,777],'s16-3':[778,781],'s16-4':[782,785],'s16-5':[786,792],'s16-6':[793,818]};
+var pdfCurPage=763;
+function togglePdfPanel(){var b=document.body;var p=document.getElementById('pdfPanel');if(b.classList.contains('has-pdf')){b.classList.remove('has-pdf');p.classList.remove('open');}else{b.classList.add('has-pdf');p.classList.add('open');updatePdfPage(null);}}
+function loadPdfPage(n){pdfCurPage=n;document.getElementById('pdfImg').src='pages/ch16_pages/ch16_page_'+n+'.png';document.getElementById('pdfPgInfo').textContent=n+' / 818';document.getElementById('pdfTitle').textContent='📄 原版 PDF 對照 — p.'+n;var r=pdfPageMap[getCurrentSection()];if(r){document.getElementById('pdfPrev').disabled=(n<=r[0]);document.getElementById('pdfNext').disabled=(n>=r[1]);}}
+function getCurrentSection(){var c='';secs.forEach(function(s){if(window.scrollY>=s.offsetTop-80)c=s.getAttribute('id');});return c||'preview';}
+function updatePdfPage(secId){if(!document.body.classList.contains('has-pdf'))return;var s=secId||getCurrentSection();var r=pdfPageMap[s];if(!r)return;if(pdfCurPage<r[0]||pdfCurPage>r[1])loadPdfPage(r[0]);else{loadPdfPage(pdfCurPage);}}
+function pdfPrevPage(){var r=pdfPageMap[getCurrentSection()];if(r&&pdfCurPage>r[0])loadPdfPage(pdfCurPage-1);}
+function pdfNextPage(){var r=pdfPageMap[getCurrentSection()];if(r&&pdfCurPage<r[1])loadPdfPage(pdfCurPage+1);}
+
+document.querySelectorAll('.figure img').forEach(i=>i.addEventListener('click',()=>window.open(i.src,'_blank')));
+
+(function(){const sb=document.getElementById('searchBox');function clr(){document.querySelectorAll('.main .highlight').forEach(el=>{const p=el.parentNode;p.replaceChild(document.createTextNode(el.textContent),el);p.normalize();});}function ds(){clr();const q=sb.value.trim().toLowerCase();if(!q)return;const w=document.createTreeWalker(document.querySelector('.main'),NodeFilter.SHOW_TEXT,null,false);const nds=[];while(w.nextNode())nds.push(w.currentNode);nds.forEach(n=>{if(n.parentElement&&n.parentElement.closest&&n.parentElement.closest('.search-bar,.tag-list,.sidebar,.reading-settings'))return;const i=n.textContent.toLowerCase().indexOf(q);if(i>=0){const sp=document.createElement('span');sp.className='highlight';sp.textContent=n.textContent.substring(i,i+q.length);const r=n.textContent.substring(i+q.length);n.textContent=n.textContent.substring(0,i);n.parentNode.insertBefore(sp,n.nextSibling);if(r)n.parentNode.insertBefore(document.createTextNode(r),sp.nextSibling);}});}sb.addEventListener('input',ds);})();
+
+function reMath(elem){elem.textContent=elem.textContent;if(window.MathJax&&MathJax.typesetPromise){MathJax.typesetPromise([elem]);}}
+function updatePower(){var f=parseFloat(document.getElementById('freqSlider').value);var rel=Math.pow(f/60,2);var el=document.getElementById('powerDisplay');el.textContent="P/P\u2080 = "+rel.toFixed(2)+"  (f = "+f+" Hz)";}
+
+(function(){const m=document.querySelector('.main');const h=document.documentElement;function af(sv){const sz={'font-sm':'13px','font-md':'15px','font-lg':'18px'};const px=sz[sv]||'15px';const num=parseFloat(px);const sc=num/15;h.style.setProperty('--fs-base',px);document.querySelectorAll('.main p,.main li,.main .eq,.main table,.main .callout,.main .callout-warn,.main .exbox').forEach(e=>e.style.fontSize=(14*sc)+'px');document.querySelectorAll('.main h2').forEach(e=>e.style.fontSize=(20*sc)+'px');document.querySelectorAll('.main h3').forEach(e=>e.style.fontSize=(16*sc)+'px');document.querySelectorAll('.header h1').forEach(e=>e.style.fontSize=(28*sc)+'px');localStorage.setItem('rs_font_size',sv);}
+document.querySelectorAll('#rsPanel .rs-btn[data-rs]').forEach(b=>b.addEventListener('click',()=>{const v=b.dataset.rs;const p=b.parentElement;if(v==='light'||v==='dark'){h.setAttribute('data-theme',v);localStorage.setItem('theme',v);document.getElementById('tl').textContent=v==='dark'?'淺色模式':'深色模式';p.querySelectorAll('.rs-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');return;}if(v.startsWith('font-')){p.querySelectorAll('.rs-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');af(v);return;}if(v.startsWith('width-')){p.querySelectorAll('.rs-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');const w={'width-narrow':'780px','width-md':'1050px','width-wide':'1320px'};m.style.maxWidth=w[v]||'1050px';localStorage.setItem('rs_width',w[v]||'1050px');}}));const sf=localStorage.getItem('rs_font_size');if(sf){af(sf);document.querySelectorAll('#rsPanel .rs-btn[data-rs="'+sf+'"]').forEach(b=>{const r=b.parentElement;if(r)r.querySelectorAll('.rs-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');});}const sw=localStorage.getItem('rs_width');if(sw)m.style.maxWidth=sw;})();
+</script>
+</body>
+</html>

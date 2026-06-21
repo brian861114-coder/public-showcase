@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-TW" data-theme="light">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Chapter 3 Derivatives — 微分（詳盡版）</title>
+<script>MathJax={tex:{inlineMath:[['$','$']],displayMath:[['$$','$$']],tags:'ams'},options:{ignoreHtmlClass:'no-math'}};</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+:root{--bg:#fff;--b2:#F5F5F7;--b3:#E8F0FE;--tx:#1D1D1F;--t2:#1D1D1F;--ac:#007AFF;--bd:#D2D2D7;--sh:0 2px 8px rgba(0,0,0,.08);--fbd:#E5E5EA;--wbg:#FFF9F0;--wbd:#FFB340;--wtx:#B8700A;--nw:260px}
+[data-theme="dark"]{--bg:#1C1C1E;--b2:#2C2C2E;--b3:#1A2332;--tx:#F5F5F7;--t2:#A1A1A6;--ac:#0A84FF;--bd:#48484A;--fbd:#3A3A3C;--wbg:#2C2416;--wbd:#8B6914;--wtx:#FFB340}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth;scroll-padding-top:16px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Noto Sans TC','Microsoft JhengHei',sans-serif;background:var(--b2);color:var(--tx);line-height:1.9;display:flex;min-height:100vh}
+.sidebar{position:fixed;top:0;left:0;width:var(--nw);height:100vh;background:var(--bg);border-right:1px solid var(--bd);overflow-y:auto;z-index:100;padding:20px 16px;display:flex;flex-direction:column}
+.sh{margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--fbd)}.sh h2{font-size:14px;font-weight:600;color:var(--ac)}.sh .bk{font-size:11px;color:var(--t2)}
+.sn{flex:1}.sn ul{list-style:none}.sn a{display:block;padding:4px 10px;font-size:11px;color:var(--t2);text-decoration:none;border-radius:5px;transition:.12s}.sn a:hover{background:var(--b3);color:var(--ac)}.sn a.active{background:var(--b3);color:var(--ac);font-weight:500}.sn .ns{font-weight:600;font-size:12px;color:var(--tx);margin-top:10px;padding:2px 10px}.sn .nsub a{padding-left:20px;font-size:10px}
+.st{margin-top:auto;padding-top:12px;border-top:1px solid var(--fbd)}.st button{width:100%;padding:6px;border:1px solid var(--bd);border-radius:6px;background:var(--b2);color:var(--tx);cursor:pointer;font-size:12px}
+.main{margin-left:var(--nw);flex:1;max-width:1050px;padding:32px 40px 80px}
+.header{margin-bottom:32px;padding-bottom:20px;border-bottom:2px solid var(--ac)}.header .cl{font-size:12px;font-weight:600;color:var(--ac);letter-spacing:1px}.header h1{font-size:28px;font-weight:700;margin:6px 0}.header .meta{font-size:13px;color:var(--t2)}
+section{margin-bottom:44px}h2{font-size:20px;font-weight:700;color:var(--ac);margin-bottom:14px;padding-bottom:6px;border-bottom:1px solid var(--bd)}h3{font-size:16px;font-weight:600;color:var(--tx);margin:24px 0 10px}p{font-size:14px;color:var(--t2);margin-bottom:12px}strong{font-weight:600;color:var(--tx)}ul,ol{font-size:14px;color:var(--t2);margin-left:18px;margin-bottom:12px}
+.eq{text-align:center;margin:16px 0;font-size:15px}
+.figure{margin:24px 0;text-align:center}.figure img{max-width:100%;border-radius:8px;box-shadow:var(--sh);cursor:pointer}.figure img:hover{transform:scale(1.01)}.figure figcaption{margin-top:8px;font-size:12px;color:var(--t2)}
+.callout{background:var(--b3);border:1px solid var(--fbd);border-radius:8px;padding:14px 18px;margin:16px 0;font-size:13px}.callout strong{color:var(--ac)}
+.callout-warn{background:var(--wbg);border:1px solid var(--wbd);border-radius:8px;padding:14px 18px;margin:16px 0;font-size:13px}.callout-warn strong{color:var(--wtx)}
+.exbox{background:var(--wbg);border-left:3px solid var(--wbd);border-radius:0 8px 8px 0;padding:14px 18px;margin:16px 0;font-size:13px}.exbox .ext{font-weight:700;color:var(--wtx);font-size:11px;margin-bottom:4px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}thead th{background:var(--b3);padding:8px 12px;font-size:12px;font-weight:600;border-bottom:2px solid var(--bd)}tbody td{padding:8px 12px;border-bottom:1px solid var(--fbd)}tbody tr:nth-child(even){background:var(--b2)}
+code{background:var(--b3);padding:2px 6px;border-radius:4px;font-size:13px;font-family:'Cascadia Code','Consolas',monospace;color:var(--ac)}
+details.collapse-block{margin:16px 0;border:1px solid var(--bd);border-radius:8px;overflow:hidden;background:var(--bg)}details.collapse-block summary{padding:10px 16px;cursor:pointer;font-size:13px;font-weight:600;color:var(--ac);background:var(--b3);user-select:none}details.collapse-block summary:hover{filter:brightness(0.96)}details.collapse-block summary::marker{color:var(--ac)}details.collapse-block .coll-body{padding:14px 18px;font-size:13px;color:var(--t2);border-top:1px solid var(--bd)}
+.interactive-box{background:var(--b3);border:1px solid var(--fbd);border-radius:8px;padding:18px 20px;margin:20px 0}
+.interactive-box label{display:block;font-size:13px;font-weight:600;color:var(--tx);margin-bottom:6px}
+.interactive-box input[type="range"]{width:100%;margin:8px 0;accent-color:var(--ac)}
+.interactive-box .val-display{font-size:24px;font-weight:700;color:var(--ac);text-align:center;margin:8px 0}
+.interactive-box .val-note{font-size:12px;color:var(--t2);text-align:center}
+.split-panel{display:flex;gap:20px;margin:20px 0}.split-panel .panel{flex:1;min-width:0;background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:14px 16px}.split-panel .panel h4{font-size:13px;font-weight:600;color:var(--ac);margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid var(--fbd)}.split-panel .panel p{font-size:13px;line-height:1.8}
+.search-bar{display:flex;gap:8px;margin:16px 0}.search-bar input{flex:1;padding:8px 12px;border:1px solid var(--bd);border-radius:6px;font-size:13px;background:var(--bg);color:var(--tx);outline:none}.search-bar input:focus{border-color:var(--ac)}
+.highlight{background:#FFE066;padding:1px 2px;border-radius:2px;color:var(--tx)}
+.reading-settings{position:fixed;bottom:20px;right:20px;z-index:999}.reading-settings .rs-toggle{width:42px;height:42px;border-radius:50%;border:none;background:var(--ac);color:#fff;font-size:18px;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.2);transition:.2s}.reading-settings .rs-toggle:hover{transform:scale(1.08)}.reading-settings .rs-panel{position:absolute;bottom:52px;right:0;background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:16px;box-shadow:var(--sh);width:200px;display:none}.reading-settings .rs-panel.open{display:block}.reading-settings .rs-panel label{display:block;font-size:11px;font-weight:600;color:var(--t2);margin:10px 0 4px}.reading-settings .rs-panel .rs-row{display:flex;gap:4px}.reading-settings .rs-panel .rs-btn{flex:1;padding:4px;font-size:11px;border:1px solid var(--bd);border-radius:4px;background:var(--b2);color:var(--tx);cursor:pointer;text-align:center;transition:.12s}.reading-settings .rs-panel .rs-btn.active{background:var(--ac);color:#fff;border-color:var(--ac)}
+.demo-label{display:inline-block;padding:3px 10px;font-size:10px;font-weight:700;border-radius:4px;background:var(--ac);color:#fff;margin-right:8px;vertical-align:middle;letter-spacing:1px}
+.read-opt{text-align:justify;hyphens:auto;letter-spacing:0.02em}.read-opt p{margin-bottom:18px;line-height:2.0}
+.pdf-panel{position:fixed;top:0;right:0;width:calc(50vw - 130px);height:100vh;background:var(--bg);border-left:1px solid var(--bd);overflow-y:auto;z-index:99;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s}
+.pdf-panel.open{transform:translateX(0)}
+.pdf-panel .pdf-header{flex-shrink:0;padding:12px 14px;border-bottom:1px solid var(--fbd);background:var(--b2);display:flex;align-items:center;justify-content:space-between;gap:8px}
+.pdf-panel .pdf-header .pdf-title{font-size:13px;font-weight:600;color:var(--tx)}
+.pdf-panel .pdf-header .pdf-close{width:28px;height:28px;border:none;border-radius:50%;background:var(--b3);color:var(--tx);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:.12s}
+.pdf-panel .pdf-header .pdf-close:hover{background:var(--ac);color:#fff}
+.pdf-panel .pdf-nav{flex-shrink:0;padding:8px 14px;display:flex;align-items:center;justify-content:center;gap:12px;border-bottom:1px solid var(--fbd);font-size:12px}
+.pdf-panel .pdf-nav button{width:30px;height:30px;border:1px solid var(--bd);border-radius:6px;background:var(--b2);color:var(--tx);cursor:pointer;font-size:14px;transition:.12s;display:flex;align-items:center;justify-content:center}
+.pdf-panel .pdf-nav button:hover{background:var(--ac);color:#fff;border-color:var(--ac)}
+.pdf-panel .pdf-nav button:disabled{opacity:.3;cursor:default;pointer-events:none}
+.pdf-panel .pdf-nav .pdf-pg-info{font-weight:600;color:var(--ac);min-width:70px;text-align:center}
+.pdf-panel .pdf-body{flex:1;overflow-y:auto;padding:12px}
+.pdf-panel .pdf-body img{width:100%;border-radius:6px;box-shadow:var(--sh);cursor:pointer}
+.pdf-panel .pdf-body img:hover{transform:scale(1.02);transition:.2s;max-height:calc(100vh - 100px);object-fit:contain}
+.pdf-toggle-btn{position:fixed;top:50%;right:0;transform:translateY(-50%);width:32px;height:80px;border:none;border-radius:8px 0 0 8px;background:var(--ac);color:#fff;cursor:pointer;font-size:14px;writing-mode:vertical-rl;letter-spacing:2px;z-index:98;box-shadow:-2px 0 8px rgba(0,0,0,.15);transition:.2s}
+.pdf-toggle-btn:hover{width:36px;filter:brightness(1.1)}
+body.has-pdf .main{margin-right:0;max-width:calc(50vw - 170px)}
+body.has-pdf .pdf-toggle-btn{right:calc(50vw - 130px);border-radius:0 8px 8px 0;box-shadow:2px 0 8px rgba(0,0,0,.15)}
+@media(max-width:1100px){body.has-pdf .main{margin-right:0;max-width:1050px}.pdf-panel{width:100vw}body.has-pdf .pdf-toggle-btn{right:0}}
+@media(max-width:768px){.sidebar{transform:translateX(-100%);transition:.3s}.sidebar.open{transform:translateX(0)}.main{margin-left:0;padding:20px 16px 60px}.split-panel{flex-direction:column}}
+@media print{.sidebar{display:none}.main{margin-left:0;max-width:100%;padding:0}}
+</style>
+</head>
+<body>
+
+<button class="pdf-toggle-btn" onclick="togglePdfPanel()" title="顯示/隱藏 PDF 原版對照">📄 原版對照</button>
+
+<nav class="sidebar">
+  <div class="sh"><div class="bk">Calculus Volume 1 — OpenStax</div><h2>Chapter 3</h2></div>
+  <div class="sn"><ul>
+    <li><a href="#preview">📋 3.0 本章預覽</a></li>
+    <li class="ns">微分的基礎</li>
+    <li class="nsub"><a href="#s3-1">3.1 微分的定義</a></li>
+    <li class="nsub"><a href="#s3-2">3.2 導函數</a></li>
+    <li class="ns">微分的計算</li>
+    <li class="nsub"><a href="#s3-3">3.3 微分規則</a></li>
+    <li class="nsub"><a href="#s3-4">3.4 變化率應用</a></li>
+    <li class="nsub"><a href="#s3-5">3.5 三角函數微分</a></li>
+    <li><a href="#summary">📋 本章摘要</a></li>
+  </ul></div>
+  <div class="st"><button onclick="toggleTheme()">🌓 <span id="tl">深色模式</span></button></div>
+</nav>
+
+<main class="main read-opt">
+
+<header class="header">
+  <div class="cl">Calculus Volume 1 · Gilbert Strang (MIT)</div>
+  <h1>Chapter 3 · Derivatives（微分）</h1>
+  <div class="meta">OpenStax · 原文 PDF p.195–275 · §3.1–3.5 詳盡重點整理</div>
+</header>
+
+<section id="preview"><div class="callout">
+  <strong>📋 3.0 本章預覽</strong>
+  <p>微分（derivative）是微積分最核心的工具，也是牛頓與萊布尼茲在 17 世紀各自獨立發展出的革命性概念。它回答了一個根本問題：<strong>函數在某一點的瞬時變化率是多少？</strong>這個看似簡單的問題，衍生出物理學中的速度與加速度、經濟學中的邊際成本、生物學中的族群增長率，乃至機器學習中的梯度下降。</p>
+  <p>本章從極限定義出發（§3.1），建立導數作為函數的觀念（§3.2），掌握 Power Rule、Product Rule、Quotient Rule 等微分規則（§3.3），將微分應用到運動學與邊際分析（§3.4），最後推導三角函數的導數公式（§3.5）。每一條規則都可以從 $f'(x)=\lim_{h\to 0}\frac{f(x+h)-f(x)}{h}$ 推導出來——微分規則只是極限計算的捷徑，理解其來源才能真正掌握。</p>
+  <div class="callout-warn"><strong>⚡ 核心心法：</strong>導數 = 瞬時變化率 = 切線斜率。學好微分的關鍵是同時掌握三種觀點：（1）<strong>幾何觀點</strong>——切線斜率；（2）<strong>物理觀點</strong>——瞬時變化率；（3）<strong>分析觀點</strong>——極限。三者互為表裡。</div>
+</div></section>
+
+<div class="figure">
+  <div style="background:var(--b3);border-radius:8px;padding:24px;display:flex;justify-content:center;align-items:center;gap:20px;font-size:13px;color:var(--t2);flex-wrap:wrap">
+    <div style="text-align:center"><div style="font-size:28px">🎯</div><strong style="color:var(--tx)">極限定義</strong><br><span style="font-size:11px">f'(a)=lim [f(a+h)−f(a)]/h</span></div>
+    <span style="font-size:20px;color:var(--ac)">→</span>
+    <div style="text-align:center"><div style="font-size:28px">📐</div><strong style="color:var(--tx)">導函數</strong><br><span style="font-size:11px">f'(x), 連續⇐可微, 高階導數</span></div>
+    <span style="font-size:20px;color:var(--ac)">→</span>
+    <div style="text-align:center"><div style="font-size:28px">🔧</div><strong style="color:var(--tx)">微分規則</strong><br><span style="font-size:11px">Power/Sum/Product/Quotient</span></div>
+    <span style="font-size:20px;color:var(--ac)">→</span>
+    <div style="text-align:center"><div style="font-size:28px">🚀</div><strong style="color:var(--tx)">實際應用</strong><br><span style="font-size:11px">速度·加速度·邊際·三角</span></div>
+  </div>
+  <figcaption>📌 Ch3 總覽圖：從極限定義 → 導函數 → 微分規則 → 實際應用的邏輯鏈</figcaption>
+</div>
+
+<div class="search-bar"><input type="text" id="searchBox" placeholder="🔍 搜尋關鍵字（如：Power Rule、Chain、切線、邊際、lim）…"></div>
+
+<!-- ═══════════ 3.1 ═══════════ -->
+<section id="s3-1">
+  <h2><span class="demo-label">E</span>3.1 微分的定義（Defining the Derivative）</h2>
+
+  <h3>從割線到切線——極限的幾何直覺</h3>
+  <p>想像你有一條曲線 $y=f(x)$，你想知道在點 $P(a, f(a))$ 處的<strong>切線斜率</strong>。你取曲線上另一點 $Q(a+h, f(a+h))$，畫一條通過 $P$ 和 $Q$ 的<strong>割線（secant line）</strong>，其斜率為 $\frac{f(a+h)-f(a)}{h}$。現在，讓 $Q$ 沿著曲線向 $P$ 無限靠近——也就是讓 $h \to 0$。割線的極限位置，就是<strong>切線（tangent line）</strong>。</p>
+  <p>這就是微分的核心思想：<strong>用極限從割線斜率得到切線斜率。</strong>17 世紀時，牛頓稱之為「fluxion」，萊布尼茲則引入 $dy/dx$ 記號——兩人的爭論持續了數十年，但他們的洞見共同奠定了現代微積分的基礎。</p>
+
+  <div class="eq">$$f'(a) = \lim_{h \to 0} \frac{f(a+h) - f(a)}{h} \tag{3.1}$$</div>
+  <p>若此極限存在，稱 $f$ 在 $x=a$ 處<strong>可微（differentiable）</strong>。等價的定義形式（令 $x=a+h$，則 $h \to 0$ 等價於 $x \to a$）：</p>
+  <div class="eq">$$f'(a) = \lim_{x \to a} \frac{f(x) - f(a)}{x - a}$$</div>
+
+  <div class="callout"><strong>💡 導數的三種面貌：</strong>$f'(a)$ 同時是：(1) 曲線 $y=f(x)$ 在 $x=a$ 處的<strong>切線斜率</strong>（幾何）；(2) 函數在該點的<strong>瞬時變化率</strong>（分析）；(3) 若 $f(t)$ 是位置，則為<strong>瞬時速度</strong>（物理）。這三種詮釋互為表裡，是微分之所以強大的原因。</div>
+
+  <h3>導數的記號系統</h3>
+  <p>不同記號各有優勢，理解它們的轉換非常重要：</p>
+  <table><thead><tr><th>記號</th><th>提出者</th><th>優點</th><th>缺點</th></tr></thead><tbody>
+    <tr><td>$f'(x)$</td><td>Lagrange</td><td>簡潔，適合一般運算</td><td>不明確指出變數</td></tr>
+    <tr><td>$\frac{dy}{dx}$</td><td>Leibniz</td><td>強調「變化率」，Chain Rule 直觀</td><td>符號較長</td></tr>
+    <tr><td>$\frac{d}{dx}f(x)$</td><td>運算子形式</td><td>可視為「微分運算子」作用於 $f$</td><td>初學較抽象</td></tr>
+    <tr><td>$\dot{y}$</td><td>Newton</td><td>物理中對時間微分極簡潔</td><td>不適合多變數</td></tr>
+  </tbody></table>
+  <p>在物理和工程中，對時間的導數常用 Newton 記號（$\dot{x}$ 表速度，$\ddot{x}$ 表加速度）；在數學分析中，Lagrange 和 Leibniz 記號最常見。Chain Rule 用 Leibniz 記號特別直觀：$\frac{dy}{dx}=\frac{dy}{du}\cdot\frac{du}{dx}$。</p>
+
+  <h3>用極限定義計算導數——三個經典例題</h3>
+
+  <div class="exbox"><div class="ext">📐 例題 1 — 二次函數</div>
+    求 $f(x)=x^2$ 在 $x=3$ 處的導數：<br><br>
+    $f'(3) = \lim_{h \to 0} \frac{(3+h)^2 - 3^2}{h} = \lim_{h \to 0} \frac{9+6h+h^2-9}{h}$<br>
+    $= \lim_{h \to 0} \frac{h(6+h)}{h} = \lim_{h \to 0} (6+h) = \mathbf{6}$<br><br>
+    切線方程式：$y - 9 = 6(x - 3)$，即 $y = 6x - 9$
+  </div>
+
+  <div class="exbox"><div class="ext">📐 例題 2 — 平方根函數</div>
+    求 $f(x)=\sqrt{x}$ 在 $x=4$ 處的導數：<br><br>
+    $f'(4) = \lim_{h \to 0} \frac{\sqrt{4+h} - 2}{h}$<br>
+    有理化分子：$= \lim_{h \to 0} \frac{(\sqrt{4+h} - 2)(\sqrt{4+h} + 2)}{h(\sqrt{4+h} + 2)}$<br>
+    $= \lim_{h \to 0} \frac{(4+h) - 4}{h(\sqrt{4+h} + 2)} = \lim_{h \to 0} \frac{1}{\sqrt{4+h} + 2} = \mathbf{\frac{1}{4}}$<br>
+  </div>
+
+  <div class="exbox"><div class="ext">📐 例題 3 — 倒數函數</div>
+    求 $f(x)=\frac{1}{x}$ 在 $x=2$ 處的導數：<br><br>
+    $f'(2) = \lim_{h \to 0} \frac{\frac{1}{2+h} - \frac{1}{2}}{h} = \lim_{h \to 0} \frac{\frac{2 - (2+h)}{2(2+h)}}{h}$<br>
+    $= \lim_{h \to 0} \frac{-h}{2h(2+h)} = \lim_{h \to 0} \frac{-1}{2(2+h)} = \mathbf{-\frac{1}{4}}$
+  </div>
+
+  <div class="callout-warn"><strong>⚡ 單側導數：</strong>若極限 $\lim_{h \to 0^-}$ 和 $\lim_{h \to 0^+}$（即左極限和右極限）不相等，則導數不存在。例如 $f(x)=|x|$ 在 $x=0$ 處：左導數 $=-1$，右導數 $=+1$，兩者不相等，因此 $|x|$ 在 $x=0$ 處不可微——這就是著名的<strong>尖點（cusp）</strong>。</div>
+</section>
+
+<!-- ═══════════ 3.2 ═══════════ -->
+<section id="s3-2">
+  <h2><span class="demo-label">C</span>3.2 導函數（The Derivative as a Function）</h2>
+
+  <h3>從點的導數到導函數</h3>
+  <p>若我們不固定 $x=a$，而是將 $a$ 視為變數 $x$，則得到一個新函數——<strong>導函數（derivative function）</strong>：</p>
+  <div class="eq">$$f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}$$</div>
+  <p>導函數給出每個 $x$ 處的瞬時變化率。例如：$f(x)=x^2 \Rightarrow f'(x)=2x$；$f(x)=x^3 \Rightarrow f'(x)=3x^2$。你已經可以隱約看到規律：$\frac{d}{dx}[x^n] = nx^{n-1}$——這就是 §3.3 要證明的冪規則。</p>
+
+  <div class="callout"><strong>💡 從 $f$ 的圖形畫出 $f'$：</strong>這是一項重要的視覺化技能：(1) $f$ 上升處 → $f' > 0$；(2) $f$ 下降處 → $f' < 0$；(3) $f$ 有水平切線處（局部極值）→ $f' = 0$；(4) $f$ 的轉折點（concavity 改變）→ $f'$ 有局部極值。試著對 $f(x)=x^3-3x$ 畫出其導函數圖形，會發現 $f'$ 的零點對應 $f$ 的局部極值。</div>
+
+  <h3>可微性 ⇨ 連續性（但反過來不成立）</h3>
+  <p>這是一組非常重要的邏輯關係：</p>
+  <div class="eq">$$\text{可微} \implies \text{連續} \implies \text{極限存在}$$</div>
+  <p>若 $f$ 在 $x=a$ 處可微，則它必定連續。證明很直接：$\lim_{x \to a}[f(x)-f(a)] = \lim_{x \to a}\frac{f(x)-f(a)}{x-a} \cdot (x-a) = f'(a) \cdot 0 = 0$。</p>
+  <p>但<strong>連續不一定可微</strong>。以下三種經典的連續但不可微情況：</p>
+  <table><thead><tr><th>類型</th><th>函數範例</th><th>在 $x=0$ 的問題</th></tr></thead><tbody>
+    <tr><td>尖點（cusp）</td><td>$f(x)=|x|$</td><td>左右導數不相等：$-1 \neq +1$</td></tr>
+    <tr><td>垂直切線</td><td>$f(x)=\sqrt[3]{x}$</td><td>斜率趨於無窮大，極限不存在</td></tr>
+    <tr><td>振盪不連續</td><td>$f(x)=x\sin(1/x)$（填 $f(0)=0$）</td><td>雖連續，但極限振盪不收斂</td></tr>
+  </tbody></table>
+
+  <h3>高階導數</h3>
+  <p>導函數本身也是函數，可以再被微分。二階導數 $f''(x)$ 描述<strong>變化率的變化率</strong>——在物理中就是加速度。三階以上的導數在 Taylor 展開中出現：</p>
+  <div class="eq">$$f^{(n)}(x) = \frac{d^n y}{dx^n}$$</div>
+  <p>物理學中最常見的高階導數：位置 $s(t)$ → 速度 $v(t)=s'(t)$ → 加速度 $a(t)=s''(t)$ → 加加速度（jerk）$j(t)=s'''(t)$。工程中，jerk 用於設計電梯和雲霄飛車的乘坐舒適度——變化率太突然會讓人不適。</p>
+
+  <div class="exbox"><div class="ext">📐 例題 — 多項式的高階導數</div>
+    $f(x)=x^4-4x^3+6x^2-4x+1$<br>
+    $f'(x)=4x^3-12x^2+12x-4$<br>
+    $f''(x)=12x^2-24x+12 = 12(x-1)^2$<br>
+    $f'''(x)=24x-24 = 24(x-1)$<br>
+    $f^{(4)}(x)=24$<br>
+    五次及以上導數全部為 0——任何 $n$ 次多項式的 $n+1$ 階導數恆為零。
+  </div>
+</section>
+
+<!-- ═══════════ 3.3 ═══════════ -->
+<section id="s3-3">
+  <h2><span class="demo-label">K</span>3.3 微分規則（Differentiation Rules）</h2>
+
+  <h3>為什麼需要微分規則？</h3>
+  <p>用極限定義求每個導數雖然可行，但極其繁瑣。試想用 $\lim_{h\to 0}\frac{(x+h)^{100}-x^{100}}{h}$ 求 $x^{100}$ 的導數——你需要展開 $(x+h)^{100}$ 的二項式！微分規則讓我們跳過極限，直接寫出答案。這些規則<strong>全部</strong>可以從極限定義證明，但它們封裝了證明過程，讓我們專注於應用。</p>
+
+  <h3>基本微分規則（四大基石）</h3>
+  <table><thead><tr><th>規則</th><th>公式</th><th>直覺解釋</th></tr></thead><tbody>
+    <tr><td><strong>常數規則</strong></td><td>$\frac{d}{dx}[c] = 0$</td><td>水平線斜率為零</td></tr>
+    <tr><td><strong>冪規則</strong></td><td>$\frac{d}{dx}[x^n] = nx^{n-1}$</td><td>指數下拉，次方減一</td></tr>
+    <tr><td><strong>常數倍規則</strong></td><td>$\frac{d}{dx}[c f(x)] = c f'(x)$</td><td>拉伸不改變微分方向</td></tr>
+    <tr><td><strong>和差規則</strong></td><td>$\frac{d}{dx}[f \pm g] = f' \pm g'$</td><td>微分是線性運算</td></tr>
+  </tbody></table>
+  <p>這四條規則的組合足以對任何多項式求導。例如 $\frac{d}{dx}[3x^4-5x^2+7] = 12x^3-10x$，三步到位。</p>
+
+  <h3>乘法規則（Product Rule）</h3>
+  <p>兩個函數相乘的導數<strong>不是</strong>導數相乘——這是初學者最常犯的錯誤。正確公式是：</p>
+  <div class="eq">$$\frac{d}{dx}[f(x)g(x)] = f'(x)g(x) + f(x)g'(x)$$</div>
+  <p><strong>記憶口訣：</strong>「前微後不微，加前不微後微」——第一項微分第一個函數、保留第二個；第二項保留第一個、微分第二個。</p>
+
+  <details class="collapse-block">
+    <summary>📖 推導：乘法規則</summary>
+    <div class="coll-body">
+      <p>令 $h(x)=f(x)g(x)$。用極限定義：</p>
+      <p>$h'(x)=\lim_{\Delta x\to 0}\frac{f(x+\Delta x)g(x+\Delta x)-f(x)g(x)}{\Delta x}$</p>
+      <p>巧妙加減 $f(x+\Delta x)g(x)$：</p>
+      <p>$=\lim_{\Delta x\to 0}\frac{f(x+\Delta x)g(x+\Delta x)-f(x+\Delta x)g(x)+f(x+\Delta x)g(x)-f(x)g(x)}{\Delta x}$</p>
+      <p>$=\lim_{\Delta x\to 0}[f(x+\Delta x)\frac{g(x+\Delta x)-g(x)}{\Delta x} + g(x)\frac{f(x+\Delta x)-f(x)}{\Delta x}]$</p>
+      <p>$=f(x)g'(x)+g(x)f'(x)$ ✓</p>
+    </div>
+  </details>
+
+  <div class="exbox"><div class="ext">📐 例題 — 乘法規則</div>
+    $h(x)=(3x^2+1)(x^3-2x)$。設 $f=3x^2+1$，$g=x^3-2x$。<br>
+    $f'=6x$，$g'=3x^2-2$<br>
+    $h' = 6x(x^3-2x) + (3x^2+1)(3x^2-2)$<br>
+    $= 6x^4-12x^2 + 9x^4-6x^2+3x^2-2 = \mathbf{15x^4-15x^2-2}$
+  </div>
+
+  <h3>除法規則（Quotient Rule）</h3>
+  <div class="eq">$$\frac{d}{dx}\left[\frac{f(x)}{g(x)}\right] = \frac{f'(x)g(x) - f(x)g'(x)}{[g(x)]^2}$$</div>
+  <p><strong>記憶口訣：</strong>「下平方，上微下不微減上不微下微」。注意分子是 $f'g - fg'$（減法！），順序不可顛倒。還要特別注意分母要<strong>平方</strong>。</p>
+
+  <div class="exbox"><div class="ext">📐 例題 — 除法規則</div>
+    $h(x)=\frac{x^2+1}{x-1}$，設 $f=x^2+1$，$g=x-1$。<br>
+    $f'=2x$，$g'=1$<br>
+    $h' = \frac{2x(x-1) - (x^2+1)(1)}{(x-1)^2} = \frac{2x^2-2x-x^2-1}{(x-1)^2}$<br>
+    $= \mathbf{\frac{x^2-2x-1}{(x-1)^2}}$
+  </div>
+
+  <div class="callout-warn"><strong>⚡ 三種最常見的微分錯誤：</strong><br>(1) 以為 $(fg)'=f'g'$——錯！乘法需要 Product Rule。<br>(2) 以為 $(f/g)' = f'/g'$——錯！除法需要 Quotient Rule。<br>(3) 忘記冪規則中的負號或分數指數——$\frac{d}{dx}[x^{-2}] = -2x^{-3}$，$\frac{d}{dx}[\sqrt{x}]=\frac{1}{2\sqrt{x}}$。</div>
+
+  <h3>擴展冪規則與綜合練習</h3>
+  <p>冪規則對任何實數指數 $n$ 都成立（證明需要 §3.8 隱函數微分或 §3.9 對數微分）：</p>
+  <div class="eq">$$\frac{d}{dx}[x^r] = r x^{r-1}, \quad r \in \mathbb{R}$$</div>
+
+  <div class="exbox"><div class="ext">📐 例題 — 綜合三規則</div>
+    求 $h(x)=\frac{x^3\sin x + \cos x}{x^2+1}$ 的導數（提示：分子本身需用 Product Rule）：<br><br>
+    令 $u(x)=x^3\sin x + \cos x$，$v(x)=x^2+1$<br>
+    $u' = 3x^2\sin x + x^3\cos x - \sin x$（Product Rule）<br>
+    $v' = 2x$<br>
+    $h' = \frac{u'v - uv'}{v^2}$（Quotient Rule）<br>
+    結果：$\mathbf{\frac{(3x^2\sin x+x^3\cos x-\sin x)(x^2+1) - (x^3\sin x+\cos x)(2x)}{(x^2+1)^2}}$
+  </div>
+</section>
+
+<!-- ═══════════ 3.4 ═══════════ -->
+<section id="s3-4">
+  <h2><span class="demo-label">R</span>3.4 變化率應用（Derivatives as Rates of Change）</h2>
+
+  <h3>直線運動——速度與加速度</h3>
+  <p>這是最經典的微分應用。若 $s(t)$ 為物體在時間 $t$ 的位置（沿直線），則：</p>
+  <ul>
+    <li><strong>速度</strong> $v(t)=s'(t)$：位置的瞬時變化率（可正可負，表方向）</li>
+    <li><strong>速率</strong> $|v(t)|$：速度的絕對值（無方向，只論快慢）</li>
+    <li><strong>加速度</strong> $a(t)=v'(t)=s''(t)$：速度的瞬時變化率</li>
+  </ul>
+
+  <div class="callout"><strong>💡 運動方向判斷：</strong>$v(t)>0$ → 向正方向移動；$v(t)<0$ → 向負方向移動。$a(t)$ 與 $v(t)$ <strong>同號</strong>→ 加速（speed up）；<strong>異號</strong>→ 減速（slow down）。例如：$v=+5$、$a=-2$ → 速度在減少，物體在減速。</div>
+
+  <div class="exbox"><div class="ext">📐 例題 — 自由落體</div>
+    石頭從 100 m 高處以 20 m/s 向上拋出（$g=9.8$ m/s²）：<br>
+    $s(t)=-4.9t^2+20t+100$<br>
+    $v(t)=s'(t)=-9.8t+20$<br>
+    最高點：$v(t)=0 \Rightarrow t \approx 2.04$ s，$s(2.04) \approx 120.4$ m<br>
+    落地：$-4.9t^2+20t+100=0 \Rightarrow t \approx 6.96$ s（負根捨去）<br>
+    落地速度：$v(6.96) \approx -48.2$ m/s（向下）
+  </div>
+
+  <div class="interactive-box">
+    <label>🚀 互動模擬：自由落體 — 調整初速觀察 t=2s 時的位置與速度</label>
+    <input type="range" id="v0Slider" min="0" max="50" value="20" step="1" oninput="updateMotion()">
+    <div class="param-row"><span>v₀ = 0 m/s（靜止釋放）</span><span>50 m/s（強力上拋）</span></div>
+    <div class="val-display" id="motionDisplay">t=2s: s≈120.4 m, v≈0.4 m/s</div>
+    <div class="val-note">$s(t)=-4.9t^2+v_0t+100$，$g\approx 9.8$ m/s²，初始高度 100 m</div>
+  </div>
+
+  <h3>經濟學中的邊際分析</h3>
+  <p>微分在經濟學中用於「邊際」概念——多生產/銷售一個單位帶來的變化：</p>
+  <table><thead><tr><th>函數</th><th>意義</th><th>導數 = 邊際量</th></tr></thead><tbody>
+    <tr><td>$C(x)$：總成本</td><td>生產 $x$ 件的總成本</td><td>$C'(x)$：第 $x+1$ 件的<strong>邊際成本</strong></td></tr>
+    <tr><td>$R(x)$：總收入</td><td>銷售 $x$ 件的總收入</td><td>$R'(x)$：多賣一件的<strong>邊際收益</strong></td></tr>
+    <tr><td>$P(x)=R(x)-C(x)$</td><td>總利潤</td><td>$P'(x)=R'(x)-C'(x)$：<strong>邊際利潤</strong></td></tr>
+  </tbody></table>
+  <p>利潤最大化發生在 $P'(x)=0$ 處——即邊際收益等於邊際成本時（$R'(x)=C'(x)$）。這是微觀經濟學的基本原理。</p>
+
+  <h3>其他領域的變化率</h3>
+  <ul>
+    <li><strong>生物學：</strong>族群增長率 $P'(t)$，細菌培養中的瞬時生長速率</li>
+    <li><strong>化學：</strong>反應速率 $-\frac{d[A]}{dt}$，濃度隨時間的變化</li>
+    <li><strong>物理：</strong>電流 $I(t)=Q'(t)$（電荷對時間的導數）、功率 $P(t)=E'(t)$</li>
+    <li><strong>金融：</strong>股價的瞬時漲跌速率、選擇權的 Delta（價格對標的資產的導數）</li>
+  </ul>
+
+  <div class="callout-warn"><strong>⚡ 單位的重要性：</strong>$f'(x)$ 的單位是「$f$ 的單位 / $x$ 的單位」。例如：$s(t)$ 單位為公尺，$t$ 為秒 → $v(t)$ 單位為 m/s。忽略單位是應用題最常見的失分原因。</div>
+</section>
+
+<!-- ═══════════ 3.5 ═══════════ -->
+<section id="s3-5">
+  <h2><span class="demo-label">F</span>3.5 三角函數的微分（Derivatives of Trigonometric Functions）</h2>
+
+  <h3>兩個基本極限——一切推導的起點</h3>
+  <p>所有三角函數導數公式都源自以下兩個極限。它們的證明需要用到<strong>夾擠定理（Squeeze Theorem）</strong>與單位圓的幾何論證：</p>
+  <div class="eq">$$\lim_{\theta \to 0} \frac{\sin\theta}{\theta} = 1, \qquad \lim_{\theta \to 0} \frac{\cos\theta - 1}{\theta} = 0$$</div>
+  <p>第一個極限說明了當 $\theta$ 很小時，$\sin\theta \approx \theta$（弧度制下）。這是物理中「小角度近似」的數學基礎。注意：<strong>必須使用弧度制</strong>——若用度數，$\lim_{\theta\to 0}\frac{\sin\theta^\circ}{\theta^\circ} = \frac{\pi}{180}$。</p>
+
+  <h3>六個三角函數的導數公式</h3>
+  <table><thead><tr><th>$f(x)$</th><th>$f'(x)$</th><th>推導方式</th></tr></thead><tbody>
+    <tr><td>$\sin x$</td><td>$\cos x$</td><td>極限定義 + 和角公式</td></tr>
+    <tr><td>$\cos x$</td><td>$-\sin x$</td><td>同上（注意負號！）</td></tr>
+    <tr><td>$\tan x$</td><td>$\sec^2 x$</td><td>$\tan x=\frac{\sin x}{\cos x}$ + Quotient Rule</td></tr>
+    <tr><td>$\cot x$</td><td>$-\csc^2 x$</td><td>$\cot x=\frac{\cos x}{\sin x}$ + Quotient Rule</td></tr>
+    <tr><td>$\sec x$</td><td>$\sec x \tan x$</td><td>$\sec x=\frac{1}{\cos x}$ + Quotient Rule</td></tr>
+    <tr><td>$\csc x$</td><td>$-\csc x \cot x$</td><td>$\csc x=\frac{1}{\sin x}$ + Quotient Rule</td></tr>
+  </tbody></table>
+
+  <details class="collapse-block">
+    <summary>📖 推導：$\frac{d}{dx}[\sin x] = \cos x$</summary>
+    <div class="coll-body">
+      <p>用極限定義：$\frac{d}{dx}[\sin x] = \lim_{h\to 0}\frac{\sin(x+h)-\sin x}{h}$</p>
+      <p>和角公式：$\sin(x+h)=\sin x\cos h + \cos x\sin h$</p>
+      <p>$=\lim_{h\to 0}\frac{\sin x\cos h + \cos x\sin h - \sin x}{h}$</p>
+      <p>$=\lim_{h\to 0}\left[\sin x\frac{\cos h-1}{h} + \cos x\frac{\sin h}{h}\right]$</p>
+      <p>由基本極限：$\frac{\cos h-1}{h}\to 0$，$\frac{\sin h}{h}\to 1$</p>
+      <p>$= \sin x \cdot 0 + \cos x \cdot 1 = \mathbf{\cos x}$ ✓</p>
+    </div>
+  </details>
+
+  <details class="collapse-block">
+    <summary>📖 推導：$\frac{d}{dx}[\tan x] = \sec^2 x$</summary>
+    <div class="coll-body">
+      <p>$\tan x = \frac{\sin x}{\cos x}$，用 Quotient Rule：</p>
+      <p>$f=\sin x, f'=\cos x; \quad g=\cos x, g'=-\sin x$</p>
+      <p>$\frac{d}{dx}[\tan x] = \frac{\cos x \cdot \cos x - \sin x \cdot (-\sin x)}{\cos^2 x}$</p>
+      <p>$= \frac{\cos^2 x + \sin^2 x}{\cos^2 x} = \frac{1}{\cos^2 x} = \mathbf{\sec^2 x}$ ✓</p>
+      <p>關鍵一步使用了 $\cos^2 x + \sin^2 x = 1$。</p>
+    </div>
+  </details>
+
+  <div class="callout-warn"><strong>⚡ 最常見的兩個錯誤：</strong><br>(1) 忘記 $\frac{d}{dx}[\cos x] = \mathbf{-\sin x}$ 中的<strong>負號</strong>！記法：cos 的導數「掉下來」（drops）變成負的 sin。<br>(2) 混淆 $\sec x$ 和 $\csc x$ 的導數。$\sec x$ 的導數有 $\tan x$，$\csc x$ 的導數有 $\cot x$，而且 $\csc$ 前面有負號。</div>
+
+  <h3>三角函數微分與其他規則的結合</h3>
+  <p>三角函數的微分常需要搭配 Product Rule、Quotient Rule 或 Chain Rule。以下是幾個重要的綜合例題：</p>
+
+  <div class="exbox"><div class="ext">📐 例題 1 — 乘法規則 + 三角</div>
+    $f(x)=x^2\sin x$<br>
+    $f'(x)=2x\sin x + x^2\cos x$（Product Rule）
+  </div>
+
+  <div class="exbox"><div class="ext">📐 例題 2 — 除法規則 + 三角</div>
+    $f(x)=\frac{\sin x}{1+\cos x}$<br>
+    $f'=\frac{\cos x(1+\cos x) - \sin x(-\sin x)}{(1+\cos x)^2}$<br>
+    $=\frac{\cos x + \cos^2 x + \sin^2 x}{(1+\cos x)^2} = \frac{\cos x + 1}{(1+\cos x)^2} = \mathbf{\frac{1}{1+\cos x}}$
+  </div>
+
+  <div class="exbox"><div class="ext">📐 例題 3 — 水平切線問題</div>
+    求 $f(x)=x+2\sin x$ 在 $[0,2\pi]$ 上何處有水平切線：<br>
+    $f'(x)=1+2\cos x = 0 \Rightarrow \cos x = -\frac{1}{2}$<br>
+    在 $[0,2\pi]$ 上，$x=\frac{2\pi}{3}$ 和 $x=\frac{4\pi}{3}$<br>
+    → 這兩點的切線斜率為零，是局部極值的候選點。
+  </div>
+
+  <div class="callout"><strong>💡 三角函數導數的對稱性：</strong>觀察規律——$\sin$ 和 $\cos$ 的導數形成一個循環：$\sin \to \cos \to -\sin \to -\cos \to \sin$。微分四次後回到原函數。這一性質在解微分方程時非常重要，也是 $\sin$ 和 $\cos$ 是指數函數 $e^{ix}$ 的實部和虛部的原因。</div>
+</section>
+
+<!-- ═══════════ Summary ═══════════ -->
+<section id="summary">
+  <h2><span class="demo-label">L</span>本章摘要 — §3.1–3.5 重點回顧</h2>
+  <ol>
+    <li><strong>導數的極限定義</strong>：$f'(a)=\lim_{h\to 0}\frac{f(a+h)-f(a)}{h} = \lim_{x\to a}\frac{f(x)-f(a)}{x-a}$，代表切線斜率與瞬時變化率。這是所有微分規則的共同來源。</li>
+    <li>導數的<strong>三種記號</strong>：Lagrange $f'(x)$、Leibniz $\frac{dy}{dx}$、Newton $\dot{y}$，各有適用場合。</li>
+    <li><strong>可微必定連續</strong>，但連續不一定可微。經典反例：$|x|$ 在 $x=0$ 有尖點，$\sqrt[3]{x}$ 有垂直切線。</li>
+    <li><strong>導函數</strong> $f'(x)$ 本身也是函數，可再微分得高階導數：$f''(x)$（加速度）、$f'''(x)$（jerk）等。</li>
+    <li><strong>基本微分規則</strong>：常數規則、冪規則 $\frac{d}{dx}[x^n]=nx^{n-1}$、常數倍規則、和差規則——構成微分計算的四大基石。</li>
+    <li><strong>乘法規則</strong> $(fg)'=f'g+fg'$ <strong>≠</strong> $f'g'$。口訣：「前微後不微，加前不微後微」。</li>
+    <li><strong>除法規則</strong> $(f/g)'=(f'g-fg')/g^2$。口訣：「下平方，上微下不微減上不微下微」。</li>
+    <li>物理應用：<strong>$s(t)$ → $v(t)=s'(t)$ → $a(t)=s''(t)$</strong>。$a$ 與 $v$ 同號加速、異號減速。</li>
+    <li>經濟應用：邊際成本 $C'(x)$、邊際收益 $R'(x)$。利潤最大化發生在 $R'(x)=C'(x)$。</li>
+    <li><strong>三角函數導數</strong>的核心是兩個基本極限：$\lim_{\theta\to 0}\frac{\sin\theta}{\theta}=1$，$\lim_{\theta\to 0}\frac{\cos\theta-1}{\theta}=0$（必須用弧度制）。</li>
+    <li>$\frac{d}{dx}[\sin x]=\cos x$，$\frac{d}{dx}[\cos x]=-\sin x$（<strong>注意負號</strong>）。其餘四個可由 Quotient Rule 推出。</li>
+    <li>微分規則只是極限計算的<strong>捷徑</strong>——每條規則都可以從 $f'(x)=\lim_{h\to 0}\frac{f(x+h)-f(x)}{h}$ 證明。理解來源比背誦公式更重要。</li>
+  </ol>
+</section>
+
+</main>
+
+<div class="reading-settings" id="readSettings">
+  <button class="rs-toggle" onclick="document.getElementById('rsPanel').classList.toggle('open')">⚙</button>
+  <div class="rs-panel" id="rsPanel">
+    <label>🌓 主題</label><div class="rs-row"><button class="rs-btn" data-rs="light">淺色</button><button class="rs-btn" data-rs="dark">深色</button></div>
+    <label>🔤 字體大小</label><div class="rs-row"><button class="rs-btn" data-rs="font-sm">小</button><button class="rs-btn active" data-rs="font-md">中</button><button class="rs-btn" data-rs="font-lg">大</button></div>
+    <label>📐 閱讀寬度</label><div class="rs-row"><button class="rs-btn" data-rs="width-narrow">窄</button><button class="rs-btn active" data-rs="width-md">中</button><button class="rs-btn" data-rs="width-wide">寬</button></div>
+  </div>
+</div>
+
+<div class="pdf-panel" id="pdfPanel">
+  <div class="pdf-header"><span class="pdf-title" id="pdfTitle">📄 原版 PDF 對照 — p.195</span><button class="pdf-close" onclick="togglePdfPanel()" title="關閉面板">✕</button></div>
+  <div class="pdf-nav">
+    <button id="pdfPrev" onclick="pdfPrevPage()" title="上一頁">◀</button>
+    <span class="pdf-pg-info" id="pdfPgInfo">195 / 302</span>
+    <button id="pdfNext" onclick="pdfNextPage()" title="下一頁">▶</button>
+  </div>
+  <div class="pdf-body" id="pdfBody"><img id="pdfImg" src="pages/ch3_pages/ch3_page_195.png" alt="PDF page 195" loading="lazy" onclick="window.open(this.src,'_blank')"></div>
+</div>
+
+<script>
+function toggleTheme(){const h=document.documentElement;const n=h.getAttribute('data-theme')==='light'?'dark':'light';h.setAttribute('data-theme',n);localStorage.setItem('theme',n);document.getElementById('tl').textContent=n==='dark'?'淺色模式':'深色模式';}
+const s=localStorage.getItem('theme')||'light';document.documentElement.setAttribute('data-theme',s);if(s==='dark')document.getElementById('tl').textContent='淺色模式';
+const secs=document.querySelectorAll('section[id]');const navs=document.querySelectorAll('.sn a');window.addEventListener('scroll',()=>{let c='';secs.forEach(s=>{if(window.scrollY>=s.offsetTop-80)c=s.getAttribute('id');});navs.forEach(a=>{a.classList.toggle('active',a.getAttribute('href')==='#'+c);});updatePdfPage(c);});
+var pdfPageMap={preview:[195,195],'s3-1':[195,210],'s3-2':[211,224],'s3-3':[225,239],'s3-4':[240,253],'s3-5':[254,275]};
+var pdfCurPage=195;
+function togglePdfPanel(){var b=document.body;var p=document.getElementById('pdfPanel');if(b.classList.contains('has-pdf')){b.classList.remove('has-pdf');p.classList.remove('open');}else{b.classList.add('has-pdf');p.classList.add('open');updatePdfPage(null);}}
+function loadPdfPage(n){pdfCurPage=n;document.getElementById('pdfImg').src='pages/ch3_pages/ch3_page_'+n+'.png';document.getElementById('pdfPgInfo').textContent=n+' / 302';document.getElementById('pdfTitle').textContent='📄 原版 PDF 對照 — p.'+n;var r=pdfPageMap[getCurrentSection()];if(r){document.getElementById('pdfPrev').disabled=(n<=r[0]);document.getElementById('pdfNext').disabled=(n>=r[1]);}}
+function getCurrentSection(){var c='';secs.forEach(function(s){if(window.scrollY>=s.offsetTop-80)c=s.getAttribute('id');});return c||'preview';}
+function updatePdfPage(secId){if(!document.body.classList.contains('has-pdf'))return;var s=secId||getCurrentSection();var r=pdfPageMap[s];if(!r)return;if(pdfCurPage<r[0]||pdfCurPage>r[1])loadPdfPage(r[0]);else{loadPdfPage(pdfCurPage);}}
+function pdfPrevPage(){var r=pdfPageMap[getCurrentSection()];if(r&&pdfCurPage>r[0])loadPdfPage(pdfCurPage-1);}
+function pdfNextPage(){var r=pdfPageMap[getCurrentSection()];if(r&&pdfCurPage<r[1])loadPdfPage(pdfCurPage+1);}
+document.querySelectorAll('.figure img').forEach(i=>i.addEventListener('click',()=>window.open(i.src,'_blank')));
+(function(){const sb=document.getElementById('searchBox');function clr(){document.querySelectorAll('.main .highlight').forEach(el=>{const p=el.parentNode;p.replaceChild(document.createTextNode(el.textContent),el);p.normalize();});}function ds(){clr();const q=sb.value.trim().toLowerCase();if(!q)return;const w=document.createTreeWalker(document.querySelector('.main'),NodeFilter.SHOW_TEXT,null,false);const nds=[];while(w.nextNode())nds.push(w.currentNode);nds.forEach(n=>{if(n.parentElement&&n.parentElement.closest&&n.parentElement.closest('.search-bar,.tag-list,.sidebar,.reading-settings'))return;const i=n.textContent.toLowerCase().indexOf(q);if(i>=0){const sp=document.createElement('span');sp.className='highlight';sp.textContent=n.textContent.substring(i,i+q.length);const r=n.textContent.substring(i+q.length);n.textContent=n.textContent.substring(0,i);n.parentNode.insertBefore(sp,n.nextSibling);if(r)n.parentNode.insertBefore(document.createTextNode(r),sp.nextSibling);}});}sb.addEventListener('input',ds);})();
+function updateMotion(){var v0=parseFloat(document.getElementById('v0Slider').value);var t=2;var s=-4.9*t*t+v0*t+100;var v=-9.8*t+v0;var el=document.getElementById('motionDisplay');el.textContent='t=2s: s≈'+s.toFixed(1)+' m, v≈'+v.toFixed(1)+' m/s';}
+(function(){const m=document.querySelector('.main');const h=document.documentElement;function af(sv){const sz={'font-sm':'13px','font-md':'15px','font-lg':'18px'};const px=sz[sv]||'15px';const num=parseFloat(px);const sc=num/15;h.style.setProperty('--fs-base',px);document.querySelectorAll('.main p,.main li,.main .eq,.main table,.main .callout,.main .callout-warn,.main .exbox').forEach(e=>e.style.fontSize=(14*sc)+'px');document.querySelectorAll('.main h2').forEach(e=>e.style.fontSize=(20*sc)+'px');document.querySelectorAll('.main h3').forEach(e=>e.style.fontSize=(16*sc)+'px');document.querySelectorAll('.header h1').forEach(e=>e.style.fontSize=(28*sc)+'px');localStorage.setItem('rs_font_size',sv);}
+document.querySelectorAll('#rsPanel .rs-btn[data-rs]').forEach(b=>b.addEventListener('click',()=>{const v=b.dataset.rs;const p=b.parentElement;if(v==='light'||v==='dark'){h.setAttribute('data-theme',v);localStorage.setItem('theme',v);document.getElementById('tl').textContent=v==='dark'?'淺色模式':'深色模式';p.querySelectorAll('.rs-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');return;}if(v.startsWith('font-')){p.querySelectorAll('.rs-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');af(v);return;}if(v.startsWith('width-')){p.querySelectorAll('.rs-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');const w={'width-narrow':'780px','width-md':'1050px','width-wide':'1320px'};m.style.maxWidth=w[v]||'1050px';localStorage.setItem('rs_width',w[v]||'1050px');}}));const sf=localStorage.getItem('rs_font_size');if(sf){af(sf);document.querySelectorAll('#rsPanel .rs-btn[data-rs=\"'+sf+'\"]').forEach(b=>{const r=b.parentElement;if(r)r.querySelectorAll('.rs-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');});}const sw=localStorage.getItem('rs_width');if(sw)m.style.maxWidth=sw;})();
+</script>
+</body>
+</html>

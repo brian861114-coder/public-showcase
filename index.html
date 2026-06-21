@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Brian's Demo Showcase</title>
+<style>
+:root{
+  --bg:#F5F5F7;
+  --card-bg:#fff;
+  --tx:#1D1D1F;
+  --t2:#86868B;
+  --ac:#007AFF;
+  --bd:#D2D2D7;
+  --sh:0 2px 12px rgba(0,0,0,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Noto Sans TC','Microsoft JhengHei',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:40px 20px}
+.container{max-width:720px;width:100%}
+header{text-align:center;margin-bottom:48px}
+header h1{font-size:32px;font-weight:700;margin-bottom:8px}
+header p{font-size:16px;color:var(--t2);line-height:1.6}
+.cards{display:flex;flex-direction:column;gap:24px}
+.card{background:var(--card-bg);border-radius:16px;padding:28px 32px;box-shadow:var(--sh);border:1px solid var(--bd);transition:.2s;text-decoration:none;color:inherit;display:block}
+.card:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,0,0,.12)}
+.card .tag{display:inline-block;padding:3px 10px;font-size:11px;font-weight:600;border-radius:12px;margin-bottom:12px}
+.tag-physics{background:#E8F0FE;color:#007AFF}
+.tag-math{background:#E6F4EA;color:#34A853}
+.card h2{font-size:20px;font-weight:700;margin-bottom:8px}
+.card p{font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:12px}
+.card .meta{font-size:12px;color:var(--t2);display:flex;gap:16px}
+.card .meta span{display:flex;align-items:center;gap:4px}
+.card .arrow{float:right;font-size:18px;color:var(--ac);opacity:0;transition:.2s}
+.card:hover .arrow{opacity:1}
+footer{margin-top:64px;text-align:center;font-size:13px;color:var(--t2)}
+footer a{color:var(--ac);text-decoration:none}
+footer a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>📚 Brian's Demo Showcase</h1>
+  <p>AI 輔助製作的互動式教科書學習頁面<br>含 PDF 原版對照、MathJax 公式、互動元件</p>
+</header>
+<div class="cards">
+  <a href="ch16_waves_demo.html" class="card">
+    <span class="tag tag-physics">物理</span>
+    <span class="arrow">→</span>
+    <h2>Chapter 16 · Waves 波動</h2>
+    <p>University Physics — 機械波、波速、疊加原理、駐波、都卜勒效應。含右側 50/50 PDF 對照面板、互動頻率滑桿。</p>
+    <div class="meta">
+      <span>📄 56 頁 PDF 對照</span>
+      <span>📐 MathJax 公式</span>
+      <span>🎛️ 互動元件</span>
+    </div>
+  </a>
+  <a href="ch3_derivatives_demo.html" class="card">
+    <span class="tag tag-math">數學</span>
+    <span class="arrow">→</span>
+    <h2>Chapter 3 · Derivatives 微分</h2>
+    <p>OpenStax Calculus Vol.1 — 極限定義、微分規則、三角函數微分、鏈鎖律、隱微分。含 50/50 PDF 對照面板。</p>
+    <div class="meta">
+      <span>📄 108 頁 PDF 對照</span>
+      <span>📐 MathJax 公式</span>
+      <span>📖 詳盡推導</span>
+    </div>
+  </a>
+</div>
+<footer>
+  <p>Built with Hermes Agent · <a href="https://github.com/brian861114-coder/public-showcase">GitHub Repo</a></p>
+</footer>
+</div>
+</body>
+</html>
