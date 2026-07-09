@@ -8,6 +8,7 @@
 - `ch16_waves_demo.html`: 波動主題的長篇互動教材頁
 - `ch3_derivatives_demo.html`: 微分主題教材頁
 - `demo_all_components.html`: 元件庫與互動元件示範
+- `tokyo_trip/index.html`: 東京旅遊鐵路導覽 — 親子文化三日遊互動頁
 - `index.html`: 展示站入口頁
 
 ### 內容特徵
@@ -34,6 +35,7 @@
 - `ch16_waves_demo.html`: long-form interactive page for a waves chapter
 - `ch3_derivatives_demo.html`: calculus / derivatives teaching page
 - `demo_all_components.html`: reusable UI and interaction component showcase
+- `tokyo_trip/index.html`: Tokyo railway tour guide — 3-day family cultural trip
 - `index.html`: showcase landing page
 
 ### Content characteristics
