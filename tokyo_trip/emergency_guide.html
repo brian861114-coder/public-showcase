@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>緊急應變手冊｜日本旅遊｜河口湖→箱根→東京</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, 'PingFang TC', 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+    background: #fef2f2; color: #1a1a2e; line-height: 1.7;
+    padding: 0 0 80px;
+  }
+
+  /* ── SOS Header ── */
+  .sos-header {
+    background: #dc2626;
+    color: white; padding: 24px 20px; text-align: center;
+  }
+  .sos-header h1 { font-size: 1.3rem; margin-bottom: 2px; }
+  .sos-header .sub { font-size: 0.82rem; opacity: 0.9; }
+
+  /* ── Emergency Numbers Strip ── */
+  .emergency-strip {
+    background: #991b1b; color: white; padding: 14px 20px;
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 24px;
+  }
+  .em-num {
+    text-align: center; min-width: 100px;
+  }
+  .em-num .num {
+    font-size: 1.8rem; font-weight: 900; letter-spacing: 1px;
+    font-family: 'SF Mono', 'Consolas', 'Menlo', monospace;
+  }
+  .em-num .label { font-size: 0.72rem; opacity: 0.9; margin-top: -2px; }
+
+  main { max-width: 700px; margin: 0 auto; padding: 16px; }
+
+  /* ── Section Cards ── */
+  .section {
+    background: white; border-radius: 12px; margin-bottom: 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06); overflow: hidden;
+  }
+  .sec-header {
+    display: flex; align-items: center; padding: 14px 18px; gap: 10px;
+    cursor: pointer; user-select: none;
+  }
+  .sec-header:hover { background: #fef2f2; }
+  .sec-icon { font-size: 1.5rem; flex-shrink: 0; }
+  .sec-title { font-size: 1rem; font-weight: 700; flex: 1; }
+  .sec-toggle {
+    font-size: 0.7rem; color: #aaa; transition: transform 0.25s;
+  }
+  .section.open .sec-toggle { transform: rotate(90deg); }
+  .sec-body { display: none; padding: 0 18px 16px; }
+  .section.open .sec-body { display: block; }
+
+  /* ── Content Styles ── */
+  .step {
+    display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid #f5f5f5;
+    align-items: flex-start;
+  }
+  .step:last-child { border-bottom: none; }
+  .step-num {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: #dc2626; color: white; font-size: 0.75rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+  }
+  .step-content { flex: 1; font-size: 0.88rem; }
+  .step-content .highlight { background: #fef2f2; padding: 1px 4px; border-radius: 3px; font-weight: 600; }
+
+  .phrase-box {
+    background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px;
+    padding: 12px 14px; margin: 10px 0;
+  }
+  .phrase-row {
+    display: flex; justify-content: space-between; padding: 4px 0;
+    font-size: 0.85rem; border-bottom: 1px dotted #e8ecf1;
+  }
+  .phrase-row:last-child { border-bottom: none; }
+  .phrase-jp { font-weight: 600; }
+  .phrase-read { color: #888; font-size: 0.78rem; }
+  .phrase-zh { color: #555; }
+
+  .contact-card {
+    background: #fef2f2; border-left: 4px solid #dc2626;
+    border-radius: 0 8px 8px 0; padding: 12px 14px; margin: 10px 0;
+  }
+  .contact-card .cc-name { font-weight: 700; font-size: 0.9rem; }
+  .contact-card .cc-info { font-size: 0.82rem; color: #555; margin-top: 3px; }
+  .contact-card .cc-info a { color: #dc2626; }
+
+  .tip {
+    background: #fffbeb; border-left: 4px solid #f0a500;
+    border-radius: 0 8px 8px 0; padding: 10px 14px; margin: 10px 0;
+    font-size: 0.84rem;
+  }
+  .tip strong { color: #92400e; }
+
+  .tag {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.7rem; font-weight: 700; margin-right: 4px;
+  }
+  .tag-hotline { background: #fecaca; color: #991b1b; }
+  .tag-app { background: #dbeafe; color: #1e40af; }
+
+  /* ── Print Styles ── */
+  @media print {
+    body { background: white; padding: 0; }
+    .sos-header, .emergency-strip { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .section { box-shadow: none; break-inside: avoid; page-break-inside: avoid; }
+    .sec-body { display: block !important; }
+    .sec-toggle { display: none; }
+  }
+
+  footer { text-align: center; color: #aaa; font-size: 0.75rem; margin-top: 16px; }
+  .trip-nav { position: sticky; top: 0; z-index: 50; display: flex; justify-content: center; flex-wrap: wrap; gap: 4px 12px; padding: 8px 14px; background: rgba(255,255,255,.92); border-bottom: 1px solid #fecaca; backdrop-filter: blur(12px); }
+  .trip-nav a { color: #475569; text-decoration: none; font-size: .78rem; font-weight: 700; padding: 3px 7px; border-radius: 999px; }
+  .trip-nav a:hover, .trip-nav a[aria-current="page"] { color: #991b1b; background: #fee2e2; }
+  @media (max-width: 480px) { .trip-nav { gap: 2px 5px; padding: 6px; } .trip-nav a { font-size: .72rem; padding: 3px 5px; } }
+</style>
+</head>
+<body>
+<nav class="trip-nav" aria-label="旅程工具"><a href="trip_portal.html">入口</a><a href="index.html">鐵路</a><a href="transportation_guide.html">交通</a><a href="attractions_guide.html">景點</a><a href="packing_checklist.html">清單</a><a href="japanese_phrases.html">日語</a><a href="emergency_guide.html" aria-current="page">緊急</a></nav>
+
+<div class="sos-header">
+  <h1>🆘 緊急應變手冊</h1>
+  <div class="sub">日本旅遊 · 河口湖 → 箱根 → 東京 · 2026/7/19-7/25</div>
+</div>
+
+<div class="emergency-strip">
+  <div class="em-num">
+    <div class="num">110</div>
+    <div class="label">🚔 警察</div>
+  </div>
+  <div class="em-num">
+    <div class="num">119</div>
+    <div class="label">🚑 救護 / 消防</div>
+  </div>
+  <div class="em-num">
+    <div class="num">03-3280-7811</div>
+    <div class="label">🇹🇼 台灣駐日代表處</div>
+  </div>
+</div>
+
+<main>
+
+  <!-- 1. 緊急電話總表 -->
+  <div class="section open">
+    <div class="sec-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="sec-icon">📞</span>
+      <span class="sec-title">緊急聯絡電話</span>
+      <span class="sec-toggle">▶</span>
+    </div>
+    <div class="sec-body">
+      <div class="contact-card">
+        <div class="cc-name">🇹🇼 台北駐日經濟文化代表處</div>
+        <div class="cc-info">
+          ☎ <a href="tel:+81332807811">+81-3-3280-7811</a>（24 小時緊急專線）<br>
+          📍 東京都港區白金台 5-20-2<br>
+          🚃 最近站：白金台站（南北線/三田線）
+        </div>
+      </div>
+      <div class="contact-card">
+        <div class="cc-name">🏥 日本旅遊服務中心（多語言）</div>
+        <div class="cc-info">
+          ☎ <a href="tel:+81570000911">0570-000-911</a>（Japan Visitor Hotline，24h 英/中/韓）<br>
+          受傷、生病、自然災害等緊急狀況均可撥打
+        </div>
+      </div>
+      <div class="contact-card">
+        <div class="cc-name">💳 信用卡掛失</div>
+        <div class="cc-info">
+          VISA 全球緊急服務：<a href="tel:+81355317634">+81-3-5531-7634</a>（日本）<br>
+          Mastercard 全球緊急服務：<a href="tel:+81335953878">+81-3-3595-3878</a>
+        </div>
+      </div>
+      <table style="width:100%;font-size:0.82rem;border-collapse:collapse;margin-top:8px;">
+        <tr style="border-bottom:1px solid #eee;">
+          <td style="padding:6px 0;">🚔 警察</td>
+          <td style="font-weight:700;text-align:right;">110</td>
+        </tr>
+        <tr style="border-bottom:1px solid #eee;">
+          <td style="padding:6px 0;">🚑 救護車 / 消防</td>
+          <td style="font-weight:700;text-align:right;">119</td>
+        </tr>
+        <tr style="border-bottom:1px solid #eee;">
+          <td style="padding:6px 0;">🏥 東京英文醫療諮詢</td>
+          <td style="font-weight:700;text-align:right;">03-5285-8181</td>
+        </tr>
+        <tr style="border-bottom:1px solid #eee;">
+          <td style="padding:6px 0;">🇹🇼 急難救助專線（台灣）</td>
+          <td style="font-weight:700;text-align:right;">+886-800-085-095</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 2. 生病 / 受傷 -->
+  <div class="section open">
+    <div class="sec-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="sec-icon">🏥</span>
+      <span class="sec-title">生病・受傷怎麼辦</span>
+      <span class="sec-toggle">▶</span>
+    </div>
+    <div class="sec-body">
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <strong>撥打 <span class="highlight">119</span></strong>（免費，24 小時）。接通後說 <strong>"Kyuukyuu desu"</strong>（救護車）。
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          若不緊急，<strong>先打保險公司理賠專線</strong>，確認合作醫院名單，避免自付高額費用。
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          就診時出示<strong>護照 + 保險保單</strong>。保留所有收據、診斷書，回台後申請理賠。
+        </div>
+      </div>
+
+      <div class="tip">
+        <strong>💊 輕微不適：</strong>日本藥妝店（松本清、大國藥妝、SUNDRUG）可買成藥，藥劑師可諮詢。帶上原藥品包裝給藥劑師看更準。
+      </div>
+
+      <p style="font-size:0.85rem;font-weight:700;margin-top:12px;">🗾 各區域可對應英文的醫療機構：</p>
+
+      <p style="font-size:0.82rem;margin-top:6px;"><strong>🗼 東京：</strong></p>
+      <div class="contact-card">
+        <div class="cc-name">聖路加國際醫院（St. Luke's）</div>
+        <div class="cc-info">☎ 03-3541-5151｜中央區明石町｜英文 OK 且水準高</div>
+      </div>
+      <div class="contact-card">
+        <div class="cc-name">東京醫科大學醫院</div>
+        <div class="cc-info">☎ 03-3342-6111｜新宿區｜有國際診療部</div>
+      </div>
+
+      <p style="font-size:0.82rem;margin-top:6px;"><strong>🏔️ 河口湖地區：</strong></p>
+      <div class="contact-card">
+        <div class="cc-name">富士河口湖町立病院</div>
+        <div class="cc-info">☎ 0555-72-1130｜河口湖站開車 5 分｜英文有限，建議用翻譯 App</div>
+      </div>
+      <div class="contact-card">
+        <div class="cc-name">山梨縣立中央病院（重症後送）</div>
+        <div class="cc-info">☎ 055-253-7111｜甲府市｜距河口湖約 40 分鐘</div>
+      </div>
+
+      <p style="font-size:0.82rem;margin-top:6px;"><strong>♨️ 箱根地區：</strong></p>
+      <div class="contact-card">
+        <div class="cc-name">箱根町立病院</div>
+        <div class="cc-info">☎ 0460-83-7311｜英文基本可溝通</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. 護照遺失 / 被搶 / 被偷 -->
+  <div class="section open">
+    <div class="sec-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="sec-icon">🛂</span>
+      <span class="sec-title">護照遺失・被偷・被搶</span>
+      <span class="sec-toggle">▶</span>
+    </div>
+    <div class="sec-body">
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <strong>先報警</strong>：撥打 <span class="highlight">110</span> 或到最近的交番（派出所）。取得 <strong>「遺失屆出證明書」</strong>（lost property report），這個文件辦護照和保險理賠都要用。
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <strong>聯絡台灣駐日代表處</strong>：☎ <span class="highlight">03-3280-7811</span>，申請 <strong>「入國證明書」</strong>（臨時護照替代文件，約 1~2 工作天可取件）。需攜帶：報警證明 + 大頭照 ×2。
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <strong>信用卡被偷 → 立刻掛失</strong>：VISA <span class="highlight">+81-3-5531-7634</span> / Mastercard <span class="highlight">+81-3-3595-3878</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <strong>聯絡保險公司</strong>，確認理賠文件需求（通常需報警證明）。
+        </div>
+      </div>
+
+      <div class="tip">
+        <strong>🔑 事前預防：</strong>手機裡存護照、身分證、大頭照的掃描檔。護照和備用信用卡分開放（一個放身上，一個放飯店保險箱）。
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. 走丟 / 迷路 -->
+  <div class="section open">
+    <div class="sec-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="sec-icon">🧭</span>
+      <span class="sec-title">迷路・找不到飯店・搭錯車</span>
+      <span class="sec-toggle">▶</span>
+    </div>
+    <div class="sec-body">
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <strong>用 Google Maps</strong>（出發前已下載離線地圖！）。沒網路也能導航。若定位不準，點地圖上藍點 → 「校正指南針」。
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <strong>出示飯店名片/地址給路人或計程車司機</strong>。所有飯店地址已存好，打開手機截圖即可。
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          若真的迷路，<strong>找最近的車站站務員</strong>或便利商店店員，給他們看飯店名稱。
+        </div>
+      </div>
+
+      <p style="font-size:0.85rem;font-weight:700;margin-top:12px;">🏨 你的住宿日文地址（直接出示這頁）：</p>
+
+      <div class="phrase-box">
+        <div class="phrase-row">
+          <span class="phrase-jp">DOT HOSTEL & BAR</span>
+          <span class="phrase-zh">7/19 入住</span>
+        </div>
+        <div class="phrase-row">
+          <span class="phrase-jp" style="font-size:0.8rem;">山梨県南都留郡富士河口湖町大石1509</span>
+          <span></span>
+        </div>
+      </div>
+      <div class="phrase-box">
+        <div class="phrase-row">
+          <span class="phrase-jp">富士晴 Guest House</span>
+          <span class="phrase-zh">7/20-21 入住</span>
+        </div>
+        <div class="phrase-row">
+          <span class="phrase-jp" style="font-size:0.8rem;">山梨県南都留郡富士河口湖町河口605-1</span>
+          <span></span>
+        </div>
+      </div>
+      <div class="phrase-box">
+        <div class="phrase-row">
+          <span class="phrase-jp">UENOYAMA 上の山 Room102</span>
+          <span class="phrase-zh">7/22 入住</span>
+        </div>
+        <div class="phrase-row">
+          <span class="phrase-jp" style="font-size:0.8rem;">神奈川県足柄下郡箱根町仙石原183</span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. 地震 / 天災 -->
+  <div class="section open">
+    <div class="sec-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="sec-icon">🌊</span>
+      <span class="sec-title">地震・颱風・火山警報</span>
+      <span class="sec-toggle">▶</span>
+    </div>
+    <div class="sec-body">
+
+      <p style="font-size:0.85rem;font-weight:700;">📱 下載防災 App（出發前裝好）：</p>
+      <p style="font-size:0.82rem;margin:4px 0 10px;">
+        <span class="tag tag-app">Safety Tips</span> 日本觀光廳官方 App，多語言推播地震/海嘯/颱風警報<br>
+        <span class="tag tag-app">NHK 防災</span> 日本放送協會，即時災害新聞（日文為主）<br>
+        <span class="tag tag-app">Yahoo! 防災</span> 日本人最常用，地圖標示避難所位置
+      </p>
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <strong>收到地震警報：</strong>先蹲下、掩護頭部、抓穩。遠離窗戶和大型家具。搖晃停止後，打開電視或手機 App 看海嘯警報。
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <strong>海嘯警報：</strong>立刻往高處移動！河口湖和箱根都在山區，海拔夠高不需擔心海嘯。東京市區若在海邊（台場等）要注意。
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <strong>颱風：</strong>7 月是颱風季。收到警報後，留在飯店不要外出。便利商店會擠滿人，提前買好水和食物。
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <strong>找避難所：</strong>Google Maps 搜尋「避難所」或「 evacuation shelter」，或問飯店櫃檯最近的避難地點。
+        </div>
+      </div>
+
+      <div class="tip">
+        <strong>🗻 箱根/大湧谷火山注意：</strong>大湧谷屬於活火山區域，若火山警報提升，可能會關閉纜車和部分區域。出發前可查<a href="https://www.jma.go.jp/jma/indexe.html" target="_blank">日本氣象廳官網</a>。
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. 實用日語短句 -->
+  <div class="section open">
+    <div class="sec-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="sec-icon">🗣️</span>
+      <span class="sec-title">緊急用日語（給對方看或自己說）</span>
+      <span class="sec-toggle">▶</span>
+    </div>
+    <div class="sec-body">
+
+      <div class="phrase-box">
+        <div class="phrase-row">
+          <span class="phrase-jp">助けてください！</span>
+          <span class="phrase-read">Tasukete kudasai!</span>
+        </div>
+        <div class="phrase-row" style="color:#dc2626;font-weight:600;">
+          <span>救命！/ 幫幫我！</span>
+        </div>
+      </div>
+
+      <div class="phrase-box">
+        <div class="phrase-row">
+          <span class="phrase-jp">警察を呼んでください</span>
+          <span class="phrase-read">Keisatsu wo yonde kudasai</span>
+        </div>
+        <div class="phrase-row">
+          <span>請幫我叫警察</span>
+        </div>
+      </div>
+
+      <div class="phrase-box">
+        <div class="phrase-row">
+          <span class="phrase-jp">救急車を呼んでください</span>
+          <span class="phrase-read">Kyuukyuusha wo yonde kudasai</span>
+        </div>
+        <div class="phrase-row">
+          <span>請幫我叫救護車</span>
+        </div>
+      </div>
+
+      <div class="phrase-box">
+        <div class="phrase-row">
+          <span class="phrase-jp">病院に連れて行ってください</span>
+          <span class="phrase-read">Byouin ni tsurete itte kudasai</span>
+        </div>
+        <div class="phrase-row">
+          <span>請帶我去醫院</span>
+        </div>
+      </div>
+
+      <div class="phrase-box">
+        <div class="phrase-row">
+          <span class="phrase-jp">パスポートをなくしました</span>
+          <span class="phrase-read">Pasupooto wo nakushimashita</span>
+        </div>
+        <div class="phrase-row">
+          <span>我的護照不見了</span>
+        </div>
+      </div>
+
+      <div class="phrase-box">
+        <div class="phrase-row">
+          <span class="phrase-jp">財布を盗まれました</span>
+          <span class="phrase-read">Saifu wo nusumaremashita</span>
+        </div>
+        <div class="phrase-row">
+          <span>我的錢包被偷了</span>
+        </div>
+      </div>
+
+      <div class="phrase-box">
+        <div class="phrase-row">
+          <span class="phrase-jp">道に迷いました</span>
+          <span class="phrase-read">Michi ni mayoimashita</span>
+        </div>
+        <div class="phrase-row">
+          <span>我迷路了</span>
+        </div>
+      </div>
+
+      <div class="phrase-box">
+        <div class="phrase-row">
+          <span class="phrase-jp">中国語 / 英語を話せる人はいますか？</span>
+          <span class="phrase-read">Chuugokugo / Eigo wo hanaseru hito wa imasuka?</span>
+        </div>
+        <div class="phrase-row">
+          <span>有會說中文 / 英文的人嗎？</span>
+        </div>
+      </div>
+
+      <div class="phrase-box">
+        <div class="phrase-row">
+          <span class="phrase-jp">痛いです。ここが痛いです。</span>
+          <span class="phrase-read">Itai desu. Koko ga itai desu.</span>
+        </div>
+        <div class="phrase-row">
+          <span>很痛。這裡痛。（手指疼痛部位）</span>
+        </div>
+      </div>
+
+      <div class="tip">
+        <strong>💡 小技巧：</strong>如果真的無法溝通，打開 <strong>Google 翻譯 App</strong>（已下載日文離線包），用「對話模式」或直接打字翻譯給對方看。
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. 遺失物品 -->
+  <div class="section open">
+    <div class="sec-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="sec-icon">🔍</span>
+      <span class="sec-title">東西掉了・忘在車上</span>
+      <span class="sec-toggle">▶</span>
+    </div>
+    <div class="sec-body">
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <strong>回想最後在哪看到</strong>。日本找回遺失物的機率很高（尤其是車站和計程車）。
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <strong>車站 → 找站務室的「遺失物取扱所」</strong>。如果在電車上掉了，記下車廂號碼和時間去終點站問。
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <strong>計程車 → 記下車牌或收據上的車號</strong>，打計程車公司電話。沒記車號也能報警 110 請警察幫忙。
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <strong>一般店家/街上 → 去最近的交番（派出所）</strong>報遺失。日本有完善拾得物制度，撿到東西通常會送到派出所。
+        </div>
+      </div>
+
+      <div class="tip">
+        <strong>📱 掉了手機？</strong>用同行者的手機登入 Find My iPhone / Google Find My Device 定位。若被撿到派出所，警察會幫忙聯絡。
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. 最後手段 -->
+  <div class="section">
+    <div class="sec-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="sec-icon">🆘</span>
+      <span class="sec-title">真的完全沒辦法時 — 最後資源</span>
+      <span class="sec-toggle">▶</span>
+    </div>
+    <div class="sec-body">
+
+      <div class="contact-card">
+        <div class="cc-name">🇹🇼 外交部緊急聯絡中心（台灣 24h）</div>
+        <div class="cc-info">
+          ☎ <a href="tel:+886800085095">+886-800-085-095</a>（免付費）<br>
+          親友在台灣也可代為撥打，外交部會聯繫最近的外館協助。
+        </div>
+      </div>
+
+      <div class="contact-card">
+        <div class="cc-name">📲 LINE 官方帳號</div>
+        <div class="cc-info">
+          加入外交部領事事務局 LINE（@TaiwanMOFA），可線上求助。
+        </div>
+      </div>
+
+      <div class="contact-card">
+        <div class="cc-name">🏨 飯店櫃檯</div>
+        <div class="cc-info">
+          任何狀況，飯店櫃檯是第一求助點。他們可以幫你叫救護車、報警、翻譯、聯絡保險公司。河口湖和箱根的民宿主人也都可聯繫協助。
+        </div>
+      </div>
+
+      <div class="tip">
+        <strong>⚠️ 出發前最後確認清單：</strong><br>
+        ✓ 手機已存所有緊急電話<br>
+        ✓ 護照 + 大頭照掃描檔在手機<br>
+        ✓ 保險保單 PDF 存手機<br>
+        ✓ Google 離線地圖已下載<br>
+        ✓ Google 翻譯日文離線包已下載<br>
+        ✓ Safety Tips App 已安裝<br>
+        ✓ 備用信用卡分開放
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  緊急時優先確保人身安全 · 冷靜處理 · 需要時大方求助 🙏
+</footer>
+
+</body>
+</html>

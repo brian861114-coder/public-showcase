@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>交通完全攻略｜河口湖→箱根→東京</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, 'PingFang TC', 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+    background: #f0f4f8; color: #1a1a2e; line-height: 1.7;
+  }
+
+  .app { display: flex; min-height: 100vh; }
+  .sidebar {
+    width: 210px; flex-shrink: 0; background: #1a1a2e; color: #cbd5e1;
+    padding: 20px 0; position: sticky; top: 0; height: 100vh; overflow-y: auto;
+    font-size: 0.82rem;
+  }
+  .sidebar h3 { color: white; font-size: 0.84rem; padding: 0 16px 10px; border-bottom: 1px solid #334155; margin-bottom: 8px; }
+  .toc-item {
+    display: block; padding: 7px 16px; cursor: pointer; color: #94a3b8;
+    text-decoration: none; border-left: 3px solid transparent; transition: all 0.12s;
+  }
+  .toc-item:hover, .toc-item.active { color: white; background: #1e293b; border-left-color: #38bdf8; }
+
+  .main-area { flex: 1; min-width: 0; }
+  .topbar {
+    background: white; padding: 0 20px; display: flex; align-items: center;
+    justify-content: space-between; border-bottom: 1px solid #e8ecf1;
+    position: sticky; top: 0; z-index: 5; height: 52px;
+  }
+  .topbar h2 { font-size: 1.05rem; font-weight: 700; }
+  .tab-row { display: flex; gap: 2px; }
+  .tab-btn {
+    padding: 8px 13px; border: none; background: transparent;
+    font-size: 0.76rem; cursor: pointer; border-radius: 6px 6px 0 0;
+    white-space: nowrap; color: #888; font-weight: 500;
+    transition: all 0.12s;
+  }
+  .tab-btn:hover { color: #333; background: #f1f5f9; }
+  .tab-btn.active { color: #0f3460; background: #f0f4f8; font-weight: 700; }
+
+  .content { padding: 20px; max-width: 800px; }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* ── Cards ── */
+  .section {
+    background: white; border-radius: 10px; margin-bottom: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05); overflow: hidden;
+  }
+  .sec-header {
+    display: flex; align-items: center; padding: 12px 16px; gap: 10px;
+    cursor: pointer; user-select: none;
+  }
+  .sec-header:hover { background: #f8f9fa; }
+  .sec-icon { font-size: 1.3rem; flex-shrink: 0; }
+  .sec-info { flex: 1; }
+  .sec-title { font-size: 0.92rem; font-weight: 700; }
+  .sec-sub { font-size: 0.72rem; color: #888; }
+  .sec-toggle { font-size: 0.65rem; color: #aaa; transition: transform 0.2s; }
+  .section.open .sec-toggle { transform: rotate(90deg); }
+  .sec-body { display: none; padding: 0 16px 14px; }
+  .section.open .sec-body { display: block; }
+
+  .opt-card {
+    border: 2px solid #e8ecf1; border-radius: 10px; padding: 14px;
+    margin-bottom: 8px; position: relative;
+  }
+  .opt-card.recommend { border-color: #2d6a4f; background: #f0faf4; }
+  .opt-card.recommend::before {
+    content: '⭐ 推薦'; position: absolute; top: -10px; right: 12px;
+    background: #2d6a4f; color: white; font-size: 0.65rem; font-weight: 700;
+    padding: 2px 10px; border-radius: 10px;
+  }
+  .opt-title { font-weight: 700; font-size: 0.88rem; margin-bottom: 4px; }
+  .opt-route { font-size: 0.82rem; color: #555; margin-bottom: 6px; line-height: 1.5; }
+  .opt-meta { display: flex; gap: 14px; flex-wrap: wrap; font-size: 0.78rem; color: #888; margin-top: 4px; }
+
+  .tag {
+    display: inline-block; padding: 1px 8px; border-radius: 4px;
+    font-size: 0.7rem; font-weight: 600;
+  }
+  .tag-bus { background: #dbeafe; color: #1e40af; }
+  .tag-train { background: #fce7f3; color: #9d174d; }
+  .tag-boat { background: #cffafe; color: #155e75; }
+  .tag-rope { background: #fef3c7; color: #92400e; }
+
+  .tip {
+    background: #fffbeb; border-left: 4px solid #f0a500;
+    border-radius: 0 8px 8px 0; padding: 10px 14px; margin: 10px 0;
+    font-size: 0.82rem; line-height: 1.6;
+  }
+  .tip strong { color: #92400e; }
+  .note { font-size: 0.74rem; color: #999; margin-top: 6px; font-style: italic; }
+
+  /* ── Tables ── */
+  .tbl { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin: 8px 0; }
+  .tbl th { background: #f1f5f9; padding: 8px 10px; text-align: left; font-weight: 600; border-bottom: 2px solid #cbd5e1; }
+  .tbl td { padding: 8px 10px; border-bottom: 1px solid #e8ecf1; }
+  .tbl .yes { color: #2d6a4f; font-weight: 700; }
+  .tbl .no { color: #e94560; font-weight: 700; }
+  .tbl .na { color: #aaa; }
+
+  /* ── Calculator ── */
+  .calc-section { margin-bottom: 16px; }
+  .calc-section h4 {
+    font-size: 0.88rem; font-weight: 700; margin-bottom: 6px; padding: 4px 0;
+    border-bottom: 2px solid #e8ecf1;
+  }
+  .calc-row {
+    display: flex; align-items: center; padding: 7px 0; border-bottom: 1px solid #f5f5f5;
+    gap: 10px; font-size: 0.84rem;
+  }
+  .calc-row input[type="checkbox"] {
+    appearance: none; -webkit-appearance: none;
+    width: 18px; height: 18px; border: 2px solid #ccc; border-radius: 4px;
+    flex-shrink: 0; cursor: pointer; position: relative;
+  }
+  .calc-row input[type="checkbox"]:checked { background: #2d6a4f; border-color: #2d6a4f; }
+  .calc-row input[type="checkbox"]:checked::after {
+    content: ''; position: absolute; left: 5px; top: 2px;
+    width: 4px; height: 8px; border: solid white; border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+  .calc-name { flex: 1; }
+  .calc-price { font-weight: 600; min-width: 70px; text-align: right; }
+  .calc-covered {
+    font-size: 0.65rem; padding: 1px 6px; border-radius: 8px;
+    font-weight: 600; min-width: 56px; text-align: center;
+  }
+  .cov-fuji { background: #dcfce7; color: #166534; }
+  .cov-hakone { background: #fef3c7; color: #92400e; }
+  .cov-none { background: #f1f5f9; color: #94a3b8; }
+
+  .calc-total {
+    background: #f0faf4; border: 2px solid #2d6a4f; border-radius: 10px;
+    padding: 14px 16px; margin-top: 16px;
+  }
+  .calc-total .ct-row {
+    display: flex; justify-content: space-between; padding: 3px 0; font-size: 0.85rem;
+  }
+  .calc-total .ct-row.big {
+    font-size: 1.05rem; font-weight: 700; border-top: 1px solid #d1e7d6;
+    margin-top: 6px; padding-top: 8px;
+  }
+  .calc-total .ct-save { color: #2d6a4f; font-weight: 700; }
+
+  /* ── Etiquette ── */
+  .eti-row {
+    display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid #f0f0f0;
+    align-items: flex-start; font-size: 0.84rem;
+  }
+  .eti-row:last-child { border-bottom: none; }
+  .eti-row .et-icon { font-size: 1.2rem; flex-shrink: 0; width: 30px; text-align: center; }
+  .eti-row .et-content { flex: 1; }
+  .eti-row .et-content strong { display: block; margin-bottom: 1px; }
+  .eti-row .et-content span { font-size: 0.78rem; color: #666; line-height: 1.5; }
+  .eti-row.bad { background: #fef2f2; margin: 0 -4px; padding: 8px 4px; border-radius: 6px; }
+  .eti-row.bad .et-content strong { color: #dc2626; }
+  .eti-label {
+    font-size: 0.85rem; font-weight: 700; margin: 14px 0 6px;
+    padding: 4px 0; border-bottom: 2px solid #e8ecf1;
+  }
+
+  .pass-icon {
+    display: inline-block; font-size: 0.75rem; margin-left: 4px;
+    font-weight: 600;
+  }
+  .pi-f { color: #166534; }
+  .pi-h { color: #92400e; }
+
+  @media (max-width: 700px) {
+    .sidebar { display: none; }
+    .tab-btn { padding: 6px 9px; font-size: 0.7rem; }
+  }
+  .trip-nav { position: sticky; top: 0; z-index: 50; display: flex; justify-content: center; flex-wrap: wrap; gap: 4px 12px; padding: 8px 14px; background: rgba(255,255,255,.92); border-bottom: 1px solid #dbe5ea; backdrop-filter: blur(12px); }
+  .trip-nav a { color: #475569; text-decoration: none; font-size: .78rem; font-weight: 700; padding: 3px 7px; border-radius: 999px; }
+  .trip-nav a:hover, .trip-nav a[aria-current="page"] { color: #0f3460; background: #dbeafe; }
+  @media (max-width: 480px) { .trip-nav { gap: 2px 5px; padding: 6px; } .trip-nav a { font-size: .72rem; padding: 3px 5px; } }
+</style>
+</head>
+<body>
+<nav class="trip-nav" aria-label="旅程工具"><a href="trip_portal.html">入口</a><a href="index.html">鐵路</a><a href="transportation_guide.html" aria-current="page">交通</a><a href="attractions_guide.html">景點</a><a href="packing_checklist.html">清單</a><a href="japanese_phrases.html">日語</a><a href="emergency_guide.html">緊急</a></nav>
+
+<div class="app">
+
+<!-- ══════ SIDEBAR ══════ -->
+<nav class="sidebar" id="sidebar"><h3>📋 目錄</h3></nav>
+
+<!-- ══════ MAIN ══════ -->
+<div class="main-area">
+
+<div class="topbar">
+  <h2 id="pageTitle">🚅 城際交通</h2>
+  <div class="tab-row">
+    <button class="tab-btn active" onclick="switchTab('intercity')">🚅 城際交通</button>
+    <button class="tab-btn" onclick="switchTab('local')">🎫 區域交通與門票</button>
+    <button class="tab-btn" onclick="switchTab('calc')">💰 CP 值比較</button>
+    <button class="tab-btn" onclick="switchTab('etiquette')">🙇 交通禮儀</button>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ═══════════════ TAB 1: 城際交通 ═══════════════ -->
+<div class="tab-content active" id="tab-intercity">
+
+  <div class="section open" id="sec-city-a">
+    <div class="sec-header" onclick="toggleSection(this)">
+      <span class="sec-icon">🛬</span>
+      <div class="sec-info"><div class="sec-title">羽田機場 → 河口湖</div><div class="sec-sub">7/19（日）04:25 抵達 · 約 2.5~3 小時</div></div>
+      <span class="sec-toggle">▼</span>
+    </div>
+    <div class="sec-body">
+      <div class="opt-card recommend">
+        <div class="opt-title">🚌 經新宿高速巴士（推薦）</div>
+        <div class="opt-route">羽田 →（京急線＋JR，約 50~60 分）→ 新宿巴士總站 →（高速巴士，約 2h）→ 河口湖站</div>
+        <div class="opt-meta"><span>⏱ 約 3.5~4h</span><span>💴 依實際班次</span><span class="tag tag-bus">巴士</span></div>
+      </div>
+      <div class="opt-card">
+        <div class="opt-title">🚃 全程電車</div>
+        <div class="opt-route">羽田 → 品川 → 新宿 →（JR中央線特急 70 分）→ 大月 →（富士急行線 55 分）→ 河口湖</div>
+        <div class="opt-meta"><span>⏱ 約 3h</span><span>💴 ¥4,000~5,000</span><span class="tag tag-train">電車</span></div>
+      </div>
+      <div class="tip"><strong>💡 當日建議：</strong>04:25 抵達後先完成入境、領行李與購卡；再以當日首班可接上的新宿高速巴士為準。羽田到新宿通常不只 30 分鐘，且 7 月週末巴士易滿，請先網路預約；若接不上，可改走電車經大月。</div>
+    </div>
+  </div>
+
+  <div class="section open" id="sec-city-b">
+    <div class="sec-header" onclick="toggleSection(this)">
+      <span class="sec-icon">🚏</span>
+      <div class="sec-info"><div class="sec-title">河口湖 → 箱根</div><div class="sec-sub">7/22（三）退房後移動 · 約 2.5 小時</div></div>
+      <span class="sec-toggle">▼</span>
+    </div>
+    <div class="sec-body">
+      <div class="opt-card recommend">
+        <div class="opt-title">🚌 巴士經御殿場（推薦）</div>
+        <div class="opt-route">河口湖站 →（富士急巴士）→ 御殿場站／御殿場アウトレット →（箱根登山巴士）→ 仙石原</div>
+        <div class="opt-meta"><span>⏱ 約 2~3h</span><span>💴 依轉乘與班次</span><span class="tag tag-bus">巴士</span></div>
+      </div>
+      <div class="note">※ 住宿在仙石原，不必先繞去箱根湯本。另有河口湖→桃源台的季節／指定日路線，是否行駛與可否預約請出發前確認；本段巴士班距較長，建議預留轉乘緩衝。</div>
+    </div>
+  </div>
+
+  <div class="section open" id="sec-city-c">
+    <div class="sec-header" onclick="toggleSection(this)">
+      <span class="sec-icon">🚅</span>
+      <div class="sec-info"><div class="sec-title">箱根 → 東京</div><div class="sec-sub">7/23（四）· 約 1.5~2.5 小時</div></div>
+      <span class="sec-toggle">▼</span>
+    </div>
+    <div class="sec-body">
+      <div class="opt-card recommend">
+        <div class="opt-title">🚅 小田急浪漫特快（推薦）</div>
+        <div class="opt-route">仙石原 →（巴士）→ 箱根湯本 → 新宿（浪漫特快）</div>
+        <div class="opt-meta"><span>⏱ 湯本→新宿約 85 分＋前段巴士</span><span>💴 另加巴士與特急費</span><span class="tag tag-train">特急</span></div>
+      </div>
+      <div class="opt-card">
+        <div class="opt-title">🚃 JR 經小田原</div>
+        <div class="opt-route">箱根湯本 → 小田原（登山電車 15 分）→ 東京站（JR 70 分）</div>
+        <div class="opt-meta"><span>⏱ 約 1.5h</span><span>💴 ¥1,500~2,000</span><span class="tag tag-train">JR</span></div>
+      </div>
+      <div class="opt-card">
+        <div class="opt-title">🚌 高速巴士</div>
+        <div class="opt-route">箱根 → 新宿 / 東京站</div>
+        <div class="opt-meta"><span>⏱ 2~2.5h</span><span>💴 ¥2,000~2,500</span><span class="tag tag-bus">巴士</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section open" id="sec-city-d">
+    <div class="sec-header" onclick="toggleSection(this)">
+      <span class="sec-icon">🛫</span>
+      <div class="sec-info"><div class="sec-title">東京 → 成田機場</div><div class="sec-sub">7/25（六）13:30 起飛 · 最晚 11:00 到機場</div></div>
+      <span class="sec-toggle">▼</span>
+    </div>
+    <div class="sec-body">
+      <div class="opt-card recommend">
+        <div class="opt-title">🚅 Skyliner（推薦）</div>
+        <div class="opt-route">上野 / 日暮里 → 成田機場 T2</div>
+        <div class="opt-meta"><span>⏱ 約 36~45 分</span><span>💴 ¥2,465（IC）／¥2,470（車票）</span><span class="tag tag-train">特急</span></div>
+      </div>
+      <div class="opt-card">
+        <div class="opt-title">🚃 N'EX 成田特快</div>
+        <div class="opt-route">東京 / 新宿 / 品川 → 成田機場</div>
+        <div class="opt-meta"><span>⏱ 60 分</span><span>💴 ¥3,070</span><span class="tag tag-train">JR</span></div>
+      </div>
+      <div class="opt-card">
+        <div class="opt-title">🚃 京成 Access Express（省錢）</div>
+        <div class="opt-route">上野／日暮里／淺草線沿線 → 成田機場 T2</div>
+        <div class="opt-meta"><span>⏱ 約 1 小時上下</span><span>💴 上野／日暮里 IC ¥1,235</span><span class="tag tag-train">免特急費</span></div>
+      </div>
+      <div class="tip"><strong>⏰ 時間回推：</strong>13:30 起飛建議 10:30~11:00 抵達 T2（仍以航空公司報到截止時間為準）。住上野／日暮里時，Skyliner 最省心；請在前一天用官方時刻表確認班次與航廈。</div>
+    </div>
+  </div>
+
+  <div class="section open" id="sec-city-e">
+    <div class="sec-header" onclick="toggleSection(this)">
+      <span class="sec-icon">🚇</span>
+      <div class="sec-info"><div class="sec-title">東京市內交通</div><div class="sec-sub">7/23~7/25 · JR山手線＋地鐵＋步行 · Suica 萬用</div></div>
+      <span class="sec-toggle">▼</span>
+    </div>
+    <div class="sec-body">
+      <table class="tbl">
+        <tr><th>系統</th><th>涵蓋</th><th>票價</th><th>備註</th></tr>
+        <tr><td><strong>JR 山手線</strong></td><td>環狀：東京、新宿、上野、品川、澀谷</td><td>¥150~260</td><td>觀光客最常用，Suica 直接刷</td></tr>
+        <tr><td><strong>東京メトロ</strong></td><td>9 條線，市中心為主</td><td>依距離計費</td><td>Tokyo Subway Ticket 24 小時 ¥800</td></tr>
+        <tr><td><strong>都營地鐵</strong></td><td>4 條線（淺草線、大江戶線等）</td><td>¥180~430</td><td>與メトロ共通用一日券 ¥900</td></tr>
+      </table>
+      <div class="tip">
+        <strong>🎫 東京地鐵券（Tokyo Subway Ticket）：</strong>24h ¥800 / 48h ¥1,200 / 72h ¥1,500。<br>
+        涵蓋東京メトロ＋都營地鐵全線，不含 JR；是否划算取決於當日路線與票種購買資格，出發前請以官方販售通路為準。
+      </div>
+      <div class="note">※ Brian 只有 2 天在東京市區移動，直接用 Suica 最簡單，粗估 2 天 ¥1,000~2,000。</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════ TAB 2: 區域交通與門票 ═══════════════ -->
+<div class="tab-content" id="tab-local">
+
+  <div class="section open" id="sec-local-a">
+    <div class="sec-header" onclick="toggleSection(this)">
+      <span class="sec-icon">🚌</span>
+      <div class="sec-info"><div class="sec-title">河口湖內交通</div><div class="sec-sub">7/19~7/22 · 周遊巴士＋單車＋步行</div></div>
+      <span class="sec-toggle">▼</span>
+    </div>
+    <div class="sec-body">
+      <table class="tbl">
+        <tr><th>工具</th><th>票價</th><th>說明</th></tr>
+        <tr><td><strong>河口湖周遊巴士</strong><br><span style="font-size:0.7rem;color:#888">Red / Green / Blue Line</span></td><td>一日 ¥1,500<br>二日 ¥2,000</td><td>三線涵蓋河口湖、西湖、精進湖、本栖湖。DOT HOSTEL 在 Red Line「大石公園」站。</td></tr>
+        <tr><td><strong>單車租賃</strong></td><td>¥1,000~1,500/天</td><td>DOT HOSTEL 提供。環湖一圈約 20km、2 小時。</td></tr>
+        <tr><td>步行</td><td>免費</td><td>大石公園一帶步行可達。</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section open" id="sec-local-b">
+    <div class="sec-header" onclick="toggleSection(this)">
+      <span class="sec-icon">🎟️</span>
+      <div class="sec-info"><div class="sec-title">河口湖景點門票</div><div class="sec-sub">自然景觀與人文古蹟類為主</div></div>
+      <span class="sec-toggle">▼</span>
+    </div>
+    <div class="sec-body">
+      <table class="tbl">
+        <tr><th>景點</th><th>門票</th><th>交通</th><th>周遊券優惠</th></tr>
+        <tr><td>大石公園</td><td>🆓 免費</td><td>Red Line 步行</td><td class="na">—</td></tr>
+        <tr><td>天上山公園纜車</td><td>¥1,000</td><td>河口湖站步行 10 分</td><td class="na">—</td></tr>
+        <tr><td>新倉山淺間公園</td><td>🆓 免費</td><td>富士急行線 下吉田站</td><td class="na">—</td></tr>
+        <tr><td>北口本宮淺間神社</td><td>🆓 免費</td><td>富士山站步行 5 分</td><td class="na">—</td></tr>
+        <tr><td>河口湖音樂森林</td><td>¥2,100</td><td>Red Line 巴士 15 分</td><td class="na">—</td></tr>
+        <tr><td>富岳風穴</td><td>¥400</td><td>Green Line 30 分</td><td class="na">—</td></tr>
+        <tr><td>鳴澤冰穴</td><td>¥400</td><td>Green Line 30 分</td><td class="na">—</td></tr>
+        <tr><td>西湖療癒之里根場</td><td>¥500</td><td>Green Line 20 分</td><td class="na">—</td></tr>
+        <tr><td>忍野八海</td><td>🆓 免費</td><td>巴士 25 分</td><td class="na">—</td></tr>
+        <tr><td>富士山五合目</td><td>🆓 免費</td><td>巴士 50 分 ¥1,780</td><td class="na">—</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section open" id="sec-local-c">
+    <div class="sec-header" onclick="toggleSection(this)">
+      <span class="sec-icon">🎫</span>
+      <div class="sec-info"><div class="sec-title">箱根周遊券（Hakone Freepass）涵蓋項目</div><div class="sec-sub">2 日 ¥6,000 起（2025/10 起；依發站）</div></div>
+      <span class="sec-toggle">▼</span>
+    </div>
+    <div class="sec-body">
+      <p style="font-size:0.84rem;margin-bottom:8px;">以下交通全部<span style="color:#2d6a4f;font-weight:700;">無限次搭乘</span>，部分景點門票有折扣：</p>
+      <table class="tbl">
+        <tr><th>交通 / 景點</th><th>原價</th><th>周遊券</th></tr>
+        <tr><td>🚃 箱根登山電車（湯本→強羅）</td><td>¥460</td><td class="yes">✅ 免費</td></tr>
+        <tr><td>🚞 箱根登山纜車（強羅→早雲山）</td><td>¥450</td><td class="yes">✅ 免費</td></tr>
+        <tr><td>🚡 箱根空中纜車（早雲山→桃源台）</td><td>¥1,550</td><td class="yes">✅ 免費</td></tr>
+        <tr><td>🏴‍☠️ 蘆之湖海賊船（桃源台→箱根町）</td><td>¥1,200</td><td class="yes">✅ 免費</td></tr>
+        <tr><td>🚌 箱根登山巴士（全區）</td><td>各路線</td><td class="yes">✅ 免費</td></tr>
+        <tr style="background:#fdf8f0;"><td colspan="3" style="font-weight:700;font-size:0.8rem;">🎟️ 景點折扣（出示周遊券）</td></tr>
+        <tr><td>強羅公園</td><td>¥650</td><td class="yes">✅ 免費</td></tr>
+        <tr><td>箱根美術館</td><td>¥1,300</td><td>¥1,100</td></tr>
+        <tr><td>波拉美術館</td><td>¥1,800</td><td>¥1,600</td></tr>
+        <tr><td>威尼斯玻璃美術館</td><td>¥1,500</td><td>¥1,300</td></tr>
+        <tr><td>箱根關所</td><td>¥500</td><td>¥400</td></tr>
+      </table>
+      <div class="tip"><strong>🧮 評估方式：</strong>周遊券 2 日目前為 <strong>¥6,000 起</strong>（發站不同、浪漫特快另計）。若會搭完整黃金路線、仙石原巴士與多次區內交通，便利性通常很高；僅跑一兩段時，先以官方票價逐段比較。</div>
+    </div>
+  </div>
+
+  <div class="section open" id="sec-local-d">
+    <div class="sec-header" onclick="toggleSection(this)">
+      <span class="sec-icon">🎟️</span>
+      <div class="sec-info"><div class="sec-title">箱根其他景點門票</div><div class="sec-sub">自然景觀與人文古蹟類為主</div></div>
+      <span class="sec-toggle">▼</span>
+    </div>
+    <div class="sec-body">
+      <table class="tbl">
+        <tr><th>景點</th><th>門票</th><th>周遊券折扣</th></tr>
+        <tr><td>大湧谷</td><td>🆓 免費</td><td class="na">—</td></tr>
+        <tr><td>仙石原芒草原</td><td>🆓 免費</td><td class="na">—</td></tr>
+        <tr><td>箱根神社（水上鳥居）</td><td>🆓 免費</td><td class="na">—</td></tr>
+        <tr><td>舊東海道石畳</td><td>🆓 免費</td><td class="na">—</td></tr>
+        <tr><td>箱根關所</td><td>¥500</td><td>¥400</td></tr>
+        <tr><td>強羅公園</td><td>¥650</td><td class="yes">✅ 免費</td></tr>
+        <tr><td>箱根美術館</td><td>¥1,300</td><td>¥1,100</td></tr>
+        <tr><td>波拉美術館</td><td>¥1,800</td><td>¥1,600</td></tr>
+        <tr><td>拉利克美術館</td><td>¥1,500</td><td class="na">無</td></tr>
+        <tr><td>威尼斯玻璃美術館</td><td>¥1,500</td><td>¥1,300</td></tr>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════ TAB 3: CP 值比較 ═══════════════ -->
+<div class="tab-content" id="tab-calc">
+
+  <p style="font-size:0.85rem;color:#555;margin-bottom:14px;">
+    勾選你預計會使用的服務，自動計算總花費，並與購買周遊券做比較。
+  </p>
+
+  <!-- 城際交通 -->
+  <div class="calc-section">
+    <h4>🚅 城際交通</h4>
+    <div class="calc-row"><input type="checkbox" data-price="2500" data-group="intercity" id="c1"><label class="calc-name" for="c1">羽田 → 河口湖（巴士經新宿）</label><span class="calc-price">¥2,500</span><span class="calc-covered cov-none">—</span></div>
+    <div class="calc-row"><input type="checkbox" data-price="2500" data-group="intercity" id="c2"><label class="calc-name" for="c2">河口湖 → 箱根（巴士經御殿場）</label><span class="calc-price">¥2,500</span><span class="calc-covered cov-none">—</span></div>
+    <div class="calc-row"><input type="checkbox" data-price="2330" data-group="intercity" id="c3"><label class="calc-name" for="c3">箱根 → 東京（浪漫特快）</label><span class="calc-price">¥2,330</span><span class="calc-covered cov-none">—</span></div>
+    <div class="calc-row"><input type="checkbox" data-price="2570" data-group="intercity" id="c4"><label class="calc-name" for="c4">東京 → 成田（Skyliner）</label><span class="calc-price">¥2,570</span><span class="calc-covered cov-none">—</span></div>
+  </div>
+
+  <!-- 河口湖內 -->
+  <div class="calc-section">
+    <h4>🏔️ 河口湖內交通與門票</h4>
+    <div class="calc-row"><input type="checkbox" data-price="3000" data-group="fuji" id="f1"><label class="calc-name" for="f1">河口湖周遊巴士（1 日券 ×2）</label><span class="calc-price">¥3,000</span><span class="calc-covered cov-fuji">🗻 周遊券</span></div>
+    <div class="calc-row"><input type="checkbox" data-price="1000" data-group="fuji" id="f2"><label class="calc-name" for="f2">天上山公園纜車</label><span class="calc-price">¥1,000</span><span class="calc-covered cov-none">—</span></div>
+    <div class="calc-row"><input type="checkbox" data-price="2100" data-group="fuji" id="f3"><label class="calc-name" for="f3">河口湖音樂森林</label><span class="calc-price">¥2,100</span><span class="calc-covered cov-none">—</span></div>
+    <div class="calc-row"><input type="checkbox" data-price="400" data-group="fuji" id="f4"><label class="calc-name" for="f4">富岳風穴</label><span class="calc-price">¥400</span><span class="calc-covered cov-none">—</span></div>
+    <div class="calc-row"><input type="checkbox" data-price="400" data-group="fuji" id="f5"><label class="calc-name" for="f5">鳴澤冰穴</label><span class="calc-price">¥400</span><span class="calc-covered cov-none">—</span></div>
+    <div class="calc-row"><input type="checkbox" data-price="500" data-group="fuji" id="f6"><label class="calc-name" for="f6">西湖療癒之里根場</label><span class="calc-price">¥500</span><span class="calc-covered cov-none">—</span></div>
+    <div class="calc-row"><input type="checkbox" data-price="1780" data-group="fuji" id="f7"><label class="calc-name" for="f7">富士五合目（來回巴士）</label><span class="calc-price">¥1,780</span><span class="calc-covered cov-none">—</span></div>
+  </div>
+
+  <!-- 箱根交通 -->
+  <div class="calc-section">
+    <h4>♨️ 箱根交通（若不買周遊券，單買價）</h4>
+    <div class="calc-row"><input type="checkbox" data-price="460" data-group="hakone" id="h1"><label class="calc-name" for="h1">登山電車（湯本→強羅）</label><span class="calc-price">¥460</span><span class="calc-covered cov-hakone">♨️ Freepass</span></div>
+    <div class="calc-row"><input type="checkbox" data-price="450" data-group="hakone" id="h2"><label class="calc-name" for="h2">登山纜車（強羅→早雲山）</label><span class="calc-price">¥450</span><span class="calc-covered cov-hakone">♨️ Freepass</span></div>
+    <div class="calc-row"><input type="checkbox" data-price="1550" data-group="hakone" id="h3"><label class="calc-name" for="h3">空中纜車（早雲山→桃源台）</label><span class="calc-price">¥1,550</span><span class="calc-covered cov-hakone">♨️ Freepass</span></div>
+    <div class="calc-row"><input type="checkbox" data-price="1200" data-group="hakone" id="h4"><label class="calc-name" for="h4">海賊船（桃源台→箱根町）</label><span class="calc-price">¥1,200</span><span class="calc-covered cov-hakone">♨️ Freepass</span></div>
+    <div class="calc-row"><input type="checkbox" data-price="1000" data-group="hakone" id="h5"><label class="calc-name" for="h5">箱根登山巴士（預估 2 日約 ¥1,000）</label><span class="calc-price">¥1,000</span><span class="calc-covered cov-hakone">♨️ Freepass</span></div>
+  </div>
+
+  <!-- 箱根景點 -->
+  <div class="calc-section">
+    <h4>♨️ 箱根景點門票</h4>
+    <div class="calc-row"><input type="checkbox" data-price="650" data-group="hakone-spot" id="hs1"><label class="calc-name" for="hs1">強羅公園</label><span class="calc-price">¥650</span><span class="calc-covered cov-hakone">♨️ Freepass 免費</span></div>
+    <div class="calc-row"><input type="checkbox" data-price="1300" data-group="hakone-spot" id="hs2"><label class="calc-name" for="hs2">箱根美術館</label><span class="calc-price">¥1,300</span><span class="calc-covered cov-hakone">♨️ 折扣 ¥1,100</span></div>
+    <div class="calc-row"><input type="checkbox" data-price="1800" data-group="hakone-spot" id="hs3"><label class="calc-name" for="hs3">波拉美術館</label><span class="calc-price">¥1,800</span><span class="calc-covered cov-hakone">♨️ 折扣 ¥1,600</span></div>
+    <div class="calc-row"><input type="checkbox" data-price="1500" data-group="hakone-spot" id="hs4"><label class="calc-name" for="hs4">拉利克美術館</label><span class="calc-price">¥1,500</span><span class="calc-covered cov-none">—</span></div>
+    <div class="calc-row"><input type="checkbox" data-price="1500" data-group="hakone-spot" id="hs5"><label class="calc-name" for="hs5">威尼斯玻璃美術館</label><span class="calc-price">¥1,500</span><span class="calc-covered cov-hakone">♨️ 折扣 ¥1,300</span></div>
+    <div class="calc-row"><input type="checkbox" data-price="500" data-group="hakone-spot" id="hs6"><label class="calc-name" for="hs6">箱根關所</label><span class="calc-price">¥500</span><span class="calc-covered cov-hakone">♨️ 折扣 ¥400</span></div>
+  </div>
+
+  <!-- 周遊券價格基準 -->
+  <div style="font-size:0.82rem;color:#888;margin:12px 0;">
+    比較基準：河口湖二日券 <strong>¥2,000</strong>；箱根周遊券為 <strong>¥6,000 起</strong>（依發站、浪漫特快另計）。此試算只作粗估，請以官方票價為準。
+  </div>
+
+  <div class="calc-total" id="calcResult">
+    <div class="ct-row"><span>單買城際交通</span><span id="sum-intercity">¥0</span></div>
+    <div class="ct-row"><span>單買河口湖交通＋門票</span><span id="sum-fuji">¥0</span></div>
+    <div class="ct-row"><span>單買箱根交通（不買周遊券）</span><span id="sum-hakone">¥0</span></div>
+    <div class="ct-row"><span>單買箱根景點</span><span id="sum-hspots">¥0</span></div>
+    <div class="ct-row big"><span>💰 全部單買總計</span><span id="sum-all">¥0</span></div>
+    <div class="ct-row" style="margin-top:8px;color:#888;"><span>若改買箱根周遊券（¥6,000 起）</span><span id="sum-pass">¥6,000</span></div>
+    <div class="ct-row big"><span id="verdict-label">📊 差額</span><span id="verdict" class="ct-save">¥0</span></div>
+  </div>
+
+  <div class="tip" style="margin-top:10px;">
+    <strong>📌 使用提示：</strong>先勾選你確定會去的項目，再比較底部「單買總計」vs「周遊券 ¥7,400」。若單買較貴 → 買周遊券；若較便宜 → 單買即可。
+  </div>
+
+</div>
+
+<!-- ═══════════════ TAB 4: 交通禮儀 ═══════════════ -->
+<div class="tab-content" id="tab-etiquette">
+
+  <div class="eti-label" style="color:#0f3460;">🚃 電車 / 地鐵篇</div>
+  <div class="eti-row good"><div class="et-icon">🤫</div><div class="et-content"><strong>手機靜音、禁止通話</strong><span>電車上嚴禁講電話。手機設靜音（マナーモード），連耳機通話也不行。</span></div></div>
+  <div class="eti-row good"><div class="et-icon">🎒</div><div class="et-content"><strong>後背包要「前背」或放架上</strong><span>擁擠車廂後背包佔兩人空間非常失禮。拿下提在手中或背在胸前。</span></div></div>
+  <div class="eti-row good"><div class="et-icon">🧍</div><div class="et-content"><strong>先下後上、排隊等車</strong><span>月台有 ○ 或 △ 排隊記號。站門邊兩側等乘客下完再上車。</span></div></div>
+  <div class="eti-row good"><div class="et-icon">💺</div><div class="et-content"><strong>優先席讓座＋關手機</strong><span>優先席附近手機要<strong>關機</strong>（不是靜音），因電磁波可能影響心律調節器。</span></div></div>
+  <div class="eti-row bad"><div class="et-icon">🍔</div><div class="et-content"><strong>短程電車/地鐵勿飲食</strong><span>例外：新幹線和特急列車（浪漫特快、Skyliner）可在座位吃駅弁。</span></div></div>
+  <div class="eti-row bad"><div class="et-icon">🔊</div><div class="et-content"><strong>耳機勿漏音、勿喧嘩</strong><span>日本電車極度安靜。交談輕聲細語。</span></div></div>
+  <div class="eti-row good"><div class="et-icon">🚺</div><div class="et-content"><strong>女性專用車廂</strong><span>通勤時段部分路線有粉紅標示的女性專用車廂，男性勿進入。</span></div></div>
+
+  <div class="eti-label" style="color:#2d6a4f;">🚌 巴士篇</div>
+  <div class="eti-row good"><div class="et-icon">🚏</div><div class="et-content"><strong>後門上車、前門下車付款</strong><span>上車抽整理券，下車依號碼付費。Suica 上下車各刷一次。</span></div></div>
+  <div class="eti-row good"><div class="et-icon">💴</div><div class="et-content"><strong>準備零錢 / IC 卡</strong><span>車上有換零錢機，但不收 ¥5,000 / ¥10,000 鈔票。</span></div></div>
+  <div class="eti-row bad"><div class="et-icon">📞</div><div class="et-content"><strong>巴士上禁止通話</strong><span>高速巴士尤其嚴格，通話請到休息站。</span></div></div>
+
+  <div class="eti-label" style="color:#b8860b;">🚅 新幹線 / 特急篇</div>
+  <div class="eti-row good"><div class="et-icon">🎫</div><div class="et-content"><strong>特急券＋乗車券，兩張都要</strong><span>改札口兩張疊在一起放入。</span></div></div>
+  <div class="eti-row good"><div class="et-icon">🪑</div><div class="et-content"><strong>指定席 vs 自由席</strong><span>指定席對號入座；自由席任選空位。上錯車廂會被請離。</span></div></div>
+  <div class="eti-row good"><div class="et-icon">🍱</div><div class="et-content"><strong>可飲食，吃駅弁</strong><span>特急上吃駅弁是日本鐵道文化。吃完垃圾自行帶走。</span></div></div>
+
+  <div class="eti-label" style="color:#1a1a2e;">🇯🇵 通用禮儀</div>
+  <div class="eti-row good"><div class="et-icon">👈</div><div class="et-content"><strong>手扶梯站左側</strong><span>東京習慣站左、右側通行。不確定就看前面的人站哪邊。</span></div></div>
+  <div class="eti-row good"><div class="et-icon">🚮</div><div class="et-content"><strong>垃圾自己帶走</strong><span>街上和車站垃圾桶極少。包裝和飲料罐帶回飯店丟。</span></div></div>
+  <div class="eti-row bad"><div class="et-icon">💄</div><div class="et-content"><strong>勿在車上化妝</strong><span>化妝被視為私密行為，公共場合（尤其電車上）被視為不禮貌。</span></div></div>
+  <div class="eti-row good"><div class="et-icon">🕐</div><div class="et-content"><strong>準時！以秒運行</strong><span>提早到月台，不要壓線衝門。</span></div></div>
+
+  <div class="eti-label" style="color:#0f3460;">💳 Suica 技巧</div>
+  <div class="eti-row good"><div class="et-icon">📱</div><div class="et-content"><strong>iPhone 直接加 Suica</strong><span>錢包 App → + → 交通卡 → Suica。Apple Pay 加值。</span></div></div>
+  <div class="eti-row good"><div class="et-icon">🏪</div><div class="et-content"><strong>超商/販賣機/寄物櫃通用</strong><span>不只是交通卡，還可在便利商店、販賣機、置物櫃付款。</span></div></div>
+  <div class="eti-row good"><div class="et-icon">⚠️</div><div class="et-content"><strong>進出站都要感應</strong><span>忘記出站感應下次無法進站，需站務員解鎖。</span></div></div>
+
+  <div class="tip" style="margin-top:12px;"><strong>🗾 黃金三原則：</strong>① 安靜 ② 整潔 ③ 有序</div>
+
+</div>
+
+</div><!-- .content -->
+</div><!-- .main-area -->
+</div><!-- .app -->
+
+<script>
+// ── Tab switching ──
+const titles = {
+  intercity: '🚅 城際交通',
+  local: '🎫 區域交通與門票',
+  calc: '💰 CP 值比較',
+  etiquette: '🙇 交通禮儀'
+};
+const tocs = {
+  intercity: [
+    {id:'sec-city-a', label:'羽田 → 河口湖'},
+    {id:'sec-city-b', label:'河口湖 → 箱根'},
+    {id:'sec-city-c', label:'箱根 → 東京'},
+    {id:'sec-city-d', label:'東京 → 成田'},
+  ],
+  local: [
+    {id:'sec-local-a', label:'河口湖內交通'},
+    {id:'sec-local-b', label:'河口湖景點門票'},
+    {id:'sec-local-c', label:'箱根周遊券涵蓋項目'},
+    {id:'sec-local-d', label:'箱根景點門票'},
+  ],
+  calc: [
+    {id:'', label:'城際交通試算'},
+    {id:'', label:'河口湖試算'},
+    {id:'', label:'箱根試算'},
+    {id:'', label:'總計比較'},
+  ],
+  etiquette: [
+    {id:'', label:'電車 / 地鐵篇'},
+    {id:'', label:'巴士篇'},
+    {id:'', label:'新幹線 / 特急篇'},
+    {id:'', label:'通用禮儀'},
+    {id:'', label:'Suica 技巧'},
+  ]
+};
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.querySelector(`.tab-btn[onclick*="${tab}"]`).classList.add('active');
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.getElementById('pageTitle').textContent = titles[tab];
+  buildTOC(tab);
+}
+
+function buildTOC(tab) {
+  const items = tocs[tab];
+  let html = '<h3>📋 目錄</h3>';
+  items.forEach(item => {
+    html += `<a class="toc-item" onclick="scrollToSec('${item.id}')">${item.label}</a>`;
+  });
+  document.getElementById('sidebar').innerHTML = html;
+}
+
+function scrollToSec(id) {
+  if (!id) return;
+  const el = document.getElementById(id);
+  if (el) { el.scrollIntoView({behavior:'smooth',block:'start'}); }
+}
+
+function toggleSection(h) { h.parentElement.classList.toggle('open'); }
+
+// ── Calculator ──
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('#tab-calc input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('change', updateCalc);
+  });
+  buildTOC('intercity');
+});
+
+function updateCalc() {
+  const sum = (sel) => {
+    let total = 0;
+    document.querySelectorAll(sel + ':checked').forEach(cb => total += parseInt(cb.dataset.price));
+    return total;
+  };
+  const sInter = sum('#tab-calc input[data-group="intercity"]');
+  const sFuji = sum('#tab-calc input[data-group="fuji"]');
+  const sHak = sum('#tab-calc input[data-group="hakone"]');
+  const sHSpots = sum('#tab-calc input[data-group="hakone-spot"]');
+  const all = sInter + sFuji + sHak + sHSpots;
+  const passCost = 6000;
+
+  document.getElementById('sum-intercity').textContent = '¥' + sInter.toLocaleString();
+  document.getElementById('sum-fuji').textContent = '¥' + sFuji.toLocaleString();
+  document.getElementById('sum-hakone').textContent = '¥' + sHak.toLocaleString();
+  document.getElementById('sum-hspots').textContent = '¥' + sHSpots.toLocaleString();
+  document.getElementById('sum-all').textContent = '¥' + all.toLocaleString();
+
+  // Only show pass comparison if any hakone items are selected
+  const hasHakoneItems = (sHak + sHSpots) > 0;
+  if (hasHakoneItems) {
+    document.getElementById('sum-pass').parentElement.style.display = '';
+    const diff = passCost - (sHak + sHSpots);
+    if (diff < 0) {
+      document.getElementById('verdict-label').textContent = '📊 買周遊券多花';
+      document.getElementById('verdict').textContent = '¥' + Math.abs(diff).toLocaleString();
+      document.getElementById('verdict').style.color = '#e94560';
+    } else {
+      document.getElementById('verdict-label').textContent = '📊 買周遊券省下';
+      document.getElementById('verdict').textContent = '¥' + diff.toLocaleString();
+      document.getElementById('verdict').style.color = '#2d6a4f';
+    }
+  } else {
+    document.getElementById('sum-pass').parentElement.style.display = 'none';
+    document.getElementById('verdict-label').textContent = '📊 尚未勾選箱根項目';
+    document.getElementById('verdict').textContent = '—';
+    document.getElementById('verdict').style.color = '#888';
+  }
+}
+</script>
+
+</body>
+</html>

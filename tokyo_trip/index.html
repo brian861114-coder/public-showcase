@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>東京旅遊鐵路導覽｜親子文化三日遊</title>
+<title>東京旅遊鐵路導覽｜東京市區與成田返程</title>
 <style>
   :root {
     --bg-top: #f7f1e8;
@@ -153,6 +153,9 @@
     line-height: 1.5;
     transition: opacity 0.25s;
   }
+  .trip-links { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+  .trip-links a { color: var(--accent-deep); background: #f0faf6; border: 1px solid #cce4db; border-radius: 999px; padding: 4px 8px; font-size: .72rem; font-weight: 700; text-decoration: none; }
+  .trip-links a:hover { background: var(--accent); color: #fff; }
 
   .quick-row {
     display: flex;
@@ -727,7 +730,7 @@
       <div class="brand-mark" aria-hidden="true"></div>
       <div class="brand-text">
         <h1>東京鐵路導覽</h1>
-        <p>三日親子・文化旅遊｜成田進出</p>
+        <p>東京市區・成田返程｜7/23-7/25</p>
       </div>
       <button class="toggle-btn" id="sidebarToggle" title="收合選單">«</button>
     </div>
@@ -749,6 +752,7 @@
     </div>
     <div class="sidebar-foot">
       點路線可高亮整條線・滑鼠移到站點看景點與換車資訊
+      <div class="trip-links" aria-label="其他旅程工具"><a href="trip_portal.html">入口</a><a href="transportation_guide.html">交通</a><a href="attractions_guide.html">景點</a><a href="packing_checklist.html">清單</a><a href="japanese_phrases.html">日語</a><a href="emergency_guide.html">緊急</a></div>
     </div>
   </aside>
 

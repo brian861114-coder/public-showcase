@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>景點導覽｜河口湖・箱根｜自然與人文</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, 'PingFang TC', 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+    background: #f0f4f8; color: #1a1a2e; line-height: 1.7; padding: 0 0 80px;
+  }
+
+  /* ── Header ── */
+  header {
+    background: linear-gradient(135deg, #064e3b 0%, #065f46 50%, #047857 100%);
+    color: white; padding: 28px 20px 24px; text-align: center;
+  }
+  header h1 { font-size: 1.3rem; margin-bottom: 6px; }
+  header .sub { font-size: 0.82rem; opacity: 0.88; }
+
+  /* ── Region Tabs ── */
+  .region-tabs {
+    display: flex; max-width: 700px; margin: 0 auto; padding: 0 16px; gap: 0;
+  }
+  .r-tab {
+    flex: 1; padding: 12px 8px; text-align: center; cursor: pointer;
+    font-weight: 700; font-size: 0.85rem; border-bottom: 3px solid transparent;
+    transition: all 0.15s; background: white; color: #888;
+  }
+  .r-tab:hover { color: #333; }
+  .r-tab.active {
+    color: #064e3b; border-bottom-color: #064e3b; background: #f0fdf4;
+  }
+
+  main { max-width: 700px; margin: 0 auto; padding: 16px; }
+
+  /* ── Region Content ── */
+  .region-content { display: none; }
+  .region-content.active { display: block; }
+
+  /* ── Area Section ── */
+  .area {
+    margin-bottom: 20px;
+  }
+  .area-header {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+    padding: 10px 14px; border-radius: 10px;
+  }
+  .area-icon { font-size: 1.6rem; flex-shrink: 0; }
+  .area-info { flex: 1; }
+  .area-name { font-size: 1rem; font-weight: 700; }
+  .area-desc { font-size: 0.75rem; opacity: 0.8; }
+
+  /* Area color themes */
+  .area-fuji1 { background: #ecfdf5; color: #064e3b; border-left: 4px solid #064e3b; }
+  .area-fuji2 { background: #f0f9ff; color: #0369a1; border-left: 4px solid #0369a1; }
+  .area-fuji3 { background: #fefce8; color: #854d0e; border-left: 4px solid #854d0e; }
+  .area-fuji4 { background: #f5f3ff; color: #5b21b6; border-left: 4px solid #5b21b6; }
+  .area-fuji5 { background: #fdf2f8; color: #9d174d; border-left: 4px solid #9d174d; }
+
+  .area-hak1 { background: #ecfdf5; color: #064e3b; border-left: 4px solid #064e3b; }
+  .area-hak2 { background: #fff7ed; color: #9a3412; border-left: 4px solid #9a3412; }
+  .area-hak3 { background: #f0f9ff; color: #0369a1; border-left: 4px solid #0369a1; }
+  .area-hak4 { background: #fefce8; color: #854d0e; border-left: 4px solid #854d0e; }
+  .area-hak5 { background: #f5f3ff; color: #5b21b6; border-left: 4px solid #5b21b6; }
+
+  /* ── Spot Cards ── */
+  .spot {
+    background: white; border-radius: 10px; margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06); overflow: hidden;
+  }
+  .spot-header {
+    display: flex; align-items: center; padding: 12px 14px; gap: 10px;
+    cursor: pointer; user-select: none;
+  }
+  .spot-header:hover { background: #fafafa; }
+  .spot-icon { font-size: 1.4rem; flex-shrink: 0; }
+  .spot-body { flex: 1; min-width: 0; }
+  .spot-name { font-size: 0.95rem; font-weight: 700; }
+  .spot-type {
+    display: inline-block; font-size: 0.65rem; padding: 1px 8px; border-radius: 10px;
+    font-weight: 600; margin-left: 4px; vertical-align: middle;
+  }
+  .type-nature { background: #dcfce7; color: #166534; }
+  .type-culture { background: #fef3c7; color: #92400e; }
+  .type-view { background: #dbeafe; color: #1e40af; }
+  .type-shrine { background: #fce7f3; color: #9d174d; }
+
+  .spot-meta {
+    display: flex; gap: 14px; flex-wrap: wrap;
+    font-size: 0.76rem; color: #888; margin-top: 2px;
+  }
+  .spot-toggle { font-size: 0.65rem; color: #ccc; transition: transform 0.2s; }
+  .spot.open .spot-toggle { transform: rotate(180deg); }
+  .spot-detail {
+    display: none; padding: 0 14px 14px; font-size: 0.84rem; color: #555;
+    line-height: 1.7; border-top: 1px solid #f3f3f3; margin: 0 14px;
+  }
+  .spot.open .spot-detail { display: block; }
+
+  .spot-detail .hl {
+    background: #fef3c7; padding: 1px 4px; border-radius: 3px; font-weight: 600;
+  }
+
+  /* ── Nearby tag ── */
+  .nearby {
+    font-size: 0.68rem; background: #e8f5e9; color: #2e7d32;
+    padding: 2px 8px; border-radius: 10px; font-weight: 600;
+  }
+
+  footer { text-align: center; color: #aaa; font-size: 0.72rem; margin-top: 16px; }
+
+  @media print {
+    body { background: white; }
+    .spot-detail { display: block !important; }
+    .spot-toggle { display: none; }
+    .spot-header { cursor: default; }
+  }
+  .trip-nav { position: sticky; top: 0; z-index: 50; display: flex; justify-content: center; flex-wrap: wrap; gap: 4px 12px; padding: 8px 14px; background: rgba(255,255,255,.92); border-bottom: 1px solid #d1fae5; backdrop-filter: blur(12px); }
+  .trip-nav a { color: #475569; text-decoration: none; font-size: .78rem; font-weight: 700; padding: 3px 7px; border-radius: 999px; }
+  .trip-nav a:hover, .trip-nav a[aria-current="page"] { color: #065f46; background: #d1fae5; }
+  @media (max-width: 480px) { .trip-nav { gap: 2px 5px; padding: 6px; } .trip-nav a { font-size: .72rem; padding: 3px 5px; } }
+</style>
+</head>
+<body>
+<nav class="trip-nav" aria-label="旅程工具"><a href="trip_portal.html">入口</a><a href="index.html">鐵路</a><a href="transportation_guide.html">交通</a><a href="attractions_guide.html" aria-current="page">景點</a><a href="packing_checklist.html">清單</a><a href="japanese_phrases.html">日語</a><a href="emergency_guide.html">緊急</a></nav>
+
+<header>
+  <h1>🏔️ 河口湖・箱根景點導覽</h1>
+  <div class="sub">7/19-7/25 · 自然景觀＋人文古蹟 · 公共交通 1 小時內可達</div>
+</header>
+
+<div class="region-tabs">
+  <div class="r-tab active" onclick="switchRegion('fuji')">🏔️ 河口湖 · 富士五湖</div>
+  <div class="r-tab" onclick="switchRegion('hakone')">♨️ 箱根</div>
+</div>
+
+<main>
+
+<!-- ═══════════════════════════════════════════ -->
+<!--  河口湖・富士五湖                            -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="region-content active" id="region-fuji">
+
+  <!-- Area 1: 北岸大石公園 -->
+  <div class="area">
+    <div class="area-header area-fuji1">
+      <span class="area-icon">🏞️</span>
+      <div class="area-info">
+        <div class="area-name">河口湖北岸 — 大石公園一帶</div>
+        <div class="area-desc">步行可達 · 住宿 DOT HOSTEL 就在這區</div>
+      </div>
+    </div>
+
+    <div class="spot open">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🌿</div>
+        <div class="spot-body">
+          <span class="spot-name">大石公園</span><span class="spot-type type-nature">自然</span>
+          <div class="spot-meta">
+            <span>📍 步行 2 分（170m）</span><span>⏱ 30 分~1 小時</span><span>🆓 免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>河口湖北岸的經典富士山拍攝點。6 月下旬～7 月中旬是<span class="hl">薰衣草季</span>，你 7/19 去正好是尾聲！大片薰衣草＋富士山＋湖景的畫面是河口湖的招牌風景。公園內有步道和長椅，清晨富士山倒影在湖面上的「逆富士」最適合在這拍攝。</p>
+        <p style="margin-top:4px;">🎯 <strong>建議：</strong>抵達第一天（7/19 早上 9 點左右）放完行李直接來，清晨富士山能見度最好。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🏛️</div>
+        <div class="spot-body">
+          <span class="spot-name">河口湖自然生活館</span><span class="spot-type type-nature">自然</span>
+          <div class="spot-meta">
+            <span>📍 步行 3 分（210m）</span><span>⏱ 20~30 分</span><span>🆓 免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>就在大石公園旁。展示河口湖自然生態＋販售富士山土產和藍莓霜淇淋。二樓展望台可看富士山全景，雨天備案的好選擇。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="spot">
+    <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+      <div class="spot-icon">⛴️</div>
+      <div class="spot-body">
+        <span class="spot-name">河口湖遊覽船（Appare 號）</span><span class="spot-type type-nature">自然</span>
+        <div class="spot-meta">
+          <span>📍 河口湖站步行 5 分</span><span>⏱ 20 分航程</span><span>💰 ¥1,000</span>
+        </div>
+      </div>
+      <span class="spot-toggle">▼</span>
+    </div>
+    <div class="spot-detail">
+      <p>從河口湖上欣賞富士山的經典方式。仿戰國水軍船造型的 Appare 號，從湖中央看<span class="hl">360 度富士山＋湖畔全景</span>。夏季甲板風很舒服。每 30 分一班，不需預約。與天上山纜車有套票組合（¥1,600）。</p>
+    </div>
+  </div>
+
+  <div class="spot">
+    <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+      <div class="spot-icon">👘</div>
+      <div class="spot-body">
+        <span class="spot-name">久保田一竹美術館</span><span class="spot-type type-culture">人文</span>
+        <div class="spot-meta">
+          <span>📍 Red Line 巴士 20 分</span><span>⏱ 1~1.5 小時</span><span>💰 ¥1,300</span>
+        </div>
+      </div>
+      <span class="spot-toggle">▼</span>
+    </div>
+    <div class="spot-detail">
+      <p>展示<span class="hl">染色大師久保田一竹的絞染和服</span>。作品以富士山和四季為主題，每一件都是數年製作而成，色彩如夢似幻。建築本身也是藝術——由沖繩珊瑚石灰岩打造，融入河口湖自然景觀。庭園可眺望富士山，附設茶室供應抹茶。</p>
+      <p style="margin-top:4px;">常被稱為「河口湖最美的美術館」。即使對和服沒興趣，光是建築和庭園就值得專程前往。</p>
+    </div>
+  </div>
+
+  <!-- Area 2: 東岸/南岸 -->
+  <div class="area">
+    <div class="area-header area-fuji2">
+      <span class="area-icon">🚠</span>
+      <div class="area-info">
+        <div class="area-name">河口湖東岸・南岸 — 車站周邊</div>
+        <div class="area-desc">周遊巴士 Red Line 約 10~20 分 · 住宿富士晴就在這區</div>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🚡</div>
+        <div class="spot-body">
+          <span class="spot-name">富士山全景纜車（天上山公園）</span><span class="spot-type type-view">展望</span>
+          <div class="spot-meta">
+            <span>📍 河口湖站步行 10 分</span><span>⏱ 1~1.5 小時</span><span>💰 ¥1,000</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>又名「カチカチ山纜車」，從河口湖東岸搭到天上山頂。山頂標高 1,075m，可俯瞰河口湖全景＋富士山。山上有<span class="hl">天上之鐘</span>（戀愛成就打卡點）、兔子神社、狸貓茶屋（賣炭烤團子）。</p>
+        <p style="margin-top:4px;">🕗 7/20~8/31 延長營業至 18:00。每 5~10 分一班。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🎵</div>
+        <div class="spot-body">
+          <span class="spot-name">河口湖音樂森林美術館</span><span class="spot-type type-culture">人文</span>
+          <div class="spot-meta">
+            <span>📍 Red Line 巴士 15 分</span><span>⏱ 1~2 小時</span><span>💰 ¥2,100</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>歐洲風格庭園＋自動演奏樂器博物館。亮點是<span class="hl">世界最大級的自動管風琴</span>現場演奏，以及整點音樂水舞秀。玫瑰園在夏季盛開，配上富士山背景非常夢幻。雖然是博物館，但庭園景觀的份量不輸建築本身。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🌸</div>
+        <div class="spot-body">
+          <span class="spot-name">河口湖北岸步道（櫻花/紅葉散步道）</span><span class="spot-type type-nature">自然</span>
+          <div class="spot-meta">
+            <span>📍 Red Line 巴士至音楽森前</span><span>⏱ 30~60 分</span><span>🆓 免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>音樂森林美術館前方的湖畔步道，是著名的<span class="hl">湖畔散步路線</span>。雖然櫻花季已過、楓葉季未到，但 7 月的湖景和富士山視野依然極佳。適合清晨或傍晚散步。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Area 3: 富士吉田 / 浅間神社 -->
+  <div class="area">
+    <div class="area-header area-fuji3">
+      <span class="area-icon">⛩️</span>
+      <div class="area-info">
+        <div class="area-name">富士吉田 — 淺間神社與古街</div>
+        <div class="area-desc">富士急行線約 10 分 · 電車或巴士可達</div>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">📸</div>
+        <div class="spot-body">
+          <span class="spot-name">新倉山淺間公園（忠靈塔）</span><span class="spot-type type-culture">人文</span>
+          <div class="spot-meta">
+            <span>📍 下吉田站步行 15 分</span><span>⏱ 1~2 小時</span><span>🆓 免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>這是最經典的「<span class="hl">五重塔＋富士山</span>」明信片角度。從下吉田站沿指標走約 15 分鐘（含<span class="hl">398 階石梯</span>），登上展望台就能拍到世界級絕景。7 月有新綠包圍的忠靈塔與富士山，遊客比櫻花季少很多。</p>
+        <p style="margin-top:4px;">🎯 <strong>建議清晨去：</strong>8 點前到人最少，富士山能見度也最高。河口湖站搭富士急行線往下吉田僅一站（約 7 分）。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">⛩️</div>
+        <div class="spot-body">
+          <span class="spot-name">北口本宮富士淺間神社</span><span class="spot-type type-shrine">神社</span>
+          <div class="spot-meta">
+            <span>📍 富士山站步行 5 分</span><span>⏱ 30~45 分</span><span>🆓 免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>富士山信仰的核心神社，是<span class="hl">世界文化遺產「富士山」的構成資產之一</span>。江戶時代以來就是攀登富士山的起點。境內參天杉木林立的參道極具靈氣，主殿建於 1615 年，氣氛莊嚴。</p>
+        <p style="margin-top:4px;">從河口湖站搭富士急行線到富士山站（一站，5 分），步行 5 分即達。可與新倉山淺間公園排同一天。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🏘️</div>
+        <div class="spot-body">
+          <span class="spot-name">本町通（富士山老街）</span><span class="spot-type type-culture">人文</span>
+          <div class="spot-meta">
+            <span>📍 下吉田站步行 10 分</span><span>⏱ 30 分</span><span>🆓 免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>下吉田的<span class="hl">昭和復古老街</span>，街道盡頭就是巨大富士山——另一個經典 IG 打卡點。老式商店街保留昭和風情，跟河口湖邊完全不一樣的氛圍。拍完新倉山淺間公園下山順路就經過。</p>
+      </div>
+    </div>
+  </div>
+
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">⛩️</div>
+        <div class="spot-body">
+          <span class="spot-name">富士御室淺間神社（里宮）</span><span class="spot-type type-shrine">神社</span>
+          <div class="spot-meta">
+            <span>📍 河口湖站步行 8 分</span><span>⏱ 20~30 分</span><span>🆓 免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>富士山最古老的淺間神社（創建於 699 年），<span class="hl">世界文化遺產構成資產</span>。被巨大杉木包圍的幽暗境內極具靈氣。本宮在富士山五合目（登山道上），這裡是里宮。觀光客極少，幾乎只有當地人來參拜。</p>
+        <p style="margin-top:4px;">🎯 從富士晴 Guest House 步行只要 8 分鐘！住南岸時隨時可去。推薦清晨參拜，光線穿過杉林非常夢幻。</p>
+      </div>
+    </div>
+
+  <!-- Area 4: 西湖・精進湖・本栖湖 -->
+  <div class="area">
+    <div class="area-header area-fuji4">
+      <span class="area-icon">🌲</span>
+      <div class="area-info">
+        <div class="area-name">西湖・精進湖・本栖湖 — 原始自然</div>
+        <div class="area-desc">周遊巴士 Green / Blue Line 約 20~40 分</div>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🕳️</div>
+        <div class="spot-body">
+          <span class="spot-name">富岳風穴・鳴澤冰穴</span><span class="spot-type type-nature">自然</span>
+          <div class="spot-meta">
+            <span>📍 Green Line 巴士 30 分</span><span>⏱ 1 小時</span><span>💰 各 ¥400</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>富士山火山熔岩形成的<span class="hl">天然洞穴</span>。風穴內年均溫 3°C，夏天進去像走進天然冷氣房；冰穴內甚至有終年不化的冰柱。兩個洞彼此步行約 15 分。在青木原樹海之中，是感受富士山火山地質的絕佳景點。</p>
+        <p style="margin-top:4px;">🎯 7 月暑假來這超消暑。搭河口湖周遊巴士 Green Line 到「風穴」站下車。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🌊</div>
+        <div class="spot-body">
+          <span class="spot-name">西湖（Saiko）</span><span class="spot-type type-nature">自然</span>
+          <div class="spot-meta">
+            <span>📍 Green Line 巴士 20 分</span><span>⏱ 1~2 小時</span><span>🆓 免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>富士五湖中最安靜的一個。比起觀光化的河口湖，西湖保持更多原始自然面貌。湖邊有<span class="hl">西湖療癒之里根場</span>（傳統茅草屋聚落，重現昭和初期農村，¥500），可遠眺富士山＋茅草屋的和風景色。是逃離觀光客的好選擇。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">💴</div>
+        <div class="spot-body">
+          <span class="spot-name">本栖湖（千円札富士）</span><span class="spot-type type-view">展望</span>
+          <div class="spot-meta">
+            <span>📍 Blue Line 巴士 40 分</span><span>⏱ 30 分~1 小時</span><span>🆓 免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>日本千円紙鈔背面那張富士山就是在本栖湖拍的！<span class="hl">中ノ倉峠展望台</span>是那個經典角度所在地（需走一段山路）。不想爬山的話，湖畔公路邊也有不錯的拍攝點。湖水透明度是五湖中最高的。</p>
+        <p style="margin-top:4px;">Blue Line 班次較少，出發前查好時刻表。比較適合排完整半天。</p>
+      </div>
+    </div>
+  </div>
+
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🏞️</div>
+        <div class="spot-body">
+          <span class="spot-name">精進湖 —「抱子富士」秘境</span><span class="spot-type type-nature">自然</span>
+          <div class="spot-meta">
+            <span>📍 Green Line 巴士 25 分</span><span>⏱ 30 分~1 小時</span><span>🆓 免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>富士五湖中最小的湖。從這裡看富士山，前方小山（大室山）擋住山腰，像<span class="hl">富士山抱著孩子</span>——「抱子富士」。外國遊客幾乎不來，只有日本攝影師和釣客出沒。</p>
+        <p style="margin-top:4px;">🎯 湖邊只有老旅館和露營場，極度安靜。追求秘境感必訪。可與本栖湖排同一天（同一條巴士線）。</p>
+      </div>
+    </div>
+
+  <!-- Area 5: 忍野・富士山 -->
+  <div class="area">
+    <div class="area-header area-fuji5">
+      <span class="area-icon">⛰️</span>
+      <div class="area-info">
+        <div class="area-name">忍野・富士山方向</div>
+        <div class="area-desc">富士急行巴士約 25~50 分</div>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">💧</div>
+        <div class="spot-body">
+          <span class="spot-name">忍野八海</span><span class="spot-type type-nature">自然</span>
+          <div class="spot-meta">
+            <span>📍 河口湖站巴士 25 分</span><span>⏱ 1~1.5 小時</span><span>🆓 免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>富士山雪水經數十年地層過濾後湧出的<span class="hl">8 座湧水池</span>，世界文化遺產構成資產。水質透明度極高，池中錦鯉像飄在空中。最大的「湧池」水深約 8m 仍清澈見底。是富士山信仰與自然結合的代表景點。</p>
+        <p style="margin-top:4px;">⚠️ 遊客極多（團客熱點），建議早上 9 點前到或傍晚去。可與山中湖排同一天。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🗻</div>
+        <div class="spot-body">
+          <span class="spot-name">富士山五合目</span><span class="spot-type type-view">展望</span>
+          <div class="spot-meta">
+            <span>📍 河口湖站巴士 50 分</span><span>⏱ 2~3 小時</span><span>💰 巴士 ¥1,780</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>富士山半山腰（標高 2,305m）。不需登山裝備就能體驗富士山的壯麗。有<span class="hl">小御嶽神社</span>、土產店、簡餐。天氣好時可俯瞰河口湖和山中湖。7 月是富士山登山季開始，五合目會很熱鬧。</p>
+        <p style="margin-top:4px;">⚠️ <strong>注意：</strong>山上氣溫比山下低約 10~15°C（五合目約 15~20°C），帶件薄外套。雲霧來得快，早上出發最保險。高山症可能性低但不排除。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">⛩️</div>
+        <div class="spot-body">
+          <span class="spot-name">河口淺間神社</span><span class="spot-type type-shrine">神社</span>
+          <div class="spot-meta">
+            <span>📍 Red Line 巴士 15 分</span><span>⏱ 30 分</span><span>🆓 免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>位於河口湖北岸的古老神社，世界文化遺產構成資產之一。建於 864 年，為鎮壓富士山火山而建。境內 7 棵<span class="hl">御神木（千年巨杉）</span>非常壯觀。北口本宮的支社，規模較小但幽靜，觀光客少。</p>
+        <p style="margin-top:4px;">從 DOT HOSTEL 搭 Red Line 巴士往河口湖站方向，在淺間神社前下車。</p>
+      </div>
+    </div>
+  </div>
+
+  </div>
+
+  <!-- Area 6: 山中湖 -->
+  <div class="area">
+    <div class="area-header area-fuji5" style="background:#fff1f2;color:#be123c;border-left-color:#be123c;">
+      <span class="area-icon">🦢</span>
+      <div class="area-info">
+        <div class="area-name">山中湖 — 天鵝與富士</div>
+        <div class="area-desc">富士急行巴士約 30~40 分 · 富士五湖中最大</div>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🦢</div>
+        <div class="spot-body">
+          <span class="spot-name">山中湖全景台</span><span class="spot-type type-view">展望</span>
+          <div class="spot-meta">
+            <span>📍 山中湖巴士站步行 15 分</span><span>⏱ 30~45 分</span><span>🆓 免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>山中湖最具代表性的<span class="hl">富士山倒影拍攝點</span>。山中湖海拔最高（981m）、面積最大，湖面平靜時富士山的倒影比其他湖更清晰。湖上有觀光船「白鳥の湖號」（天鵝造型船），4~10 月可搭。</p>
+        <p style="margin-top:4px;">山中湖也是<span class="hl">天鵝的棲息地</span>，湖畔常可看到白天鵝與富士山同框的畫面。7 月暑假人潮比河口湖少。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🌻</div>
+        <div class="spot-body">
+          <span class="spot-name">花之都公園</span><span class="spot-type type-nature">自然</span>
+          <div class="spot-meta">
+            <span>📍 山中湖巴士 5 分</span><span>⏱ 1~1.5 小時</span><span>💰 免費（花田區）</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>山中湖畔的<span class="hl">大規模花卉公園</span>，佔地 30 公頃。7 月正是向日葵、薰衣草、波斯菊的季節。園內有<span class="hl">富士山＋花田</span>的經典構圖，還有清流之鄉（傳統水車小屋）。免費區域已夠拍，付費室內館（¥600）有熱帶植物。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">📚</div>
+        <div class="spot-body">
+          <span class="spot-name">三島由紀夫文學之森</span><span class="spot-type type-culture">人文</span>
+          <div class="spot-meta">
+            <span>📍 山中湖巴士站步行 10 分</span><span>⏱ 30 分</span><span>🆓 免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>紀念文學家三島由紀夫的靜謐森林公園。三島的名作《金閣寺》《潮騷》在此有碑文。不如其他景點知名，遊客極少，極度安靜。<span class="hl">穿過森林小徑可直達湖畔</span>，此處的富士山視野是秘境等級。</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="font-size:0.78rem;color:#999;text-align:center;padding:10px 0;">
+    🏠 住宿位置：Day 1 DOT HOSTEL（北岸）· Day 2-3 富士晴（南岸）
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!--  箱根                                        -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="region-content" id="region-hakone">
+
+  <!-- Area 1: 仙石原 -->
+  <div class="area">
+    <div class="area-header area-hak1">
+      <span class="area-icon">🌾</span>
+      <div class="area-info">
+        <div class="area-name">仙石原 — 住宿周邊</div>
+        <div class="area-desc">步行可達 · 住宿 UENOYAMA Room 102 就在這區</div>
+      </div>
+    </div>
+
+    <div class="spot open">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🌾</div>
+        <div class="spot-body">
+          <span class="spot-name">仙石原芒草原</span><span class="spot-type type-nature">自然</span>
+          <div class="spot-meta">
+            <span>📍 步行 15 分</span><span>⏱ 30 分~1 小時</span><span>🆓 免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>箱根最具代表性的自然景觀之一。大片芒草在秋季轉金黃最壯觀，但<span class="hl">夏季新綠的芒草高原也別有一番風味</span>。散步道貫穿草原，遠眺箱根外輪山。遊客很少，適合放空散步。</p>
+        <p style="margin-top:4px;">從 UENOYAMA Room 102 步行約 15 分即達。建議 7/22 入住後傍晚去，光線最美。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🏛️</div>
+        <div class="spot-body">
+          <span class="spot-name">波拉美術館（Pola Museum of Art）</span><span class="spot-type type-culture">人文</span>
+          <div class="spot-meta">
+            <span>📍 巴士 5 分／步行 25 分</span><span>⏱ 1~2 小時</span><span>💰 ¥1,800</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>收藏莫內、雷諾瓦、梵谷、畢卡索等印象派大師作品的美術館。建築的<span class="hl">70% 建於地下</span>，與仙石原的自然環境融為一體。館外的遊步道可走入箱根原生林，藝術＋自然一次滿足。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🖼️</div>
+        <div class="spot-body">
+          <span class="spot-name">箱根拉利克美術館</span><span class="spot-type type-culture">人文</span>
+          <div class="spot-meta">
+            <span>📍 步行 3 分（100m）</span><span>⏱ 1 小時</span><span>💰 ¥1,500</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>專門展示法國玻璃工藝大師 René Lalique 作品的小型美術館，就在你住宿對面 100m。收藏以珠寶和香水瓶聞名，但真正賣點是<span class="hl">館內餐廳的露天座位直接面對大片草原</span>。適合吃個優雅午餐或下午茶。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🎨</div>
+        <div class="spot-body">
+          <span class="spot-name">威尼斯玻璃美術館</span><span class="spot-type type-culture">人文</span>
+          <div class="spot-meta">
+            <span>📍 步行 12 分（880m）</span><span>⏱ 1~1.5 小時</span><span>💰 ¥1,500</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>展示威尼斯玻璃藝術的美術館。庭園本身就是亮點——<span class="hl">水晶玻璃橋和玻璃拱廊在陽光下閃耀</span>，很像到了歐洲。室內有玻璃製作體驗。雖然本質是美術館，但庭園景觀的拍照價值高。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🌿</div>
+        <div class="spot-body">
+          <span class="spot-name">箱根濕生花園</span><span class="spot-type type-nature">自然</span>
+          <div class="spot-meta">
+            <span>📍 步行 15 分（仙石原）</span><span>⏱ 45 分~1 小時</span><span>💰 ¥700</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>就在住宿仙石原的<span class="hl">濕地植物專門植物園</span>！收集日本全國 1,700 種濕地植物。7 月是<span class="hl">睡蓮和繡球花</span>最佳觀賞期。木棧道穿梭池塘濕地間，清涼安靜。觀光客少、當地人多。</p>
+        <p style="margin-top:4px;">🎯 <strong>住宿最近景點！</strong>7/22 入住後散步過去剛剛好。仙石原芒草原＋濕生花園可排一起。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🗿</div>
+        <div class="spot-body">
+          <span class="spot-name">箱根雕刻之森美術館</span><span class="spot-type type-culture">人氣必去</span>
+          <div class="spot-meta">
+            <span>📍 雕刻之森站步行 2 分</span><span>⏱ 1.5~2.5 小時</span><span>💰 票價請查官網</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>箱根最受歡迎的美術館之一，將大型戶外雕塑、山景與室內展覽結合；即使不特別研究藝術，也很適合在夏天慢慢散步。從仙石原搭巴士到強羅／雕刻之森一帶後可順遊，親子或雨天行程也友善。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Area 2: 大湧谷・桃源台 -->
+  <div class="area">
+    <div class="area-header area-hak2">
+      <span class="area-icon">🌋</span>
+      <div class="area-info">
+        <div class="area-name">大湧谷・桃源台 — 火山與纜車</div>
+        <div class="area-desc">箱根空中纜車約 20 分 · Hakone Freepass 涵蓋</div>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">♨️</div>
+        <div class="spot-body">
+          <span class="spot-name">大湧谷（Owakudani）</span><span class="spot-type type-nature">自然</span>
+          <div class="spot-meta">
+            <span>📍 纜車早雲山→大湧谷 15 分</span><span>⏱ 1~1.5 小時</span><span>💰 纜車含在 Freepass</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>箱根的標誌性景點——<span class="hl">活火山口</span>，地表冒著白色蒸氣、空氣中瀰漫硫磺味。可在步道上近距離觀看火山噴氣孔和湧出熱湯的地表。這裡的火山活動已持續約 3,000 年，每天噴出數百噸水蒸氣。地表溫度最高達 80~95°C，可以聞到明顯的硫磺味。名物「<span class="hl">黑蛋</span>」——用含硫磺的溫泉水煮 60 分鐘後，蛋殼與硫磺反應變成黑色。——用溫泉水煮成的黑色雞蛋，據說吃一顆可延壽七年（¥500 / 5 顆）。</p>
+        <p style="margin-top:4px;">⚠️ 若火山氣體濃度過高，步道可能關閉。天氣好時可看到富士山！從仙石原搭巴士到早雲山，轉纜車即可。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🚡</div>
+        <div class="spot-body">
+          <span class="spot-name">箱根空中纜車（全段）</span><span class="spot-type type-view">展望</span>
+          <div class="spot-meta">
+            <span>📍 早雲山→桃源台</span><span>⏱ 30 分</span><span>💰 含在 Freepass</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>全長約 4 公里，從早雲山經大湧谷到桃源台。搭乘過程本身就是一個景點——<span class="hl">鳥瞰大湧谷火山蒸氣、蘆之湖、富士山</span>（天氣好時）。下降段可以看到蘆之湖從遠方逐漸接近的全景，非常震撼。每班次間隔短，不需排隊。</p>
+      </div>
+    </div>
+  </div>
+
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">💧</div>
+        <div class="spot-body">
+          <span class="spot-name">千条の滝</span><span class="spot-type type-nature">自然</span>
+          <div class="spot-meta">
+            <span>📍 小涌谷站步行 20 分</span><span>⏱ 1 小時</span><span>🆓 免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>箱根山中隱藏的<span class="hl">三層瀑布</span>，高約 30m。名稱「千条」意指無數條水絲從岩石流下。不像大湧谷或海賊船那樣觀光化，這裡是只有登山客和當地人知道的秘密景點。步道在森林中，夏天非常涼爽。</p>
+        <p style="margin-top:4px;">從小涌谷站沿指標走約 20 分鐘，路面多落葉和樹根，建議穿好走的鞋。可與箱根登山電車排一起。</p>
+      </div>
+    </div>
+
+  <!-- Area 3: 強羅・早雲山 -->
+  <div class="area">
+    <div class="area-header area-hak3">
+      <span class="area-icon">🚃</span>
+      <div class="area-info">
+        <div class="area-name">強羅・早雲山 — 溫泉鄉與庭園</div>
+        <div class="area-desc">箱根登山電車 / 巴士約 20~30 分</div>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🌺</div>
+        <div class="spot-body">
+          <span class="spot-name">箱根強羅公園</span><span class="spot-type type-nature">自然</span>
+          <div class="spot-meta">
+            <span>📍 強羅站步行 5 分</span><span>⏱ 45 分~1 小時</span><span>💰 ¥650（Freepass 免費）</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>日本第一座法式庭園，1914 年開園。擁有<span class="hl">玫瑰花園、噴水池、熱帶植物溫室</span>。園內有茶室可體驗抹茶（另收費）。位於強羅的高台上，可俯望箱根群山。7 月玫瑰花季已過但仍綠意盎然。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🏺</div>
+        <div class="spot-body">
+          <span class="spot-name">箱根美術館</span><span class="spot-type type-culture">人文</span>
+          <div class="spot-meta">
+            <span>📍 強羅站步行 3 分</span><span>⏱ 1 小時</span><span>💰 ¥1,300</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>展示繩文土器到江戶時代陶瓷的歷史美術館。真正的寶藏是<span class="hl">庭園「神仙鄉」</span>——借景箱根山巒的枯山水＋苔庭，秋季楓紅極美，夏季綠意如畫。</p>
+        <p style="margin-top:4px;">⚠️ <strong>本次行程提醒：</strong>官方公告 2026/5/7~10/29 因整修休館；7/22~23 無法參觀，請改排雕刻之森、強羅公園或波拉美術館。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🛤️</div>
+        <div class="spot-body">
+          <span class="spot-name">箱根登山電車（沿線風光）</span><span class="spot-type type-view">展望</span>
+          <div class="spot-meta">
+            <span>📍 箱根湯本→強羅</span><span>⏱ 35 分</span><span>💰 含在 Freepass</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>這條登山電車本身就可當作景點！它是日本<span class="hl">最陡的鐵道之一</span>（最大坡度 80‰），沿途穿過山谷、隧道、橋樑和森林。6~7 月沿線<span class="hl">繡球花（紫陽花）盛開</span>，電車穿過花叢的畫面是經典——甚至被稱為「紫陽花電車」。晚上有夜間點燈。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Area 4: 蘆之湖・箱根町 -->
+  <div class="area">
+    <div class="area-header area-hak4">
+      <span class="area-icon">⛩️</span>
+      <div class="area-info">
+        <div class="area-name">蘆之湖・箱根町 — 湖光山色與歷史</div>
+        <div class="area-desc">海賊船 / 巴士約 30~45 分 · Hakone Freepass 涵蓋</div>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🏴‍☠️</div>
+        <div class="spot-body">
+          <span class="spot-name">蘆之湖（海賊船遊湖）</span><span class="spot-type type-nature">自然</span>
+          <div class="spot-meta">
+            <span>📍 桃源台乘船</span><span>⏱ 30 分航程</span><span>💰 含在 Freepass</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>搭仿古海賊船遊蘆之湖是箱根的招牌行程。從桃源台啟航，穿越湖面到箱根町或元箱根。天氣好時<span class="hl">富士山聳立在湖面上</span>的角度是箱根第一絕景。三艘船各有造型（Royal II、Victory、Vasa），推薦上最上層露天甲板。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">⛩️</div>
+        <div class="spot-body">
+          <span class="spot-name">箱根神社（和平鳥居）</span><span class="spot-type type-shrine">神社</span>
+          <div class="spot-meta">
+            <span>📍 元箱根港步行 10 分</span><span>⏱ 30 分~1 小時</span><span>🆓 免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>箱根最具代表性的神社。最著名的是<span class="hl">建在蘆之湖水面上的大鳥居</span>（平和の鳥居），穿過約 800 公尺的參道（兩側是超過 1,200 年的巨大杉木）後，湖邊突然出現的紅色鳥居＋湖水＋富士山的畫面讓無數人感動。這座神社創建於 757 年，是關東地區最有靈氣的神社之一。本殿位於山坡上，被超過 1,200 年的巨杉環繞。</p>
+        <p style="margin-top:4px;">⚠️ 排隊拍照可能要 20~40 分鐘。建議一早就到（9 點前），或傍晚去。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">⛩️</div>
+        <div class="spot-body">
+          <span class="spot-name">九頭龍神社（本宮）</span><span class="spot-type type-shrine">神社</span>
+          <div class="spot-meta">
+            <span>📍 元箱根港步行 20 分／巴士</span><span>⏱ 30 分</span><span>🆓 免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>箱根神社的攝社，祭祀蘆之湖的守護神九頭龍。以<span class="hl">良緣祈願</span>聞名，每個月 13 日有「月次祭」。比起人山人海的箱根神社，這裡極度清幽。沿蘆之湖畔走去的步道非常舒服。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🏯</div>
+        <div class="spot-body">
+          <span class="spot-name">箱根關所（箱根Checkpoint）</span><span class="spot-type type-culture">人文</span>
+          <div class="spot-meta">
+            <span>📍 箱根町港步行 3 分</span><span>⏱ 45 分~1 小時</span><span>💰 ¥500（Freepass 優惠）</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>江戶時代德川幕府設立的<span class="hl">重要關卡</span>，負責檢查往來江戶（東京）和京都之間的旅人。2007 年依古圖紙完整復原，內部有蠟像重現當時的審查場景。旁邊的<span class="hl">關所資料館</span>展示當時的通行證、武器等文物。歷史迷必訪。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🪨</div>
+        <div class="spot-body">
+          <span class="spot-name">舊東海道石畳（杉並木）</span><span class="spot-type type-culture">人文</span>
+          <div class="spot-meta">
+            <span>📍 箱根町步行 5 分</span><span>⏱ 30 分~1 小時</span><span>🆓 免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>全長約 1 公里的江戶時代石板古道，兩側是<span class="hl">樹齡 400+ 年的巨杉林</span>。走在當年武士和旅人踏過的石頭上，穿越杉木隧道——時間旅行般的體驗。地面有苔蘚，陰天或雨後更添氣氛。從箱根關所散步過來只需幾分鐘。</p>
+      </div>
+    </div>
+  </div>
+
+  </div>
+
+  <div class="spot">
+    <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+      <div class="spot-icon">🏯</div>
+      <div class="spot-body">
+        <span class="spot-name">恩賜箱根公園</span><span class="spot-type type-nature">自然</span>
+        <div class="spot-meta">
+          <span>📍 箱根町港步行 10 分</span><span>⏱ 45 分~1 小時</span><span>🆓 免費</span>
+        </div>
+      </div>
+      <span class="spot-toggle">▼</span>
+    </div>
+    <div class="spot-detail">
+      <p>明治時代皇室離宮舊址改建的公園。從<span class="hl">半島尖端展望台</span>可看到蘆之湖＋富士山的全景，比箱根神社的視野更開闊。園內有舊離宮遺址和湖畔步道，人少景美，是很多旅遊書沒寫的秘境。</p>
+      <p style="margin-top:4px;">從海賊船箱根町港走過來約 10 分鐘。公園免費，野餐或放空的好地方。展望台看夕陽特別美。</p>
+    </div>
+  </div>
+
+  <div class="spot">
+    <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+      <div class="spot-icon">🖼️</div>
+      <div class="spot-body">
+        <span class="spot-name">成川美術館</span><span class="spot-type type-culture">人文</span>
+        <div class="spot-meta">
+          <span>📍 元箱根港步行 3 分</span><span>⏱ 45 分~1 小時</span><span>💰 ¥1,300</span>
+        </div>
+      </div>
+      <span class="spot-toggle">▼</span>
+    </div>
+    <div class="spot-detail">
+      <p>收藏現代日本畫的美術館，以<span class="hl">日本第一的富士山眺望大廳</span>聞名。館內落地窗外就是蘆之湖＋富士山全景，光是坐在窗前發呆就值回票價。作品以山本丘人和平山郁夫的日本畫為主，與富士山主題呼應。</p>
+      <p style="margin-top:4px;">從海賊船元箱根港走到箱根神社的路上就會經過。下雨天或夏季太熱時的絕佳室內景點。</p>
+    </div>
+  </div>
+
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🍵</div>
+        <div class="spot-body">
+          <span class="spot-name">甘酒茶屋 — 四百年歷史古道茶屋</span><span class="spot-type type-culture">人文</span>
+          <div class="spot-meta">
+            <span>📍 箱根町巴士 10 分</span><span>⏱ 30~45 分</span><span>💰 甘酒 ¥400</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>舊東海道上的<span class="hl">江戶時代至今營業超過 400 年的茶屋</span>。當時旅人翻越箱根山嶺前在此歇腳喝甘酒，至今仍用古法製作——米麴發酵、無酒精、自然甘甜。店內有地爐（囲炉裏），冬天炭火取暖，夏天開著木窗吹山風。</p>
+        <p style="margin-top:4px;">🎯 從箱根關所沿舊東海道步行約 20 分鐘即達。逛完關所和石畳，來這裡喝杯甘酒＋烤團子是完美的歷史散策終點。力餅（烤麻糬）也必點。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">⛩️</div>
+        <div class="spot-body">
+          <span class="spot-name">深沢銭洗弁天</span><span class="spot-type type-shrine">神社</span>
+          <div class="spot-meta">
+            <span>📍 強羅站步行 15 分</span><span>⏱ 20~30 分</span><span>🆓 免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>箱根的隱藏版<span class="hl">錢洗神社</span>——在神社旁的溪水中清洗錢幣，據說財運會倍增。藏在強羅住宅區的小徑深處，連很多日本人都不知道。境內被高聳杉木包圍，溪水清澈，氣氛神秘。</p>
+        <p style="margin-top:4px;">🎯 從強羅站走約 15 分鐘（上坡路）。準備幾個硬幣去洗，帶回家當財運御守。參拜完可順路逛強羅公園。</p>
+      </div>
+    </div>
+
+  <!-- Area 5: 箱根湯本 -->
+  <div class="area">
+    <div class="area-header area-hak5">
+      <span class="area-icon">🏘️</span>
+      <div class="area-info">
+        <div class="area-name">箱根湯本 — 溫泉街風情</div>
+        <div class="area-desc">箱根登山巴士約 25 分</div>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">♨️</div>
+        <div class="spot-body">
+          <span class="spot-name">箱根湯本溫泉街</span><span class="spot-type type-culture">人文</span>
+          <div class="spot-meta">
+            <span>📍 箱根湯本站出來即達</span><span>⏱ 1~2 小時</span><span>🆓 散步免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>箱根的玄關口，最古老的溫泉鄉。沿<span class="hl">須雲川</span>兩側是溫泉旅館、土產店、手烤仙貝攤。可以在<span class="hl">免費足湯</span>泡腳（車站旁就有），買溫泉饅頭邊走邊吃。雖然有商店街，但老街風情和川邊散步道的氛圍重於購物。</p>
+        <p style="margin-top:4px;">🎯 7/23 早上退房後，可先逛箱根湯本再搭浪漫特快去東京。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">💦</div>
+        <div class="spot-body">
+          <span class="spot-name">箱根小涌園 Yunessun</span><span class="spot-type type-nature">溫泉體驗</span>
+          <div class="spot-meta">
+            <span>📍 小涌谷站轉巴士</span><span>⏱ 半天</span><span>💰 票價／營運日請查官網</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>想把箱根安排成「泡湯＋玩水」而非只跑景點時，這是最熱門的替代選項之一。它是需著泳裝的溫泉／水上設施，另有傳統裸湯區；適合家庭或遇雨時使用。夏季與週末人潮較多，建議先確認票種、泳裝規則與接駁方式。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🌊</div>
+        <div class="spot-body">
+          <span class="spot-name">早川溪谷散策</span><span class="spot-type type-nature">自然</span>
+          <div class="spot-meta">
+            <span>📍 箱根湯本站步行 5 分</span><span>⏱ 30 分~1 小時</span><span>🆓 免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>沿著早川（須雲川）往上游走的溪谷步道。夏天綠蔭濃密，溪水清澈涼爽。沿途有<span class="hl">小瀑布和天然湧泉</span>，在地人夏天來這裡納涼。路上可見玉簾瀑布（需走一段山路）。比溫泉街安靜很多，適合喜歡自然的人。</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="font-size:0.78rem;color:#999;text-align:center;padding:10px 0;">
+    🏠 住宿位置：Day 4 UENOYAMA Room 102（仙石原）
+  </div>
+</div>
+
+</main>
+
+<footer>
+  資料來源：japan-guide.com · 票價與營業時間可能變動，出發前再次確認
+</footer>
+
+<script>
+function switchRegion(region) {
+  document.querySelectorAll('.r-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.region-content').forEach(c => c.classList.remove('active'));
+  document.querySelector(`.r-tab[onclick*="${region}"]`).classList.add('active');
+  document.getElementById('region-' + region).classList.add('active');
+}
+</script>
+
+</body>
+</html>

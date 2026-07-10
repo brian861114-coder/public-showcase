@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>東京行前準備清單｜7/19-7/25｜河口湖→箱根→東京</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, 'PingFang TC', 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+    background: #f0f4f8;
+    color: #1a1a2e;
+    line-height: 1.6;
+    padding: 0 0 60px;
+  }
+
+  header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: white;
+    padding: 24px 20px 20px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  }
+
+  header h1 { font-size: 1.3rem; font-weight: 700; margin-bottom: 4px; }
+  header .dates { font-size: 0.85rem; opacity: 0.85; }
+
+  .progress-bar-wrap {
+    margin: 16px 20px 0;
+    max-width: 500px;
+    margin-left: auto; margin-right: auto;
+  }
+  .progress-stats {
+    display: flex; justify-content: space-between;
+    font-size: 0.78rem; margin-bottom: 4px; opacity: 0.9;
+  }
+  .progress-track {
+    height: 6px; background: rgba(255,255,255,0.2); border-radius: 3px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; background: #e94560;
+    border-radius: 3px; transition: width 0.3s ease;
+  }
+
+  main {
+    max-width: 600px; margin: 20px auto; padding: 0 16px;
+  }
+
+  .category {
+    background: white; border-radius: 12px; margin-bottom: 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06); overflow: hidden;
+  }
+
+  .cat-header {
+    display: flex; align-items: center; padding: 14px 16px;
+    cursor: pointer; user-select: none; gap: 10px;
+  }
+  .cat-header:hover { background: #f8f9fa; }
+  .cat-icon { font-size: 1.4rem; flex-shrink: 0; }
+  .cat-title { flex: 1; font-size: 1rem; font-weight: 600; }
+  .cat-count { font-size: 0.75rem; color: #888; margin-right: 4px; }
+  .cat-toggle { font-size: 0.7rem; color: #aaa; transition: transform 0.25s; }
+  .category.open .cat-toggle { transform: rotate(90deg); }
+
+  .cat-items {
+    display: none; padding: 0 16px 14px;
+  }
+  .category.open .cat-items { display: block; }
+
+  /* 行前手續特殊樣式 */
+  .category.pre-departure {
+    border-left: 4px solid #f0a500;
+  }
+  .category.pre-departure .cat-header {
+    background: #fffbeb;
+  }
+  .category.pre-departure.open .cat-header {
+    border-bottom: 1px solid #fde68a;
+  }
+  .category.pre-departure .item-note a {
+    color: #0f3460; text-decoration: underline;
+  }
+
+  .item {
+    display: flex; align-items: flex-start; padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0; gap: 10px;
+    cursor: pointer;
+  }
+  .item:last-child { border-bottom: none; }
+
+  .item input[type="checkbox"] {
+    appearance: none; -webkit-appearance: none;
+    width: 20px; height: 20px; border: 2px solid #ccc;
+    border-radius: 4px; flex-shrink: 0; margin-top: 1px;
+    cursor: pointer; position: relative; transition: all 0.15s;
+  }
+  .item input[type="checkbox"]:checked {
+    background: #e94560; border-color: #e94560;
+  }
+  .item input[type="checkbox"]:checked::after {
+    content: ''; position: absolute; left: 5px; top: 2px;
+    width: 5px; height: 9px; border: solid white;
+    border-width: 0 2px 2px 0; transform: rotate(45deg);
+  }
+
+  .item.checked .item-label { text-decoration: line-through; color: #aaa; }
+
+  .item-label { font-size: 0.92rem; flex: 1; transition: color 0.15s; }
+  .item-note { font-size: 0.72rem; color: #999; margin-top: 1px; display: block; }
+
+  footer {
+    text-align: center; color: #aaa; font-size: 0.75rem;
+    margin-top: 24px; padding: 0 16px;
+  }
+
+  .btn-row {
+    display: flex; gap: 10px; max-width: 600px; margin: 0 auto; padding: 0 16px;
+  }
+  .btn {
+    flex: 1; padding: 10px; border-radius: 8px; border: none;
+    font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.15s;
+    text-align: center;
+  }
+  .btn-reset { background: #e2e8f0; color: #475569; }
+  .btn-reset:hover { background: #cbd5e1; }
+  .btn-share { background: #1a1a2e; color: white; }
+  .btn-share:hover { background: #0f3460; }
+
+  @media print {
+    body { background: white; padding: 0; }
+    header { position: static; box-shadow: none; background: white; color: black; }
+    .progress-bar-wrap { display: none; }
+    .btn-row { display: none; }
+    .category { box-shadow: none; break-inside: avoid; }
+    footer { display: none; }
+  }
+  .trip-nav { position: sticky; top: 0; z-index: 50; display: flex; justify-content: center; flex-wrap: wrap; gap: 4px 12px; padding: 8px 14px; background: rgba(255,255,255,.92); border-bottom: 1px solid #dbe5ea; backdrop-filter: blur(12px); }
+  .trip-nav a { color: #475569; text-decoration: none; font-size: .78rem; font-weight: 700; padding: 3px 7px; border-radius: 999px; }
+  .trip-nav a:hover, .trip-nav a[aria-current="page"] { color: #075985; background: #e0f2fe; }
+  @media (max-width: 480px) { .trip-nav { gap: 2px 5px; padding: 6px; } .trip-nav a { font-size: .72rem; padding: 3px 5px; } }
+</style>
+</head>
+<body>
+<nav class="trip-nav" aria-label="旅程工具"><a href="trip_portal.html">入口</a><a href="index.html">鐵路</a><a href="transportation_guide.html">交通</a><a href="attractions_guide.html">景點</a><a href="packing_checklist.html" aria-current="page">清單</a><a href="japanese_phrases.html">日語</a><a href="emergency_guide.html">緊急</a></nav>
+
+<header>
+  <h1>🗼 東京行前準備清單</h1>
+  <div class="dates">7/19（日）→ 7/25（六）・河口湖 3 晚 → 箱根 1 晚 → 東京 2 晚</div>
+  <div class="progress-bar-wrap">
+    <div class="progress-stats">
+      <span>準備進度</span>
+      <span><strong id="doneCount">0</strong> / <span id="totalCount">0</span></span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill" style="width:0%"></div>
+    </div>
+  </div>
+</header>
+
+<main id="checklist">
+
+  <!-- 0. 行前手續・入境準備 -->
+  <div class="category pre-departure open">
+    <div class="cat-header" onclick="toggleCat(this)">
+      <span class="cat-icon">🛂</span>
+      <span class="cat-title">行前手續・入境準備</span>
+      <span class="cat-count" data-cat="predep"></span>
+      <span class="cat-toggle">▶</span>
+    </div>
+    <div class="cat-items">
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label"><strong>Visit Japan Web</strong> 填寫完成（入境審查 QR + 海關申報 QR）<span class="item-note">🔗 <a href="https://www.vjw.digital.go.jp/" target="_blank">https://www.vjw.digital.go.jp/</a>｜出發前 1~2 天填寫，截圖兩個 QR code 存手機</span></span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label"><strong>護照效期</strong>檢查（需 &gt; 6 個月 = 2027/1/19 之後）</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label"><strong>購買旅遊保險</strong>（醫療 + 旅程延誤 + 行李遺失）<span class="item-note">保單存手機 + 紙本一份</span></span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label"><strong>購買 eSIM / 上網 SIM 卡</strong><span class="item-note">KKday / Klook / 蝦皮都有；eSIM 免換卡最方便，7 天吃到飽約 NT$300~600</span></span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label"><strong>換日圓現金</strong><span class="item-note">台灣銀行 / 兆豐線上換匯機場提領匯率較好；建議 5~10 萬円</span></span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label"><strong>信用卡</strong>確認海外刷卡功能已開通 + 設定旅行通知<span class="item-note">部分銀行需 App 內開啟或致電客服</span></span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label"><strong>Suica / PASMO</strong> 加到 Apple Wallet<span class="item-note">iPhone 打開錢包 App → + → 交通卡 → Suica → 加值 2000 円起</span></span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label"><strong>下載 Google 離線地圖</strong><span class="item-note">Google Maps → 頭像 → 離線地圖 → 選取「河口湖」「箱根」「東京」三個區域</span></span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label"><strong>下載 Google 翻譯</strong>日文離線包<span class="item-note">App 內設定 → 離線翻譯 → 下載日文</span></span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label"><strong>航空公司線上報到</strong>（出發前 24 小時開放）<span class="item-note">7/18 00:10 起可報到；先劃位 + 取得電子登機證</span></span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label"><strong>確認行李額度</strong>（托運幾件 / 每件限重 / 手提行李規定）</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label"><strong>列印 / 儲存所有訂房確認 + 機票</strong>（紙本 + 手機截圖各一份）</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label"><strong>儲存緊急聯絡資訊</strong><span class="item-note">台灣駐日代表處 +81-3-3280-7811｜保險理賠專線｜信用卡掛失專線</span></span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label"><strong>下載日本防災 App</strong>（Safety Tips / NHK 防災）<span class="item-note">7 月颱風季，接收地震/海嘯/颱風警報用</span></span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label"><strong>確認航空公司行動電源規定</strong><span class="item-note">⚠️ 2025/7/8 起飛日本航班行動電源不可放頭頂行李櫃，須放座位下方或隨身包。2026 年多家航空禁機上使用/充電。出發前務必查航空公司官網最新公告。</span></span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label"><strong>確認飯店入住 / 退房時間</strong>（河口湖 DOT 最晚 21:00！富士晴 22:00）</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1. 證件文件 -->
+  <div class="category open">
+    <div class="cat-header" onclick="toggleCat(this)">
+      <span class="cat-icon">📋</span>
+      <span class="cat-title">證件・文件</span>
+      <span class="cat-count" data-cat="docs"></span>
+      <span class="cat-toggle">▶</span>
+    </div>
+    <div class="cat-items">
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">護照（效期需 &gt; 6 個月）</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">機票確認信 / 電子機票（紙本 + 手機截圖）<span class="item-note">去程 00:10 桃園 T1、回程 13:30 成田 T2</span></span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">飯店訂房確認（紙本 + 手機截圖）</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">Visit Japan Web QR Code（入境審查 + 海關申報）<span class="item-note">出發前 2 天內填寫最準，記得截圖兩個 QR code</span></span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">旅遊保險保單（紙本 / 手機存檔）</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">大頭照 ×2（護照遺失時緊急補辦用）</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">身分證 / 駕照影本（備用）</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. 金錢支付 -->
+  <div class="category open">
+    <div class="cat-header" onclick="toggleCat(this)">
+      <span class="cat-icon">💴</span>
+      <span class="cat-title">金錢・支付</span>
+      <span class="cat-count" data-cat="money"></span>
+      <span class="cat-toggle">▶</span>
+    </div>
+    <div class="cat-items">
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">日圓現金<span class="item-note">建議 5~10 萬円，目前匯率約 1 TWD ≈ 4.6~4.7 JPY（7/10）</span></span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">信用卡 ×2（不同發卡行，VISA + Mastercard 各一）<span class="item-note">回饋高的卡優先；部分小店只收現金</span></span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">金融卡（海外提款備用，確認已開通跨國功能）</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">Suica / PASMO（iPhone 可直接加錢包）<span class="item-note">機場到市區、地鐵、超商都可用</span></span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">零錢包（日本硬幣很多：500/100/50/10/5/1 円）</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. 電子產品 -->
+  <div class="category open">
+    <div class="cat-header" onclick="toggleCat(this)">
+      <span class="cat-icon">📱</span>
+      <span class="cat-title">電子產品</span>
+      <span class="cat-count" data-cat="electronics"></span>
+      <span class="cat-toggle">▶</span>
+    </div>
+    <div class="cat-items">
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">手機</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">行動電源 ×1~2<span class="item-note"><strong>⚠️ 2025/7/8 起飛日本航班：</strong>不可放座位上方行李櫃！須隨身攜帶（不可托運），放在座位下方或隨身包內。&lt; 20,000mAh 免申報，&lt; 27,000mAh（100Wh）最多 2 個。2026 年多家航空禁機上充電，出發前確認航空公司最新規定。</span></span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">充電線（Lightning / USB-C）+ 充電頭<span class="item-note">台灣插頭 = 日本 Type A，免轉接頭</span></span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">多孔 USB 充電器（飯店插座可能不多）</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">eSIM / 上網 SIM 卡 / Wi-Fi 機<span class="item-note">eSIM 最方便不需換卡；吃到飽約 NT$300~600/7天</span></span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">耳機（降噪耳機 — 飛機上用）</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">相機 + 記憶卡 + 電池（如有）</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">Apple Watch / 手錶充電器（如有）</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. 衣物 -->
+  <div class="category open">
+    <div class="cat-header" onclick="toggleCat(this)">
+      <span class="cat-icon">👕</span>
+      <span class="cat-title">衣物（7 月東京：25~33°C，悶熱偶陣雨）</span>
+      <span class="cat-count" data-cat="clothes"></span>
+      <span class="cat-toggle">▶</span>
+    </div>
+    <div class="cat-items">
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">T 恤 ×6~7（每天一件，速乾材質佳）</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">短褲 / 薄長褲 ×3~4</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">內衣褲 ×7</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">襪子 ×7（走路多，吸汗厚襪佳）</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">舒適好走的運動鞋 / 健走鞋<span class="item-note">東京日均步數 15,000~25,000</span></span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">薄外套 / 防曬襯衫（冷氣房 + 防曬用）</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">帽子 / 漁夫帽（防曬必備）</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">太陽眼鏡</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">摺疊傘 / 輕便雨衣<span class="item-note">7 月東京偶有午後雷陣雨</span></span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">睡衣</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">夾腳拖 / 室內拖鞋（部分飯店無提供）</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. 盥洗用品 -->
+  <div class="category open">
+    <div class="cat-header" onclick="toggleCat(this)">
+      <span class="cat-icon">🪥</span>
+      <span class="cat-title">盥洗・個人清潔</span>
+      <span class="cat-count" data-cat="toiletries"></span>
+      <span class="cat-toggle">▶</span>
+    </div>
+    <div class="cat-items">
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">牙刷 + 牙膏<span class="item-note">日本飯店通常有，但習慣用自己的就帶</span></span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">洗面乳</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">防曬乳（SPF 50+ 必備，日本 7 月紫外線很強）</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">刮鬍刀</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">除臭劑 / 止汗劑</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">面紙 + 濕紙巾<span class="item-note">日本街上垃圾桶很少，濕紙巾吃完東西擦手超實用</span></span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">乾洗手 / 酒精噴霧</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">個人保養品（化妝水、乳液等）</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">隱形眼鏡 + 藥水（如有）</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. 藥品 -->
+  <div class="category open">
+    <div class="cat-header" onclick="toggleCat(this)">
+      <span class="cat-icon">💊</span>
+      <span class="cat-title">藥品・保健</span>
+      <span class="cat-count" data-cat="medicine"></span>
+      <span class="cat-toggle">▶</span>
+    </div>
+    <div class="cat-items">
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">常備處方藥（如有，帶足天數 + 備份）</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">止痛藥 / 退燒藥（普拿疼等）</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">感冒藥 / 喉糖</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">腸胃藥（止瀉、胃藥）<span class="item-note">吃生魚片、拉麵濃湯可能腸胃不適應</span></span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">OK 繃 / 透氣膠帶 + 人工皮（水泡用）</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">防蚊液<span class="item-note">7 月夏天蚊子多，尤其是公園/寺廟/河邊</span></span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">維他命 / 保健品</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">痠痛貼布 / 休足時間<span class="item-note">走到腳痠貼腳底，日本藥妝店買也可</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. 隨身包包 -->
+  <div class="category open">
+    <div class="cat-header" onclick="toggleCat(this)">
+      <span class="cat-icon">🎒</span>
+      <span class="cat-title">隨身・其他必備</span>
+      <span class="cat-count" data-cat="other"></span>
+      <span class="cat-toggle">▶</span>
+    </div>
+    <div class="cat-items">
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">後背包 / 隨身小包（白天出遊用）</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">購物袋 / 環保袋（超商塑膠袋要錢）</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">水壺 / 保溫瓶<span class="item-note">日本水龍頭水可生飲；夏天補水很重要</span></span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">小塑膠袋 ×3~5（裝垃圾用，路上找不到垃圾桶）</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">頸枕（紅眼航班 00:10 起飛，飛機上睡覺用）</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">眼罩 + 耳塞</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">行李秤（回程前秤重，避免超重加錢）</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">筆 ×1（入境卡備用，雖然 Visit Japan Web 已電子化）</span>
+      </div>
+      <div class="item" onclick="toggleItem(this)">
+        <input type="checkbox"><span class="item-label">護照影本 + 證件照存檔在手機</span>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<div class="btn-row">
+  <button class="btn btn-reset" onclick="resetAll()">↺ 全部重設</button>
+  <button class="btn btn-share" onclick="saveProgress()">✓ 儲存進度</button>
+</div>
+
+<footer>
+  東京 7/19－7/25 ｜ 出發前檢查最後一遍 ✈️
+</footer>
+
+<script>
+function toggleCat(header) {
+  header.parentElement.classList.toggle('open');
+}
+
+function toggleItem(item) {
+  const cb = item.querySelector('input[type="checkbox"]');
+  cb.checked = !cb.checked;
+  item.classList.toggle('checked', cb.checked);
+  updateProgress();
+  saveToLocal();
+}
+
+function updateProgress() {
+  const all = document.querySelectorAll('#checklist input[type="checkbox"]');
+  const done = document.querySelectorAll('#checklist input[type="checkbox"]:checked');
+  document.getElementById('doneCount').textContent = done.length;
+  document.getElementById('totalCount').textContent = all.length;
+  const pct = all.length ? Math.round((done.length / all.length) * 100) : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+
+  // per-category count
+  document.querySelectorAll('[data-cat]').forEach(el => {
+    const catName = el.dataset.cat;
+    const cat = el.closest('.category');
+    const items = cat.querySelectorAll('input[type="checkbox"]');
+    const checked = cat.querySelectorAll('input[type="checkbox"]:checked');
+    el.textContent = `(${checked.length}/${items.length})`;
+  });
+}
+
+function saveToLocal() {
+  const state = {};
+  document.querySelectorAll('#checklist input[type="checkbox"]').forEach((cb, i) => {
+    state[i] = cb.checked;
+  });
+  localStorage.setItem('tokyo-checklist', JSON.stringify(state));
+}
+
+function loadFromLocal() {
+  const raw = localStorage.getItem('tokyo-checklist');
+  if (!raw) return;
+  const state = JSON.parse(raw);
+  document.querySelectorAll('#checklist input[type="checkbox"]').forEach((cb, i) => {
+    if (state[i]) {
+      cb.checked = true;
+      cb.parentElement.classList.add('checked');
+    }
+  });
+  updateProgress();
+}
+
+function resetAll() {
+  if (confirm('確定要全部重設嗎？')) {
+    document.querySelectorAll('#checklist input[type="checkbox"]').forEach(cb => {
+      cb.checked = false;
+      cb.parentElement.classList.remove('checked');
+    });
+    localStorage.removeItem('tokyo-checklist');
+    updateProgress();
+  }
+}
+
+function saveProgress() {
+  const done = document.querySelectorAll('#checklist input[type="checkbox"]:checked').length;
+  const total = document.querySelectorAll('#checklist input[type="checkbox"]').length;
+  alert('已儲存進度 ✅\n' + done + ' / ' + total + ' 項已打勾。\n（進度自動保存在瀏覽器，關閉網頁後回來仍在）');
+}
+
+// init
+document.addEventListener('DOMContentLoaded', () => {
+  loadFromLocal();
+  updateProgress();
+
+  // sync checkbox clicks for items not clicked on the checkbox itself
+  document.querySelectorAll('.item').forEach(item => {
+    item.addEventListener('click', function(e) {
+      // only toggleItem if not clicking the checkbox directly (it will fire its own change)
+      if (e.target.tagName !== 'INPUT') {
+        toggleItem(this);
+      }
+    });
+  });
+
+  document.querySelectorAll('#checklist input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('change', function(e) {
+      e.stopPropagation();
+      this.parentElement.classList.toggle('checked', this.checked);
+      updateProgress();
+      saveToLocal();
+    });
+  });
+});
+</script>
+
+</body>
+</html>
