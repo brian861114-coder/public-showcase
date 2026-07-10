@@ -46,7 +46,7 @@
 
   /* Sidebar */
   .sidebar {
-    width: 320px;
+    width: 340px;
     max-width: 88vw;
     height: 100%;
     max-height: 100%;
@@ -113,14 +113,14 @@
   .brand-text h1 {
     margin: 0;
     font-family: var(--font-display);
-    font-size: 1.05rem;
+    font-size: 1.15rem;
     font-weight: 700;
     letter-spacing: 0.02em;
     line-height: 1.3;
   }
   .brand-text p {
     margin: 4px 0 0;
-    font-size: 0.75rem;
+    font-size: 0.88rem;
     color: var(--muted);
     line-height: 1.4;
   }
@@ -148,8 +148,9 @@
   .sidebar-foot {
     padding: 10px 14px 14px;
     border-top: 1px solid var(--line);
-    font-size: 0.7rem;
+    font-size: 0.82rem;
     color: var(--muted);
+    line-height: 1.5;
     transition: opacity 0.25s;
   }
 
@@ -164,8 +165,8 @@
     background: #fff;
     color: var(--ink);
     border-radius: 999px;
-    padding: 6px 10px;
-    font-size: 0.72rem;
+    padding: 6px 12px;
+    font-size: 0.85rem;
     cursor: pointer;
     transition: all 0.2s;
   }
@@ -180,7 +181,7 @@
     margin-bottom: 14px;
   }
   .group-title {
-    font-size: 0.72rem;
+    font-size: 0.82rem;
     font-weight: 700;
     letter-spacing: 0.08em;
     color: var(--muted);
@@ -201,37 +202,37 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 7px 8px;
+    padding: 8px 10px;
     border-radius: 12px;
     cursor: pointer;
     user-select: none;
     transition: background 0.15s;
   }
   .line-item:hover { background: rgba(126, 184, 168, 0.12); }
-  .line-item input { accent-color: var(--accent-deep); width: 15px; height: 15px; }
+  .line-item input { accent-color: var(--accent-deep); width: 17px; height: 17px; }
   .swatch {
-    width: 14px;
-    height: 14px;
+    width: 16px;
+    height: 16px;
     border-radius: 4px;
     flex-shrink: 0;
     box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
   }
   .line-name {
-    font-size: 0.82rem;
+    font-size: 0.92rem;
     flex: 1;
-    line-height: 1.25;
+    line-height: 1.3;
   }
   .line-name small {
     display: block;
     color: var(--muted);
-    font-size: 0.68rem;
+    font-size: 0.78rem;
     font-weight: 400;
   }
   .default-tag {
-    font-size: 0.6rem;
+    font-size: 0.72rem;
     background: #ffe8d2;
     color: #9a6238;
-    padding: 2px 6px;
+    padding: 2px 7px;
     border-radius: 6px;
   }
 
@@ -296,7 +297,6 @@
   .map-wrap {
     flex: 1;
     position: relative;
-    margin: 0 12px 12px;
     min-height: 0;
     border-radius: var(--radius);
     /* Soft washi / paper map: warm fiber grain + faint grid, no purple/cream cliché */
@@ -601,6 +601,95 @@
     stroke-width: 1;
   }
 
+  /* Stage: map + optional thematic guide panel */
+  .stage-main {
+    flex: 1;
+    display: flex;
+    min-height: 0;
+    margin: 0 12px 12px;
+    gap: 0;
+    transition: gap 0.35s ease;
+  }
+  .stage-main.guide-mode { gap: 12px; }
+
+  .guide-panel {
+    flex-shrink: 0;
+    width: 0;
+    opacity: 0;
+    overflow: hidden;
+    pointer-events: none;
+    background: rgba(255, 252, 247, 0.96);
+    border: 1px solid rgba(170, 158, 140, 0.35);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    transition: width 0.35s ease, opacity 0.3s ease;
+  }
+  .stage-main.guide-mode .guide-panel {
+    width: min(360px, 40vw);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .guide-panel-head {
+    padding: 16px 18px 12px;
+    border-bottom: 1px solid var(--line);
+    flex-shrink: 0;
+  }
+  .guide-panel-head h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--accent-deep);
+  }
+  .guide-panel-head p {
+    margin: 6px 0 0;
+    font-size: 0.75rem;
+    color: var(--muted);
+    line-height: 1.45;
+  }
+  .guide-panel-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 14px 16px;
+    scrollbar-width: thin;
+  }
+  .guide-card {
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(217, 207, 195, 0.65);
+  }
+  .guide-card:last-child { border-bottom: none; padding-bottom: 4px; }
+  .guide-card h3 {
+    margin: 0 0 6px;
+    font-family: var(--font-display);
+    font-size: 0.92rem;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+  .guide-card h3 small {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .guide-meta {
+    margin: 0 0 8px;
+    font-size: 0.72rem;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  .guide-meta b { color: var(--ink); font-weight: 600; }
+  .guide-desc p {
+    margin: 0 0 6px;
+    font-size: 0.78rem;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+  .guide-desc p:last-child { margin-bottom: 0; }
+
   @media (max-width: 900px) {
     .app { grid-template-columns: 1fr; }
     .sidebar {
@@ -617,6 +706,14 @@
       padding: 8px 11px 7px;
     }
     .map-cartouche .cartouche-jp { letter-spacing: 0.14em; }
+    .stage-main.guide-mode {
+      flex-direction: column;
+      gap: 10px;
+    }
+    .stage-main.guide-mode .guide-panel {
+      width: 100%;
+      max-height: 38vh;
+    }
   }
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -639,7 +736,12 @@
         <button class="chip active" data-preset="main">主要路線</button>
         <button class="chip" data-preset="jr">只看 JR</button>
         <button class="chip" data-preset="metro">只看 Metro</button>
-        <button class="chip" data-preset="airport">機場相關</button>
+        <button class="chip" data-preset="narita">成田進出</button>
+        <button class="chip" data-preset="haneda">羽田進出</button>
+        <button class="chip" data-preset="suburbs">東京近郊</button>
+        <button class="chip" data-preset="temples">寺廟祈福</button>
+        <button class="chip" data-preset="amusement">遊樂設施</button>
+        <button class="chip" data-preset="shopping">逛街採購</button>
         <button class="chip" data-preset="all">全部顯示</button>
         <button class="chip" data-preset="none">全部隱藏</button>
       </div>
@@ -662,22 +764,31 @@
         <span class="hint"><b>點路線</b> 高亮</span>
       </div>
     </div>
-    <div class="map-wrap" id="mapWrap">
-      <div class="map-cartouche" aria-hidden="true">
-        <p class="cartouche-jp">東京</p>
-        <span class="cartouche-rule"></span>
-        <p class="cartouche-sub">親子・文化三日遊<br />鐵路導覽圖</p>
+    <div class="stage-main" id="stageMain">
+      <div class="map-wrap" id="mapWrap">
+        <div class="map-cartouche" aria-hidden="true">
+          <p class="cartouche-jp">東京</p>
+          <span class="cartouche-rule"></span>
+          <p class="cartouche-sub">親子・文化三日遊<br />鐵路導覽圖</p>
+        </div>
+        <svg id="mapSvg" viewBox="0 0 1500 1100" xmlns="http://www.w3.org/2000/svg"></svg>
+        <div class="compass">
+          <span class="n">北</span><span class="s">南</span><span class="e">東</span><span class="w">西</span>
+          <div class="core"></div>
+        </div>
+        <div class="legend-float">
+          <div class="row"><span class="dot-demo"></span>一般站</div>
+          <div class="row"><span class="dot-demo xfer"></span>換車站</div>
+          <div class="row"><span class="dot-demo hub"></span>樞紐／機場</div>
+        </div>
       </div>
-      <svg id="mapSvg" viewBox="0 0 1500 1100" xmlns="http://www.w3.org/2000/svg"></svg>
-      <div class="compass">
-        <span class="n">北</span><span class="s">南</span><span class="e">東</span><span class="w">西</span>
-        <div class="core"></div>
-      </div>
-      <div class="legend-float">
-        <div class="row"><span class="dot-demo"></span>一般站</div>
-        <div class="row"><span class="dot-demo xfer"></span>換車站</div>
-        <div class="row"><span class="dot-demo hub"></span>樞紐／機場</div>
-      </div>
+      <aside class="guide-panel" id="guidePanel" aria-hidden="true">
+        <div class="guide-panel-head">
+          <h2 id="guidePanelTitle">主題導覽</h2>
+          <p id="guidePanelSubtitle"></p>
+        </div>
+        <div class="guide-panel-body" id="guidePanelBody"></div>
+      </aside>
     </div>
   </main>
 </div>
@@ -744,7 +855,539 @@ const LINES = [
     stations: ["osaki","oimachi","shinagawaseaside","tennozu","teleport","kokusai","shinonome","shin_kiba"] },
   { id: "yurikamome", name: "百合鷗號", jp: "ゆりかもめ", group: "其他", color: "#0068B7", defaultOn: false,
     stations: ["shimbashi","shiodome","takeshiba","hinode","shibaura","odaiba","daiba","telecom","aomi","bigsight","ariake_yuki","ariaketennis"] },
+
+  // —— Toei (missing lines) ——
+  { id: "toei_mita", name: "都營三田線", jp: "都営三田線", group: "都營", color: "#0079C2", defaultOn: false,
+    stations: ["meguro","shirokane","shirokanedai","mito","shibakoen","onarimon","uchisaiwaicho","hibiya","otemachi","jimbocho","suidobashi","kasuga","hakusan","sugamo","nishigahara","ojo"] },
+  { id: "toei_shinjuku", name: "都營新宿線", jp: "都営新宿線", group: "都營", color: "#6CBB5A", defaultOn: false,
+    stations: ["shinjuku","shinjukusanchome","akebonobashi","ichigaya","kudanshita","jimbocho","ogawamachi","iwamotocho","bakuroyokoyama","hamacho","morishita","kikukawa","sumiyoshi","nishiojima","ojima"] },
+
+  // —— JR (extra) ——
+  { id: "saikyo", name: "埼京線", jp: "埼京線", group: "JR", color: "#00AC9B", defaultOn: false,
+    stations: ["osaki","ebisu","shibuya","shinjuku","ikebukuro","itabashi","jujo","akabane"] },
+  { id: "shonan_shinjuku", name: "湘南新宿線", jp: "湘南新宿ライン", group: "JR", color: "#F68B1E", defaultOn: false,
+    stations: ["ikebukuro","shinjuku","shibuya","ebisu","osaki","shinagawa"] },
+  { id: "tokaido", name: "東海道線", jp: "東海道線", group: "JR", color: "#0072BC", defaultOn: false,
+    stations: ["ueno","tokyo","shimbashi","shinagawa"] },
+  { id: "sobu_local", name: "總武線各站停車", jp: "総武・中央各駅停車", group: "JR", color: "#FFD400", defaultOn: false,
+    stations: ["mitaka","kichijoji","ogikubo","nakano","shinjuku","yoyogi","sendagaya","yotsuya","ichigaya","iidabashi","suidobashi","ochanomizu","akihabara","asakusabashi","ryogoku","kinshicho"] },
+  { id: "keiyo", name: "京葉線", jp: "京葉線", group: "JR", color: "#C9252C", defaultOn: false,
+    stations: ["tokyo","hatchobori","etchujima","shin_kiba","maihama"] },
+  { id: "joban", name: "常盤線", jp: "常磐線", group: "JR", color: "#00B261", defaultOn: false,
+    stations: ["ueno","nippori","tabata","kitasenju","ayase"] },
+
+  // —— Toei tram ——
+  { id: "toden_arakawa", name: "都電荒川線", jp: "東京さくらトラム", group: "都營", color: "#DE64A1", defaultOn: false,
+    stations: ["waseda","omokagebashi","gakushuinshita","kishibojinmae","toden_zoshigaya","higashiikebukuro4","mukohara","otsukaekimae","sugamoshinden","koshinzuka","shinkoshinzuka","nishigahara4","takinogawa1","asukayama","oji_ekimae","sakaecho","kajiwara","arakawa_shako","arakawa_yuen","odai","miyanomae","kumanomae","higashiogu3","machiya2","machiya_ekimae","arakawa7","arakawa2","arakawa_kuyakusho","arakawa_itchu","minowabashi"] },
+
+  // —— Keio / Tobu ——
+  { id: "keio", name: "京王線", jp: "京王線", group: "私鐵", color: "#DD0077", defaultOn: false,
+    stations: ["keioshinjuku","hatsudai","hatagaya","sasazuka","daitabashi","shimotakaido","keio_sakurajosui","kamikitazawa","hachimanyama","rikugien","chitose_karasuyama","keio_sengawa","tsutsujigaoka","chofu"] },
+  { id: "keio_inokashira", name: "京王井之頭線", jp: "京王井の頭線", group: "私鐵", color: "#1A9BDE", defaultOn: false,
+    stations: ["shibuya","shinsen","komabatodaimae","ikenoue","inokashira_shimo","shindaita","meidaimae","eifuku","nishieifuku","hamadayama","takaido","fujimigaoka","kugayama","mitakadai","inokashirakoen","kichijoji"] },
+  { id: "tobu_tojo", name: "東武東武線", jp: "東武東上線", group: "私鐵", color: "#004098", defaultOn: false,
+    stations: ["ikebukuro","kita_ikebukuro","shimoitabashi","oyama","naka_itabashi","tokiwadai","kami_itabashi","tobu_nerima","shimo_akatsuka","narimasu","wakoshi","asaka","asakadai","kawagoe"] },
+  { id: "tobu_skytree", name: "東武晴空塔線", jp: "東武スカイツリーライン", group: "私鐵", color: "#006633", defaultOn: false,
+    stations: ["asakusa","tokyo_skytree","oshiage","hikifune","higashi_mukojima","kanegafuchi","horikiri","ushida","kitasenju"] },
 ];
+
+/* ========== Temple guide (寺廟祈福 preset) ========== */
+const TEMPLE_GUIDE = [
+  {
+    id: "sensoji",
+    name: "淺草寺",
+    jp: "浅草寺",
+    station: "淺草",
+    stationId: "asakusa",
+    lines: ["銀座線", "都營淺草線", "東武晴空塔線"],
+    lineIds: ["ginza", "toei_asakusa", "tobu_skytree"],
+    desc: [
+      "東京最古老的寺廟，以巨大的雷門與仲見世商店街聞名，是外國旅客認識江戶文化的起點。",
+      "主殿與五重塔氣勢莊嚴，參道兩旁可買人形燒、炸饅頭等經典小吃。",
+      "親子友善，但週末與午後人潮極多，建議上午九點前抵達。",
+      "可從淺草散步至隅田川畔，或轉半藏門線往晴空塔排下午行程。",
+    ],
+  },
+  {
+    id: "meiji",
+    name: "明治神宮",
+    jp: "明治神宮",
+    station: "原宿／明治神宮前",
+    stationId: "harajuku",
+    lines: ["山手線", "千代田線", "副都心線"],
+    lineIds: ["yamanote", "chiyoda", "fukutoshin"],
+    desc: [
+      "供奉明治天皇與昭憲皇太后，入口處成排巨大鳥居，通往都市中罕見的大片森林。",
+      "境內樹木茂密，步行其中像進入另一個世界，常可見日式婚禮行列。",
+      "與熱鬧的竹下通、表參道形成強烈對比，適合親子安靜散步。",
+      "可與原宿、表參道排同一日上午：先參拜，再逛街午餐。",
+    ],
+  },
+  {
+    id: "zojoji",
+    name: "增上寺",
+    jp: "増上寺",
+    station: "大門／三田",
+    stationId: "daimon",
+    lines: ["山手線", "都營三田線", "都營淺草線"],
+    lineIds: ["yamanote", "toei_mita", "toei_asakusa"],
+    desc: [
+      "德川家歷代將軍的菩提寺，與東京鐵塔同框是經典攝影角度。",
+      "本堂與多座歷史墓碑靜謐莊重，可順道參觀鐵塔與芝公園。",
+      "距濱松町、田町不遠，適合安排港區半日文化路線。",
+      "親子可在此短暫停留感受寺廟氛圍，不必久留。",
+    ],
+  },
+  {
+    id: "yasukuni",
+    name: "靖國神社",
+    jp: "靖國神社",
+    station: "九段下",
+    stationId: "kudanshita",
+    lines: ["半藏門線", "東西線", "都營新宿線"],
+    lineIds: ["hanzomon", "tozai", "toei_shinjuku"],
+    desc: [
+      "祭祀近代以來為日本犧牲者的神社，春季櫻花與秋季楓葉名聞遐邇。",
+      "境內有遊就館（戰爭史博物館），若帶大孩子可視年齡選擇是否參觀。",
+      "千鳥ヶ淵櫻道在旁，櫻季可與皇居外苑串聯散步。",
+      "參拜前建議先了解其歷史背景，依家庭價值觀決定停留時間。",
+    ],
+  },
+  {
+    id: "nezu",
+    name: "根津神社",
+    jp: "根津神社",
+    station: "根津",
+    stationId: "nezu",
+    lines: ["千代田線"],
+    lineIds: ["chiyoda"],
+    desc: [
+      "以杜鵑花祭聞名，四月境內百花盛開，被譽為東京最美神社之一。",
+      "連續小型朱紅鳥居隧道氣氛獨特，攝影與散步都很適合。",
+      "位於谷中、上野南方的寧靜街區，遊客比淺草少，更能感受下町風情。",
+      "可與湯島天滿宮、上野公園排成半日文化路線。",
+    ],
+  },
+  {
+    id: "yushima",
+    name: "湯島天滿宮",
+    jp: "湯島天満宮",
+    station: "湯島",
+    stationId: "yushima",
+    lines: ["千代田線"],
+    lineIds: ["chiyoda"],
+    desc: [
+      "祭祀學問之神菅原道真，考生與家長常來求學業與金榜題名。",
+      "梅花季節（二月至三月）境內梅花盛開，是東京賞梅名所。",
+      "石階參道與紅色鳥居很有氣勢，參拜後可逛神田、上野方向。",
+      "親子若正值考試季，可體驗日本「求學運」文化。",
+    ],
+  },
+  {
+    id: "gotokuji",
+    name: "豪德寺",
+    jp: "豪徳寺",
+    station: "豪德寺",
+    stationId: "gotokuji",
+    lines: ["小田急線"],
+    lineIds: ["odakyu"],
+    desc: [
+      "招財貓（招き猫）的發源地之一，境內擺滿千隻大小不一的白貓像，景象獨特。",
+      "位於世田谷幽靜住宅區，遊客相對少，適合喜歡拍照與慢步調的家庭。",
+      "從新宿搭小田急線約二十餘分鐘，可與下北澤、吉祥寺分日或半日搭配。",
+      "寺內有茶室與庭園，春季櫻花、秋季紅葉各有風情。",
+    ],
+  },
+  {
+    id: "suitengu",
+    name: "水天宮",
+    jp: "水天宮",
+    station: "水天宮前",
+    stationId: "suitengumae",
+    lines: ["半藏門線"],
+    lineIds: ["hanzomon"],
+    desc: [
+      "以保佑安產、育兒聞名的神社，許多準媽媽與帶幼兒的家庭前來祈福。",
+      "境內有子授蛙等可愛神物，親子氛圍濃厚。",
+      "位於日本橋人形町，可順遊傳統甜點街與人形町商店。",
+      "每年五月會舉行神輿巡行，若行程碰上可體驗熱鬧祭典。",
+    ],
+  },
+  {
+    id: "gokokuji",
+    name: "護國寺",
+    jp: "護国寺",
+    station: "護國寺",
+    stationId: "gokokuji",
+    lines: ["有樂町線", "丸之內線"],
+    lineIds: ["yurakucho", "marunouchi"],
+    desc: [
+      "創建於江戶初期的曹洞宗名剎，境內寬廣幽靜，遠離都心喧囂。",
+      "秋季楓紅與境內多處塔婆、鐘樓展現典型日本寺院格局。",
+      "護國寺參道有老咖啡館與小店，適合午後散步。",
+      "可與池袋、雜司が谷方向轉乘，安排文京區半日行程。",
+    ],
+  },
+  {
+    id: "sugamo",
+    name: "巢鴨地蔵尊（高岩寺）",
+    jp: "巣鴨地蔵尊",
+    station: "巢鴨",
+    stationId: "sugamo",
+    lines: ["山手線", "都營三田線"],
+    lineIds: ["yamanote", "toei_mita"],
+    desc: [
+      "以「拔苦地蔵」聞名，信眾相信可祈求去除病痛，是日本著名的療癒祈福聖地。",
+      "巢鴨地蔵通商店街被稱為「奶奶的原宿」，紅色內褲祈福文化獨特有趣。",
+      "下町氛圍濃厚，可嚐傳統日式點心與平價午餐。",
+      "親子可感受不同於澀谷、原宿的東京日常面貌，適合悠閒半日。",
+    ],
+  },
+];
+
+const PRESET_TEMPLE_LINES = [...new Set([
+  "yamanote",
+  ...TEMPLE_GUIDE.flatMap(t => t.lineIds),
+])];
+
+/* ========== Amusement guide (遊樂設施 preset) ========== */
+const AMUSE_GUIDE = [
+  {
+    id: "disney",
+    name: "東京迪士尼度假區",
+    jp: "東京ディズニーリゾート",
+    station: "舞濱",
+    stationId: "maihama",
+    lines: ["京葉線", "東西線"],
+    lineIds: ["keiyo", "tozai", "yamanote"],
+    desc: [
+      "包含東京迪士尼樂園與東京迪士尼海洋兩座主題樂園，是親子東京行的頭號重點。",
+      "京葉線直達舞濱站，出站即度假區入口，建議預留整天並提早入園。",
+      "熱門設施排隊長，可善用官方 App 查看等候時間。",
+      "旺季務必事前購票；若住市區，可從東京站搭京葉線約十五分鐘抵達。",
+    ],
+  },
+  {
+    id: "skytree",
+    name: "東京晴空塔・墨田水族館",
+    jp: "東京スカイツリー",
+    station: "押上／東京晴空塔",
+    stationId: "oshiage",
+    lines: ["半藏門線", "東武晴空塔線"],
+    lineIds: ["hanzomon", "tobu_skytree"],
+    desc: [
+      "晴空塔高 634 公尺，展望台可俯瞰整個東京，夜景尤其受歡迎。",
+      "塔腳 Solamachi 商場與墨田水族館適合親子，可排上午淺草、下午晴空塔。",
+      "半藏門線直達押上，或從淺草搭東武晴空塔線一站到塔下。",
+      "週末人潮多，展望台建議事前購票或避開黃金時段。",
+    ],
+  },
+  {
+    id: "teamlab",
+    name: "teamLab Planets",
+    jp: "チームラボプラネッツ",
+    station: "豐洲",
+    stationId: "toyosu",
+    lines: ["有樂町線"],
+    lineIds: ["yurakucho", "yamanote"],
+    desc: [
+      "沉浸式光影藝術體驗，赤腳涉水穿過數位花海，感官震撼強烈。",
+      "位於豐洲，有樂町線豐洲站步行可達，適合國小以上孩子。",
+      "必須事前網路購票並指定時段，現場通常無票。",
+      "可與築地場外早餐、台場行程分日安排，避免同一天太趕。",
+    ],
+  },
+  {
+    id: "miraikan",
+    name: "日本科學未來館",
+    jp: "日本科学未来館",
+    station: "青海",
+    stationId: "aomi",
+    lines: ["百合鷗號", "臨海線"],
+    lineIds: ["yurikamome", "rinkai", "yamanote"],
+    desc: [
+      "以「未來的科學」為主題的互動博物館，機器人 Asimo 表演是招牌。",
+      "位於台場青海，百合鷗號或臨海線皆可抵達，適合小學以上親子。",
+      "常設展可動手操作，雨天備案首選。",
+      "建議預留兩至三小時，可與台場海濱公園排同一日。",
+    ],
+  },
+  {
+    id: "odaiba",
+    name: "台場海濱公園・鋼彈",
+    jp: "お台場",
+    station: "台場／東京テレポート",
+    stationId: "odaiba",
+    lines: ["百合鷗號", "臨海線"],
+    lineIds: ["yurikamome", "rinkai", "yamanote"],
+    desc: [
+      "自由女神像複製品、彩虹大橋海景與 DiverCity 1:1 鋼彈立像，是東京海濱親子經典。",
+      "百合鷗號從新橋出發，沿途海景可愛，小孩通常很喜歡。",
+      "海濱公園可散步放風，購物中心內親子餐廳選擇多。",
+      "傍晚夜景漂亮，建議下午抵達，串聯科學未來館或購物。",
+    ],
+  },
+  {
+    id: "uenozoo",
+    name: "上野動物園",
+    jp: "上野動物園",
+    station: "上野",
+    stationId: "ueno",
+    lines: ["山手線", "銀座線", "日比谷線", "京濱東北線"],
+    lineIds: ["yamanote", "ginza", "hibiya", "keihin"],
+    desc: [
+      "日本最古老動物園之一，園內有熊貓、北極熊等人氣動物，門票相對親民。",
+      "位於上野公園內，可與博物館、不忍池散步排成半日至一日。",
+      "山手線上野站步行約五分鐘，是三日遊文化親子動線的核心。",
+      "週末人潮多，建議開園前到達；園內有簡餐與休息區。",
+    ],
+  },
+  {
+    id: "ghibli",
+    name: "三鷹之森吉卜力美術館",
+    jp: "三鷹の森ジブリ美術館",
+    station: "三鷹",
+    stationId: "mitaka",
+    lines: ["中央線（快速）"],
+    lineIds: ["chuo", "yamanote"],
+    desc: [
+      "宮崎駿動畫世界觀的室內外體驗，獨特建築與短片放映深受親子喜愛。",
+      "從新宿搭中央線快速約二十分鐘到三鷹站，再轉接駁巴士或步行。",
+      "門票採指定日時預約制，通常需提前一至二個月購票，現場無售票。",
+      "可搭配吉祥寺井之頭公園排一日，但體力要抓充裕。",
+    ],
+  },
+  {
+    id: "sunshine",
+    name: "陽光城（水族館・展望台）",
+    jp: "サンシャインシティ",
+    station: "池袋",
+    stationId: "ikebukuro",
+    lines: ["山手線", "副都心線", "有樂町線", "丸之內線"],
+    lineIds: ["yamanote", "fukutoshin", "yurakucho", "marunouchi"],
+    desc: [
+      "池袋地標複合商場，內含陽光水族館與空中展望台，雨天親子好去處。",
+      "水族館以都市天空與海洋生物結合為特色，規模適中、動線友善。",
+      "山手線池袋站東口步行約八分鐘，也可從東池袋有樂町線出站。",
+      "商場內美食與伴手禮多，可安排半日不用換區。",
+    ],
+  },
+  {
+    id: "domecity",
+    name: "東京巨蛋城",
+    jp: "東京ドームシティ",
+    station: "後樂園／水道橋",
+    stationId: "korakuen",
+    lines: ["丸之內線", "南北線", "總武線各站停車"],
+    lineIds: ["marunouchi", "namboku", "sobu_local", "yamanote"],
+    desc: [
+      "結合東京巨蛋、遊樂園、溫泉與購物中心的複合娛樂區，適合各年齡層。",
+      "雲霄飛車與旋轉設施在都市中獨特，夜間燈光氣氛佳。",
+      "丸之內線後樂園站、南北線後樂園站直達，水道橋也可步行。",
+      "若有棒球賽或演唱會，人潮會暴增，建議查活動日程。",
+    ],
+  },
+  {
+    id: "kasai",
+    name: "葛西臨海公園・大觀覽車",
+    jp: "葛西臨海公園",
+    station: "葛西",
+    stationId: "kasai",
+    lines: ["東西線"],
+    lineIds: ["tozai", "yamanote"],
+    desc: [
+      "東京都內少見的海濱公園，有 117 公尺高的鑽石與花大觀覽車，視野開闊。",
+      "園內有水上樂園（夏季開放）與鳥類園，適合喜歡戶外的親子。",
+      "東西線葛西站步行約五分鐘，遠離都心人潮，節奏悠閒。",
+      "可與迪士尼分日安排；傍晚搭大觀覽車看夕陽很受歡迎。",
+    ],
+  },
+];
+
+const PRESET_AMUSE_LINES = [...new Set([
+  "yamanote",
+  ...AMUSE_GUIDE.flatMap(t => t.lineIds),
+])];
+
+/* ========== Shopping guide (逛街採購 preset) ========== */
+const SHOP_GUIDE = [
+  {
+    id: "ginza",
+    name: "銀座",
+    jp: "銀座",
+    station: "銀座",
+    stationId: "ginza",
+    lines: ["銀座線", "丸之內線", "日比谷線"],
+    lineIds: ["ginza", "marunouchi", "hibiya", "yamanote"],
+    desc: [
+      "東京最具代表性的高級商業區，和光三越、銀座六等百貨與精品店林立。",
+      "週末部分路段變行人天堂，適合散步看街景，親子不必消費也能感受氛圍。",
+      "銀座線、丸之內線、日比谷線皆設站，從東京、上野、澀谷前來都方便。",
+      "可順遊日本橋、有樂町，安排半日至一日購物行程。",
+    ],
+  },
+  {
+    id: "omotesando",
+    name: "表參道・青山",
+    jp: "表参道・青山",
+    station: "表參道",
+    stationId: "omotesando",
+    lines: ["銀座線", "半藏門線", "千代田線"],
+    lineIds: ["ginza", "hanzomon", "chiyoda", "yamanote"],
+    desc: [
+      "林蔭大道兩旁聚集國際精品與設計選物店，建築本身也值得一看。",
+      "表參道 Hills、根津美術館一帶適合大人慢逛，親子可短停感受氛圍。",
+      "銀座線、半藏門線、千代田線交會，與原宿、明治神宮步行可串聯。",
+      "平日較不擁擠，週末午後人潮明顯，建議上午先逛。",
+    ],
+  },
+  {
+    id: "harajuku",
+    name: "原宿・竹下通",
+    jp: "原宿・竹下通り",
+    station: "原宿",
+    stationId: "harajuku",
+    lines: ["山手線", "千代田線", "副都心線"],
+    lineIds: ["yamanote", "chiyoda", "fukutoshin"],
+    desc: [
+      "竹下通是年輕流行文化聖地，平價服飾、甜點與雜貨密集，青少年最愛。",
+      "可買可麗餅、彩虹棉花糖等打卡甜點，但人潮極多請牽好小孩。",
+      "山手線原宿站出站即達，與表參道、明治神宮排同一上午最順。",
+      "週末與假日幾乎寸步難行，若帶幼兒建議平日或一早前往。",
+    ],
+  },
+  {
+    id: "shibuya",
+    name: "澀谷",
+    jp: "渋谷",
+    station: "澀谷",
+    stationId: "shibuya",
+    lines: ["山手線", "銀座線", "半藏門線", "副都心線", "東急東橫線"],
+    lineIds: ["yamanote", "ginza", "hanzomon", "fukutoshin", "toyoko"],
+    desc: [
+      "十字路口與宮下公園周邊是潮流發信地，109、Shibuya Scramble Square 等商場選擇多。",
+      "動漫、時尚、藥妝、雜貨一應俱全，適合青少年與年輕旅客採買。",
+      "五條以上路線交會，從都心各處前來都極方便，也常作為轉乘樞紐。",
+      "人潮密集，建議將購物與景點分時段，傍晚可上展望台看夜景。",
+    ],
+  },
+  {
+    id: "shinjuku",
+    name: "新宿",
+    jp: "新宿",
+    station: "新宿",
+    stationId: "shinjuku",
+    lines: ["山手線", "丸之內線", "小田急線", "京王線"],
+    lineIds: ["yamanote", "marunouchi", "odakyu", "keio", "toei_oedo"],
+    desc: [
+      "日本最繁忙的轉運與購物樞紐，伊勢丹、高島屋、小田急與京王百貨分據各口。",
+      "東口、西口、南口風格迥異：時尚、電器、藥妝、平價服飾都能找到。",
+      "山手線與多條私鐵匯聚，適合安排一整天採買與用餐。",
+      "車站結構複雜，帶小孩請記住出口編號，避免在地下街迷路。",
+    ],
+  },
+  {
+    id: "ikebukuro",
+    name: "池袋",
+    jp: "池袋",
+    station: "池袋",
+    stationId: "ikebukuro",
+    lines: ["山手線", "副都心線", "有樂町線", "丸之內線", "西武線", "東武線"],
+    lineIds: ["yamanote", "fukutoshin", "yurakucho", "marunouchi", "seibu_ike", "tobu_tojo"],
+    desc: [
+      "北側山手線最大商業區，Sunshine City、PARCO 與 animate 等動漫店集中。",
+      "西武與東武百貨分據東西兩口，藥妝、雜貨、角色商品選擇豐富。",
+      "動漫愛好者必訪，親子也可逛水族館與展望台（陽光城）。",
+      "相較澀谷、新宿，池袋人潮稍分散，但仍建議避開週末尖峰。",
+    ],
+  },
+  {
+    id: "akihabara",
+    name: "秋葉原",
+    jp: "秋葉原",
+    station: "秋葉原",
+    stationId: "akihabara",
+    lines: ["山手線", "日比谷線", "總武線各站停車"],
+    lineIds: ["yamanote", "hibiya", "sobu_local", "keihin"],
+    desc: [
+      "電器街與動漫文化聖地，電子零件、家電、模型、遊戲應有盡有。",
+      "角色商店與扭蛋機林立，親子可看但部分店鋪較成人向，請留意分級。",
+      "山手線、日比谷線、總武線交會，從上野、東京站來都只需一站。",
+      "週末外國觀光客多，可與神田古書街、上野排成半日路線。",
+    ],
+  },
+  {
+    id: "ameyoko",
+    name: "上野阿美橫町",
+    jp: "アメ横",
+    station: "御徒町／上野",
+    stationId: "okachimachi",
+    lines: ["山手線", "銀座線", "日比谷線", "京濱東北線"],
+    lineIds: ["yamanote", "ginza", "hibiya", "keihin"],
+    desc: [
+      "戰後黑市發展而成的庶民商店街，以平價零食、服飾、海產乾貨聞名。",
+      "氣氛熱鬧接地氣，適合買伴手禮與體驗東京下町購物文化。",
+      "JR 御徒町站、上野站步行皆可達，可與上野公園、動物園排同區。",
+      "週末人潮多，討價文化仍存在於部分店家，現金準備會比較方便。",
+    ],
+  },
+  {
+    id: "kichijoji",
+    name: "吉祥寺",
+    jp: "吉祥寺",
+    station: "吉祥寺",
+    stationId: "kichijoji",
+    lines: ["中央線（快速）", "京王井之頭線"],
+    lineIds: ["chuo", "keio_inokashira", "yamanote"],
+    desc: [
+      "常被評選為最想居住的街區，商店街 Harmonica Alley 與 Sun Road 小店密集。",
+      "風格比都心悠閒，服飾、雜貨、古著與咖啡廳選擇多，適合慢逛。",
+      "中央線與井之頭線交會，可與井之頭公園划船排半日至一日。",
+      "週末本地家庭客多，建議平日或上午前往體驗最佳。",
+    ],
+  },
+  {
+    id: "shimokita",
+    name: "下北澤",
+    jp: "下北沢",
+    station: "下北澤",
+    stationId: "shimokitazawa",
+    lines: ["小田急線", "京王井之頭線", "副都心線"],
+    lineIds: ["odakyu", "keio_inokashira", "fukutoshin", "yamanote"],
+    desc: [
+      "古著、二手衣與獨立小店的天堂，年輕人挖寶聖地，價格通常比都心親民。",
+      "小巷弄氣氛自由，劇場與Live House 多，白天購物、晚上可看表演。",
+      "小田急線、井之頭線、副都心線皆可抵達，從新宿、澀谷來約十至十五分鐘。",
+      "店面分散在巷內，建議穿好走的鞋，親子可短逛感受文化。",
+    ],
+  },
+];
+
+const PRESET_SHOP_LINES = [...new Set([
+  "yamanote",
+  ...SHOP_GUIDE.flatMap(t => t.lineIds),
+])];
+
+const GUIDE_PRESETS = {
+  temples: {
+    title: "寺廟祈福導覽",
+    subtitle: "東京十大名寺／神社與最近鐵路。點選地圖站點可看換車資訊。",
+    items: TEMPLE_GUIDE,
+    lines: PRESET_TEMPLE_LINES,
+  },
+  amusement: {
+    title: "遊樂設施導覽",
+    subtitle: "東京十大親子遊樂／體驗設施與最近鐵路。點選地圖站點可看換車資訊。",
+    items: AMUSE_GUIDE,
+    lines: PRESET_AMUSE_LINES,
+  },
+  shopping: {
+    title: "逛街採購導覽",
+    subtitle: "東京十大購物商圈與最近鐵路。點選地圖站點可看換車資訊。",
+    items: SHOP_GUIDE,
+    lines: PRESET_SHOP_LINES,
+  },
+};
 
 /* Station master: id → {zh, jp, x, y, area, spots, tip, tags} */
 const STATIONS = {
@@ -787,7 +1430,7 @@ const STATIONS = {
   asagaya: { zh:"阿佐谷", jp:"阿佐ヶ谷", x:290, y:420, area:"阿佐谷", spots:[], tip:"", tags:[] },
   ogikubo: { zh:"荻窪", jp:"荻窪", x:250, y:415, area:"荻窪", spots:[], tip:"丸之內線西端。", tags:[] },
   nishiogikubo: { zh:"西荻窪", jp:"西荻窪", x:210, y:410, area:"西荻窪", spots:[], tip:"", tags:[] },
-  kichijoji: { zh:"吉祥寺", jp:"吉祥寺", x:165, y:400, area:"吉祥寺", spots:["井之頭恩賜公園","吉祥寺商店街"], tip:"親子大推：公園＋划船＋散步。", tags:["親子","文化"] },
+  kichijoji: { zh:"吉祥寺", jp:"吉祥寺", x:165, y:400, area:"吉祥寺", spots:["井之頭恩賜公園","吉祥寺商店街"], tip:"井之頭線・中央線。親子大推：公園＋划船＋散步。", tags:["親子","文化"] },
   mitaka: { zh:"三鷹", jp:"三鷹", x:120, y:395, area:"三鷹", spots:["三鷹之森吉卜力美術館（需預約）"], tip:"美術館需事前預約，親子行程亮點。", tags:["親子","文化"] },
 
   // —— East / Sobu / airport ——
@@ -835,7 +1478,7 @@ const STATIONS = {
 
   // —— Tozai ——
   ochiai: { zh:"落合", jp:"落合", x:400, y:400, area:"落合", spots:[], tip:"", tags:[] },
-  waseda: { zh:"早稲田", jp:"早稲田", x:500, y:400, area:"早稲田", spots:["早稻田大學校園外觀"], tip:"", tags:["文化"] },
+  waseda: { zh:"早稲田", jp:"早稲田", x:500, y:400, area:"早稲田", spots:["早稻田大學校園外觀","演劇博物館"], tip:"東西線與都電荒川線（東京櫻花電車）交會。", tags:["文化"] },
   kagurazaka: { zh:"神楽坂", jp:"神楽坂", x:560, y:410, area:"神樂坂", spots:["神樂坂石板坡道"], tip:"傍晚氛圍佳。", tags:["文化"] },
   iidabashi: { zh:"飯田橋", jp:"飯田橋", x:600, y:420, area:"飯田橋", spots:["往神樂坂／小石川"], tip:"多線交會。", tags:[] },
   takebashi: { zh:"竹橋", jp:"竹橋", x:720, y:455, area:"竹橋", spots:["國立近代美術館"], tip:"", tags:["文化"] },
@@ -1065,6 +1708,111 @@ const STATIONS = {
   nishi_nippori: { zh:"西日暮里", jp:"西日暮里", x:720, y:255, area:"西日暮里", spots:["往谷中"], tip:"千代田線與日暮里・舍人線。", tags:["文化"] },
   shin_kiba: { zh:"新木場", jp:"新木場", x:940, y:600, area:"新木場", spots:["往葛西臨海方向"], tip:"臨海線終點，可轉有樂町線。", tags:[] },
   ariake_yuki: { zh:"有明（百合鷗）", jp:"有明", x:900, y:640, area:"有明", spots:[], tip:"", tags:[] },
+
+  // —— Toei Mita / Shinjuku ——
+  shibakoen: { zh:"芝公園", jp:"芝公園", x:705, y:585, area:"芝公園", spots:["東京鐵塔（步行約8分）"], tip:"都營三田線，可轉大門站往增上寺。", tags:["親子","文化"] },
+  onarimon: { zh:"御成門", jp:"御成門", x:725, y:570, area:"御成門", spots:["增上寺","東京鐵塔方向"], tip:"三田線，鄰近濱松町。", tags:["文化"] },
+  uchisaiwaicho: { zh:"內幸町", jp:"内幸町", x:715, y:515, area:"內幸町", spots:["日比谷公園西側"], tip:"三田線，可轉日比谷、霞ヶ関。", tags:[] },
+  hakusan: { zh:"白山", jp:"白山", x:640, y:280, area:"白山", spots:["東京大學本鄉校區（稍遠）"], tip:"三田線，可轉春日、後樂園方向。", tags:["文化"] },
+  akebonobashi: { zh:"曙橋", jp:"曙橋", x:540, y:435, area:"曙橋", spots:[], tip:"都營新宿線，可轉飯田橋、市ヶ谷。", tags:[] },
+  ogawamachi: { zh:"小川町", jp:"小川町", x:715, y:425, area:"小川町", spots:["神保町古書街（步行）"], tip:"新宿線・丸之內線，近神保町。", tags:["文化"] },
+  iwamotocho: { zh:"岩本町", jp:"岩本町", x:750, y:435, area:"岩本町", spots:[], tip:"都營新宿線，近秋葉原、神田。", tags:[] },
+  bakuroyokoyama: { zh:"馬喰橫山", jp:"馬喰横山", x:815, y:465, area:"馬喰", spots:[], tip:"新宿線可轉日比谷線、淺草線。", tags:[] },
+  hamacho: { zh:"浜町", jp:"浜町", x:840, y:450, area:"浜町", spots:["人形町傳統甜點街（步行）"], tip:"都營新宿線。", tags:["文化"] },
+  kikukawa: { zh:"菊川", jp:"菊川", x:890, y:455, area:"菊川", spots:[], tip:"", tags:[] },
+  nishiojima: { zh:"西大島", jp:"西大島", x:930, y:445, area:"西大島", spots:[], tip:"", tags:[] },
+  ojima: { zh:"大島", jp:"大島", x:950, y:435, area:"大島", spots:[], tip:"都營新宿線東端。", tags:[] },
+
+  // —— JR extra ——
+  asakusabashi: { zh:"淺草橋", jp:"浅草橋", x:840, y:405, area:"淺草橋", spots:["江戶東京博物館（轉兩國）","淺草寺方向"], tip:"總武線各停，可轉都營淺草線。", tags:["文化"] },
+  sendagaya: { zh:"千駄ヶ谷", jp:"千駄ヶ谷", x:475, y:495, area:"千駄ヶ谷", spots:["國立競技場","明治神宮外苑"], tip:"總武線各停，近代代木、原宿。", tags:["文化","親子"] },
+  itabashi: { zh:"板橋", jp:"板橋", x:520, y:240, area:"板橋", spots:[], tip:"埼京線，池袋以北換乘點。", tags:[] },
+  jujo: { zh:"十條", jp:"十条", x:560, y:175, area:"十条", spots:[], tip:"埼京線，可轉王子、赤羽方向。", tags:[] },
+  etchujima: { zh:"越中島", jp:"越中島", x:870, y:525, area:"越中島", spots:[], tip:"京葉線，近門前仲町、木場。", tags:[] },
+  maihama: { zh:"舞濱", jp:"舞浜", x:1150, y:575, area:"舞濱／迪士尼", spots:["東京迪士尼樂園","東京迪士尼海洋"], tip:"京葉線直達迪士尼，親子必記此站。", tags:["親子"] },
+
+  // —— Toden Arakawa (30 stops) ——
+  omokagebashi: { zh:"面影橋", jp:"面影橋", x:492, y:365, area:"面影橋", spots:["神田川畔","甘泉園公園方向"], tip:"都電荒川線，近早稻田。", tags:["文化"] },
+  gakushuinshita: { zh:"學習院下", jp:"学習院下", x:498, y:338, area:"學習院下", spots:["學習院大學"], tip:"都電荒川線。", tags:["文化"] },
+  kishibojinmae: { zh:"鬼子母神前", jp:"鬼子母神前", x:508, y:322, area:"雜司が谷", spots:["鬼子母神堂"], tip:"都電可轉副都心線雜司が谷。", tags:["文化"] },
+  toden_zoshigaya: { zh:"都電雜司ヶ谷", jp:"都電雑司ヶ谷", x:518, y:308, area:"雜司が谷", spots:["雜司ヶ谷靈園"], tip:"都電荒川線，不同於副都心線雜司が谷站。", tags:["文化"] },
+  higashiikebukuro4: { zh:"東池袋四丁目", jp:"東池袋四丁目", x:528, y:292, area:"東池袋", spots:["Sunshine City 方向"], tip:"都電可轉有樂町線東池袋。", tags:["親子"] },
+  mukohara: { zh:"向原", jp:"向原", x:542, y:278, area:"向原", spots:[], tip:"", tags:[] },
+  otsukaekimae: { zh:"大塚駅前", jp:"大塚駅前", x:552, y:262, area:"大塚", spots:[], tip:"都電荒川線，可轉 JR 山手線大塚。", tags:[] },
+  sugamoshinden: { zh:"巢鴨新田", jp:"巣鴨新田", x:562, y:248, area:"巣鴨", spots:[], tip:"", tags:[] },
+  koshinzuka: { zh:"庚申塚", jp:"庚申塚", x:572, y:235, area:"巣鴨", spots:["庚申塚地蔵"], tip:"都電荒川線。", tags:["文化"] },
+  shinkoshinzuka: { zh:"新庚申塚", jp:"新庚申塚", x:580, y:228, area:"西巣鴨", spots:[], tip:"都電可轉三田線西巣鴨。", tags:[] },
+  nishigahara4: { zh:"西原四丁目", jp:"西ヶ原四丁目", x:592, y:215, area:"西原", spots:[], tip:"", tags:[] },
+  takinogawa1: { zh:"瀧野川一丁目", jp:"滝野川一丁目", x:605, y:200, area:"瀧野川", spots:[], tip:"", tags:[] },
+  asukayama: { zh:"飛鳥山", jp:"飛鳥山", x:618, y:185, area:"飛鳥山", spots:["飛鳥山公園","飛鳥山微型鐵道"], tip:"都電荒川線親子亮點，可搭園內小火車。", tags:["親子","文化"] },
+  oji_ekimae: { zh:"王子駅前", jp:"王子駅前", x:632, y:172, area:"王子", spots:["飛鳥山公園（步行）"], tip:"都電可轉 JR 京濱東北線、南北線王子。", tags:["親子"] },
+  sakaecho: { zh:"榮町", jp:"栄町", x:638, y:166, area:"王子", spots:[], tip:"", tags:[] },
+  kajiwara: { zh:"梶原", jp:"梶原", x:648, y:162, area:"梶原", spots:[], tip:"", tags:[] },
+  arakawa_shako: { zh:"荒川車庫前", jp:"荒川車庫前", x:660, y:158, area:"荒川", spots:["都電車庫（視開放）"], tip:"可見路面電車整備場。", tags:["文化"] },
+  arakawa_yuen: { zh:"荒川遊園地前", jp:"荒川遊園地前", x:675, y:162, area:"荒川", spots:["荒川遊園地"], tip:"都電荒川線，小型遊樂設施。", tags:["親子"] },
+  odai: { zh:"小台", jp:"小台", x:690, y:165, area:"小台", spots:[], tip:"", tags:[] },
+  miyanomae: { zh:"宮ノ前", jp:"宮ノ前", x:705, y:168, area:"宮ノ前", spots:[], tip:"", tags:[] },
+  kumanomae: { zh:"熊野前", jp:"熊野前", x:722, y:172, area:"熊野前", spots:[], tip:"可轉日暮里・舍人ライナー。", tags:[] },
+  higashiogu3: { zh:"東尾久三丁目", jp:"東尾久三丁目", x:740, y:176, area:"東尾久", spots:[], tip:"", tags:[] },
+  machiya2: { zh:"町屋二丁目", jp:"町屋二丁目", x:758, y:182, area:"町屋", spots:[], tip:"", tags:[] },
+  machiya_ekimae: { zh:"町屋駅前", jp:"町屋駅前", x:775, y:188, area:"町屋", spots:[], tip:"都電可轉千代田線、京成本線町屋。", tags:[] },
+  arakawa7: { zh:"荒川七丁目", jp:"荒川七丁目", x:795, y:195, area:"荒川", spots:[], tip:"", tags:[] },
+  arakawa2: { zh:"荒川二丁目", jp:"荒川二丁目", x:810, y:202, area:"荒川", spots:["荒川自然公園"], tip:"", tags:["親子"] },
+  arakawa_kuyakusho: { zh:"荒川區役所前", jp:"荒川区役所前", x:825, y:210, area:"荒川", spots:[], tip:"", tags:[] },
+  arakawa_itchu: { zh:"荒川一中前", jp:"荒川一中前", x:840, y:218, area:"荒川", spots:[], tip:"", tags:[] },
+  minowabashi: { zh:"三ノ輪橋", jp:"三ノ輪橋", x:855, y:228, area:"三ノ輪橋", spots:["三ノ輪橋終點站舍"], tip:"都電荒川線東端，可轉日比谷線三ノ輪。", tags:["文化"] },
+
+  // —— Keio ——
+  keioshinjuku: { zh:"京王新宿", jp:"京王新宿", x:405, y:458, area:"京王新宿", spots:["京王百貨"], tip:"京王線起點（西口，不同於 JR 新宿）。", tags:[] },
+  hatsudai: { zh:"初台", jp:"初台", x:385, y:455, area:"初台", spots:[], tip:"", tags:[] },
+  hatagaya: { zh:"幡ヶ谷", jp:"幡ヶ谷", x:365, y:452, area:"幡ヶ谷", spots:[], tip:"", tags:[] },
+  sasazuka: { zh:"笹塚", jp:"笹塚", x:345, y:448, area:"笹塚", spots:[], tip:"", tags:[] },
+  daitabashi: { zh:"代田橋", jp:"代田橋", x:325, y:444, area:"代田橋", spots:[], tip:"", tags:[] },
+  shimotakaido: { zh:"下高井戸", jp:"下高井戸", x:305, y:440, area:"下高井戸", spots:[], tip:"京王線與井之頭線轉乘。", tags:[] },
+  keio_sakurajosui: { zh:"櫻上水", jp:"桜上水", x:285, y:435, area:"櫻上水", spots:[], tip:"", tags:[] },
+  kamikitazawa: { zh:"上北澤", jp:"上北沢", x:265, y:430, area:"上北澤", spots:[], tip:"", tags:[] },
+  hachimanyama: { zh:"八幡山", jp:"八幡山", x:245, y:425, area:"八幡山", spots:[], tip:"", tags:[] },
+  rikugien: { zh:"蘆花公園", jp:"芦花公園", x:225, y:420, area:"蘆花公園", spots:["六義園（步行約5分）"], tip:"京王線，賞櫻名園六義園在此。", tags:["文化"] },
+  chitose_karasuyama: { zh:"千歲烏山", jp:"千歳烏山", x:205, y:415, area:"千歲烏山", spots:[], tip:"", tags:[] },
+  keio_sengawa: { zh:"仙川", jp:"仙川", x:185, y:410, area:"仙川", spots:[], tip:"", tags:[] },
+  tsutsujigaoka: { zh:"杜鵑丘", jp:"つつじヶ丘", x:165, y:405, area:"杜鵑丘", spots:[], tip:"", tags:[] },
+  chofu: { zh:"調布", jp:"調布", x:120, y:400, area:"調布", spots:["調布飛行場（視活動）"], tip:"京王線西端，往高尾山方向轉乘。", tags:["文化"] },
+
+  // —— Keio Inokashira ——
+  shinsen: { zh:"神泉", jp:"神泉", x:490, y:560, area:"神泉", spots:[], tip:"井之頭線，近澀谷西口。", tags:[] },
+  komabatodaimae: { zh:"駒場東大前", jp:"駒場東大前", x:470, y:550, area:"駒場", spots:["東京大學駒場校區"], tip:"", tags:["文化"] },
+  ikenoue: { zh:"池ノ上", jp:"池ノ上", x:450, y:545, area:"池ノ上", spots:[], tip:"", tags:[] },
+  inokashira_shimo: { zh:"下北澤（井之頭）", jp:"下北沢", x:375, y:578, area:"下北澤", spots:["古著與劇場街"], tip:"井之頭線站（不同於小田急下北澤）。", tags:["文化"] },
+  shindaita: { zh:"新代田", jp:"新代田", x:350, y:570, area:"新代田", spots:[], tip:"", tags:[] },
+  meidaimae: { zh:"明大前", jp:"明大前", x:330, y:555, area:"明大前", spots:["明治大學"], tip:"井之頭線。", tags:["文化"] },
+  eifuku: { zh:"永福町", jp:"永福町", x:310, y:540, area:"永福町", spots:[], tip:"", tags:[] },
+  nishieifuku: { zh:"西永福", jp:"西永福", x:285, y:520, area:"西永福", spots:[], tip:"", tags:[] },
+  hamadayama: { zh:"濱田山", jp:"浜田山", x:255, y:500, area:"濱田山", spots:[], tip:"", tags:[] },
+  takaido: { zh:"高井戸", jp:"高井戸", x:230, y:480, area:"高井戸", spots:[], tip:"", tags:[] },
+  fujimigaoka: { zh:"富士見丘", jp:"富士見ヶ丘", x:210, y:460, area:"富士見丘", spots:[], tip:"", tags:[] },
+  kugayama: { zh:"久我山", jp:"久我山", x:195, y:445, area:"久我山", spots:[], tip:"", tags:[] },
+  mitakadai: { zh:"三鷹台", jp:"三鷹台", x:180, y:430, area:"三鷹台", spots:[], tip:"", tags:[] },
+  inokashirakoen: { zh:"井之頭公園", jp:"井の頭公園", x:168, y:405, area:"井之頭公園", spots:["井之頭恩賜公園","划船・天鵝"], tip:"井之頭線，親子划船熱門。", tags:["親子","文化"] },
+
+  // —— Tobu ——
+  kita_ikebukuro: { zh:"北池袋", jp:"北池袋", x:490, y:270, area:"北池袋", spots:[], tip:"東武東武線。", tags:[] },
+  shimoitabashi: { zh:"下板橋", jp:"下板橋", x:478, y:250, area:"下板橋", spots:[], tip:"", tags:[] },
+  oyama: { zh:"大山", jp:"大山", x:465, y:230, area:"大山", spots:["大山商店街（中華料理）"], tip:"東武線，美食街有名。", tags:["文化"] },
+  naka_itabashi: { zh:"中板橋", jp:"中板橋", x:448, y:210, area:"中板橋", spots:[], tip:"", tags:[] },
+  tokiwadai: { zh:"常盤台", jp:"ときわ台", x:430, y:195, area:"常盤台", spots:[], tip:"", tags:[] },
+  kami_itabashi: { zh:"上板橋", jp:"上板橋", x:412, y:180, area:"上板橋", spots:[], tip:"", tags:[] },
+  tobu_nerima: { zh:"東武練馬", jp:"東武練馬", x:395, y:165, area:"練馬", spots:[], tip:"", tags:[] },
+  shimo_akatsuka: { zh:"下赤塚", jp:"下赤塚", x:375, y:150, area:"下赤塚", spots:[], tip:"", tags:[] },
+  narimasu: { zh:"成增", jp:"成増", x:355, y:138, area:"成増", spots:[], tip:"", tags:[] },
+  asaka: { zh:"朝霞", jp:"朝霞", x:250, y:175, area:"朝霞", spots:[], tip:"", tags:[] },
+  asakadai: { zh:"朝霞台", jp:"朝霞台", x:220, y:170, area:"朝霞台", spots:[], tip:"", tags:[] },
+  kawagoe: { zh:"川越", jp:"川越", x:180, y:165, area:"川越", spots:["小江戶川越","時之鐘","菓子屋橫丁"], tip:"東武線直達，一日遊小江戶。", tags:["文化","親子"] },
+  tokyo_skytree: { zh:"東京晴空塔", jp:"とうきょうスカイツリー", x:888, y:315, area:"晴空塔", spots:["東京晴空塔","Solamachi"], tip:"東武晴空塔線，塔腳下車。", tags:["親子","文化"] },
+  hikifune: { zh:"曳舟", jp:"曳舟", x:925, y:310, area:"曳舟", spots:["曳舟文化遺產"], tip:"東武線，近向島百花園。", tags:["文化"] },
+  higashi_mukojima: { zh:"東向島", jp:"東向島", x:915, y:285, area:"東向島", spots:["向島百花園（步行）"], tip:"", tags:["文化"] },
+  kanegafuchi: { zh:"鐘ヶ淵", jp:"鐘ヶ淵", x:900, y:265, area:"鐘ヶ淵", spots:[], tip:"", tags:[] },
+  horikiri: { zh:"堀切", jp:"堀切", x:890, y:245, area:"堀切", spots:["堀切菖蒲園（季節）"], tip:"", tags:["文化"] },
+  ushida: { zh:"牛田", jp:"牛田", x:885, y:225, area:"牛田", spots:[], tip:"", tags:[] },
 };
 
 /* Fix a few line station id typos / ensure refs exist */
@@ -1854,7 +2602,21 @@ const STATION_INTROS = {
   "shin_ochanomizu": "新御茶ノ水可轉千代田線，近御茶ノ水、湯島。聖橋風景與樂器街可短停。可依當日體力選擇短停或轉乘。",
   "nishi_nippori": "西日暮里可轉千代田線，也可去谷中。日暮里、上野方向步行或一站可達。可依當日體力選擇短停或轉乘。",
   "shin_kiba": "新木場是臨海線終點，可轉有樂町線，往台場、豐洲方向。也可作為臨海區行程的起迄點。可依當日體力選擇短停或轉乘。",
-  "ariake_yuki": "有明（百合鷗）鄰近會展區，可去台場或 Big Sight。海景路線終點前幾站，適合親子坐車。可依當日體力選擇短停或轉乘。"
+  "ariake_yuki": "有明（百合鷗）鄰近會展區，可去台場或 Big Sight。海景路線終點前幾站，適合親子坐車。可依當日體力選擇短停或轉乘。",
+  "shibakoen": "芝公園站步行可達東京鐵塔與增上寺，親子經典動線。都營三田線沿線，可轉大門、濱松町。建議與台場或銀座行程分日安排。",
+  "onarimon": "御成門鄰近增上寺與東京鐵塔，文化與夜景兼顧。三田線可快速往目黑、日比谷。帶小孩建議避開尖峰時段換乘。",
+  "hakusan": "白山站可轉後樂園、春日方向，文京區安靜氛圍。三田線往北可去巢鴨、王子。適合作為上野與池袋之間的中繼。",
+  "asakusabashi": "淺草橋可轉都營淺草線往淺草、押上，或總武線往兩國、秋葉原。江戶文化動線的起點之一，親子友善。",
+  "maihama": "舞濱是東京迪士尼樂園與迪士尼海洋的專用站，京葉線直達。親子行程建議預留整天，早出發避開人潮。回程可在東京站轉乘其他路線。",
+  "asukayama": "飛鳥山公園有櫻花、杜鵑與園內微型鐵道，都電荒川線親子最愛一站。可連王子、巢鴨方向。建議週末上午前來人較少。",
+  "kishibojinmae": "鬼子母神前站即著名的鬼子母神堂，求子與育兒祈福。都電荒川線可轉副都心線雜司が谷。適合文化半日散步。",
+  "minowabashi": "三ノ輪橋是都電荒川線（東京櫻花電車）東端終點，復古電車氛圍濃。可轉日比谷線三ノ輪，往淺草、上野方便。",
+  "omokagebashi": "面影橋在神田川畔，可散步至甘泉園公園。都電荒川線西段，連早稻田與雜司が谷。傍晚河畔氣氛佳。",
+  "keioshinjuku": "京王新宿是京王線起點，位於新宿西口京王百貨旁，與 JR 新宿不同出口。可往調布、高尾山方向。",
+  "inokashirakoen": "井之頭公園站出站即恩賜公園，可划船、看天鵝，親子最愛。吉祥寺商店街步行可達，適合排半日。",
+  "rikugien": "蘆花公園站步行約5分即六義園，東京著名日式庭園，賞櫻與紅葉皆美。京王線沿線文化景點。",
+  "kawagoe": "川越有小江戶之稱，時之鐘、菓子屋橫丁與倉庫街適合親子文化一日遊。東武東武線直達，建議早出發。",
+  "tokyo_skytree": "東京晴空塔站即塔腳，東武晴空塔線與半藏門線押上可互換。親子可排塔、水族館與 Solamachi。"
 };
 
 function applyStationIntros() {
@@ -1890,6 +2652,7 @@ const state = {
   visible: new Set(LINES.filter(l => l.defaultOn).map(l => l.id)),
   highlightLine: null,
   searchHit: null,
+  activePreset: "main",
   panX: 0,
   panY: 0,
   scale: 1,
@@ -1897,6 +2660,36 @@ const state = {
 
 /* ========== UI: line list ========== */
 const GROUP_ORDER = ["JR", "Metro", "私鐵", "機場", "都營", "其他"];
+
+function renderGuidePanel(items) {
+  const body = document.getElementById("guidePanelBody");
+  if (!body) return;
+  body.innerHTML = items.map(t => `
+    <article class="guide-card">
+      <h3>${t.name}<small>${t.jp}</small></h3>
+      <p class="guide-meta"><b>最近車站</b> ${t.station}｜<b>鐵路</b> ${t.lines.join("、")}</p>
+      <div class="guide-desc">${t.desc.map(p => `<p>${p}</p>`).join("")}</div>
+    </article>
+  `).join("");
+}
+
+function updateGuidePanel() {
+  const meta = GUIDE_PRESETS[state.activePreset];
+  const show = !!meta;
+  const stageMain = document.getElementById("stageMain");
+  const panel = document.getElementById("guidePanel");
+  const titleEl = document.getElementById("guidePanelTitle");
+  const subEl = document.getElementById("guidePanelSubtitle");
+  if (stageMain) stageMain.classList.toggle("guide-mode", show);
+  if (panel) {
+    panel.setAttribute("aria-hidden", show ? "false" : "true");
+    if (show && meta) {
+      if (titleEl) titleEl.textContent = meta.title;
+      if (subEl) subEl.textContent = meta.subtitle;
+      renderGuidePanel(meta.items);
+    }
+  }
+}
 
 function renderLineList() {
   const root = document.getElementById("lineList");
@@ -1936,7 +2729,7 @@ const HUB_AIRPORT = new Set([
 ]);
 /** Odakyu / west departures useful for Hakone・Fuji day trips (map extent) */
 const HUB_DAYTRIP = new Set([
-  "shinjuku", "machida", "shinyurigaoka", "noborito", "yokohama",
+  "shinjuku", "machida", "shinyurigaoka", "noborito", "yokohama", "maihama", "kawagoe", "chofu",
 ]);
 
 function hubKind(sid, linesHere) {
@@ -2468,6 +3261,8 @@ document.getElementById("lineList").addEventListener("change", (e) => {
   if (cb.checked) state.visible.add(cb.dataset.line);
   else state.visible.delete(cb.dataset.line);
   document.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
+  state.activePreset = null;
+  updateGuidePanel();
   renderMap();
 });
 
@@ -2477,14 +3272,23 @@ document.querySelector(".quick-row").addEventListener("click", (e) => {
   document.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
   chip.classList.add("active");
   const p = chip.dataset.preset;
+  state.activePreset = p;
   state.visible.clear();
   if (p === "main") LINES.filter(l => l.defaultOn).forEach(l => state.visible.add(l.id));
   else if (p === "jr") LINES.filter(l => l.group === "JR").forEach(l => state.visible.add(l.id));
   else if (p === "metro") LINES.filter(l => l.group === "Metro").forEach(l => state.visible.add(l.id));
-  else if (p === "airport") LINES.filter(l => l.group === "機場" || ["keikyu","yamanote","keihin"].includes(l.id)).forEach(l => state.visible.add(l.id));
+  else if (p === "narita") ["nex","skyliner","yamanote","keihin","ginza","hibiya"].forEach(id => state.visible.add(id));
+  else if (p === "haneda") ["keikyu","monorail","yamanote","keihin","toei_asakusa"].forEach(id => state.visible.add(id));
+  else if (p === "suburbs") [
+    "yamanote","chuo","sobu","sobu_local","tozai","keiyo","joban","hibiya","chiyoda",
+    "odakyu","seibu_ike","seibu_shin","toyoko","keio","keio_inokashira","tobu_tojo",
+    "rinkai","yurikamome","saikyo","fukutoshin"
+  ].forEach(id => state.visible.add(id));
+  else if (GUIDE_PRESETS[p]) GUIDE_PRESETS[p].lines.forEach(id => state.visible.add(id));
   else if (p === "all") LINES.forEach(l => state.visible.add(l.id));
   // none: leave empty
   state.highlightLine = null;
+  updateGuidePanel();
   renderLineList();
   renderMap();
 });
@@ -2625,6 +3429,7 @@ searchInput.addEventListener("keydown", (e) => {
 
 /* Init */
 renderLineList();
+updateGuidePanel();
 renderMap();
 
 // Initial framing: focus central Tokyo
