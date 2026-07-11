@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/attraction-resources.js"></script>
 <title>景點導覽｜河口湖・箱根｜自然與人文</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -87,6 +89,7 @@
   .type-culture { background: #fef3c7; color: #92400e; }
   .type-view { background: #dbeafe; color: #1e40af; }
   .type-shrine { background: #fce7f3; color: #9d174d; }
+  .rain-tag { display: inline-block; margin-left: 4px; padding: 1px 7px; border-radius: 10px; background: #e0f2fe; color: #075985; font-size: 0.65rem; font-weight: 700; vertical-align: middle; }
 
   .spot-meta {
     display: flex; gap: 14px; flex-wrap: wrap;
@@ -110,6 +113,16 @@
     padding: 2px 8px; border-radius: 10px; font-weight: 600;
   }
 
+  .supply-guide { margin: 4px 0 24px; padding: 16px; border: 1px solid #dbeafe; border-radius: 14px; background: linear-gradient(135deg,#eff6ff,#f8fafc); }
+  .supply-guide h2 { font-size: 1rem; color: #1e3a5f; margin-bottom: 4px; }
+  .supply-guide > p { color: #52636e; font-size: .78rem; margin-bottom: 12px; }
+  .supply-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
+  .supply-card { padding: 12px; border-radius: 10px; background: rgba(255,255,255,.9); border: 1px solid #e2e8f0; }
+  .supply-card h3 { color: #0f4c5c; font-size: .85rem; margin-bottom: 7px; }
+  .supply-card ul { margin: 0; padding-left: 18px; color: #52636e; font-size: .74rem; line-height: 1.6; }
+  .supply-card li + li { margin-top: 5px; }
+  .supply-card strong { color: #334155; }
+
   footer { text-align: center; color: #aaa; font-size: 0.72rem; margin-top: 16px; }
 
   @media print {
@@ -122,10 +135,11 @@
   .trip-nav a { color: #475569; text-decoration: none; font-size: .78rem; font-weight: 700; padding: 3px 7px; border-radius: 999px; }
   .trip-nav a:hover, .trip-nav a[aria-current="page"] { color: #065f46; background: #d1fae5; }
   @media (max-width: 480px) { .trip-nav { gap: 2px 5px; padding: 6px; } .trip-nav a { font-size: .72rem; padding: 3px 5px; } }
+  @media (max-width: 650px) { .supply-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
-<nav class="trip-nav" aria-label="旅程工具"><a href="trip_portal.html">入口</a><a href="index.html">鐵路</a><a href="transportation_guide.html">交通</a><a href="attractions_guide.html" aria-current="page">景點</a><a href="packing_checklist.html">清單</a><a href="japanese_phrases.html">日語</a><a href="emergency_guide.html">緊急</a></nav>
+<nav class="trip-nav" aria-label="旅程工具"><a href="index.html">入口</a><a href="tokyo_rail.html">鐵路</a><a href="transportation_guide.html">交通</a><a href="attractions_guide.html" aria-current="page">景點</a><a href="packing_checklist.html">清單</a><a href="japanese_phrases.html">日語</a><a href="emergency_guide.html">緊急</a></nav>
 
 <header>
   <h1>🏔️ 河口湖・箱根景點導覽</h1>
@@ -138,6 +152,16 @@
 </div>
 
 <main>
+
+<section class="supply-guide" aria-labelledby="supply-title">
+  <h2 id="supply-title">🛒 住宿周邊補給</h2>
+  <p>偏遠區域晚間選擇少；便利商店可補飲水、早餐與零食，大型超市建議在抵達前或白天先買。營業時間可能調整，出發前再以地圖／店家公告確認。</p>
+  <div class="supply-grid">
+    <article class="supply-card"><h3>Day 1｜DOT HOSTEL（大石）</h3><ul><li><strong>Y Shop 河口湖大石店</strong>：車程約 5 分；小型便利商店，<strong>營業時間請當日確認</strong>（網路資料不一致）。</li><li><strong>農產直賣所 おおいし屋</strong>：大石公園內；白天補水果、零食與伴手禮，<strong>約 9:00–17:00</strong>。</li><li><strong>いちやまマート／イッツモア赤坂店</strong>：車程約 20 分；大型超市，<strong>9:30–21:00</strong>。建議往大石前先採買。</li></ul></article>
+    <article class="supply-card"><h3>Day 2–3｜富士晴（船津）</h3><ul><li><strong>7-ELEVEN 河口湖大橋南店</strong>：步行約 10 分；便利商店，<strong>24 小時</strong>。</li><li><strong>LAWSON 河口湖畔店</strong>：步行約 15 分；便利商店，<strong>24 小時</strong>。</li><li><strong>いちやまマート／イッツモア赤坂店</strong>：車程約 10 分；大型超市，<strong>9:30–21:00</strong>。</li></ul></article>
+    <article class="supply-card"><h3>Day 4｜UENOYAMA（仙石原）</h3><ul><li><strong>LAWSON 箱根仙石原店</strong>：步行約 5 分；便利商店，<strong>24 小時</strong>。</li><li><strong>A・COOP 仙石原店</strong>：步行約 10 分；生鮮與熟食，7–9 月<strong> 9:30–19:00</strong>。</li><li><strong>LAWSON 箱根仙石高原店</strong>：車程約 5 分；便利商店，<strong>24 小時</strong>。</li></ul></article>
+  </div>
+</section>
 
 <!-- ═══════════════════════════════════════════ -->
 <!--  河口湖・富士五湖                            -->
@@ -175,7 +199,7 @@
       <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
         <div class="spot-icon">🏛️</div>
         <div class="spot-body">
-          <span class="spot-name">河口湖自然生活館</span><span class="spot-type type-nature">自然</span>
+          <span class="spot-name">河口湖自然生活館</span><span class="spot-type type-nature">自然</span><span class="rain-tag">☔ 雨天備案</span>
           <div class="spot-meta">
             <span>📍 步行 3 分（210m）</span><span>⏱ 20~30 分</span><span>🆓 免費</span>
           </div>
@@ -208,7 +232,7 @@
     <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
       <div class="spot-icon">👘</div>
       <div class="spot-body">
-        <span class="spot-name">久保田一竹美術館</span><span class="spot-type type-culture">人文</span>
+          <span class="spot-name">久保田一竹美術館</span><span class="spot-type type-culture">人文</span><span class="rain-tag">☔ 雨天備案</span>
         <div class="spot-meta">
           <span>📍 Red Line 巴士 20 分</span><span>⏱ 1~1.5 小時</span><span>💰 ¥1,300</span>
         </div>
@@ -252,7 +276,7 @@
       <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
         <div class="spot-icon">🎵</div>
         <div class="spot-body">
-          <span class="spot-name">河口湖音樂森林美術館</span><span class="spot-type type-culture">人文</span>
+          <span class="spot-name">河口湖音樂森林美術館</span><span class="spot-type type-culture">人文</span><span class="rain-tag">☔ 雨天備案</span>
           <div class="spot-meta">
             <span>📍 Red Line 巴士 15 分</span><span>⏱ 1~2 小時</span><span>💰 ¥2,100</span>
           </div>
@@ -374,7 +398,7 @@
       <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
         <div class="spot-icon">🕳️</div>
         <div class="spot-body">
-          <span class="spot-name">富岳風穴・鳴澤冰穴</span><span class="spot-type type-nature">自然</span>
+          <span class="spot-name">富岳風穴・鳴澤冰穴</span><span class="spot-type type-nature">自然</span><span class="rain-tag">☔ 雨天備案</span>
           <div class="spot-meta">
             <span>📍 Green Line 巴士 30 分</span><span>⏱ 1 小時</span><span>💰 各 ¥400</span>
           </div>
@@ -604,7 +628,7 @@
       <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
         <div class="spot-icon">🏛️</div>
         <div class="spot-body">
-          <span class="spot-name">波拉美術館（Pola Museum of Art）</span><span class="spot-type type-culture">人文</span>
+          <span class="spot-name">波拉美術館（Pola Museum of Art）</span><span class="spot-type type-culture">人文</span><span class="rain-tag">☔ 雨天備案</span>
           <div class="spot-meta">
             <span>📍 巴士 5 分／步行 25 分</span><span>⏱ 1~2 小時</span><span>💰 ¥1,800</span>
           </div>
@@ -620,7 +644,7 @@
       <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
         <div class="spot-icon">🖼️</div>
         <div class="spot-body">
-          <span class="spot-name">箱根拉利克美術館</span><span class="spot-type type-culture">人文</span>
+          <span class="spot-name">箱根拉利克美術館</span><span class="spot-type type-culture">人文</span><span class="rain-tag">☔ 雨天備案</span>
           <div class="spot-meta">
             <span>📍 步行 3 分（100m）</span><span>⏱ 1 小時</span><span>💰 ¥1,500</span>
           </div>
@@ -636,7 +660,7 @@
       <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
         <div class="spot-icon">🎨</div>
         <div class="spot-body">
-          <span class="spot-name">威尼斯玻璃美術館</span><span class="spot-type type-culture">人文</span>
+          <span class="spot-name">威尼斯玻璃美術館</span><span class="spot-type type-culture">人文</span><span class="rain-tag">☔ 雨天備案</span>
           <div class="spot-meta">
             <span>📍 步行 12 分（880m）</span><span>⏱ 1~1.5 小時</span><span>💰 ¥1,500</span>
           </div>
@@ -774,7 +798,7 @@
       <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
         <div class="spot-icon">🏺</div>
         <div class="spot-body">
-          <span class="spot-name">箱根美術館</span><span class="spot-type type-culture">人文</span>
+          <span class="spot-name">箱根美術館</span><span class="spot-type type-culture">人文</span><span class="rain-tag">☔ 雨天備案</span>
           <div class="spot-meta">
             <span>📍 強羅站步行 3 分</span><span>⏱ 1 小時</span><span>💰 ¥1,300</span>
           </div>
@@ -919,7 +943,7 @@
     <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
       <div class="spot-icon">🖼️</div>
       <div class="spot-body">
-        <span class="spot-name">成川美術館</span><span class="spot-type type-culture">人文</span>
+          <span class="spot-name">成川美術館</span><span class="spot-type type-culture">人文</span><span class="rain-tag">☔ 雨天備案</span>
         <div class="spot-meta">
           <span>📍 元箱根港步行 3 分</span><span>⏱ 45 分~1 小時</span><span>💰 ¥1,300</span>
         </div>
@@ -998,7 +1022,7 @@
       <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
         <div class="spot-icon">💦</div>
         <div class="spot-body">
-          <span class="spot-name">箱根小涌園 Yunessun</span><span class="spot-type type-nature">溫泉體驗</span>
+          <span class="spot-name">箱根小涌園 Yunessun</span><span class="spot-type type-nature">溫泉體驗</span><span class="rain-tag">☔ 雨天備案</span>
           <div class="spot-meta">
             <span>📍 小涌谷站轉巴士</span><span>⏱ 半天</span><span>💰 票價／營運日請查官網</span>
           </div>
@@ -1047,5 +1071,6 @@ function switchRegion(region) {
 }
 </script>
 
+<script src="assets/site.js" defer></script>
 </body>
 </html>

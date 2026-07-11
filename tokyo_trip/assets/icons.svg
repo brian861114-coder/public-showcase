@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg"><defs>
+<symbol id="calendar" viewBox="0 0 24 24"><path d="M8 2v4m8-4v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14H3V6a2 2 0 0 1 2-2Z"/></symbol>
+<symbol id="check" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4M21 12v8H3V4h12"/></symbol>
+<symbol id="train" viewBox="0 0 24 24"><path d="M6 17l-2 4m14-4 2 4M4 15V5c0-3 16-3 16 0v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Zm0-6h16M8 13h.01M16 13h.01"/></symbol>
+<symbol id="pin" viewBox="0 0 24 24"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2"/></symbol>
+<symbol id="map" viewBox="0 0 24 24"><path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3V6Zm6-3v15m6-12v15"/></symbol>
+<symbol id="languages" viewBox="0 0 24 24"><path d="M2 5h12M8 2v3m-3 4c2 4 5 6 9 7m-1-7c-2 4-5 6-9 7m12-2 3-7 3 7m-5-2h4"/></symbol>
+<symbol id="shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Zm0-13v4m0 3h.01"/></symbol>
+<symbol id="wallet" viewBox="0 0 24 24"><path d="M3 6h16a2 2 0 0 1 2 2v12H3V6Zm0 0V4h14v2m0 6h4m-4 0v4h4"/></symbol>
+<symbol id="search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
+</defs></svg>

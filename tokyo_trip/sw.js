@@ -1,0 +1,28 @@
+const CACHE='tokyo-trip-gh-v1';
+const ASSETS=[
+  './',
+  './index.html',
+  './tokyo_rail.html',
+  './trip_timeline.html',
+  './packing_checklist.html',
+  './transportation_guide.html',
+  './attractions_guide.html',
+  './japanese_phrases.html',
+  './emergency_guide.html',
+  './budget.html',
+  './search.html',
+  './assets/icon.svg',
+  './assets/icons.svg',
+  './assets/noise.svg',
+  './assets/images/kawaguchiko-hero.webp',
+  './assets/images/hakone-forest.webp',
+  './assets/images/tokyo-rail.webp',
+  './assets/site.css',
+  './assets/site.js',
+  './assets/trip-data.js',
+  './assets/attraction-resources.js',
+  './manifest.webmanifest'
+];
+self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting())));
+self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
+self.addEventListener('fetch',event=>{if(event.request.method!=='GET')return;event.respondWith(caches.match(event.request).then(cached=>cached||fetch(event.request).then(response=>{const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(event.request,copy));return response;}).catch(()=>caches.match('./index.html'))));});
