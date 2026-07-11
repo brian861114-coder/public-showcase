@@ -16,6 +16,10 @@ npx --yes serve .
 
 瀏覽器開啟顯示的網址；入口為 `index.html`。
 
+## 上傳到 GitHub
+
+詳細步驟請見 **[GITHUB_PAGES_DEPLOY.md](./GITHUB_PAGES_DEPLOY.md)**（含 public-showcase 更新流程、檢查清單與常見問題）。
+
 ## 部署到 GitHub Pages
 
 1. 將此資料夾推到 GitHub 儲存庫（可為獨立 repo，或 monorepo 的 `/docs`／子目錄）。
