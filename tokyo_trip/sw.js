@@ -1,8 +1,9 @@
-const CACHE='tokyo-trip-gh-v1';
+const CACHE='tokyo-trip-gh-v8';
 const ASSETS=[
   './',
   './index.html',
   './tokyo_rail.html',
+  './fuji_hakone_rail.html',
   './trip_timeline.html',
   './packing_checklist.html',
   './transportation_guide.html',
@@ -17,6 +18,16 @@ const ASSETS=[
   './assets/images/kawaguchiko-hero.webp',
   './assets/images/hakone-forest.webp',
   './assets/images/tokyo-rail.webp',
+  './assets/images/map-icons/mount-fuji.png',
+  './assets/images/map-icons/lake-kawaguchiko.png',
+  './assets/images/map-icons/tenjo-ropeway.png',
+  './assets/images/map-icons/owakudani.png',
+  './assets/images/map-icons/lake-ashi.png',
+  './assets/images/map-icons/gotemba-station.png',
+  './assets/images/map-icons/chureito-pagoda.png',
+  './assets/images/map-icons/oishi-park.png',
+  './assets/images/map-icons/hakone-torii.png',
+  './assets/images/map-icons/sengokuhara.png',
   './assets/site.css',
   './assets/site.js',
   './assets/trip-data.js',

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="assets/site.css">
 <script src="assets/attraction-resources.js"></script>
-<title>景點導覽｜河口湖・箱根｜自然與人文</title>
+<title>景點導覽｜河口湖・箱根・東京｜自然與人文</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -42,12 +42,17 @@
   .region-content { display: none; }
   .region-content.active { display: block; }
 
-  /* ── Area Section ── */
+  /* ── Area Section（一個地點一組，景點包在區塊內）── */
   .area {
-    margin-bottom: 20px;
+    margin-bottom: 22px;
+    padding: 12px 12px 6px;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
   }
   .area-header {
-    display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
     padding: 10px 14px; border-radius: 10px;
   }
   .area-icon { font-size: 1.6rem; flex-shrink: 0; }
@@ -68,11 +73,32 @@
   .area-hak4 { background: #fefce8; color: #854d0e; border-left: 4px solid #854d0e; }
   .area-hak5 { background: #f5f3ff; color: #5b21b6; border-left: 4px solid #5b21b6; }
 
+  .area-tky1 { background: #eff6ff; color: #1e3a8a; border-left: 4px solid #1e40af; }
+  .area-tky2 { background: #ecfdf5; color: #064e3b; border-left: 4px solid #059669; }
+  .area-tky3 { background: #fff7ed; color: #9a3412; border-left: 4px solid #ea580c; }
+  .area-tky4 { background: #fef3c7; color: #92400e; border-left: 4px solid #d97706; }
+  .area-tky5 { background: #fdf2f8; color: #9d174d; border-left: 4px solid #db2777; }
+  .area-tky6 { background: #fce7f3; color: #9d174d; border-left: 4px solid #ec4899; }
+  .area-tky7 { background: #f5f3ff; color: #5b21b6; border-left: 4px solid #7c3aed; }
+  .area-tky8 { background: #e0e7ff; color: #3730a3; border-left: 4px solid #4f46e5; }
+  .area-tky9 { background: #f0f9ff; color: #0369a1; border-left: 4px solid #0284c7; }
+  .area-tky10 { background: #ecfeff; color: #155e75; border-left: 4px solid #0891b2; }
+  .area-tky11 { background: #fefce8; color: #854d0e; border-left: 4px solid #ca8a04; }
+  .area-tky12 { background: #fff1f2; color: #9f1239; border-left: 4px solid #e11d48; }
+  .area-tky13 { background: #f0fdf4; color: #166534; border-left: 4px solid #16a34a; }
+  .area-tky14 { background: #faf5ff; color: #6b21a8; border-left: 4px solid #9333ea; }
+  .area-tky15 { background: #fff7ed; color: #9a3412; border-left: 4px solid #f97316; }
+  .area-tky16 { background: #f8fafc; color: #334155; border-left: 4px solid #64748b; }
+
+  .type-shop { background: #fce7f3; color: #9d174d; }
+  .type-fun { background: #e0e7ff; color: #3730a3; }
+
   /* ── Spot Cards ── */
   .spot {
-    background: white; border-radius: 10px; margin-bottom: 10px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06); overflow: hidden;
+    background: #fafafa; border-radius: 10px; margin-bottom: 8px;
+    border: 1px solid #f1f5f9; overflow: hidden;
   }
+  .area > .spot:last-child { margin-bottom: 6px; }
   .spot-header {
     display: flex; align-items: center; padding: 12px 14px; gap: 10px;
     cursor: pointer; user-select: none;
@@ -116,7 +142,7 @@
   .supply-guide { margin: 4px 0 24px; padding: 16px; border: 1px solid #dbeafe; border-radius: 14px; background: linear-gradient(135deg,#eff6ff,#f8fafc); }
   .supply-guide h2 { font-size: 1rem; color: #1e3a5f; margin-bottom: 4px; }
   .supply-guide > p { color: #52636e; font-size: .78rem; margin-bottom: 12px; }
-  .supply-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
+  .supply-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap: 10px; }
   .supply-card { padding: 12px; border-radius: 10px; background: rgba(255,255,255,.9); border: 1px solid #e2e8f0; }
   .supply-card h3 { color: #0f4c5c; font-size: .85rem; margin-bottom: 7px; }
   .supply-card ul { margin: 0; padding-left: 18px; color: #52636e; font-size: .74rem; line-height: 1.6; }
@@ -142,20 +168,21 @@
 <nav class="trip-nav" aria-label="旅程工具"><a href="index.html">入口</a><a href="tokyo_rail.html">鐵路</a><a href="transportation_guide.html">交通</a><a href="attractions_guide.html" aria-current="page">景點</a><a href="packing_checklist.html">清單</a><a href="japanese_phrases.html">日語</a><a href="emergency_guide.html">緊急</a></nav>
 
 <header>
-  <h1>🏔️ 河口湖・箱根景點導覽</h1>
-  <div class="sub">7/19-7/25 · 自然景觀＋人文古蹟 · 公共交通 1 小時內可達</div>
+  <h1>🏔️ 河口湖・箱根・東京景點導覽</h1>
+  <div class="sub">7/19-7/25 · 自然景觀＋人文古蹟 · 公共交通可達</div>
 </header>
 
 <div class="region-tabs">
   <div class="r-tab active" onclick="switchRegion('fuji')">🏔️ 河口湖 · 富士五湖</div>
   <div class="r-tab" onclick="switchRegion('hakone')">♨️ 箱根</div>
+  <div class="r-tab" onclick="switchRegion('tokyo')">🗼 東京</div>
 </div>
 
 <main>
 
 <section class="supply-guide" aria-labelledby="supply-title">
   <h2 id="supply-title">🛒 住宿周邊補給</h2>
-  <p>偏遠區域晚間選擇少；便利商店可補飲水、早餐與零食，大型超市建議在抵達前或白天先買。營業時間可能調整，出發前再以地圖／店家公告確認。</p>
+  <p>偏遠區域晚間選擇少；便利商店可補飲水、早餐與零食，大型超市建議在抵達前或白天先買。營業時間可能調整，出發前再以地圖／店家公告確認。河口湖・箱根交通見 <a href="fuji_hakone_rail.html">區域交通導覽</a>；東京市區見 <a href="tokyo_rail.html">東京鐵路導覽</a>。</p>
   <div class="supply-grid">
     <article class="supply-card"><h3>Day 1｜DOT HOSTEL（大石）</h3><ul><li><strong>Y Shop 河口湖大石店</strong>：車程約 5 分；小型便利商店，<strong>營業時間請當日確認</strong>（網路資料不一致）。</li><li><strong>農產直賣所 おおいし屋</strong>：大石公園內；白天補水果、零食與伴手禮，<strong>約 9:00–17:00</strong>。</li><li><strong>いちやまマート／イッツモア赤坂店</strong>：車程約 20 分；大型超市，<strong>9:30–21:00</strong>。建議往大石前先採買。</li></ul></article>
     <article class="supply-card"><h3>Day 2–3｜富士晴（船津）</h3><ul><li><strong>7-ELEVEN 河口湖大橋南店</strong>：步行約 10 分；便利商店，<strong>24 小時</strong>。</li><li><strong>LAWSON 河口湖畔店</strong>：步行約 15 分；便利商店，<strong>24 小時</strong>。</li><li><strong>いちやまマート／イッツモア赤坂店</strong>：車程約 10 分；大型超市，<strong>9:30–21:00</strong>。</li></ul></article>
@@ -213,39 +240,6 @@
     </div>
   </div>
 
-  <div class="spot">
-    <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
-      <div class="spot-icon">⛴️</div>
-      <div class="spot-body">
-        <span class="spot-name">河口湖遊覽船（Appare 號）</span><span class="spot-type type-nature">自然</span>
-        <div class="spot-meta">
-          <span>📍 河口湖站步行 5 分</span><span>⏱ 20 分航程</span><span>💰 ¥1,000</span>
-        </div>
-      </div>
-      <span class="spot-toggle">▼</span>
-    </div>
-    <div class="spot-detail">
-      <p>從河口湖上欣賞富士山的經典方式。仿戰國水軍船造型的 Appare 號，從湖中央看<span class="hl">360 度富士山＋湖畔全景</span>。夏季甲板風很舒服。每 30 分一班，不需預約。與天上山纜車有套票組合（¥1,600）。</p>
-    </div>
-  </div>
-
-  <div class="spot">
-    <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
-      <div class="spot-icon">👘</div>
-      <div class="spot-body">
-          <span class="spot-name">久保田一竹美術館</span><span class="spot-type type-culture">人文</span><span class="rain-tag">☔ 雨天備案</span>
-        <div class="spot-meta">
-          <span>📍 Red Line 巴士 20 分</span><span>⏱ 1~1.5 小時</span><span>💰 ¥1,300</span>
-        </div>
-      </div>
-      <span class="spot-toggle">▼</span>
-    </div>
-    <div class="spot-detail">
-      <p>展示<span class="hl">染色大師久保田一竹的絞染和服</span>。作品以富士山和四季為主題，每一件都是數年製作而成，色彩如夢似幻。建築本身也是藝術——由沖繩珊瑚石灰岩打造，融入河口湖自然景觀。庭園可眺望富士山，附設茶室供應抹茶。</p>
-      <p style="margin-top:4px;">常被稱為「河口湖最美的美術館」。即使對和服沒興趣，光是建築和庭園就值得專程前往。</p>
-    </div>
-  </div>
-
   <!-- Area 2: 東岸/南岸 -->
   <div class="area">
     <div class="area-header area-fuji2">
@@ -253,6 +247,39 @@
       <div class="area-info">
         <div class="area-name">河口湖東岸・南岸 — 車站周邊</div>
         <div class="area-desc">周遊巴士 Red Line 約 10~20 分 · 住宿富士晴就在這區</div>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">⛴️</div>
+        <div class="spot-body">
+          <span class="spot-name">河口湖遊覽船（Appare 號）</span><span class="spot-type type-nature">自然</span>
+          <div class="spot-meta">
+            <span>📍 河口湖站步行 5 分</span><span>⏱ 20 分航程</span><span>💰 ¥1,000</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>從河口湖上欣賞富士山的經典方式。仿戰國水軍船造型的 Appare 號，從湖中央看<span class="hl">360 度富士山＋湖畔全景</span>。夏季甲板風很舒服。每 30 分一班，不需預約。與天上山纜車有套票組合（¥1,600）。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">👘</div>
+        <div class="spot-body">
+          <span class="spot-name">久保田一竹美術館</span><span class="spot-type type-culture">人文</span><span class="rain-tag">☔ 雨天備案</span>
+          <div class="spot-meta">
+            <span>📍 Red Line 巴士 20 分</span><span>⏱ 1~1.5 小時</span><span>💰 ¥1,300</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>展示<span class="hl">染色大師久保田一竹的絞染和服</span>。作品以富士山和四季為主題，每一件都是數年製作而成，色彩如夢似幻。建築本身也是藝術——由沖繩珊瑚石灰岩打造，融入河口湖自然景觀。庭園可眺望富士山，附設茶室供應抹茶。</p>
+        <p style="margin-top:4px;">常被稱為「河口湖最美的美術館」。即使對和服沒興趣，光是建築和庭園就值得專程前往。</p>
       </div>
     </div>
 
@@ -365,8 +392,6 @@
         <p>下吉田的<span class="hl">昭和復古老街</span>，街道盡頭就是巨大富士山——另一個經典 IG 打卡點。老式商店街保留昭和風情，跟河口湖邊完全不一樣的氛圍。拍完新倉山淺間公園下山順路就經過。</p>
       </div>
     </div>
-  </div>
-
 
     <div class="spot">
       <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
@@ -384,6 +409,7 @@
         <p style="margin-top:4px;">🎯 從富士晴 Guest House 步行只要 8 分鐘！住南岸時隨時可去。推薦清晨參拜，光線穿過杉林非常夢幻。</p>
       </div>
     </div>
+  </div>
 
   <!-- Area 4: 西湖・精進湖・本栖湖 -->
   <div class="area">
@@ -444,8 +470,6 @@
         <p style="margin-top:4px;">Blue Line 班次較少，出發前查好時刻表。比較適合排完整半天。</p>
       </div>
     </div>
-  </div>
-
 
     <div class="spot">
       <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
@@ -463,6 +487,7 @@
         <p style="margin-top:4px;">🎯 湖邊只有老旅館和露營場，極度安靜。追求秘境感必訪。可與本栖湖排同一天（同一條巴士線）。</p>
       </div>
     </div>
+  </div>
 
   <!-- Area 5: 忍野・富士山 -->
   <div class="area">
@@ -524,8 +549,6 @@
         <p style="margin-top:4px;">從 DOT HOSTEL 搭 Red Line 巴士往河口湖站方向，在淺間神社前下車。</p>
       </div>
     </div>
-  </div>
-
   </div>
 
   <!-- Area 6: 山中湖 -->
@@ -689,22 +712,6 @@
         <p style="margin-top:4px;">🎯 <strong>住宿最近景點！</strong>7/22 入住後散步過去剛剛好。仙石原芒草原＋濕生花園可排一起。</p>
       </div>
     </div>
-
-    <div class="spot">
-      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
-        <div class="spot-icon">🗿</div>
-        <div class="spot-body">
-          <span class="spot-name">箱根雕刻之森美術館</span><span class="spot-type type-culture">人氣必去</span>
-          <div class="spot-meta">
-            <span>📍 雕刻之森站步行 2 分</span><span>⏱ 1.5~2.5 小時</span><span>💰 票價請查官網</span>
-          </div>
-        </div>
-        <span class="spot-toggle">▼</span>
-      </div>
-      <div class="spot-detail">
-        <p>箱根最受歡迎的美術館之一，將大型戶外雕塑、山景與室內展覽結合；即使不特別研究藝術，也很適合在夏天慢慢散步。從仙石原搭巴士到強羅／雕刻之森一帶後可順遊，親子或雨天行程也友善。</p>
-      </div>
-    </div>
   </div>
 
   <!-- Area 2: 大湧谷・桃源台 -->
@@ -749,8 +756,6 @@
         <p>全長約 4 公里，從早雲山經大湧谷到桃源台。搭乘過程本身就是一個景點——<span class="hl">鳥瞰大湧谷火山蒸氣、蘆之湖、富士山</span>（天氣好時）。下降段可以看到蘆之湖從遠方逐漸接近的全景，非常震撼。每班次間隔短，不需排隊。</p>
       </div>
     </div>
-  </div>
-
 
     <div class="spot">
       <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
@@ -768,6 +773,7 @@
         <p style="margin-top:4px;">從小涌谷站沿指標走約 20 分鐘，路面多落葉和樹根，建議穿好走的鞋。可與箱根登山電車排一起。</p>
       </div>
     </div>
+  </div>
 
   <!-- Area 3: 強羅・早雲山 -->
   <div class="area">
@@ -825,6 +831,39 @@
       </div>
       <div class="spot-detail">
         <p>這條登山電車本身就可當作景點！它是日本<span class="hl">最陡的鐵道之一</span>（最大坡度 80‰），沿途穿過山谷、隧道、橋樑和森林。6~7 月沿線<span class="hl">繡球花（紫陽花）盛開</span>，電車穿過花叢的畫面是經典——甚至被稱為「紫陽花電車」。晚上有夜間點燈。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🗿</div>
+        <div class="spot-body">
+          <span class="spot-name">箱根雕刻之森美術館</span><span class="spot-type type-culture">人氣必去</span>
+          <div class="spot-meta">
+            <span>📍 雕刻之森站步行 2 分</span><span>⏱ 1.5~2.5 小時</span><span>💰 票價請查官網</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>箱根最受歡迎的美術館之一，將大型戶外雕塑、山景與室內展覽結合；即使不特別研究藝術，也很適合在夏天慢慢散步。從仙石原搭巴士到強羅／雕刻之森一帶後可順遊，親子或雨天行程也友善。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">⛩️</div>
+        <div class="spot-body">
+          <span class="spot-name">深沢銭洗弁天</span><span class="spot-type type-shrine">神社</span>
+          <div class="spot-meta">
+            <span>📍 強羅站步行 15 分</span><span>⏱ 20~30 分</span><span>🆓 免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>箱根的隱藏版<span class="hl">錢洗神社</span>——在神社旁的溪水中清洗錢幣，據說財運會倍增。藏在強羅住宅區的小徑深處，連很多日本人都不知道。境內被高聳杉木包圍，溪水清澈，氣氛神秘。</p>
+        <p style="margin-top:4px;">🎯 從強羅站走約 15 分鐘（上坡路）。準備幾個硬幣去洗，帶回家當財運御守。參拜完可順路逛強羅公園。</p>
       </div>
     </div>
   </div>
@@ -919,44 +958,40 @@
         <p>全長約 1 公里的江戶時代石板古道，兩側是<span class="hl">樹齡 400+ 年的巨杉林</span>。走在當年武士和旅人踏過的石頭上，穿越杉木隧道——時間旅行般的體驗。地面有苔蘚，陰天或雨後更添氣氛。從箱根關所散步過來只需幾分鐘。</p>
       </div>
     </div>
-  </div>
 
-  </div>
-
-  <div class="spot">
-    <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
-      <div class="spot-icon">🏯</div>
-      <div class="spot-body">
-        <span class="spot-name">恩賜箱根公園</span><span class="spot-type type-nature">自然</span>
-        <div class="spot-meta">
-          <span>📍 箱根町港步行 10 分</span><span>⏱ 45 分~1 小時</span><span>🆓 免費</span>
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🏯</div>
+        <div class="spot-body">
+          <span class="spot-name">恩賜箱根公園</span><span class="spot-type type-nature">自然</span>
+          <div class="spot-meta">
+            <span>📍 箱根町港步行 10 分</span><span>⏱ 45 分~1 小時</span><span>🆓 免費</span>
+          </div>
         </div>
+        <span class="spot-toggle">▼</span>
       </div>
-      <span class="spot-toggle">▼</span>
+      <div class="spot-detail">
+        <p>明治時代皇室離宮舊址改建的公園。從<span class="hl">半島尖端展望台</span>可看到蘆之湖＋富士山的全景，比箱根神社的視野更開闊。園內有舊離宮遺址和湖畔步道，人少景美，是很多旅遊書沒寫的秘境。</p>
+        <p style="margin-top:4px;">從海賊船箱根町港走過來約 10 分鐘。公園免費，野餐或放空的好地方。展望台看夕陽特別美。</p>
+      </div>
     </div>
-    <div class="spot-detail">
-      <p>明治時代皇室離宮舊址改建的公園。從<span class="hl">半島尖端展望台</span>可看到蘆之湖＋富士山的全景，比箱根神社的視野更開闊。園內有舊離宮遺址和湖畔步道，人少景美，是很多旅遊書沒寫的秘境。</p>
-      <p style="margin-top:4px;">從海賊船箱根町港走過來約 10 分鐘。公園免費，野餐或放空的好地方。展望台看夕陽特別美。</p>
-    </div>
-  </div>
 
-  <div class="spot">
-    <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
-      <div class="spot-icon">🖼️</div>
-      <div class="spot-body">
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🖼️</div>
+        <div class="spot-body">
           <span class="spot-name">成川美術館</span><span class="spot-type type-culture">人文</span><span class="rain-tag">☔ 雨天備案</span>
-        <div class="spot-meta">
-          <span>📍 元箱根港步行 3 分</span><span>⏱ 45 分~1 小時</span><span>💰 ¥1,300</span>
+          <div class="spot-meta">
+            <span>📍 元箱根港步行 3 分</span><span>⏱ 45 分~1 小時</span><span>💰 ¥1,300</span>
+          </div>
         </div>
+        <span class="spot-toggle">▼</span>
       </div>
-      <span class="spot-toggle">▼</span>
+      <div class="spot-detail">
+        <p>收藏現代日本畫的美術館，以<span class="hl">日本第一的富士山眺望大廳</span>聞名。館內落地窗外就是蘆之湖＋富士山全景，光是坐在窗前發呆就值回票價。作品以山本丘人和平山郁夫的日本畫為主，與富士山主題呼應。</p>
+        <p style="margin-top:4px;">從海賊船元箱根港走到箱根神社的路上就會經過。下雨天或夏季太熱時的絕佳室內景點。</p>
+      </div>
     </div>
-    <div class="spot-detail">
-      <p>收藏現代日本畫的美術館，以<span class="hl">日本第一的富士山眺望大廳</span>聞名。館內落地窗外就是蘆之湖＋富士山全景，光是坐在窗前發呆就值回票價。作品以山本丘人和平山郁夫的日本畫為主，與富士山主題呼應。</p>
-      <p style="margin-top:4px;">從海賊船元箱根港走到箱根神社的路上就會經過。下雨天或夏季太熱時的絕佳室內景點。</p>
-    </div>
-  </div>
-
 
     <div class="spot">
       <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
@@ -974,23 +1009,7 @@
         <p style="margin-top:4px;">🎯 從箱根關所沿舊東海道步行約 20 分鐘即達。逛完關所和石畳，來這裡喝杯甘酒＋烤團子是完美的歷史散策終點。力餅（烤麻糬）也必點。</p>
       </div>
     </div>
-
-    <div class="spot">
-      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
-        <div class="spot-icon">⛩️</div>
-        <div class="spot-body">
-          <span class="spot-name">深沢銭洗弁天</span><span class="spot-type type-shrine">神社</span>
-          <div class="spot-meta">
-            <span>📍 強羅站步行 15 分</span><span>⏱ 20~30 分</span><span>🆓 免費</span>
-          </div>
-        </div>
-        <span class="spot-toggle">▼</span>
-      </div>
-      <div class="spot-detail">
-        <p>箱根的隱藏版<span class="hl">錢洗神社</span>——在神社旁的溪水中清洗錢幣，據說財運會倍增。藏在強羅住宅區的小徑深處，連很多日本人都不知道。境內被高聳杉木包圍，溪水清澈，氣氛神秘。</p>
-        <p style="margin-top:4px;">🎯 從強羅站走約 15 分鐘（上坡路）。準備幾個硬幣去洗，帶回家當財運御守。參拜完可順路逛強羅公園。</p>
-      </div>
-    </div>
+  </div>
 
   <!-- Area 5: 箱根湯本 -->
   <div class="area">
@@ -1057,6 +1076,662 @@
   </div>
 </div>
 
+<!-- ========== 東京 ========== -->
+<div class="region-content" id="region-tokyo">
+
+  <!-- Area 1: 後樂園・水道橋 -->
+  <div class="area">
+    <div class="area-header area-tky1">
+      <span class="area-icon">🏟️</span>
+      <div class="area-info">
+        <div class="area-name">後樂園・水道橋 — 住宿周邊</div>
+        <div class="area-desc">步行可達 · 住宿 東京巨蛋飯店 就在這區</div>
+      </div>
+    </div>
+
+    <div class="spot open">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🏯</div>
+        <div class="spot-body">
+          <span class="spot-name">小石川後樂園</span><span class="spot-type type-nature">庭園</span>
+          <div class="spot-meta">
+            <span>📍 步行約 5 分</span><span>⏱ 45 分~1.5 小時</span><span>💰 成人 300 円</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>江戶時期水戶德川家的迴遊式庭園，園內有池泉、假山與「西湖堤」等中日合璧造景。夏天綠蔭濃密，是<span class="hl">巨蛋飯店步行可達</span>的安靜綠洲；清晨人少，適合放行李後先來散步。</p>
+        <p style="margin-top:4px;">🎯 <strong>建議：</strong>7/23 抵達後若還有體力，傍晚進園（通常 16:30–17:00 止入，出發前再確認）或隔天清晨走一圈再出發市區。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🎢</div>
+        <div class="spot-body">
+          <span class="spot-name">東京巨蛋城</span><span class="spot-type type-fun">娛樂</span><span class="rain-tag">☔ 雨天備案</span>
+          <div class="spot-meta">
+            <span>📍 飯店直連／步行 1 分</span><span>⏱ 1~3 小時</span><span>💰 設施另計</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>飯店旁的複合娛樂區：遊樂園、購物中心、溫泉 Spa、餐廳與棒球場。雨天可直接進商場吃飯、補藥妝；有棒球賽或演唱會時人潮會暴增，建議先查活動日程。</p>
+        <p style="margin-top:4px;">🎯 住這裡最大的優勢就是「回飯店超方便」——市區走累了可隨時搭丸之內線後樂園站或總武線水道橋站回來休息。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🚉</div>
+        <div class="spot-body">
+          <span class="spot-name">後樂園／水道橋交通樞紐</span><span class="spot-type type-culture">交通</span>
+          <div class="spot-meta">
+            <span>📍 步行 3~8 分</span><span>⏱ —</span><span>🆓 免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p><span class="hl">後樂園站</span>（丸之內線／南北線）與<span class="hl">水道橋站</span>（JR 總武線各站停車）是這幾天的基地。往銀座、東京站、上野、新宿大多一趟直達或少轉乘。詳細路線見 <a href="tokyo_rail.html">東京鐵路導覽</a>。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Area 2: 上野 -->
+  <div class="area">
+    <div class="area-header area-tky2">
+      <span class="area-icon">🌳</span>
+      <div class="area-info">
+        <div class="area-name">上野 — 公園與下町</div>
+        <div class="area-desc">山手線上野站 · 約 10~15 分</div>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🦢</div>
+        <div class="spot-body">
+          <span class="spot-name">上野公園・不忍池</span><span class="spot-type type-nature">自然</span>
+          <div class="spot-meta">
+            <span>📍 上野站步行 5 分</span><span>⏱ 1~2 小時</span><span>🆓 免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>東京最具代表性的都市公園之一。不忍池夏季蓮花、散步道與街景博物館連成一片，可當「上野半日」的軸心，再串動物園或國立博物館。</p>
+        <p style="margin-top:4px;">🎯 從後樂園：總武線水道橋 → 秋葉原 → 山手線上野最直覺。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🏛️</div>
+        <div class="spot-body">
+          <span class="spot-name">東京國立博物館</span><span class="spot-type type-culture">人文</span><span class="rain-tag">☔ 雨天備案</span>
+          <div class="spot-meta">
+            <span>📍 上野公園內</span><span>⏱ 1.5~3 小時</span><span>💰 票價請查官網</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>日本規模最大的綜合博物館，常設展涵蓋佛像、武士刀、浮世繪等。空調充足，適合夏天午後避暑；不必全看完，挑本館一層或特展即可。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🐼</div>
+        <div class="spot-body">
+          <span class="spot-name">上野動物園</span><span class="spot-type type-fun">親子</span>
+          <div class="spot-meta">
+            <span>📍 上野公園內</span><span>⏱ 2~3 小時</span><span>💰 成人 600 円</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>日本最古老動物園之一，熊貓是招牌人氣。週末與連假排隊長，建議開園前後抵達；可與不忍池、アメ横排成一日上野路線。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🛍️</div>
+        <div class="spot-body">
+          <span class="spot-name">アメヤ横丁（アメ横）</span><span class="spot-type type-shop">逛街</span>
+          <div class="spot-meta">
+            <span>📍 上野站旁</span><span>⏱ 45 分~1.5 小時</span><span>🆓 逛街免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>上野站與御徒町之間的商店街：零食、海產乾貨、服飾與藥妝混雜，氣氛熱鬧。傍晚較擠，適合逛完公園後買伴手禮或補充飲料。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Area 3: 淺草 -->
+  <div class="area">
+    <div class="area-header area-tky3">
+      <span class="area-icon">🏮</span>
+      <div class="area-info">
+        <div class="area-name">淺草 — 雷門與仲見世</div>
+        <div class="area-desc">銀座線直達淺草站</div>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">⛩️</div>
+        <div class="spot-body">
+          <span class="spot-name">淺草寺・雷門</span><span class="spot-type type-shrine">寺社</span>
+          <div class="spot-meta">
+            <span>📍 淺草站步行 5 分</span><span>⏱ 1~2 小時</span><span>🆓 參拜免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>東京最古老的寺廟，巨大紅色<span class="hl">雷門</span>與本堂、五重塔是經典畫面。週末與午後人潮極多，建議上午九點前抵達。</p>
+        <p style="margin-top:4px;">🎯 從後樂園：丸之內線 → 銀座（或赤坂見附）轉銀座線到淺草。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🍡</div>
+        <div class="spot-body">
+          <span class="spot-name">仲見世通</span><span class="spot-type type-shop">逛街</span>
+          <div class="spot-meta">
+            <span>📍 雷門～本堂之間</span><span>⏱ 30~60 分</span><span>🆓 逛街免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>雷門通往本堂的參道商店街：人形燒、炸饅頭、扇子與和風小物。人潮與淺草寺同步，想拍空景要更早；吃東西建議避開正中午尖峰。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Area 4: 晴空塔 -->
+  <div class="area">
+    <div class="area-header area-tky4">
+      <span class="area-icon">🗼</span>
+      <div class="area-info">
+        <div class="area-name">晴空塔 — 押上</div>
+        <div class="area-desc">東武晴空塔線／半藏門線</div>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🗼</div>
+        <div class="spot-body">
+          <span class="spot-name">東京晴空塔</span><span class="spot-type type-view">展望</span>
+          <div class="spot-meta">
+            <span>📍 押上／東京晴空塔站</span><span>⏱ 1.5~3 小時</span><span>💰 展望台票請查官網</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>高 634 公尺，展望台可俯瞰整個東京，夜景特別受歡迎。塔腳 Solamachi 商場與水族館適合親子；可排「上午淺草、下午／晚上晴空塔」。</p>
+        <p style="margin-top:4px;">🎯 淺草搭東武晴空塔線一站即到；或半藏門線直達押上。週末建議事前購票。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Area 5: 皇居・東京站 -->
+  <div class="area">
+    <div class="area-header area-tky5">
+      <span class="area-icon">🏯</span>
+      <div class="area-info">
+        <div class="area-name">皇居・東京站 — 丸之內</div>
+        <div class="area-desc">山手線東京站 · 丸之內線亦可</div>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🌳</div>
+        <div class="spot-body">
+          <span class="spot-name">皇居外苑</span><span class="spot-type type-nature">散步</span>
+          <div class="spot-meta">
+            <span>📍 二重橋前／大手町</span><span>⏱ 45 分~1.5 小時</span><span>🆓 免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>寬闊草坪與松樹大道，對面就是皇居護城河與二重橋。夏天午後很曬，適合清晨或傍晚散步；可與東京站丸之內口排成同一區散步。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🏛️</div>
+        <div class="spot-body">
+          <span class="spot-name">東京站・丸之內</span><span class="spot-type type-culture">人文</span><span class="rain-tag">☔ 雨天備案</span>
+          <div class="spot-meta">
+            <span>📍 東京站丸之內口</span><span>⏱ 45 分~1.5 小時</span><span>🆓 站外散步免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>紅磚車站立面是經典打卡點；站內地下街與丸之內建築群可避雨逛街、吃午餐。7/25 離境若搭 JR／京成往成田，也可把「回東京站」當動線節點。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Area 6: 銀座 -->
+  <div class="area">
+    <div class="area-header area-tky6">
+      <span class="area-icon">💎</span>
+      <div class="area-info">
+        <div class="area-name">銀座 — 都心逛街</div>
+        <div class="area-desc">丸之內線直達銀座站</div>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">💎</div>
+        <div class="spot-body">
+          <span class="spot-name">銀座散步</span><span class="spot-type type-shop">逛街</span>
+          <div class="spot-meta">
+            <span>📍 銀座站／東銀座</span><span>⏱ 1~2 小時</span><span>🆓 散步免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>百貨、品牌旗艦與銀座四丁目十字路口是東京都會象徵。不一定要消費——走走建築立面、百貨地下美食街（デパ地下）也很值得。後樂園搭丸之內線可直達銀座站。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Area 7: 原宿・明治神宮 -->
+  <div class="area">
+    <div class="area-header area-tky7">
+      <span class="area-icon">⛩️</span>
+      <div class="area-info">
+        <div class="area-name">原宿・明治神宮</div>
+        <div class="area-desc">山手線原宿站 · 明治神宮前亦可</div>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">⛩️</div>
+        <div class="spot-body">
+          <span class="spot-name">明治神宮</span><span class="spot-type type-shrine">神社</span>
+          <div class="spot-meta">
+            <span>📍 原宿／明治神宮前</span><span>⏱ 45 分~1.5 小時</span><span>🆓 參拜免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>供奉明治天皇與昭憲皇太后，入口巨大鳥居通往都市中罕見的大片森林。與竹下通、表參道形成強烈對比——建議上午先參拜，再逛街午餐。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🛍️</div>
+        <div class="spot-body">
+          <span class="spot-name">原宿・表參道</span><span class="spot-type type-shop">逛街</span>
+          <div class="spot-meta">
+            <span>📍 原宿／明治神宮前／表參道</span><span>⏱ 1.5~3 小時</span><span>🆓 逛街免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>竹下通人潮與甜點店密集；表參道則是林蔭大道與建築設計。體力有限可擇一：想拍街景走表參道，想找伴手禮／零食再進竹下通。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Area 8: 新宿 -->
+  <div class="area">
+    <div class="area-header area-tky8">
+      <span class="area-icon">🏙️</span>
+      <div class="area-info">
+        <div class="area-name">新宿 — 都廳與摩天樓</div>
+        <div class="area-desc">山手線／丸之內線新宿站</div>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🏙️</div>
+        <div class="spot-body">
+          <span class="spot-name">都廳展望台</span><span class="spot-type type-view">展望</span><span class="rain-tag">☔ 雨天備案</span>
+          <div class="spot-meta">
+            <span>📍 都廳前站／新宿</span><span>⏱ 45 分~1 小時</span><span>🆓 免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>東京都廳北展望室／南展望室可免費俯瞰新宿摩天樓群與富士山方向（天氣好時）。夜間燈光漂亮；後樂園搭丸之內線直達新宿後再步行或轉都營大江戶線。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Area 9: 澀谷 -->
+  <div class="area">
+    <div class="area-header area-tky9">
+      <span class="area-icon">🚦</span>
+      <div class="area-info">
+        <div class="area-name">澀谷 — 十字路口</div>
+        <div class="area-desc">山手線澀谷站</div>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🚦</div>
+        <div class="spot-body">
+          <span class="spot-name">澀谷十字路口</span><span class="spot-type type-view">都市風景</span>
+          <div class="spot-meta">
+            <span>📍 澀谷站前</span><span>⏱ 20~40 分</span><span>🆓 免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>世界最繁忙十字路口之一，從 Starbucks 或 Mag's Park 等制高點看人潮最有感。可與原宿用山手線一站串聯；傍晚霓虹亮起後氣氛更好，記得預留回後樂園的時間。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Area 10: 秋葉原 -->
+  <div class="area">
+    <div class="area-header area-tky10">
+      <span class="area-icon">🔌</span>
+      <div class="area-info">
+        <div class="area-name">秋葉原 — 電器與動漫</div>
+        <div class="area-desc">山手線秋葉原站 · 從水道橋約 5 分</div>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🔌</div>
+        <div class="spot-body">
+          <span class="spot-name">秋葉原電器街</span><span class="spot-type type-shop">逛街</span><span class="rain-tag">☔ 雨天備案</span>
+          <div class="spot-meta">
+            <span>📍 山手線秋葉原站</span><span>⏱ 1~2 小時</span><span>🆓 逛街免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>家電、相機、手把與零件店密度極高，Yodobashi、Bic Camera 等大型店可一次比價。適合補旅遊配件或逛逛日本家電新品；中央通兩側大樓可避雨。</p>
+        <p style="margin-top:4px;">🎯 住宿最近的山手線站之一：總武線水道橋 → 秋葉原一站即到，可當「出門第一站」或上野／東京站中途站。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🎮</div>
+        <div class="spot-body">
+          <span class="spot-name">秋葉原動漫・扭蛋街</span><span class="spot-type type-fun">娛樂</span>
+          <div class="spot-meta">
+            <span>📍 山手線秋葉原站</span><span>⏱ 1~2 小時</span><span>🆓 逛街免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>ラジオ会館、Animate、Mandarake 與各式扭蛋牆是動漫迷天堂。即使不買，逛逛角色商店與女仆咖啡外觀也很有「秋葉原感」。週末人潮多，行李多時建議寄放再逛。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Area 11: 有樂町・日比谷 -->
+  <div class="area">
+    <div class="area-header area-tky11">
+      <span class="area-icon">🌳</span>
+      <div class="area-info">
+        <div class="area-name">有樂町・日比谷</div>
+        <div class="area-desc">山手線有樂町站 · 鄰近銀座／皇居</div>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🌳</div>
+        <div class="spot-body">
+          <span class="spot-name">日比谷公園</span><span class="spot-type type-nature">散步</span>
+          <div class="spot-meta">
+            <span>📍 山手線有樂町站步行 5 分</span><span>⏱ 45 分~1 小時</span><span>🆓 免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>日本最早的西洋式公園之一，草坪、噴水與林蔭步道適合夏天歇腳。可與銀座、皇居外苑串成「山手線有樂町下車 → 公園 → 銀座」半日路線。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🏛️</div>
+        <div class="spot-body">
+          <span class="spot-name">東京國際論壇</span><span class="spot-type type-culture">建築</span><span class="rain-tag">☔ 雨天備案</span>
+          <div class="spot-meta">
+            <span>📍 山手線有樂町／東京站之間</span><span>⏱ 20~40 分</span><span>🆓 大廳免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>玻璃船形大廳是著名建築打卡點，空調充足、可短暫避暑與休息。常有免費展覽或活動，適合當銀座／東京站之間的室內中繼站。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Area 12: 浜松町・芝公園 -->
+  <div class="area">
+    <div class="area-header area-tky12">
+      <span class="area-icon">🗼</span>
+      <div class="area-info">
+        <div class="area-name">浜松町・芝公園 — 東京鐵塔</div>
+        <div class="area-desc">山手線浜松町站 · 步行可達</div>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🗼</div>
+        <div class="spot-body">
+          <span class="spot-name">東京鐵塔</span><span class="spot-type type-view">展望</span>
+          <div class="spot-meta">
+            <span>📍 山手線浜松町站步行 10 分</span><span>⏱ 1~2 小時</span><span>💰 展望台票請查官網</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>東京經典地標，橘紅鐵塔與增上寺同框是招牌構圖。想看夜景可傍晚抵達；若已排晴空塔，這裡可改走「外觀＋芝公園散步」節省時間與門票。</p>
+        <p style="margin-top:4px;">🎯 浜松町出站後沿指標往芝公園；也可搭都營大江戶線赤羽橋站更近。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">⛩️</div>
+        <div class="spot-body">
+          <span class="spot-name">增上寺</span><span class="spot-type type-shrine">寺社</span>
+          <div class="spot-meta">
+            <span>📍 芝公園／大門站</span><span>⏱ 30~45 分</span><span>🆓 參拜免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>德川家菩提寺，本堂與東京鐵塔同框是經典攝影角度。境內相對安靜，可與鐵塔排同一區；從浜松町走過來約 10~15 分。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Area 13: 恵比寿 -->
+  <div class="area">
+    <div class="area-header area-tky13">
+      <span class="area-icon">🍺</span>
+      <div class="area-info">
+        <div class="area-name">惠比壽</div>
+        <div class="area-desc">山手線恵比寿站 · 鄰近澀谷</div>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🍺</div>
+        <div class="spot-body">
+          <span class="spot-name">惠比壽花園廣場</span><span class="spot-type type-culture">複合設施</span>
+          <div class="spot-meta">
+            <span>📍 山手線恵比寿站步行 5 分</span><span>⏱ 1~2 小時</span><span>🆓 散步免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>舊啤酒廠改建的複合園區：廣場、餐廳、攝影博物館與居酒屋街氣氛較澀谷安靜。適合想「離開十字路口人潮、仍走山手線」時的晚餐或午後休息點；可與澀谷一站串聯。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Area 14: 池袋 -->
+  <div class="area">
+    <div class="area-header area-tky14">
+      <span class="area-icon">🏙️</span>
+      <div class="area-info">
+        <div class="area-name">池袋 — 陽光城</div>
+        <div class="area-desc">山手線池袋站 · 丸之內線也可直達</div>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🐠</div>
+        <div class="spot-body">
+          <span class="spot-name">陽光城（水族館・展望台）</span><span class="spot-type type-fun">親子</span><span class="rain-tag">☔ 雨天備案</span>
+          <div class="spot-meta">
+            <span>📍 山手線池袋站東口步行 8 分</span><span>⏱ 2~3 小時</span><span>💰 設施另計</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>池袋地標複合商場，內含陽光水族館與空中展望台，雨天親子好去處。商場內美食與伴手禮多，可安排半日不用換區。</p>
+        <p style="margin-top:4px;">🎯 從後樂園：丸之內線直達池袋也很方便，不一定要繞山手線。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">📚</div>
+        <div class="spot-body">
+          <span class="spot-name">池袋書店・動漫街</span><span class="spot-type type-shop">逛街</span>
+          <div class="spot-meta">
+            <span>📍 山手線池袋站</span><span>⏱ 1~2 小時</span><span>🆓 逛街免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>西口／東口百貨與 Animate、書店街是另一種「都市東京」。想買雜誌、文具或動漫周邊，池袋選擇不輸秋葉原，且與陽光城可同一日。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Area 15: 巣鴨 -->
+  <div class="area">
+    <div class="area-header area-tky15">
+      <span class="area-icon">🧧</span>
+      <div class="area-info">
+        <div class="area-name">巢鴨 — 地藏通</div>
+        <div class="area-desc">山手線巢鴨站 · 下町日常</div>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🧧</div>
+        <div class="spot-body">
+          <span class="spot-name">巢鴨地蔵通</span><span class="spot-type type-shop">逛街</span>
+          <div class="spot-meta">
+            <span>📍 山手線巢鴨站步行 3 分</span><span>⏱ 1~1.5 小時</span><span>🆓 逛街免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>被稱為「奶奶的原宿」的商店街，高岩寺（巢鴨地蔵尊）與紅色內褲祈福文化獨特有趣。氣氛完全不同於澀谷／原宿，適合想感受東京日常下町的半日。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Area 16: 日暮里・谷中 -->
+  <div class="area">
+    <div class="area-header area-tky16">
+      <span class="area-icon">🏘️</span>
+      <div class="area-info">
+        <div class="area-name">日暮里・谷中</div>
+        <div class="area-desc">山手線日暮里站 · 鄰近上野</div>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">🛍️</div>
+        <div class="spot-body">
+          <span class="spot-name">谷中銀座</span><span class="spot-type type-shop">逛街</span>
+          <div class="spot-meta">
+            <span>📍 山手線日暮里／西日暮里步行 10 分</span><span>⏱ 1~1.5 小時</span><span>🆓 逛街免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>下町商店街：點心、猫雜貨與老舖並存，遊客比淺草少、節奏慢。可與上野公園排同一日，從日暮里走入谷中再往上野方向散步。</p>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="spot-icon">⛩️</div>
+        <div class="spot-body">
+          <span class="spot-name">根津神社</span><span class="spot-type type-shrine">神社</span>
+          <div class="spot-meta">
+            <span>📍 千代田線根津站／日暮里步行</span><span>⏱ 30~45 分</span><span>🆓 參拜免費</span>
+          </div>
+        </div>
+        <span class="spot-toggle">▼</span>
+      </div>
+      <div class="spot-detail">
+        <p>以杜鵑花祭聞名，連續小型朱紅鳥居隧道氣氛獨特。非花季仍值得短暫停留；可與谷中銀座、上野串成下町文化路線。</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="font-size:0.78rem;color:#999;text-align:center;padding:10px 0;">
+    🏠 住宿位置：Day 5–6 東京巨蛋飯店（後樂園・水道橋） · 山手線可經秋葉原／東京／新宿等地轉乘
+  </div>
+</div>
+
 </main>
 
 <footer>
@@ -1070,6 +1745,21 @@ function switchRegion(region) {
   document.querySelector(`.r-tab[onclick*="${region}"]`).classList.add('active');
   document.getElementById('region-' + region).classList.add('active');
 }
+
+(function initRegionFromHash() {
+  const raw = (location.hash || '').replace(/^#/, '').toLowerCase();
+  const map = {
+    fuji: 'fuji',
+    kawaguchiko: 'fuji',
+    'region-fuji': 'fuji',
+    hakone: 'hakone',
+    'region-hakone': 'hakone',
+    tokyo: 'tokyo',
+    'region-tokyo': 'tokyo'
+  };
+  const region = map[raw];
+  if (region) switchRegion(region);
+})();
 </script>
 
 <script src="assets/site.js" defer></script>

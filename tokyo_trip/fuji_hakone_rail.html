@@ -1,0 +1,2962 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="assets/site.css" />
+<title>河口湖・箱根交通導覽｜周遊巴士・電車・纜車</title>
+<style>
+  :root {
+    --bg-top: #f7f1e8;
+    --bg-bottom: #e8f0f4;
+    --panel: rgba(255, 252, 247, 0.94);
+    --ink: #3d4450;
+    --muted: #6b7380;
+    --line: #d9cfc3;
+    --accent: #7eb8a8;
+    --accent-deep: #5a9a8a;
+    --warn: #e8a87c;
+    --shadow: 0 12px 40px rgba(90, 110, 130, 0.12);
+    --radius: 18px;
+    --font-display: "Zen Maru Gothic", "Noto Sans TC", sans-serif;
+    --font-body: "Noto Sans TC", "Hiragino Sans", sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    height: 100%;
+    color: var(--ink);
+    font-family: var(--font-body);
+    background:
+      radial-gradient(ellipse 80% 50% at 10% 0%, #ffe8d6 0%, transparent 55%),
+      radial-gradient(ellipse 70% 45% at 90% 10%, #d9eef5 0%, transparent 50%),
+      radial-gradient(ellipse 60% 40% at 50% 100%, #e4f2ea 0%, transparent 45%),
+      linear-gradient(165deg, var(--bg-top), var(--bg-bottom));
+    overflow: hidden;
+  }
+
+  .app {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    height: 100%;
+    min-height: 100vh;
+    max-height: 100vh;
+    overflow: hidden;
+  }
+
+  .sidebar {
+    width: 340px;
+    max-width: 88vw;
+    height: 100%;
+    max-height: 100%;
+    background: var(--panel);
+    backdrop-filter: blur(14px);
+    border-right: 1px solid rgba(180, 170, 155, 0.35);
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    transition: width 0.35s cubic-bezier(.2,.8,.2,1);
+    z-index: 20;
+    position: relative;
+    overflow: hidden;
+    min-height: 0;
+  }
+  .sidebar.collapsed { width: 56px; }
+  .sidebar.collapsed .sidebar-body,
+  .sidebar.collapsed .brand-text,
+  .sidebar.collapsed .sidebar-foot {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+  .sidebar.collapsed .sidebar-head {
+    justify-content: center;
+    padding: 18px 8px 12px;
+    border-bottom: none;
+  }
+  .sidebar.collapsed .toggle-btn { margin-left: 0; }
+  .sidebar.collapsed .brand-mark { display: none; }
+
+  .sidebar-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 18px 16px 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  .brand-mark {
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    background:
+      linear-gradient(135deg, #e8a06a 0%, #e8a06a 46%, transparent 46%),
+      linear-gradient(225deg, #6ba3c9 0%, #6ba3c9 46%, transparent 46%),
+      linear-gradient(135deg, #9fd4c4, #d9eef5);
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(126, 184, 168, 0.35);
+  }
+  .brand-text h1 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+  }
+  .brand-text p {
+    margin: 4px 0 0;
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+  .toggle-btn {
+    margin-left: auto;
+    border: none;
+    background: #f0ebe3;
+    color: var(--ink);
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    cursor: pointer;
+    flex-shrink: 0;
+    font-size: 14px;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .toggle-btn:hover { background: #e4ddd2; transform: scale(1.05); }
+
+  .sidebar-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 14px 20px;
+    transition: opacity 0.25s;
+  }
+  .sidebar-foot {
+    padding: 10px 14px 14px;
+    border-top: 1px solid var(--line);
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.5;
+    transition: opacity 0.25s;
+  }
+  .trip-links { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+  .trip-links a {
+    color: var(--accent-deep);
+    background: #f0faf6;
+    border: 1px solid #cce4db;
+    border-radius: 999px;
+    padding: 4px 8px;
+    font-size: .72rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .trip-links a:hover { background: var(--accent); color: #fff; }
+
+  .quick-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+  .chip {
+    border: 1px solid #ddd4c8;
+    background: #fff;
+    color: var(--ink);
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .chip:hover { border-color: var(--accent); background: #f0faf6; }
+  .chip.active {
+    background: var(--accent);
+    border-color: var(--accent-deep);
+    color: #fff;
+  }
+  .spot-chip {
+    width: 100%;
+    justify-content: flex-start;
+    text-align: left;
+    margin-bottom: 4px;
+    border-radius: 10px;
+    font-size: 0.78rem;
+    line-height: 1.35;
+  }
+
+  .group { margin-bottom: 14px; }
+  .group-title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin: 0 0 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .group-title::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  .line-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+  }
+  .line-item:hover { background: rgba(126, 184, 168, 0.12); }
+  .line-item input { accent-color: var(--accent-deep); width: 17px; height: 17px; }
+  .swatch {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
+  }
+  .swatch.dash {
+    height: 6px;
+    background: repeating-linear-gradient(90deg, var(--c) 0 5px, transparent 5px 8px) !important;
+    box-shadow: none;
+  }
+  .swatch.dot {
+    height: 6px;
+    background: repeating-linear-gradient(90deg, var(--c) 0 2px, transparent 2px 5px) !important;
+    box-shadow: none;
+  }
+  .line-name {
+    font-size: 0.92rem;
+    flex: 1;
+    line-height: 1.3;
+  }
+  .line-name small {
+    display: block;
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 400;
+  }
+  .default-tag {
+    font-size: 0.72rem;
+    background: #ffe8d2;
+    color: #9a6238;
+    padding: 2px 7px;
+    border-radius: 6px;
+  }
+
+  .stage {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+  }
+  .topbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 18px;
+    z-index: 5;
+  }
+  .search-wrap {
+    flex: 1;
+    max-width: 420px;
+    position: relative;
+  }
+  .search-wrap input {
+    width: 100%;
+    border: 1px solid #ddd4c8;
+    background: rgba(255,252,247,0.9);
+    border-radius: 14px;
+    padding: 10px 14px 10px 38px;
+    font-size: 0.88rem;
+    outline: none;
+    box-shadow: 0 4px 16px rgba(90,110,130,0.08);
+    font-family: inherit;
+  }
+  .search-wrap input:focus { border-color: var(--accent); }
+  .search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.45;
+    font-size: 14px;
+  }
+  .hint-pills {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-left: auto;
+  }
+  .hint {
+    font-size: 0.72rem;
+    background: rgba(255,252,247,0.85);
+    border: 1px solid #e5ddd2;
+    border-radius: 999px;
+    padding: 6px 12px;
+    color: var(--muted);
+  }
+  .hint b { color: var(--ink); font-weight: 600; }
+
+  .map-wrap {
+    flex: 1;
+    position: relative;
+    min-height: 0;
+    border-radius: var(--radius);
+    background-color: #f3eee6;
+    background-image:
+      radial-gradient(ellipse 90% 70% at 8% 12%, rgba(232, 214, 196, 0.45), transparent 55%),
+      radial-gradient(ellipse 70% 55% at 92% 18%, rgba(210, 228, 232, 0.38), transparent 50%),
+      radial-gradient(ellipse 60% 50% at 55% 92%, rgba(214, 228, 216, 0.32), transparent 48%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.55 0 0 0 0 0.5 0 0 0 0 0.42 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 47px,
+        rgba(150, 145, 135, 0.045) 47px,
+        rgba(150, 145, 135, 0.045) 48px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 47px,
+        rgba(150, 145, 135, 0.045) 47px,
+        rgba(150, 145, 135, 0.045) 48px
+      ),
+      linear-gradient(168deg, #f6f1e9 0%, #eef2f0 48%, #e8eef2 100%);
+    border: 1px solid rgba(170, 158, 140, 0.35);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.45), var(--shadow);
+    overflow: hidden;
+    cursor: grab;
+  }
+  .map-wrap.dragging { cursor: grabbing; }
+
+  #mapSvg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    touch-action: none;
+    position: relative;
+    z-index: 1;
+  }
+  #mapSvg #bg { pointer-events: none; }
+
+  .map-cartouche {
+    position: absolute;
+    top: 14px;
+    left: 16px;
+    z-index: 2;
+    pointer-events: none;
+    padding: 10px 14px 9px;
+    max-width: min(220px, 42vw);
+    background: rgba(250, 247, 241, 0.82);
+    border: 1px solid rgba(160, 145, 125, 0.4);
+    border-radius: 4px;
+    box-shadow: inset 0 0 0 3px rgba(250, 247, 241, 0.9);
+  }
+  .map-cartouche::before {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    border: 1px solid rgba(180, 155, 120, 0.28);
+    border-radius: 2px;
+    pointer-events: none;
+  }
+  .map-cartouche .cartouche-jp {
+    font-family: var(--font-display);
+    font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    line-height: 1.05;
+    color: #4a5560;
+    margin: 0;
+  }
+  .map-cartouche .cartouche-sub {
+    margin: 4px 0 0;
+    font-family: var(--font-body);
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    color: #7a7268;
+    line-height: 1.35;
+  }
+  .map-cartouche .cartouche-rule {
+    display: block;
+    width: 2.2em;
+    height: 2px;
+    margin: 6px 0 0;
+    background: linear-gradient(90deg, #c4a574, transparent);
+  }
+
+  .area-wash { pointer-events: none; }
+  .area-wash-fuji { fill: rgba(232, 160, 106, 0.12); }
+  .area-wash-hakone { fill: rgba(107, 163, 201, 0.12); }
+  .area-wash-gotemba { fill: rgba(160, 160, 150, 0.1); }
+
+  .compass {
+    position: absolute;
+    right: 18px;
+    bottom: 18px;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgba(255,252,247,0.92);
+    border: 1px solid #e0d6c8;
+    display: grid;
+    place-items: center;
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    font-weight: 700;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    pointer-events: none;
+    z-index: 2;
+  }
+  .compass span { position: absolute; color: var(--muted); }
+  .compass .n { top: 6px; }
+  .compass .s { bottom: 6px; }
+  .compass .e { right: 8px; }
+  .compass .w { left: 8px; }
+  .compass .core {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--warn);
+  }
+
+  .legend-float {
+    position: absolute;
+    left: 16px;
+    bottom: 16px;
+    background: rgba(255,252,247,0.94);
+    border: 1px solid #e0d6c8;
+    border-radius: 14px;
+    padding: 10px 12px;
+    font-size: 0.72rem;
+    color: var(--muted);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    line-height: 1.6;
+    z-index: 2;
+  }
+  .legend-float .row { display: flex; align-items: center; gap: 8px; }
+  .leg-line {
+    width: 22px;
+    height: 0;
+    border-top: 3px solid #333;
+    flex-shrink: 0;
+  }
+  .leg-line.bus { border-top-style: solid; }
+  .leg-line.rail { border-top-style: dashed; border-top-width: 3px; }
+  .leg-line.rope { border-top-style: dotted; border-top-width: 4px; }
+  .leg-line.ship { border-top: 3px dashed #c9a227; }
+  .dot-demo {
+    width: 12px; height: 12px; border-radius: 50%;
+    background: #fff; border: 2.5px solid #7eb8a8;
+  }
+  .dot-demo.xfer {
+    box-shadow: 0 0 0 3px #fff, 0 0 0 5px #e8a87c;
+  }
+  .dot-demo.hub {
+    box-shadow: 0 0 0 3px #fff, 0 0 0 5px #c4a574;
+  }
+
+  .tooltip {
+    position: fixed;
+    z-index: 50;
+    width: min(360px, calc(100vw - 24px));
+    max-height: min(78vh, 580px);
+    overflow-y: auto;
+    background: rgba(255, 252, 247, 0.97);
+    border: 1px solid #e0d6c8;
+    border-radius: 16px;
+    padding: 14px 16px;
+    box-shadow: 0 16px 40px rgba(60, 70, 90, 0.18);
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.18s, transform 0.18s;
+  }
+  .tooltip.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .tooltip h3 {
+    margin: 0 0 2px;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+  }
+  .tooltip .jp {
+    color: var(--muted);
+    font-size: 0.82rem;
+    margin-bottom: 10px;
+  }
+  .tooltip .intro {
+    margin: 0 0 10px;
+    font-size: 0.78rem;
+    line-height: 1.55;
+    color: #4a5160;
+  }
+  .tooltip .section { margin-top: 8px; font-size: 0.78rem; }
+  .tooltip .label {
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+  .tag {
+    font-size: 0.65rem;
+    padding: 2px 7px;
+    border-radius: 6px;
+    background: #eef6f3;
+    color: #4a7a6c;
+  }
+  .tag.family { background: #fff0e4; color: #9a6238; }
+  .tag.culture { background: #eef0f8; color: #5a6280; }
+  .tag.bus { background: #fff4e6; color: #9a5b13; }
+  .tag.train { background: #fde8e8; color: #9b2335; }
+  .tag.rope { background: #f0ebff; color: #5b3ea6; }
+  .tag.ship { background: #e8f4fc; color: #1a5276; }
+  .tag.code { background: #3d5548; color: #fff; }
+  .line-pills { display: flex; flex-wrap: wrap; gap: 4px; }
+  .lpill {
+    font-size: 0.65rem;
+    padding: 2px 7px;
+    border-radius: 6px;
+    color: #fff;
+    font-weight: 600;
+  }
+  .spots li { margin: 2px 0; }
+  .spots { margin: 0; padding-left: 16px; }
+  .tip-box {
+    margin-top: 8px;
+    padding: 8px 10px;
+    background: #f7f3ec;
+    border-radius: 10px;
+    font-size: 0.74rem;
+    color: #5a5348;
+  }
+
+  .rail-line {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    cursor: pointer;
+    transition: stroke-opacity 0.18s ease-out, stroke-width 0.18s ease-out, filter 0.18s ease-out;
+  }
+  .rail-line-halo {
+    fill: none;
+    stroke: rgba(255, 252, 247, 0.96);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    pointer-events: none;
+    transition: stroke-opacity 0.18s ease-out;
+  }
+  .rail-line-halo.dimmed { stroke-opacity: 0.18; }
+  .rail-line:hover { filter: drop-shadow(0 1px 1px rgba(35,45,42,.3)); }
+  .rail-line.dimmed { stroke-opacity: 0.12; }
+  .rail-line.highlighted {
+    stroke-opacity: 1;
+    filter: drop-shadow(0 0 4px rgba(255,255,255,0.9));
+  }
+  .station-group { cursor: pointer; }
+  .station-group.dimmed { opacity: 0.15; }
+  .station-group.highlighted { opacity: 1; }
+  .station-core {
+    fill: #fffaf5;
+    stroke-width: 2.5;
+  }
+  .station-ring {
+    fill: none;
+    stroke: #e8a87c;
+    stroke-width: 2.2;
+  }
+  .station-hub-halo {
+    fill: none;
+    stroke: rgba(196, 165, 116, 0.55);
+    stroke-width: 1.6;
+    pointer-events: none;
+  }
+  .station-group.hub-major .station-ring {
+    stroke: #c4a574;
+    stroke-width: 2.6;
+  }
+  .station-group.hub-airport .station-ring {
+    stroke: #6a9bb0;
+    stroke-width: 2.5;
+  }
+  .station-group.hub-daytrip .station-ring {
+    stroke: #b8895a;
+    stroke-width: 2.4;
+  }
+  .station-group.hub-major .station-core,
+  .station-group.hub-airport .station-core,
+  .station-group.hub-daytrip .station-core {
+    stroke-width: 2.8;
+  }
+  .station-label {
+    font-family: var(--font-body);
+    fill: #3d4450;
+    pointer-events: none;
+    paint-order: stroke;
+    stroke: rgba(255,252,247,0.95);
+    stroke-width: 3.5px;
+    stroke-linejoin: round;
+    font-weight: 500;
+  }
+  .station-label.priority {
+    font-weight: 700;
+    fill: #2f3640;
+  }
+  .stop-badge {
+    font-size: 8px;
+    font-weight: 700;
+    fill: #fff;
+    pointer-events: none;
+  }
+  .area-label {
+    font-family: var(--font-display);
+    font-size: 13px;
+    fill: rgba(120, 130, 145, 0.32);
+    font-weight: 700;
+    pointer-events: none;
+  }
+  .map-landmark-art { opacity: .68; pointer-events: none; }
+  .map-landmark-art.subtle { opacity: .48; }
+  .route-name-on-map {
+    font-family: var(--font-body);
+    font-size: 9px;
+    font-weight: 800;
+    paint-order: stroke;
+    stroke: rgba(255,252,247,.98);
+    stroke-width: 4px;
+    stroke-linejoin: round;
+    pointer-events: none;
+  }
+  .route-endpoint { fill: #fffaf5; stroke-width: 2.4; pointer-events: none; }
+  .lake-label {
+    font-size: 10px;
+    fill: rgba(47, 54, 64, 0.48);
+    pointer-events: none;
+    font-family: var(--font-body);
+  }
+  .water {
+    fill: rgba(126, 184, 168, 0.28);
+    stroke: rgba(90, 154, 138, 0.4);
+    stroke-width: 1.2;
+  }
+  .water-ashi {
+    fill: rgba(107, 163, 201, 0.32);
+    stroke: rgba(74, 130, 170, 0.45);
+    stroke-width: 1.2;
+  }
+  .stay-mark {
+    fill: #bf4800;
+    stroke: #fff;
+    stroke-width: 1.5;
+    pointer-events: none;
+  }
+  .stay-label {
+    font-size: 8px;
+    font-weight: 700;
+    fill: #bf4800;
+    pointer-events: none;
+    paint-order: stroke;
+    stroke: rgba(255,252,247,0.95);
+    stroke-width: 2.5px;
+  }
+
+  .stage-main {
+    flex: 1;
+    display: flex;
+    min-height: 0;
+    margin: 0 12px 12px;
+    gap: 0;
+    transition: gap 0.35s ease;
+  }
+  .stage-main.guide-mode { gap: 12px; }
+
+  .guide-panel {
+    flex-shrink: 0;
+    width: 0;
+    opacity: 0;
+    overflow: hidden;
+    pointer-events: none;
+    background: rgba(255, 252, 247, 0.96);
+    border: 1px solid rgba(170, 158, 140, 0.35);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    transition: width 0.35s ease, opacity 0.3s ease;
+  }
+  .stage-main.guide-mode .guide-panel {
+    width: min(360px, 40vw);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .guide-panel-head {
+    padding: 16px 18px 12px;
+    border-bottom: 1px solid var(--line);
+    flex-shrink: 0;
+  }
+  .guide-panel-head h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--accent-deep);
+  }
+  .guide-panel-head p {
+    margin: 6px 0 0;
+    font-size: 0.75rem;
+    color: var(--muted);
+    line-height: 1.45;
+  }
+  .guide-panel-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 14px 16px;
+    scrollbar-width: thin;
+    font-size: 0.82rem;
+    line-height: 1.55;
+  }
+  .guide-card {
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(217, 207, 195, 0.65);
+  }
+  .guide-card:last-child { border-bottom: none; padding-bottom: 4px; }
+  .guide-card h3 {
+    margin: 0 0 6px;
+    font-family: var(--font-display);
+    font-size: 0.92rem;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+  .guide-card h3 small {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .guide-meta {
+    margin: 0 0 8px;
+    font-size: 0.72rem;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  .guide-meta b { color: var(--ink); font-weight: 600; }
+  .guide-desc p {
+    margin: 0 0 6px;
+    font-size: 0.78rem;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+  .guide-desc p:last-child { margin-bottom: 0; }
+  .visit-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; margin: 9px 0; }
+  .visit-fact { padding: 8px 9px; border: 1px solid rgba(217,207,195,.72); border-radius: 9px; background: #fff; }
+  .visit-fact b { display: block; margin-bottom: 2px; color: var(--accent-deep); font-size: .68rem; }
+  .visit-fact span { display: block; color: var(--ink); font-size: .74rem; line-height: 1.45; }
+  .stay-route-card { margin: 7px 0; padding: 10px 11px; border-left: 4px solid #7eb8a8; border-radius: 4px 10px 10px 4px; background: #f3f8f5; }
+  .stay-route-card.dot { border-left-color: #d58a54; background: #fff7ef; }
+  .stay-route-card.uenoyama { border-left-color: #7395b5; background: #f2f6fa; }
+  .stay-route-card strong { display: block; margin-bottom: 4px; font-size: .78rem; }
+  .stay-route-card p { margin: 0; color: #4f5955; font-size: .73rem; line-height: 1.55; }
+  .route-disclaimer { margin: 8px 0 0; color: var(--muted); font-size: .68rem; line-height: 1.5; }
+  .how-card {
+    padding: 10px 12px;
+    margin: 8px 0;
+    border-radius: 12px;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.06);
+  }
+  .how-card strong {
+    display: block;
+    font-size: 0.84rem;
+    margin-bottom: 4px;
+  }
+  .how-card .steps {
+    margin: 6px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .how-card .steps li {
+    position: relative;
+    padding: 4px 0 4px 22px;
+    font-size: 0.74rem;
+    color: var(--muted);
+    border-left: 2px solid #e8e4dc;
+    margin-left: 6px;
+  }
+  .how-card .steps li::before {
+    content: attr(data-n);
+    position: absolute;
+    left: -9px;
+    top: 6px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--accent-deep);
+    color: #fff;
+    font-size: 0.58rem;
+    font-weight: 700;
+    display: grid;
+    place-items: center;
+  }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 5px; margin: 8px 0; }
+  .guide-panel-body h3.section-h {
+    margin: 14px 0 6px;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    font-family: var(--font-body);
+    font-weight: 700;
+  }
+  .guide-panel-body ul.plain { margin: 0; padding-left: 1.1em; }
+  .guide-panel-body ul.plain li { margin: 4px 0; }
+
+  @media (max-width: 900px) {
+    .app { grid-template-columns: 1fr; }
+    .sidebar {
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      height: 100%;
+      max-height: 100%;
+    }
+    .sidebar.collapsed { width: 48px; }
+    .hint-pills { display: none; }
+    .map-cartouche {
+      top: 10px;
+      left: 12px;
+      padding: 8px 11px 7px;
+    }
+    .map-cartouche .cartouche-jp { letter-spacing: 0.1em; }
+    .legend-float { font-size: 0.65rem; max-width: 160px; }
+    .stage-main.guide-mode {
+      flex-direction: column;
+      gap: 10px;
+    }
+    .stage-main.guide-mode .guide-panel {
+      width: 100%;
+      max-height: 38vh;
+    }
+  }
+
+  /* 2026 field-use refinement: paper map + progressive disclosure */
+  :focus-visible { outline: 3px solid #256f68; outline-offset: 3px; }
+  button, input, a { -webkit-tap-highlight-color: rgba(90,154,138,.18); }
+  .skip-link { position: fixed; left: 12px; top: 8px; z-index: 60; transform: translateY(-160%); padding: 9px 13px; border-radius: 8px; background: #263f3a; color: #fff; text-decoration: none; }
+  .skip-link:focus { transform: translateY(0); }
+  .mobile-menu-btn { display: none; min-width: 44px; min-height: 44px; border: 1px solid #d9cfc3; border-radius: 12px; background: #fffaf5; color: var(--ink); font: inherit; font-weight: 700; cursor: pointer; }
+  .field-status { display: flex; align-items: center; gap: 8px; min-width: 0; padding: 6px 10px; border: 1px solid #dfd5c8; border-radius: 10px; background: rgba(255,252,247,.9); color: var(--muted); font-size: .72rem; white-space: nowrap; }
+  .field-status strong { color: #8b4935; }
+  .view-switch { display: inline-flex; flex: 0 0 auto; gap: 3px; padding: 3px; border: 1px solid #d9cfc3; border-radius: 12px; background: rgba(255,252,247,.9); }
+  .view-switch button { min-height: 34px; padding: 0 11px; border: 0; border-radius: 9px; background: transparent; color: var(--muted); font: 700 .75rem/1 var(--font-body); cursor: pointer; }
+  .view-switch button[aria-pressed="true"] { background: #567f76; color: #fff; box-shadow: 0 2px 7px rgba(55,88,80,.16); }
+  .app.handdrawn-active { grid-template-columns: 1fr; }
+  .app.handdrawn-active .sidebar { display: none; }
+  .app.handdrawn-active .search-wrap,
+  .app.handdrawn-active .field-status,
+  .app.handdrawn-active .hint-pills,
+  .app.handdrawn-active .mobile-menu-btn { display: none; }
+  .app.handdrawn-active .topbar { justify-content: center; }
+  .stage-main[hidden], .handdrawn-view[hidden] { display: none !important; }
+  .handdrawn-view { flex: 1; min-height: 0; margin: 0 12px 12px; display: flex; flex-direction: column; gap: 10px; }
+  .handdrawn-toolbar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 9px 10px; border: 1px solid rgba(170,158,140,.35); border-radius: 14px; background: rgba(255,252,247,.94); box-shadow: 0 5px 16px rgba(70,80,76,.07); }
+  .map-tabs { display: flex; gap: 5px; flex-wrap: wrap; }
+  .map-tab { min-height: 40px; padding: 0 14px; border: 1px solid #d9cfc3; border-radius: 10px; background: #fff; color: var(--ink); font: 700 .8rem/1 var(--font-body); cursor: pointer; }
+  .map-tab[aria-selected="true"] { border-color: #5a9a8a; background: #dff0e9; color: #315f55; }
+  .handdrawn-title { min-width: 160px; margin-left: 4px; }
+  .handdrawn-title strong { display: block; font-family: var(--font-display); font-size: .88rem; }
+  .handdrawn-title span { display: block; margin-top: 2px; color: var(--muted); font-size: .68rem; }
+  .image-tools { display: flex; align-items: center; gap: 5px; margin-left: auto; }
+  .image-tool, .original-link { display: inline-grid; place-items: center; min-width: 40px; min-height: 40px; padding: 0 10px; border: 1px solid #d9cfc3; border-radius: 10px; background: #fff; color: #3f625b; font: 700 .75rem/1 var(--font-body); text-decoration: none; cursor: pointer; }
+  .zoom-readout { min-width: 46px; color: var(--muted); font-size: .7rem; text-align: center; font-variant-numeric: tabular-nums; }
+  .handdrawn-canvas { flex: 1; min-height: 0; overflow: auto; border: 1px solid rgba(170,158,140,.4); border-radius: var(--radius); background-color: #e8e1d4; background-image: url("assets/noise.svg"); box-shadow: var(--shadow); overscroll-behavior: contain; }
+  .handdrawn-canvas.zoomed { cursor: grab; }
+  .handdrawn-canvas.dragging { cursor: grabbing; user-select: none; }
+  .handdrawn-figure { min-width: 100%; width: calc(100% * var(--image-zoom, 1)); margin: 0; }
+  .handdrawn-figure img { display: block; width: 100%; height: auto; background: #f7f0df; }
+  .handdrawn-figure figcaption { padding: 8px 12px; background: #fffaf5; color: var(--muted); font-size: .72rem; line-height: 1.5; }
+  .map-controls { position: absolute; right: 16px; top: 16px; z-index: 3; display: grid; gap: 6px; }
+  .map-control { display: grid; place-items: center; min-width: 44px; min-height: 44px; padding: 0 10px; border: 1px solid #d8cdbf; border-radius: 11px; background: rgba(255,252,247,.96); color: #39443f; box-shadow: 0 4px 12px rgba(60,70,65,.1); font: 700 1rem/1 var(--font-body); cursor: pointer; }
+  .map-control.reset { font-size: .7rem; }
+  .guide-panel-head { position: relative; padding-right: 52px; }
+  .panel-close { position: absolute; right: 10px; top: 10px; display: grid; place-items: center; min-width: 40px; min-height: 40px; border: 0; border-radius: 10px; background: #f0ebe3; color: var(--ink); font: 700 1rem/1 var(--font-body); cursor: pointer; }
+  .source-card { margin-top: 12px; padding: 12px; border: 1px solid #ddd2c4; border-radius: 12px; background: #f8f3eb; }
+  .source-card strong { display: block; margin-bottom: 5px; }
+  .source-card p { margin: 4px 0; color: var(--muted); font-size: .72rem; }
+  .source-links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 9px; }
+  .source-links a { padding: 6px 8px; border: 1px solid #c8ddd6; border-radius: 8px; background: #fff; color: #376f64; font-size: .7rem; font-weight: 700; text-decoration: none; }
+  .trip-alert { margin: 0 0 10px; padding: 10px 12px; border-left: 4px solid #b65f45; border-radius: 4px 10px 10px 4px; background: #fff2ea; color: #6f3b2d; font-size: .76rem; line-height: 1.55; }
+  .rail-line:focus, .station-group:focus { outline: none; filter: drop-shadow(0 0 4px #fff) drop-shadow(0 0 2px #274f47); }
+
+  @media (max-width: 900px) {
+    html, body, .app { min-height: 100dvh; height: 100dvh; }
+    .topbar { gap: 8px; padding: max(8px, env(safe-area-inset-top)) 10px 8px; }
+    .topbar { flex-wrap: wrap; }
+    .mobile-menu-btn { display: inline-grid; place-items: center; flex: 0 0 44px; }
+    .search-wrap { max-width: none; }
+    .field-status { display: none; }
+    .view-switch { order: 3; width: 100%; }
+    .view-switch button { flex: 1; min-height: 40px; }
+    .sidebar { position: fixed; z-index: 30; width: min(360px, 92vw); box-shadow: 12px 0 36px rgba(42,50,48,.2); transition: transform 180ms ease-out; }
+    .sidebar.collapsed { width: min(360px, 92vw); transform: translateX(-105%); }
+    .sidebar.collapsed .sidebar-body, .sidebar.collapsed .brand-text, .sidebar.collapsed .sidebar-foot { opacity: 1; pointer-events: auto; visibility: visible; position: static; width: auto; height: auto; margin: 0; padding: initial; overflow: initial; clip: auto; border: initial; }
+    .sidebar.collapsed .sidebar-body { flex: 1; overflow-y: auto; padding: 12px 14px 20px; }
+    .sidebar.collapsed .sidebar-foot { padding: 10px 14px calc(14px + env(safe-area-inset-bottom)); border-top: 1px solid var(--line); }
+    .sidebar.collapsed .sidebar-head { justify-content: flex-start; padding: 18px 16px 12px; border-bottom: 1px solid var(--line); }
+    .sidebar.collapsed .brand-mark { display: block; }
+    .sidebar.collapsed .toggle-btn { margin-left: auto; }
+    .stage-main { margin: 0 8px max(8px, env(safe-area-inset-bottom)); }
+    .stage-main.guide-mode { display: block; }
+    .stage-main.guide-mode .guide-panel { position: fixed; left: 8px; right: 8px; bottom: max(8px, env(safe-area-inset-bottom)); z-index: 25; width: auto; max-height: min(56dvh, 520px); border-radius: 18px; box-shadow: 0 -12px 36px rgba(42,50,48,.2); }
+    .map-wrap { height: 100%; border-radius: 14px; }
+    .map-cartouche { max-width: 155px; }
+    .map-cartouche .cartouche-sub { display: none; }
+    .map-controls { right: 10px; top: 10px; }
+    .compass { display: none; }
+    .legend-float { left: 10px; bottom: 10px; padding: 7px 9px; }
+    .legend-float .row:nth-child(n+5) { display: none; }
+    .tooltip { display: none; }
+    .visit-facts { grid-template-columns: 1fr; }
+    .handdrawn-view { margin: 0 8px max(8px, env(safe-area-inset-bottom)); }
+    .handdrawn-toolbar { align-items: stretch; padding: 7px; }
+    .map-tabs { width: 100%; display: grid; grid-template-columns: repeat(3, 1fr); }
+    .map-tab { padding: 0 6px; font-size: .75rem; }
+    .handdrawn-title { flex: 1; min-width: 130px; }
+    .image-tools { margin-left: 0; }
+    .original-link { padding: 0 8px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+  }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+<a class="skip-link" href="#mapWrap">跳到交通地圖</a>
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="brand-mark" aria-hidden="true"></div>
+      <div class="brand-text">
+        <h1>河口湖・箱根交通</h1>
+        <p>怎麼去景點｜周遊巴士・登山線・纜車</p>
+      </div>
+      <button class="toggle-btn" id="sidebarToggle" type="button" title="收合選單" aria-label="收合路線選單" aria-expanded="true">«</button>
+    </div>
+    <div class="sidebar-body">
+      <div class="quick-row" id="presetRow">
+        <button class="chip active" data-preset="trip">我的行程</button>
+        <button class="chip" data-preset="kawaguchiko">河口湖紅線</button>
+        <button class="chip" data-preset="saiko">西湖綠線</button>
+        <button class="chip" data-preset="motosu">本栖藍線</button>
+        <button class="chip" data-preset="golden">箱根黃金路線</button>
+        <button class="chip" data-preset="sengoku">仙石原</button>
+        <button class="chip" data-preset="transfer">跨區轉乘</button>
+        <button class="chip" data-preset="all">全部</button>
+        <button class="chip" data-preset="none">全部隱藏</button>
+      </div>
+      <div id="lineList"></div>
+      <div class="group" style="margin-top:8px">
+        <div class="group-title">景點怎麼去</div>
+        <div id="spotQuick"></div>
+      </div>
+    </div>
+    <div class="sidebar-foot">
+      資料參考：富士急行周遊巴士官網、箱根黃金路線。票價班次請出發前再查官方。
+      <div class="trip-links" aria-label="其他旅程工具">
+        <a href="index.html">入口</a>
+        <a href="tokyo_rail.html">東京鐵路</a>
+        <a href="transportation_guide.html">交通</a>
+        <a href="attractions_guide.html">景點</a>
+        <a href="packing_checklist.html">清單</a>
+        <a href="japanese_phrases.html">日語</a>
+      </div>
+    </div>
+  </aside>
+
+  <main class="stage">
+    <div class="topbar">
+      <button class="mobile-menu-btn" id="mobileMenuBtn" type="button" aria-label="開啟路線與景點選單" aria-controls="sidebar" aria-expanded="false">路線</button>
+      <div class="search-wrap">
+        <span class="search-icon" aria-hidden="true">⌕</span>
+        <input id="searchInput" type="search" placeholder="搜尋站名、站號、景點（如：大石、風穴、OH57）…" autocomplete="off" />
+      </div>
+      <div class="view-switch" role="group" aria-label="地圖顯示模式">
+        <button id="interactiveModeBtn" type="button" aria-pressed="true">互動路線圖</button>
+        <button id="handdrawnModeBtn" type="button" aria-pressed="false">手繪地圖</button>
+      </div>
+      <div class="field-status"><strong>2026 實地版</strong><span>官方資料核對：7/11</span></div>
+      <div class="hint-pills">
+        <span class="hint"><b>滾輪</b> 縮放</span>
+        <span class="hint"><b>拖曳</b> 移動地圖</span>
+        <span class="hint"><b>點路線</b> 高亮</span>
+        <span class="hint"><b>──</b> 巴士　<b>- -</b> 電車　<b>···</b> 纜車</span>
+      </div>
+    </div>
+    <div class="stage-main" id="stageMain">
+      <div class="map-wrap" id="mapWrap" tabindex="-1" aria-label="河口湖與箱根互動交通路線圖">
+        <div class="map-cartouche" aria-hidden="true">
+          <p class="cartouche-jp">河口湖・箱根</p>
+          <span class="cartouche-rule"></span>
+          <p class="cartouche-sub">左＝富士｜中＝御殿場｜右＝箱根<br />周遊巴士・登山線導覽圖</p>
+        </div>
+        <svg id="mapSvg" viewBox="0 0 1200 820" xmlns="http://www.w3.org/2000/svg"></svg>
+        <div class="map-controls" aria-label="地圖控制">
+          <button class="map-control" id="zoomIn" type="button" aria-label="放大地圖">＋</button>
+          <button class="map-control" id="zoomOut" type="button" aria-label="縮小地圖">−</button>
+          <button class="map-control reset" id="resetMap" type="button" aria-label="重設地圖位置">全圖</button>
+        </div>
+        <div class="compass">
+          <span class="n">北</span><span class="s">南</span><span class="e">東</span><span class="w">西</span>
+          <div class="core"></div>
+        </div>
+        <div class="legend-float">
+          <div class="row"><span class="leg-line bus" style="border-color:#E41E26"></span>紅線周遊巴士</div>
+          <div class="row"><span class="leg-line bus" style="border-color:#00A040"></span>綠／藍線巴士</div>
+          <div class="row"><span class="leg-line rail" style="border-color:#E60012"></span>登山電車／富士急</div>
+          <div class="row"><span class="leg-line rope" style="border-color:#C71585"></span>纜車／空中纜車</div>
+          <div class="row"><span class="leg-line ship"></span>蘆之湖海賊船</div>
+          <div class="row"><span class="dot-demo"></span>一般站</div>
+          <div class="row"><span class="dot-demo hub"></span>樞紐／住宿區</div>
+        </div>
+      </div>
+      <aside class="guide-panel" id="guidePanel" aria-hidden="true">
+        <div class="guide-panel-head">
+          <h2 id="guidePanelTitle">交通總覽</h2>
+          <p id="guidePanelSubtitle">點地圖站點，或左側「景點怎麼去」</p>
+          <button class="panel-close" id="panelClose" type="button" aria-label="關閉詳細資訊">×</button>
+        </div>
+        <div class="guide-panel-body" id="guidePanelBody"></div>
+      </aside>
+    </div>
+    <section class="handdrawn-view" id="handdrawnView" aria-label="手繪旅遊地圖" hidden>
+      <div class="handdrawn-toolbar">
+        <div class="map-tabs" role="tablist" aria-label="選擇手繪地圖">
+          <button class="map-tab" id="tabKawaguchiko" type="button" role="tab" aria-selected="true" data-map="kawaguchiko">河口湖</button>
+          <button class="map-tab" id="tabHakone" type="button" role="tab" aria-selected="false" data-map="hakone">箱根</button>
+          <button class="map-tab" id="tabTransfer" type="button" role="tab" aria-selected="false" data-map="transfer">兩地轉乘</button>
+        </div>
+        <div class="handdrawn-title" aria-live="polite">
+          <strong id="handdrawnTitle">河口湖・富士五湖</strong>
+          <span id="handdrawnSubtitle">景點分布、周遊巴士與外圈延伸</span>
+        </div>
+        <div class="image-tools" aria-label="圖片縮放控制">
+          <button class="image-tool" id="imageZoomOut" type="button" aria-label="縮小手繪地圖">−</button>
+          <span class="zoom-readout" id="imageZoomReadout">100%</span>
+          <button class="image-tool" id="imageZoomIn" type="button" aria-label="放大手繪地圖">＋</button>
+          <button class="image-tool" id="imageZoomReset" type="button">符合寬度</button>
+          <a class="original-link" id="handdrawnOriginal" href="assets/images/kawaguchiko-handdrawn.png" target="_blank" rel="noopener">開啟原圖</a>
+        </div>
+      </div>
+      <div class="handdrawn-canvas" id="handdrawnCanvas" tabindex="0">
+        <figure class="handdrawn-figure" id="handdrawnFigure" style="--image-zoom:1">
+          <img id="handdrawnImage" alt="河口湖與富士五湖手繪觀光地圖，包含景點和公共交通路線" decoding="async" />
+          <figcaption id="handdrawnCaption">主圖呈現河口湖周邊；西湖、精進湖、本栖湖、富士吉田、忍野與山中湖以外圈延伸方式標示。</figcaption>
+        </figure>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+/* =========================================================
+   河口湖・箱根交通導覽
+   viewBox 1200×820｜左富士・中御殿場・右箱根
+   ========================================================= */
+
+const LINES = [
+  { id:"bus_red", name:"紅線・河口湖周遊", jp:"レッドライン", group:"河口湖巴士", color:"#E41E26", style:"bus", defaultOn:true,
+    note:"河口湖東岸・北岸｜共通周遊券可用｜①→⑳大石公園",
+    stations:["kawaguchiko","funatsu","ropeway_ent","kawaguchi_museum","music_forest","itchiku","oishi"] },
+  { id:"bus_green", name:"綠線・西湖周遊", jp:"グリーンライン", group:"河口湖巴士", color:"#00A040", style:"bus", defaultOn:true,
+    note:"西湖・療癒之里・風穴｜共通周遊券可用",
+    stations:["kawaguchiko","omuro","saiko_east","batcave","iyashi","fuketsu"] },
+  { id:"bus_blue", name:"藍線・精進本栖", jp:"ブルーライン", group:"河口湖巴士", color:"#0068B7", style:"bus", defaultOn:false,
+    note:"精進湖・本栖湖｜班次較少，先查回程",
+    stations:["kawaguchiko","hyoketsu","fuketsu","shojiko","motosu"] },
+  { id:"fuji_kyuko", name:"富士急行線", jp:"富士急行線 FJ", group:"電車", color:"#00A0E9", style:"rail", defaultOn:true,
+    note:"大月 FJ01 ↔ 下吉田 FJ14 ↔ 富士山 FJ16 ↔ FJ18",
+    stations:["otsuki","shimoyoshida","fujisan","fujiq","kawaguchiko"] },
+  { id:"fuji_bus", name:"富士急巴士（外圍）", jp:"忍野・山中湖・五合目", group:"長途巴士", color:"#8B6914", style:"bus", defaultOn:false,
+    note:"不在紅綠藍一日券範圍",
+    stations:["kawaguchiko","oshino","yamanakako","gogome"] },
+  { id:"tozan_rail", name:"箱根登山電車", jp:"箱根登山鉄道 OH", group:"箱根鐵路", color:"#E60012", style:"rail", defaultOn:true,
+    note:"湯本 OH51 → 強羅 OH57（黃金路線第1段）",
+    stations:["odawara","hakoneyumoto","kowakien","gora","chokoku"] },
+  { id:"tozan_cable", name:"箱根登山纜車", jp:"ケーブルカー", group:"箱根鐵路", color:"#2E8B57", style:"rope", defaultOn:true,
+    note:"強羅 → 早雲山 OH62（約 10 分）",
+    stations:["gora","sounzan"] },
+  { id:"ropeway", name:"箱根空中纜車", jp:"ロープウェイ", group:"箱根鐵路", color:"#C71585", style:"rope", defaultOn:true,
+    note:"早雲山 → 大涌谷 → 桃源台 OH65",
+    stations:["sounzan","owakudani","togendai"] },
+  { id:"pirate", name:"蘆之湖海賊船", jp:"箱根海賊船", group:"箱根船", color:"#C9A227", style:"ship", defaultOn:true,
+    note:"桃源台 ↔ 箱根町港 ↔ 元箱根港",
+    stations:["togendai","hakone_machi","motohakone"] },
+  { id:"hakone_bus", name:"箱根登山巴士", jp:"箱根登山バス", group:"箱根巴士", color:"#2E86AB", style:"bus", defaultOn:true,
+    note:"仙石原・湯本・湖港｜部分路線接御殿場",
+    stations:["hakoneyumoto","sengokuhara","pola","lalique","owakudani","togendai","motohakone","hakone_machi"] },
+  { id:"gotemba_link", name:"御殿場轉乘走廊", jp:"河口湖↔箱根", group:"跨區", color:"#888888", style:"bus", defaultOn:true,
+    note:"河口湖→御殿場有巴士｜再轉箱根側路線",
+    stations:["kawaguchiko","fujisan","yamanakako","gotemba","gotemba_outlet","sengokuhara","togendai","hakoneyumoto"] },
+];
+
+const STATIONS = {
+  // —— 富士山地區（左 x≈50–450）——
+  kawaguchiko: {
+    zh:"河口湖站", jp:"河口湖駅", code:"FJ18 / 巴士①", stop:"1", hub:true, area:"河口湖",
+    x:340, y:320,
+    spots:["周遊巴士三線起點（1 號月台）","天上山纜車（站前步行）","富士御室淺間神社"],
+    how:"紅／綠／藍線都從河口湖站前【1 號巴士站】出發。",
+    fromStay:"富士晴 Guest House：步行約 10~15 分到站。DOT HOSTEL：搭紅線回程至①。",
+    tip:"買一日券 ¥1,500／二日券 ¥2,000。Suica 可付單程，周遊券較划算。",
+    tags:["樞紐","親子"],
+    intro:"富士五湖交通總站。紅／綠／藍線與富士急行線在此交會，行程幾乎都從這裡出發。"
+  },
+  funatsu: {
+    zh:"船津浜溫泉街", jp:"船津浜温泉街", code:"紅⑧", stop:"8", area:"河口湖南岸",
+    x:360, y:285,
+    spots:["船津一帶溫泉旅館區"],
+    how:"紅線⑧。富士晴附近可步行或搭紅線 1~2 站。",
+    fromStay:"富士晴 Guest House 步行可達周邊。",
+    tip:"南岸住宿區，回河口湖站很近。",
+    tags:["住宿"],
+    intro:"河口湖南岸溫泉街，富士晴住宿區附近。"
+  },
+  ropeway_ent: {
+    zh:"遊覽船・纜車入口", jp:"遊覧船・ロープウェイ入口", code:"紅⑨", stop:"9", area:"河口湖東岸",
+    x:385, y:260,
+    spots:["天上山公園纜車（富士山全景纜車）","河口湖遊覽船 Appare"],
+    how:"紅線⑨下車，步行至纜車／碼頭。",
+    fromStay:"河口湖站紅線約 10 分；或站前步行約 10 分。",
+    tip:"纜車單程／來回另購票，不在巴士一日券內。",
+    tags:["親子","景觀"],
+    intro:"天上山纜車與遊覽船入口，紅線⑨。"
+  },
+  kawaguchi_museum: {
+    zh:"河口湖美術館", jp:"河口湖美術館", code:"紅⑫", stop:"12", area:"河口湖北岸",
+    x:330, y:230,
+    spots:["河口湖美術館"],
+    how:"紅線⑫，湖北岸中段。",
+    fromStay:"河口湖站紅線約 12~15 分。",
+    tip:"可與⑮音樂森林同段安排。",
+    tags:["文化"],
+    intro:"湖北岸美術館，紅線⑫。"
+  },
+  music_forest: {
+    zh:"音樂之森美術館", jp:"音楽と森の美術館", code:"紅⑮", stop:"15", area:"河口湖北岸",
+    x:290, y:210,
+    spots:["河口湖音樂森林美術館","湖北岸散步"],
+    how:"紅線⑮。",
+    fromStay:"河口湖站紅線約 15~20 分。",
+    tip:"雨天備案。鄰近⑯木の花、⑰一竹。",
+    tags:["文化","親子"],
+    intro:"音樂盒與森林庭園，紅線⑮。"
+  },
+  itchiku: {
+    zh:"久保田一竹美術館", jp:"久保田一竹美術館", code:"紅⑰", stop:"17", area:"河口湖北岸",
+    x:250, y:185,
+    spots:["久保田一竹美術館"],
+    how:"紅線⑰。",
+    fromStay:"河口湖站紅線約 20 分。",
+    tip:"可與⑮音樂森林、⑳大石公園排同一天。",
+    tags:["文化"],
+    intro:"一竹絞和服美術館，紅線⑰。"
+  },
+  oishi: {
+    zh:"大石公園", jp:"河口湖自然生活館", code:"紅⑳", stop:"20", hub:true, area:"河口湖北岸",
+    x:210, y:160,
+    spots:["大石公園","薰衣草（7 月）","逆富士取景"],
+    how:"紅線終點⑳自然生活館。約 25~30 分從①。",
+    fromStay:"DOT HOSTEL 步行 2 分。",
+    tip:"7/19 第一站首選。回程班次依季節調整；抵達時先截圖當日官方時刻表。",
+    tags:["景觀","住宿","親子"],
+    intro:"紅線終點，大石公園與逆富士取景。DOT HOSTEL 就在附近。"
+  },
+  omuro: {
+    zh:"富士御室淺間神社", jp:"富士御室浅間神社", code:"綠㉗", stop:"27", area:"河口湖南岸",
+    x:315, y:355,
+    spots:["富士御室淺間神社（里宮）"],
+    how:"綠線㉗；或河口湖站步行約 8 分。",
+    fromStay:"富士晴步行約 8 分（不必搭車）。",
+    tip:"住南岸時最方便的神社。",
+    tags:["文化"],
+    intro:"里宮神社，綠線㉗，南岸可步行。"
+  },
+  saiko_east: {
+    zh:"西湖東口", jp:"西湖東口", code:"綠㉟", stop:"39", area:"西湖",
+    x:175, y:310,
+    spots:["西湖東岸入口"],
+    how:"綠線㉟。",
+    fromStay:"河口湖站綠線約 20 分。",
+    tip:"進入西湖圈的門戶。",
+    tags:[],
+    intro:"西湖圈入口，綠線㉟。"
+  },
+  batcave: {
+    zh:"西湖蝙蝠穴", jp:"西湖コウモリ穴", code:"綠㊺", stop:"45", area:"西湖",
+    x:130, y:335,
+    spots:["西湖蝙蝠穴"],
+    how:"綠線㊺。",
+    fromStay:"與風穴、療癒之里同一帶。",
+    tip:"可與風穴、冰穴排一起避暑。",
+    tags:["親子"],
+    intro:"溶岩洞窟，綠線㊺。"
+  },
+  iyashi: {
+    zh:"西湖療癒之里", jp:"西湖いやしの里根場", code:"綠㊽", stop:"48", area:"西湖",
+    x:95, y:295,
+    spots:["西湖療癒之里根場（合掌村風格）"],
+    how:"綠線㊽。",
+    fromStay:"河口湖站綠線約 30~40 分。",
+    tip:"綠線必訪。茅葺屋頂聚落＋手作體驗。",
+    tags:["文化","親子"],
+    intro:"合掌村風格聚落，綠線必訪㊽。"
+  },
+  fuketsu: {
+    zh:"富岳風穴", jp:"富岳風穴", code:"綠／藍㉛", stop:"51", area:"鳴澤",
+    x:85, y:370,
+    spots:["富岳風穴","鳴澤冰穴（藍線附近）"],
+    how:"綠線終點方向；藍線也停。官網站號約 51。",
+    fromStay:"綠線約 30 分。7 月超涼。",
+    tip:"洞內約 0~3℃，帶薄外套。",
+    tags:["親子"],
+    intro:"溶岩風穴，綠／藍線交會，洞內極涼。"
+  },
+  hyoketsu: {
+    zh:"鳴澤冰穴", jp:"鳴沢氷穴", code:"藍⑽", stop:"80", area:"鳴澤",
+    x:145, y:395,
+    spots:["鳴澤冰穴"],
+    how:"藍線⑽（鳴沢氷穴）。綠線不去此站，需搭藍線或步行銜接。",
+    fromStay:"河口湖站藍線途經。",
+    tip:"常與風穴買聯票。",
+    tags:["親子"],
+    intro:"冰穴避暑，藍線⑽。"
+  },
+  shojiko: {
+    zh:"精進湖", jp:"精進湖", code:"藍⒀~⒁", stop:"93", area:"精進湖",
+    x:70, y:430,
+    spots:["精進湖","抱子富士觀景點"],
+    how:"藍線精進湖民宿村／入口一帶。",
+    fromStay:"藍線約 40~50 分，班次少請查時刻。",
+    tip:"人少安靜，適合慢遊。",
+    tags:["景觀"],
+    intro:"五湖中較安靜的一湖，藍線途經。"
+  },
+  motosu: {
+    zh:"本栖湖", jp:"本栖湖観光案内所", code:"藍⒅", stop:"98", area:"本栖湖",
+    x:45, y:480,
+    spots:["本栖湖","千円札富士取景"],
+    how:"藍線終點⑱本栖湖觀光案內所。",
+    fromStay:"河口湖站藍線約 50~60 分。",
+    tip:"三線最遠。務必確認回程末班。",
+    tags:["景觀"],
+    intro:"藍線終點，千円札富士取景點。"
+  },
+  shimoyoshida: {
+    zh:"下吉田", jp:"下吉田", code:"FJ14", area:"吉田",
+    x:255, y:420,
+    spots:["新倉山淺間公園（忠靈塔）","本町通老街"],
+    how:"富士急行線 FJ14，河口湖→下吉田約 7 分，再步行 15 分（含 398 階）。",
+    fromStay:"河口湖站搭富士急行 1 站。",
+    tip:"建議清晨 8 點前到，人少、能見度高。",
+    tags:["景觀","文化"],
+    intro:"忠靈塔最近車站 FJ14。"
+  },
+  fujisan: {
+    zh:"富士山站", jp:"富士山", code:"FJ16", hub:true, area:"富士吉田",
+    x:215, y:455,
+    spots:["北口本宮富士淺間神社","往御殿場／山中湖巴士"],
+    how:"富士急行線 FJ16。神社步行約 5 分。",
+    fromStay:"河口湖站 1 站約 5 分。",
+    tip:"跨區去箱根時，也可從這附近轉巴士經山中湖→御殿場。",
+    tags:["文化","轉乘"],
+    intro:"FJ16，神社與跨區巴士節點。"
+  },
+  fujiq: {
+    zh:"富士急樂園", jp:"富士急ハイランド", code:"FJ17", area:"富士吉田",
+    x:185, y:485,
+    spots:["富士急樂園"],
+    how:"富士急行線 FJ17。",
+    fromStay:"河口湖站 2 站。",
+    tip:"樂園門票另購。",
+    tags:["親子"],
+    intro:"主題樂園專用站 FJ17。"
+  },
+  otsuki: {
+    zh:"大月", jp:"大月", code:"FJ01", area:"大月",
+    x:140, y:530,
+    spots:["JR 中央線轉乘"],
+    how:"富士急行線起點，接 JR 中央線往東京。",
+    fromStay:"本行程較少經此（多走新宿巴士）。",
+    tip:"備援電車動線：東京→大月→河口湖。",
+    tags:["轉乘"],
+    intro:"富士急行線起點，接 JR 中央線。"
+  },
+  oshino: {
+    zh:"忍野八海", jp:"忍野八海", code:"巴士", area:"忍野",
+    x:400, y:410,
+    spots:["忍野八海"],
+    how:"河口湖站搭富士急巴士約 25 分（非紅綠藍一日券）。",
+    fromStay:"需另購票。",
+    tip:"觀光客多，可排半日。",
+    tags:["文化","親子"],
+    intro:"湧水池群，需搭外圍巴士。"
+  },
+  yamanakako: {
+    zh:"山中湖", jp:"山中湖", code:"巴士", area:"山中湖",
+    x:455, y:470,
+    spots:["山中湖全景台","花之都公園"],
+    how:"富士急巴士約 30~40 分；亦可經御殿場方向。",
+    fromStay:"河口湖站發車。",
+    tip:"五湖最大。跨區往箱根常經此。",
+    tags:["景觀","轉乘"],
+    intro:"五湖最大，跨區往御殿場常經此。"
+  },
+  gogome: {
+    zh:"富士山五合目", jp:"五合目", code:"巴士", area:"富士山",
+    x:280, y:85,
+    spots:["富士山五合目"],
+    how:"河口湖站五合目巴士約 50 分，來回約 ¥1,780。",
+    fromStay:"看天氣決定是否上山。",
+    tip:"單程 ¥1,780／往返券 ¥2,800（2026-07 核對）；道路管制或僅通至四合目時會調整。",
+    tags:["景觀"],
+    intro:"夏季巴士可達的登山口高度。"
+  },
+
+  // —— 御殿場轉乘（中 x≈520–600）——
+  gotemba: {
+    zh:"御殿場", jp:"御殿場駅", code:"轉乘", hub:true, area:"御殿場",
+    x:560, y:500,
+    spots:["JR 御殿場站","富士急巴士中心"],
+    how:"河口湖↔箱根的關鍵轉乘站。無直達巴士。",
+    fromStay:"7/22：河口湖→御殿場→仙石原／湯本。",
+    tip:"站前 2 號月台常見富士急往河口湖；箱根側搭登山巴士。",
+    tags:["轉乘","樞紐"],
+    intro:"跨區必經樞紐。河口湖與箱根之間無直達，在此換車。"
+  },
+  gotemba_outlet: {
+    zh:"御殿場 Outlet", jp:"御殿場プレミアム・アウトレット", code:"轉乘", area:"御殿場",
+    x:590, y:545,
+    spots:["Gotemba Premium Outlets"],
+    how:"箱根登山巴士（如 M／L 線）與富士急巴士都停。可 outlet 免費接駁往御殿場站。",
+    fromStay:"強羅／湯本／仙石原皆有巴士。",
+    tip:"購物＋轉乘可一起做。",
+    tags:["購物","轉乘"],
+    intro:"Outlet 與轉乘雙用途站。"
+  },
+
+  // —— 箱根地區（右 x≈650–950）——
+  odawara: {
+    zh:"小田原", jp:"小田原", code:"OH47", area:"小田原",
+    x:720, y:730,
+    spots:["小田急／JR 轉乘","箱根周遊券可在此啟用"],
+    how:"新宿小田急 → 小田原 → 登山電車／巴士進箱根。",
+    fromStay:"回東京或進箱根的大門。",
+    tip:"浪漫特快也可直達箱根湯本（視車次）。",
+    tags:["轉乘"],
+    intro:"箱根大門，OH 線與小田急／JR 交會。"
+  },
+  hakoneyumoto: {
+    zh:"箱根湯本", jp:"箱根湯本", code:"OH51", hub:true, area:"箱根湯本",
+    x:700, y:655,
+    spots:["箱根入口溫泉街","登山電車／巴士總站","浪漫特快"],
+    how:"黃金路線起點。登山電車往強羅；巴士往仙石原／湖港／御殿場。",
+    fromStay:"仙石原巴士約 20~30 分；7/23 由此搭浪漫特快回東京。",
+    tip:"買／出示箱根周遊券（Freepass）的重要站。",
+    tags:["樞紐","溫泉"],
+    intro:"箱根入口與黃金路線起點 OH51。"
+  },
+  kowakien: {
+    zh:"小涌谷", jp:"小涌谷", code:"登山電車", area:"小涌谷",
+    x:740, y:605,
+    spots:["小涌園溫泉樂園"],
+    how:"登山電車中途站。",
+    fromStay:"湯本往強羅途中。",
+    tip:"可當溫泉休息點。",
+    tags:["溫泉","親子"],
+    intro:"登山電車中途，溫泉樂園。"
+  },
+  gora: {
+    zh:"強羅", jp:"強羅", code:"OH57", hub:true, area:"強羅",
+    x:775, y:555,
+    spots:["強羅溫泉街","強羅公園","轉登山纜車"],
+    how:"黃金路線第 2 樞紐：登山電車終點 → 轉纜車往早雲山。",
+    fromStay:"仙石原巴士可到強羅一帶。",
+    tip:"雕刻之森在鄰站，可先遊再上纜車。",
+    tags:["樞紐","溫泉"],
+    intro:"黃金路線轉乘樞紐 OH57。"
+  },
+  chokoku: {
+    zh:"雕刻之森", jp:"彫刻の森", code:"登山電車", area:"強羅",
+    x:805, y:530,
+    spots:["箱根雕刻之森美術館"],
+    how:"登山電車「彫刻の森」站，步行 2 分。",
+    fromStay:"仙石原 → 巴士／電車。",
+    tip:"戶外雕塑，夏天也好逛。",
+    tags:["文化","親子"],
+    intro:"戶外雕塑美術館，站旁即達。"
+  },
+  sounzan: {
+    zh:"早雲山", jp:"早雲山", code:"OH62", hub:true, area:"早雲山",
+    x:840, y:485,
+    spots:["纜車終點／空中纜車起點"],
+    how:"登山纜車到站後，轉粉紅線空中纜車往大涌谷。",
+    fromStay:"也可從仙石原搭巴士接近此區。",
+    tip:"黃金路線轉乘核心，跟隨指標即可。",
+    tags:["樞紐"],
+    intro:"纜車 ↔ 空中纜車轉乘站 OH62。"
+  },
+  owakudani: {
+    zh:"大涌谷", jp:"大涌谷", code:"空中纜車", area:"大涌谷",
+    x:900, y:420,
+    spots:["火山噴氣","黑玉子（黑蛋）","富士山展望（天氣好）"],
+    how:"空中纜車中途；或箱根登山巴士直達。",
+    fromStay:"仙石原巴士較直接；或走黃金路線經早雲山。",
+    tip:"留意火山氣體／步道是否關閉。",
+    tags:["景觀","親子"],
+    intro:"火山噴氣與黑蛋，空中纜車中途。"
+  },
+  togendai: {
+    zh:"桃源台", jp:"桃源台", code:"OH65", hub:true, area:"蘆之湖",
+    x:945, y:365,
+    spots:["空中纜車終點","海賊船碼頭"],
+    how:"空中纜車終點 → 地下層轉海賊船。巴士也可到。",
+    fromStay:"黃金路線順向必經；亦可巴士往御殿場。",
+    tip:"海賊船往元箱根／箱根町港。",
+    tags:["樞紐"],
+    intro:"空中纜車終點與海賊船碼頭 OH65。"
+  },
+  hakone_machi: {
+    zh:"箱根町港", jp:"箱根町港", code:"OH66", area:"蘆之湖",
+    x:900, y:310,
+    spots:["箱根關所","巴士回湯本"],
+    how:"海賊船停靠；登山巴士可回箱根湯本。",
+    fromStay:"完成湖上段後常由此巴士回湯本。",
+    tip:"黃金路線閉環常用出口。",
+    tags:["文化"],
+    intro:"海賊船港與關所，OH66。"
+  },
+  motohakone: {
+    zh:"元箱根港", jp:"元箱根港", code:"OH67", area:"蘆之湖",
+    x:845, y:285,
+    spots:["箱根神社","水上鳥居"],
+    how:"海賊船停靠後步行至神社／鳥居。",
+    fromStay:"桃源台搭海賊船約 25~35 分。",
+    tip:"早到人較少。拍完可巴士回湯本。",
+    tags:["文化","景觀"],
+    intro:"箱根神社與水上鳥居最近港 OH67。"
+  },
+  sengokuhara: {
+    zh:"仙石原", jp:"仙石原", code:"登山巴士", hub:true, area:"仙石原",
+    x:700, y:440,
+    spots:["仙石原芒草原","濕生花園","威尼斯玻璃美術館"],
+    how:"箱根登山巴士樞紐。往湯本、強羅、大涌谷、御殿場、桃源台。",
+    fromStay:"UENOYAMA Room 102 步行 5~15 分。",
+    tip:"7/22 住宿區。不必先繞去湯本再回頭。",
+    tags:["住宿","樞紐","景觀"],
+    intro:"仙石原住宿與登山巴士樞紐。UENOYAMA 就在此區。"
+  },
+  pola: {
+    zh:"波拉美術館", jp:"ポーラ美術館", code:"巴士", area:"仙石原",
+    x:735, y:470,
+    spots:["Pola Museum of Art"],
+    how:"仙石原巴士約 5 分，或步行約 25 分。",
+    fromStay:"UENOYAMA 出發。",
+    tip:"雨天備案首選。",
+    tags:["文化"],
+    intro:"仙石原名美術館，雨天備案。"
+  },
+  lalique: {
+    zh:"拉利克美術館", jp:"箱根ラリック美術館", code:"步行／巴士", area:"仙石原",
+    x:675, y:420,
+    spots:["箱根拉利克美術館","草原餐廳"],
+    how:"UENOYAMA 對面步行約 1~2 分。",
+    fromStay:"住宿最近美術館。",
+    tip:"入住當日傍晚最適合。",
+    tags:["文化"],
+    intro:"UENOYAMA 對面，玻璃藝術館。"
+  },
+};
+
+const HOW_SPOTS = [
+  { id:"oishi", name:"大石公園", line:"bus_red", summary:"紅線⑳｜DOT 步行 2 分",
+    steps:["到河口湖站前【1 號月台】搭紅線","約 25~30 分到⑳ 自然生活館","或住 DOT 直接步行"] },
+  { id:"ropeway_ent", name:"天上山纜車／遊覽船", line:"bus_red", summary:"紅線⑨或站前步行",
+    steps:["河口湖站搭紅線到⑨","或從車站步行約 10 分","纜車／船票另購"] },
+  { id:"music_forest", name:"音樂森林美術館", line:"bus_red", summary:"紅線⑮",
+    steps:["河口湖站搭紅線","約 15~20 分下⑮","可續往⑰一竹、⑳大石"] },
+  { id:"itchiku", name:"久保田一竹美術館", line:"bus_red", summary:"紅線⑰",
+    steps:["紅線至⑰","雨天備案"] },
+  { id:"iyashi", name:"西湖療癒之里", line:"bus_green", summary:"綠線㊽",
+    steps:["河口湖站搭綠線","約 30~40 分到㊽","班次約 30 分一班，查回程"] },
+  { id:"fuketsu", name:"富岳風穴", line:"bus_green", summary:"綠／藍㉛",
+    steps:["綠線往風穴方向","洞內很冷請帶外套","可顺訪蝙蝠穴"] },
+  { id:"motosu", name:"本栖湖", line:"bus_blue", summary:"藍線⑱｜班次少",
+    steps:["河口湖站搭藍線","約 50~60 分到終點","務必確認末班回程"] },
+  { id:"shimoyoshida", name:"新倉山忠靈塔", line:"fuji_kyuko", summary:"FJ14＋步行",
+    steps:["富士急行到下吉田 FJ14","步行約 15 分（398 階）","建議清晨"] },
+  { id:"owakudani", name:"大涌谷", line:"ropeway", summary:"空中纜車或巴士",
+    steps:["黃金路線：強羅→纜車→早雲山→空中纜車","或仙石原搭登山巴士直達","吃黑蛋、看噴氣"] },
+  { id:"motohakone", name:"箱根神社・水上鳥居", line:"pirate", summary:"海賊船→元箱根港",
+    steps:["到桃源台 OH65","搭海賊船至元箱根港","步行至神社／鳥居"] },
+  { id:"chokoku", name:"雕刻之森美術館", line:"tozan_rail", summary:"登山電車站旁",
+    steps:["登山電車到彫刻の森站","步行 2 分","可與強羅排同一天"] },
+  { id:"sengokuhara", name:"仙石原（住宿）", line:"hakone_bus", summary:"登山巴士樞紐",
+    steps:["7/22：河口湖→御殿場轉乘→仙石原","UENOYAMA 步行可達芒草原／拉利克","往大涌谷、強羅、湯本都在此轉"] },
+  { id:"gotemba", name:"河口湖→箱根轉乘", line:"gotemba_link", summary:"必經御殿場",
+    steps:["河口湖搭富士急巴士往御殿場／Outlet","轉箱根登山巴士進仙石原或湯本","無直達，預留轉乘緩衝"] },
+];
+
+const VISIT_DETAILS = {
+  kawaguchiko:{duration:"30–60 分轉乘／補給",best:"各條路線的起點，先買票、拍下當日月台與回程時刻",pair:"站前商店、天上山纜車、富士山站",caution:"假日窗口與巴士月台會排隊；跨區巴士先確認乘車處"},
+  funatsu:{duration:"30–60 分",best:"湖東南岸散步、溫泉街與便利商店補給",pair:"大池公園、河口湖大橋、天上山纜車",caution:"「船津」範圍很大，下車前核對站名，不要只看中文地區名"},
+  ropeway_ent:{duration:"纜車與山頂約 60–90 分",best:"上午能見度通常較佳，可與遊覽船安排同一段",pair:"船津浜、大池公園、河口湖大橋",caution:"纜車與遊覽船另購票；強風、雷雨或人潮可能延長等候"},
+  kawaguchi_museum:{duration:"60–90 分",best:"雨天或想看富士山主題藝術時停留",pair:"音樂與森之美術館、產屋崎、湖北岸步道",caution:"閉館日與最後入館時間需在出發當日確認"},
+  music_forest:{duration:"90–150 分",best:"歐式庭園、自動演奏樂器與室內雨天行程",pair:"河口湖美術館、久保田一竹美術館",caution:"表演時間會影響停留長度，先看當日節目表"},
+  itchiku:{duration:"60–90 分",best:"欣賞染織、建築與庭園，適合安靜慢逛",pair:"音樂與森之美術館、大石公園",caution:"坡道與閉館時間要預留；回程巴士不要只押最後一班"},
+  oishi:{duration:"45–90 分",best:"7 月花田、湖畔富士山與自然生活館",pair:"富士大石 Hana Terrace、久保田一竹美術館",caution:"倒影受風與能見度影響；紅線主要在此折返，部分班次續行"},
+  omuro:{duration:"30–60 分",best:"湖南岸古社、森林與較安靜的文化行程",pair:"八木崎公園、道之驛勝山",caution:"不要和湖北岸的河口淺間神社混淆"},
+  saiko_east:{duration:"20–40 分作為轉乘／散步節點",best:"進入西湖區、湖畔散步或銜接綠線景點",pair:"蝙蝠穴、療癒之里、富岳風穴",caution:"站點分散，先確認回程方向與站牌位置"},
+  batcave:{duration:"45–75 分",best:"熔岩洞穴與青木原自然環境",pair:"療癒之里、富岳風穴",caution:"洞內濕滑低矮，穿防滑鞋；營業與入洞限制先查"},
+  iyashi:{duration:"90–150 分",best:"茅葺聚落、富士山景觀、手作與午餐",pair:"西湖蝙蝠穴、富岳風穴",caution:"綠線班距較長，到站先確認回程時刻"},
+  fuketsu:{duration:"40–70 分",best:"夏季避暑與熔岩洞穴地形",pair:"鳴澤冰穴、療癒之里",caution:"洞內約 0–3°C；綠線與藍線皆到，但不可假設能立即轉乘"},
+  hyoketsu:{duration:"40–70 分",best:"冰洞地形與夏季低溫體驗",pair:"富岳風穴、道之驛鳴澤",caution:"階梯狹窄濕滑；藍線班次有限，回程優先確認"},
+  shojiko:{duration:"45–90 分",best:"安靜湖景與子抱富士構圖",pair:"本栖湖、富岳風穴",caution:"觀景點與各站牌有距離，勿把「精進湖」視為單一站點"},
+  motosu:{duration:"60–120 分",best:"本栖湖畔與千圓鈔富士山構圖",pair:"精進湖、富岳風穴",caution:"觀光案內所站不等於紙鈔觀景點，需另走湖畔道路且班次少"},
+  shimoyoshida:{duration:"忠靈塔約 90–150 分",best:"清晨前往新倉山與本町通拍富士山",pair:"月江寺、本町通、富士山站",caution:"忠靈塔需爬階梯與坡道；雲量會快速改變"},
+  fujisan:{duration:"30–60 分轉乘；神社另加 60–90 分",best:"前往忍野、山中湖、御殿場與北口本宮的節點",pair:"北口本宮富士淺間神社、本町通",caution:"車站與不同巴士站牌分區，出發前核對月台"},
+  fujiq:{duration:"半日到整日",best:"主題樂園或作為富士吉田交通節點",pair:"富士山站、河口湖站",caution:"園區營業、設施維修與排隊時間每日不同"},
+  otsuki:{duration:"20–45 分轉乘",best:"JR 中央線與富士急行線換車、電車備援動線",pair:"下吉田、河口湖站",caution:"月台轉換與特急指定席規則不同，預留緩衝"},
+  oshino:{duration:"90–150 分",best:"湧泉池、傳統聚落與富士山景觀",pair:"花之都公園、山中湖、北口本宮",caution:"ふじっ湖號與紅綠藍周遊巴士是不同系統，人潮多時提早回站"},
+  yamanakako:{duration:"半日",best:"湖畔散步、花之都公園與不同角度的富士山",pair:"忍野八海、御殿場方向",caution:"湖很大，站點彼此距離遠；先決定要去的湖岸"},
+  gogome:{duration:"含往返約 3–5 小時",best:"能見度好時看高山景觀與登山口氣氛",pair:"富士山站、河口湖站",caution:"季節運行，受道路、天氣與管制影響；高海拔注意保暖"},
+  gotemba:{duration:"20–45 分轉乘",best:"河口湖進箱根的主要換車點",pair:"御殿場 Outlet、仙石原",caution:"JR 站與不同公司巴士月台要核對；至少留 20–30 分緩衝"},
+  gotemba_outlet:{duration:"轉乘 30–60 分；購物另計",best:"購物並銜接河口湖或箱根側巴士",pair:"御殿場站、仙石原",caution:"河口湖與箱根側班次停靠條件不同，不要把 Outlet 當成同一月台"},
+  odawara:{duration:"20–45 分轉乘",best:"JR、新幹線、小田急與箱根交通換車",pair:"小田原城、箱根湯本",caution:"若只住仙石原，不一定需要先繞到小田原"},
+  hakoneyumoto:{duration:"60–120 分；轉乘另計",best:"溫泉街、伴手禮與黃金路線入口",pair:"塔之澤、宮之下、強羅",caution:"假日車站與巴士站擁擠，回東京的浪漫特快需另購特急券"},
+  kowakien:{duration:"2–5 小時",best:"溫泉設施與親子雨天備案",pair:"雕刻之森、強羅、宮之下",caution:"小涌谷站與小涌園設施並非同一位置，需步行或搭巴士"},
+  gora:{duration:"45–90 分；轉乘另計",best:"強羅公園、溫泉街與登山纜車轉乘",pair:"雕刻之森、早雲山",caution:"登山電車與纜車月台不同，旺季可能排隊"},
+  chokoku:{duration:"120–180 分",best:"戶外雕塑、親子遊樂與雨天可用展館",pair:"強羅、小涌園",caution:"戶外區範圍大，穿好走鞋並留意最後入館"},
+  sounzan:{duration:"20–45 分轉乘／觀景",best:"纜車與空中纜車轉乘、足湯與山景",pair:"強羅、大涌谷",caution:"強風或維修可能使空中纜車停駛，先看即時運行"},
+  owakudani:{duration:"60–100 分",best:"火山地形、黑蛋與晴天富士山",pair:"早雲山、桃源台",caution:"火山氣體、強風與管制會影響步道及纜車"},
+  togendai:{duration:"30–60 分轉乘",best:"空中纜車、海賊船與登山巴士三方轉乘",pair:"大涌谷、元箱根、仙石原",caution:"船班與纜車末班不同；先決定下一段再離開月台區"},
+  hakone_machi:{duration:"60–100 分",best:"箱根關所、杉並木與湖畔散步",pair:"元箱根、海賊船",caution:"箱根町港與元箱根港是不同港口，回程巴士路線也不同"},
+  motohakone:{duration:"90–150 分",best:"箱根神社、水上鳥居與蘆之湖景觀",pair:"箱根町港、成川美術館",caution:"鳥居拍照常排隊；保留回湯本或仙石原的巴士時間"},
+  sengokuhara:{duration:"45–90 分",best:"住宿、芒草原與周邊美術館的交通基地",pair:"拉利克、濕生花園、玻璃之森",caution:"「仙石」「仙石案內所前」「仙石高原」是不同站"},
+  pola:{duration:"90–150 分",best:"森林建築、西洋與日本近現代藝術",pair:"玻璃之森、仙石原",caution:"S 路線班距需確認；閉館前不要押最後一班"},
+  lalique:{duration:"90–150 分",best:"玻璃藝術、庭園與 Orient Express 咖啡體驗",pair:"仙石案內所、濕生花園",caution:"咖啡體驗可能需另外預約或候位"},
+};
+
+const FUJI_RED_STOPS = new Set(["funatsu","ropeway_ent","kawaguchi_museum","music_forest","itchiku","oishi"]);
+const FUJI_GREEN_STOPS = new Set(["omuro","saiko_east","batcave","iyashi","fuketsu"]);
+const FUJI_BLUE_STOPS = new Set(["hyoketsu","shojiko","motosu"]);
+const FUJI_RAIL_STOPS = new Set(["shimoyoshida","fujisan","fujiq","otsuki"]);
+const FUJI_OUTER_STOPS = new Set(["oshino","yamanakako","gogome"]);
+const HAKONE_STOPS = new Set(["odawara","hakoneyumoto","kowakien","gora","chokoku","sounzan","owakudani","togendai","hakone_machi","motohakone","sengokuhara","pola","lalique"]);
+
+function stayDirectionsFor(sid) {
+  const s = STATIONS[sid];
+  if (!s) return [];
+  const routes = [];
+  const destination = s.code ? `${s.zh}（${s.code}）` : s.zh;
+
+  if (sid === "kawaguchiko") {
+    routes.push({kind:"dot",name:"DOT HOSTEL（7/19→7/20）",text:"步行約 1–2 分到「河口湖自然生活館／あけぼの荘前」，搭紅線往河口湖站。帶行李時先確認巴士是否擁擠；車程依湖岸交通約 25–35 分。"});
+    routes.push({kind:"fujibare",name:"富士晴 Guest House（7/20→7/22）",text:"住宿在船津 605-1。最簡單是步行約 16–20 分到河口湖站；若不想走全程，可先步行約 7–10 分至大池公園一帶，再依當日站牌與方向搭車。"});
+  } else if (sid === "oishi") {
+    routes.push({kind:"dot",name:"DOT HOSTEL（7/19→7/20）",text:"住宿就在大石 1509，步行約 1–4 分可到河口湖自然生活館、大石公園與あけぼの荘前站，不需要搭車。"});
+    routes.push({kind:"fujibare",name:"富士晴 Guest House（7/20→7/22）",text:"步行約 16–20 分至河口湖站，搭紅線到河口湖自然生活館／大石公園一帶。到站先看回程時刻，部分 P-Line 班次會繼續往芦川方向。"});
+  } else if (FUJI_RED_STOPS.has(sid)) {
+    routes.push({kind:"dot",name:"DOT HOSTEL（7/19→7/20）",text:`步行約 1–2 分到河口湖自然生活館／あけぼの荘前，搭紅線往河口湖站方向，在${destination}附近下車。上車前確認是回站方向。`});
+    routes.push({kind:"fujibare",name:"富士晴 Guest House（7/20→7/22）",text:`住宿位於船津；步行約 16–20 分至河口湖站搭紅線前往${destination}。若從大池公園站上車，務必先確認行車方向。`});
+  } else if (FUJI_GREEN_STOPS.has(sid) || FUJI_BLUE_STOPS.has(sid)) {
+    const line = FUJI_GREEN_STOPS.has(sid) ? "綠線" : "藍線";
+    routes.push({kind:"dot",name:"DOT HOSTEL（7/19→7/20）",text:`先從自然生活館一帶搭紅線回河口湖站，再轉${line}到${destination}。至少留一班車的轉乘緩衝，回程不要押末班。`});
+    routes.push({kind:"fujibare",name:"富士晴 Guest House（7/20→7/22）",text:`從船津住宿步行約 16–20 分至河口湖站，搭${line}到${destination}。出發前先截圖去回程時刻，西湖以西班次較疏。`});
+  } else if (FUJI_RAIL_STOPS.has(sid)) {
+    routes.push({kind:"dot",name:"DOT HOSTEL（7/19→7/20）",text:`先搭紅線回河口湖站，再轉富士急行線前往${destination}。紅線容易受湖岸塞車影響，需替電車轉乘留緩衝。`});
+    routes.push({kind:"fujibare",name:"富士晴 Guest House（7/20→7/22）",text:`從船津住宿步行約 16–20 分到河口湖站，搭富士急行線前往${destination}；特急或指定席列車需另確認票種。`});
+  } else if (FUJI_OUTER_STOPS.has(sid)) {
+    const service = sid === "gogome" ? "富士 Subaru Line 五合目巴士" : "ふじっ湖號或對應一般路線巴士";
+    routes.push({kind:"dot",name:"DOT HOSTEL（7/19→7/20）",text:`先搭紅線回河口湖站，再轉${service}到${destination}。跨系統票券未必通用。`});
+    routes.push({kind:"fujibare",name:"富士晴 Guest House（7/20→7/22）",text:`步行約 16–20 分到河口湖站，轉搭${service}前往${destination}；季節班次與乘車月台以當日公告為準。`});
+  } else if (sid === "gotemba" || sid === "gotemba_outlet") {
+    routes.push({kind:"fujibare",name:"富士晴 Guest House → 箱根（7/22）",text:`帶行李步行約 16–20 分到河口湖站，搭 G-Liner 或一般路線巴士前往${destination}。G-Liner 建議先預約；抵達後再轉箱根側巴士，預留至少 20–30 分。`});
+  }
+
+  if (HAKONE_STOPS.has(sid)) {
+    let text = "";
+    if (sid === "lalique" || sid === "sengokuhara") text = `UENOYAMA 位於仙石原 183-1，步行約 1–3 分即可到箱根拉利克美術館與仙石案內所前一帶；前往${destination}通常不需搭車。`;
+    else if (sid === "pola") text = `步行約 1–3 分到仙石案內所前，搭 S 路線觀光設施巡遊巴士往 Pola／強羅方向，在${destination}下車。先確認回程班次。`;
+    else if (sid === "togendai") text = `步行約 1–3 分到仙石案內所前，搭 T／TG 等往桃源台方向巴士至${destination}；抵達後可接空中纜車或海賊船。`;
+    else if (sid === "gora" || sid === "chokoku" || sid === "kowakien") text = `從仙石案內所前依當日班次搭 S、M、TG 等往強羅／小涌園方向巴士，到${destination}附近下車。不同路線停靠站略有差異。`;
+    else if (sid === "sounzan") text = "先從仙石案內所前搭巴士到強羅，再轉箱根登山纜車到早雲山；若遇纜車停駛，查看官方替代巴士公告。";
+    else if (sid === "owakudani") text = "較穩定的觀光動線是從仙石案內所前到強羅，轉登山纜車至早雲山，再搭空中纜車到大涌谷；出發前先查火山與纜車運行。";
+    else if (sid === "hakone_machi" || sid === "motohakone") text = `從仙石案內所前搭巴士到桃源台，轉海賊船到${destination}；若船停航，改查經仙石原或湯本的巴士路線。`;
+    else if (sid === "hakoneyumoto" || sid === "odawara") text = `從仙石案內所前搭 T／L 等往箱根湯本、小田原方向巴士至${destination}。下山道路可能塞車，接電車時預留至少 30 分。`;
+    routes.push({kind:"uenoyama",name:"UENOYAMA 仙石原（7/22→7/23）",text});
+  }
+  return routes;
+}
+
+function visitFactsHtml(sid) {
+  const d = VISIT_DETAILS[sid];
+  if (!d) return "";
+  return `<div class="visit-facts">
+    <div class="visit-fact"><b>建議停留</b><span>${d.duration}</span></div>
+    <div class="visit-fact"><b>最適合</b><span>${d.best}</span></div>
+    <div class="visit-fact"><b>順遊安排</b><span>${d.pair}</span></div>
+    <div class="visit-fact"><b>注意事項</b><span>${d.caution}</span></div>
+  </div>`;
+}
+
+function stayDirectionsHtml(sid) {
+  const routes = stayDirectionsFor(sid);
+  if (!routes.length) return "";
+  return `<h3 class="section-h">從住宿出發</h3>${routes.map(route => `
+    <div class="stay-route-card ${route.kind}"><strong>${route.name}</strong><p>${route.text}</p></div>
+  `).join("")}<p class="route-disclaimer">步行時間為一般速度估算；山區班次、站牌與道路狀況可能調整，出發當日仍以官方時刻與現場標示為準。</p>`;
+}
+
+const PRESETS = {
+  trip: ["bus_red","bus_green","fuji_kyuko","tozan_rail","tozan_cable","ropeway","pirate","hakone_bus","gotemba_link"],
+  kawaguchiko: ["bus_red","fuji_kyuko"],
+  saiko: ["bus_green"],
+  motosu: ["bus_blue","bus_green"],
+  golden: ["tozan_rail","tozan_cable","ropeway","pirate","hakone_bus"],
+  sengoku: ["hakone_bus","ropeway"],
+  transfer: ["gotemba_link","fuji_kyuko","hakone_bus"],
+  all: LINES.map(l => l.id),
+  none: [],
+};
+
+const GUIDE_PRESETS = {
+  kawaguchiko: {
+    title: "河口湖紅線一日",
+    subtitle: "湖北岸美術館與大石公園。點站點看「怎麼去」步驟。",
+    items: [
+      { name:"河口湖站①", jp:"周遊巴士起點", station:"河口湖站", lines:["紅線","富士急行"], desc:["從站前 1 號月台搭紅線。","建議先買一日券再出發。"] },
+      { name:"天上山纜車⑨", jp:"ロープウェイ入口", station:"紅⑨", lines:["紅線"], desc:["紅線約 10 分。","纜車／遊覽船票另購。"] },
+      { name:"音樂森林⑮", jp:"音楽と森の美術館", station:"紅⑮", lines:["紅線"], desc:["湖北岸約 15~20 分。","可續往⑰一竹、⑳大石。"] },
+      { name:"大石公園⑳", jp:"自然生活館", station:"紅⑳", lines:["紅線"], desc:["約 25~30 分到終點。","DOT 住宿可步行 2 分。留意末班回程。"] },
+    ],
+  },
+  golden: {
+    title: "箱根黃金路線",
+    subtitle: "湯本→強羅→早雲山→大涌谷→桃源台→海賊船→湖港。",
+    items: [
+      { name:"箱根湯本 OH51", jp:"黃金路線起點", station:"箱根湯本", lines:["登山電車","登山巴士"], desc:["出示 Freepass。","搭登山電車往強羅。"] },
+      { name:"強羅 OH57", jp:"轉登山纜車", station:"強羅", lines:["登山電車","纜車"], desc:["可先遊雕刻之森再上纜車。","纜車約 10 分到早雲山。"] },
+      { name:"早雲山→大涌谷", jp:"空中纜車", station:"早雲山／大涌谷", lines:["空中纜車"], desc:["轉粉紅線空中纜車。","大涌谷可下看噴氣、吃黑蛋。"] },
+      { name:"桃源台→元箱根", jp:"海賊船", station:"桃源台 OH65", lines:["海賊船"], desc:["地下層轉海賊船。","元箱根港步行至神社／水上鳥居。"] },
+    ],
+  },
+  sengoku: {
+    title: "仙石原住宿圈",
+    subtitle: "UENOYAMA 周邊：拉利克、波拉、大涌谷巴士。",
+    items: [
+      { name:"仙石原", jp:"登山巴士樞紐", station:"仙石原", lines:["箱根登山巴士"], desc:["往湯本、強羅、大涌谷、御殿場。","不必先繞去湯本再回頭。"] },
+      { name:"拉利克美術館", jp:"住宿對面", station:"拉利克", lines:["步行"], desc:["UENOYAMA 對面 1~2 分。","入住當日傍晚最適合。"] },
+      { name:"波拉美術館", jp:"雨天備案", station:"波拉", lines:["登山巴士"], desc:["巴士約 5 分或步行 25 分。","雨天首選。"] },
+      { name:"大涌谷直達", jp:"登山巴士", station:"大涌谷", lines:["登山巴士","空中纜車"], desc:["仙石原巴士較直接。","也可接黃金路線空中纜車。"] },
+    ],
+  },
+};
+
+const GROUP_ORDER = ["河口湖巴士","電車","長途巴士","箱根鐵路","箱根船","箱根巴士","跨區"];
+
+const HUB_MAJOR = new Set([
+  "kawaguchiko","gotemba","hakoneyumoto","gora","sounzan","togendai","sengokuhara","oishi","fujisan",
+]);
+const HUB_STAY = new Set(["oishi","funatsu","sengokuhara"]);
+const HUB_TRANSFER = new Set(["gotemba","gotemba_outlet","hakoneyumoto","kawaguchiko"]);
+
+function buildTransfers() {
+  const map = {};
+  LINES.forEach(line => {
+    line.stations.forEach(sid => {
+      if (!map[sid]) map[sid] = new Set();
+      map[sid].add(line.id);
+    });
+  });
+  const transfers = {};
+  Object.keys(map).forEach(sid => {
+    transfers[sid] = [...map[sid]];
+  });
+  return transfers;
+}
+const TRANSFERS = buildTransfers();
+
+function hubKind(sid, linesHere) {
+  if (HUB_STAY.has(sid)) return "daytrip";
+  if (HUB_MAJOR.has(sid) || linesHere.length >= 3) return "major";
+  if (HUB_TRANSFER.has(sid)) return "airport";
+  return null;
+}
+
+const state = {
+  visible: new Set(LINES.filter(l => l.defaultOn).map(l => l.id)),
+  highlightLine: null,
+  selected: null,
+  searchHit: null,
+  activePreset: "trip",
+  panX: 0,
+  panY: 0,
+  scale: 1,
+  panelDismissed: window.matchMedia("(max-width: 900px)").matches,
+};
+
+const OFFICIAL = {
+  fujiLoop: "https://bus.fujikyu.co.jp/rosen/shuyuomuni",
+  fujiArea: "https://bus.fujikyu.co.jp/rosen/fujigoko/",
+  fujiFifth: "https://bus.fujikyu.co.jp/rosen/detail/id/14/28.html",
+  hakoneStatus: "https://www.hakonenavi.jp/transportation/",
+  hakonePass: "https://www.hakonenavi.jp/transportation/ticket/freepass/",
+  hakoneTimetable: "https://www.hakonenavi.jp/transportation/ticket_info/search/",
+};
+
+function sourceCardHtml() {
+  return `<div class="source-card">
+    <strong>官方資料與使用原則</strong>
+    <p>票價核對：2026-07-11。班次與運行狀態可能因季節、天候及道路狀況改變，出發當日以官方頁面為準。</p>
+    <p>河口湖三線共通券：1 日 ¥1,500／2 日 ¥2,000。箱根 Freepass：小田原出發 2 日 ¥6,000、新宿出發 ¥7,100；浪漫特快另付特急費。</p>
+    <div class="source-links">
+      <a href="${OFFICIAL.fujiLoop}" target="_blank" rel="noopener">富士五湖周遊巴士</a>
+      <a href="${OFFICIAL.fujiArea}" target="_blank" rel="noopener">富士五湖路線／時刻</a>
+      <a href="${OFFICIAL.hakoneStatus}" target="_blank" rel="noopener">箱根即時運行</a>
+      <a href="${OFFICIAL.hakonePass}" target="_blank" rel="noopener">箱根 Freepass</a>
+    </div>
+  </div>`;
+}
+
+const svg = document.getElementById("mapSvg");
+const NS = "http://www.w3.org/2000/svg";
+const tooltip = document.getElementById("tooltip");
+
+function el(name, attrs = {}, parent = svg) {
+  const node = document.createElementNS(NS, name);
+  Object.entries(attrs).forEach(([k, v]) => node.setAttribute(k, v));
+  parent.appendChild(node);
+  return node;
+}
+
+function dashFor(style) {
+  if (style === "rail") return "10 7";
+  if (style === "rope") return "3 5";
+  if (style === "ship") return "12 8";
+  if (style === "bus") return "";
+  return "";
+}
+
+/** Smooth schematic polyline (tourist-map feel, not jagged zigzags). */
+function linePath(stationIds, offset = 0) {
+  const pts = stationIds
+    .map(id => STATIONS[id])
+    .filter(Boolean)
+    .map(s => ({ x: s.x, y: s.y }));
+  if (pts.length < 2) return "";
+
+  // Slight perpendicular offset so overlapping corridors stay readable
+  if (offset) {
+    for (let i = 0; i < pts.length; i++) {
+      const a = pts[Math.max(0, i - 1)];
+      const b = pts[Math.min(pts.length - 1, i + 1)];
+      const dx = b.x - a.x, dy = b.y - a.y;
+      const len = Math.hypot(dx, dy) || 1;
+      pts[i] = {
+        x: pts[i].x + (-dy / len) * offset,
+        y: pts[i].y + (dx / len) * offset,
+      };
+    }
+  }
+
+  if (pts.length === 2) {
+    return `M${pts[0].x},${pts[0].y} L${pts[1].x},${pts[1].y}`;
+  }
+
+  let d = `M${pts[0].x},${pts[0].y}`;
+  for (let i = 1; i < pts.length - 1; i++) {
+    const c = pts[i];
+    const n = pts[i + 1];
+    const mx = (c.x + n.x) / 2;
+    const my = (c.y + n.y) / 2;
+    d += ` Q${c.x},${c.y} ${mx},${my}`;
+  }
+  const last = pts[pts.length - 1];
+  const prev = pts[pts.length - 2];
+  d += ` Q${prev.x},${prev.y} ${last.x},${last.y}`;
+  return d;
+}
+
+const LINE_OFFSET = {
+  bus_red: 0,
+  bus_green: 5,
+  bus_blue: -5,
+  fuji_kyuko: 0,
+  tozan_rail: 0,
+  tozan_cable: 3,
+  ropeway: 0,
+  pirate: 0,
+  hakone_bus: -4,
+  gotemba_link: 6,
+  fuji_bus: 8,
+};
+
+const ROUTE_BADGES = {
+  bus_red: { x: 300, y: 150, text: "紅線" },
+  bus_green: { x: 145, y: 345, text: "綠線" },
+  bus_blue: { x: 70, y: 420, text: "藍線" },
+  fuji_kyuko: { x: 205, y: 445, text: "富士急行" },
+  fuji_bus: { x: 410, y: 445, text: "外圍巴士" },
+  tozan_rail: { x: 750, y: 620, text: "登山電車" },
+  tozan_cable: { x: 805, y: 520, text: "登山纜車" },
+  ropeway: { x: 895, y: 405, text: "空中纜車" },
+  pirate: { x: 890, y: 285, text: "海賊船" },
+  hakone_bus: { x: 690, y: 470, text: "登山巴士" },
+  gotemba_link: { x: 560, y: 535, text: "御殿場轉乘" },
+};
+
+function tagClass(group) {
+  if (group.includes("巴士") || group === "跨區") return "bus";
+  if (group.includes("電車") || group.includes("鐵路")) return "train";
+  if (group.includes("船")) return "ship";
+  return "rope";
+}
+
+function swatchClass(style) {
+  if (style === "rail" || style === "ship") return "dash";
+  if (style === "rope") return "dot";
+  return "";
+}
+
+/* ========== Guide panel ========== */
+function renderGuideCards(items) {
+  const body = document.getElementById("guidePanelBody");
+  if (!body) return;
+  body.innerHTML = items.map(t => `
+    <article class="guide-card">
+      <h3>${t.name}<small>${t.jp}</small></h3>
+      <p class="guide-meta"><b>地點</b> ${t.station}｜<b>交通</b> ${t.lines.join("、")}</p>
+      <div class="guide-desc">${t.desc.map(p => `<p>${p}</p>`).join("")}</div>
+    </article>
+  `).join("");
+}
+
+function overviewHtml() {
+  return `
+    <div class="trip-alert"><strong>7 月行程提醒：</strong>箱根美術館於 2026/5/7–10/29 整修休館；可改排雕刻之森、Pola 或拉利克美術館。</div>
+    <p>左＝<b>富士山地區</b>、中＝<b>御殿場轉乘</b>、右＝<b>箱根黃金路線</b>——與官方示意圖同一邏輯。</p>
+    <h3 class="section-h">河口湖怎麼玩</h3>
+    <ul class="plain">
+      <li><b>紅線</b>：湖東／湖北岸，①→⑳大石公園</li>
+      <li><b>綠線</b>：西湖、療癒之里、風穴</li>
+      <li><b>藍線</b>：精進湖・本栖湖（班次少）</li>
+      <li><b>富士急行線</b>：忠靈塔（下吉田）、富士山站</li>
+    </ul>
+    <h3 class="section-h">箱根黃金路線</h3>
+    <ul class="plain">
+      <li>湯本 OH51 → 登山電車 → 強羅 OH57</li>
+      <li>→ 登山纜車 → 早雲山 OH62</li>
+      <li>→ 空中纜車 → 大涌谷 → 桃源台 OH65</li>
+      <li>→ 海賊船 → 元箱根／箱根町港 → 巴士回湯本</li>
+    </ul>
+    <h3 class="section-h">7/22 跨區轉乘</h3>
+    <ul class="plain">
+      <li><b>富士晴</b> → 步行至河口湖站</li>
+      <li>→ G-Liner／一般路線巴士 → <b>御殿場站或 Outlet</b></li>
+      <li>→ 箱根側巴士經乙女峠 → <b>仙石原 UENOYAMA</b></li>
+    </ul>
+    <h3 class="section-h">你的住宿</h3>
+    <ul class="plain">
+      <li><b>DOT HOSTEL</b>：紅線⑳大石公園</li>
+      <li><b>富士晴</b>：河口湖站南岸，近紅線⑧船津</li>
+      <li><b>UENOYAMA</b>：仙石原，登山巴士樞紐</li>
+    </ul>
+    ${sourceCardHtml()}`;
+}
+
+function showStationPanel(sid, howSpot) {
+  const s = STATIONS[sid];
+  if (!s) return;
+  state.selected = sid;
+  state.panelDismissed = false;
+  const titleEl = document.getElementById("guidePanelTitle");
+  const subEl = document.getElementById("guidePanelSubtitle");
+  const body = document.getElementById("guidePanelBody");
+  if (titleEl) titleEl.textContent = s.zh;
+  if (subEl) subEl.textContent = `${s.jp}${s.code ? " · " + s.code : ""}`;
+
+  const serving = LINES.filter(l => l.stations.includes(sid));
+  let html = `<div class="tag-row">`;
+  if (s.code) html += `<span class="tag code">${s.code}</span>`;
+  if (s.stop) html += `<span class="tag bus">巴士站 ${s.stop}</span>`;
+  serving.forEach(l => { html += `<span class="tag ${tagClass(l.group)}">${l.name}</span>`; });
+  html += `</div>`;
+
+  if (s.intro) html += `<p>${s.intro}</p>`;
+  html += visitFactsHtml(sid);
+  if (s.how) html += `<h3 class="section-h">怎麼去</h3><p>${s.how}</p>`;
+  html += stayDirectionsHtml(sid);
+  if (s.spots?.length) {
+    html += `<h3 class="section-h">周邊景點</h3><ul class="plain">`;
+    s.spots.forEach(sp => { html += `<li>${sp}</li>`; });
+    html += `</ul>`;
+  }
+  if (s.tip) html += `<div class="tip-box">${s.tip}</div>`;
+  if (sid === "gogome") html += `<div class="source-links"><a href="${OFFICIAL.fujiFifth}" target="_blank" rel="noopener">查五合目官方時刻／運行</a></div>`;
+  if (["hakoneyumoto","gora","sounzan","owakudani","togendai","hakone_machi","motohakone","sengokuhara"].includes(sid)) html += `<div class="source-links"><a href="${OFFICIAL.hakoneTimetable}" target="_blank" rel="noopener">查箱根官方時刻</a><a href="${OFFICIAL.hakoneStatus}" target="_blank" rel="noopener">即時運行狀態</a></div>`;
+
+  const related = howSpot || HOW_SPOTS.find(h => h.id === sid);
+  if (related) {
+    html += `<div class="how-card"><strong>${related.name}</strong>`;
+    html += `<span style="font-size:.72rem;color:var(--muted)">${related.summary}</span><ol class="steps">`;
+    related.steps.forEach((step, i) => {
+      html += `<li data-n="${i + 1}">${step}</li>`;
+    });
+    html += `</ol></div>`;
+  }
+
+  if (body) body.innerHTML = html;
+  updateGuidePanel(true);
+  renderMap();
+}
+
+function updateGuidePanel(forceStation) {
+  const stageMain = document.getElementById("stageMain");
+  const panel = document.getElementById("guidePanel");
+  const titleEl = document.getElementById("guidePanelTitle");
+  const subEl = document.getElementById("guidePanelSubtitle");
+  const body = document.getElementById("guidePanelBody");
+
+  const meta = !forceStation && !state.selected ? GUIDE_PRESETS[state.activePreset] : null;
+  const showStation = forceStation || !!state.selected;
+  const show = !state.panelDismissed && (showStation || !!meta || state.activePreset === "trip");
+
+  if (stageMain) stageMain.classList.toggle("guide-mode", show);
+  if (panel) panel.setAttribute("aria-hidden", show ? "false" : "true");
+  if (!show) return;
+
+  if (showStation && state.selected) {
+    // content already set by showStationPanel
+    return;
+  }
+
+  if (meta) {
+    if (titleEl) titleEl.textContent = meta.title;
+    if (subEl) subEl.textContent = meta.subtitle;
+    renderGuideCards(meta.items);
+    return;
+  }
+
+  if (state.activePreset === "trip" || !state.activePreset) {
+    if (titleEl) titleEl.textContent = "交通總覽";
+    if (subEl) subEl.textContent = "點地圖站點，或左側「景點怎麼去」";
+    if (body) body.innerHTML = overviewHtml();
+    if (stageMain) stageMain.classList.add("guide-mode");
+    if (panel) panel.setAttribute("aria-hidden", "false");
+  }
+}
+
+function renderLineList() {
+  const root = document.getElementById("lineList");
+  root.innerHTML = "";
+  GROUP_ORDER.forEach(g => {
+    const lines = LINES.filter(l => l.group === g);
+    if (!lines.length) return;
+    const wrap = document.createElement("div");
+    wrap.className = "group";
+    wrap.innerHTML = `<div class="group-title">${g}</div>`;
+    lines.forEach(line => {
+      const row = document.createElement("label");
+      row.className = "line-item";
+      const sc = swatchClass(line.style);
+      row.innerHTML = `
+        <input type="checkbox" data-line="${line.id}" ${state.visible.has(line.id) ? "checked" : ""} />
+        <span class="swatch ${sc}" style="background:${line.color};--c:${line.color}"></span>
+        <span class="line-name">${line.name}<small>${line.jp} · ${line.note}</small></span>
+        ${line.defaultOn ? '<span class="default-tag">預設</span>' : ""}
+      `;
+      wrap.appendChild(row);
+    });
+    root.appendChild(wrap);
+  });
+}
+
+function renderSpotQuick() {
+  const root = document.getElementById("spotQuick");
+  root.innerHTML = "";
+  HOW_SPOTS.forEach(sp => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "chip spot-chip";
+    btn.textContent = sp.name + " · " + sp.summary;
+    btn.onclick = () => {
+      const line = LINES.find(l => l.id === sp.line);
+      if (line) state.visible.add(sp.line);
+      if (sp.line === "gotemba_link") {
+        state.visible = new Set(PRESETS.transfer);
+      }
+      renderLineList();
+      focusStation(sp.id);
+      showStationPanel(sp.id, sp);
+    };
+    root.appendChild(btn);
+  });
+}
+
+/* ========== Map render ========== */
+function renderMap() {
+  svg.innerHTML = "";
+  const defs = el("defs");
+  const bg = el("g", { id: "bg" });
+
+  const washes = el("g", { id: "area-washes", class: "area-wash", "aria-hidden": "true" }, bg);
+  el("ellipse", { class: "area-wash-fuji", cx: "250", cy: "320", rx: "270", ry: "250" }, washes);
+  el("ellipse", { class: "area-wash-gotemba", cx: "570", cy: "510", rx: "90", ry: "80" }, washes);
+  el("ellipse", { class: "area-wash-hakone", cx: "820", cy: "480", rx: "250", ry: "240" }, washes);
+
+  const art = el("g", { id: "landmark-art", "aria-hidden": "true" }, bg);
+  [
+    { href:"assets/images/map-icons/mount-fuji.png", x:445, y:90, width:125, height:82.5, cls:"map-landmark-art" },
+    { href:"assets/images/map-icons/lake-kawaguchiko.png", x:395, y:265, width:122.5, height:75, cls:"map-landmark-art subtle" },
+    { href:"assets/images/map-icons/tenjo-ropeway.png", x:445, y:185, width:52.5, height:47.5, cls:"map-landmark-art" },
+    { href:"assets/images/map-icons/gotemba-station.png", x:535, y:575, width:57.5, height:35, cls:"map-landmark-art subtle" },
+    { href:"assets/images/map-icons/owakudani.png", x:1010, y:420, width:67.5, height:57.5, cls:"map-landmark-art" },
+    { href:"assets/images/map-icons/lake-ashi.png", x:1000, y:250, width:87.5, height:66, cls:"map-landmark-art subtle" },
+    { href:"assets/images/map-icons/chureito-pagoda.png", x:250, y:560, width:65, height:66, cls:"map-landmark-art" },
+    { href:"assets/images/map-icons/oishi-park.png", x:390, y:545, width:75, height:61, cls:"map-landmark-art subtle" },
+    { href:"assets/images/map-icons/hakone-torii.png", x:990, y:590, width:72, height:61, cls:"map-landmark-art" },
+    { href:"assets/images/map-icons/sengokuhara.png", x:1040, y:500, width:78, height:59, cls:"map-landmark-art subtle" },
+  ].forEach(item => el("image", {
+    href: item.href,
+    x: item.x,
+    y: item.y,
+    width: item.width,
+    height: item.height,
+    class: item.cls,
+    preserveAspectRatio: "xMidYMid meet",
+  }, art));
+
+  el("text", { class: "area-label", x: "200", y: "55", "text-anchor": "middle" }, bg).textContent = "富士山地區";
+  el("text", { class: "area-label", x: "560", y: "430", "text-anchor": "middle", "font-size": "11" }, bg).textContent = "御殿場轉乘";
+  el("text", { class: "area-label", x: "860", y: "175", "text-anchor": "middle" }, bg).textContent = "箱根地區";
+  el("text", { class: "lake-label", x: "280", y: "100", "text-anchor": "middle", "font-size": "11" }, bg).textContent = "▲ 富士山";
+
+  // Lakes
+  el("ellipse", { class: "water", cx: "310", cy: "270", rx: "120", ry: "72" }, bg);
+  el("text", { class: "lake-label", x: "310", y: "275", "text-anchor": "middle" }, bg).textContent = "河口湖";
+  el("ellipse", { class: "water", cx: "120", cy: "315", rx: "50", ry: "38" }, bg);
+  el("text", { class: "lake-label", x: "120", y: "319", "text-anchor": "middle" }, bg).textContent = "西湖";
+  el("ellipse", { class: "water", cx: "50", cy: "470", rx: "40", ry: "28" }, bg);
+  el("text", { class: "lake-label", x: "50", y: "474", "text-anchor": "middle" }, bg).textContent = "本栖湖";
+  el("ellipse", { class: "water", cx: "455", cy: "470", rx: "48", ry: "32" }, bg);
+  el("text", { class: "lake-label", x: "455", y: "474", "text-anchor": "middle" }, bg).textContent = "山中湖";
+  el("ellipse", { class: "water-ashi", cx: "890", cy: "330", rx: "88", ry: "44" }, bg);
+  el("text", { class: "lake-label", x: "890", y: "334", "text-anchor": "middle" }, bg).textContent = "蘆之湖";
+
+  // Stay markers
+  const stays = [
+    { id: "oishi", label: "DOT", dx: 16, dy: -20 },
+    { id: "funatsu", label: "富士晴", dx: 16, dy: -18 },
+    { id: "sengokuhara", label: "UENOYAMA", dx: -8, dy: -22 },
+  ];
+  stays.forEach(({ id, label, dx, dy }) => {
+    const s = STATIONS[id];
+    if (!s) return;
+    el("circle", { class: "stay-mark", cx: s.x + dx, cy: s.y + dy, r: "5" }, bg);
+    el("text", {
+      class: "stay-label",
+      x: s.x + dx + 8,
+      y: s.y + dy + 3,
+    }, bg).textContent = label;
+  });
+
+  const linesG = el("g", { id: "lines" });
+  const stationsG = el("g", { id: "stations" });
+
+  LINES.forEach(line => {
+    if (!state.visible.has(line.id)) return;
+    const d = linePath(line.stations, LINE_OFFSET[line.id] || 0);
+    if (!d) return;
+    const w = state.highlightLine === line.id ? 7 : line.style === "rope" ? 5 : 4.2;
+    const dimmed = state.highlightLine && state.highlightLine !== line.id;
+    const halo = el("path", {
+      class: "rail-line-halo" + (dimmed ? " dimmed" : ""),
+      d,
+      "stroke-width": w + 5.5,
+    }, linesG);
+    const path = el("path", {
+      class: "rail-line",
+      id: `line-${line.id}`,
+      d,
+      stroke: line.color,
+      "stroke-width": w,
+      "stroke-dasharray": line.id === "gotemba_link" ? "8 6" : dashFor(line.style),
+      "data-line": line.id,
+      tabindex: "0",
+      role: "button",
+      "aria-label": `${line.name}：${line.note}`,
+    }, linesG);
+    if (dimmed) path.classList.add("dimmed");
+    if (state.highlightLine === line.id) path.classList.add("highlighted");
+
+    const first = STATIONS[line.stations[0]];
+    const last = STATIONS[line.stations[line.stations.length - 1]];
+    [first, last].filter(Boolean).forEach(point => el("circle", {
+      class: "route-endpoint",
+      cx: point.x,
+      cy: point.y,
+      r: state.highlightLine === line.id ? 6 : 4.5,
+      stroke: line.color,
+      opacity: dimmed ? .18 : .95,
+    }, linesG));
+  });
+
+  LINES.forEach(line => {
+    if (!state.visible.has(line.id)) return;
+    const badge = ROUTE_BADGES[line.id];
+    if (!badge) return;
+    const dimmed = state.highlightLine && state.highlightLine !== line.id;
+    const textNode = el("text", {
+      class: "route-name-on-map",
+      x: badge.x,
+      y: badge.y,
+      fill: line.color,
+      opacity: dimmed ? .18 : .95,
+      "text-anchor": "middle",
+    }, linesG);
+    textNode.textContent = badge.text;
+  });
+
+  const visibleStations = new Set();
+  LINES.forEach(line => {
+    if (!state.visible.has(line.id)) return;
+    line.stations.forEach(s => visibleStations.add(s));
+  });
+
+  const zf = labelZoomFactor();
+  const bounds = getVisibleMapBounds();
+  const showTransfers = state.scale >= 1.1;
+  const showLocalStops = state.scale >= 1.6;
+  const labelCandidates = [];
+
+  [...visibleStations].forEach(sid => {
+    const s = STATIONS[sid];
+    if (!s) return;
+    if (!inMapBounds(s, bounds)) return;
+
+    const linesHere = (TRANSFERS[sid] || []).filter(lid => state.visible.has(lid));
+    const xfer = linesHere.length >= 2;
+    const hasSpots = !!(s.spots && s.spots.length);
+    const isSearch = state.searchHit === sid || state.selected === sid;
+    const kind = hubKind(sid, linesHere);
+    const isMajorHub = !!kind || !!s.hub || linesHere.length >= 3;
+
+    if (!(isSearch || hasSpots || isMajorHub || !!s.stop || (showTransfers && xfer) || showLocalStops)) return;
+
+    let priority = 0;
+    if (isSearch) priority += 1000;
+    if (isMajorHub) priority += 140;
+    if (s.hub) priority += 40;
+    if (hasSpots) priority += 80 + s.spots.length * 5;
+    if (xfer) priority += 20 + linesHere.length * 3;
+    if (s.stop) priority += 35;
+    if ((s.tags || []).includes("住宿")) priority += 25;
+    labelCandidates.push({ sid, s, xfer, linesHere, priority, isSearch, hasSpots, kind });
+  });
+  labelCandidates.sort((a, b) => b.priority - a.priority);
+
+  const minStationGap = Math.max(5, 20 * zf);
+  const culled = [];
+  labelCandidates.forEach(c => {
+    const tooClose = culled.some(p => {
+      const dx = c.s.x - p.s.x;
+      const dy = c.s.y - p.s.y;
+      return Math.hypot(dx, dy) < minStationGap;
+    });
+    if (!tooClose || c.isSearch) culled.push(c);
+  });
+
+  const placedLabels = placeStationLabels(culled, zf);
+  const labelById = Object.fromEntries(placedLabels.map(p => [p.sid, p]));
+
+  [...visibleStations].forEach(sid => {
+    const s = STATIONS[sid];
+    if (!s) return;
+    const linesHere = (TRANSFERS[sid] || []).filter(lid => state.visible.has(lid));
+    const xfer = linesHere.length >= 2;
+    const kind = hubKind(sid, linesHere);
+    const isEmphHub = !!kind || !!s.hub;
+
+    const g = el("g", {
+      class: "station-group" +
+        (kind === "airport" ? " hub-airport" :
+          kind === "daytrip" ? " hub-daytrip" :
+            kind === "major" ? " hub-major" : ""),
+      id: `st-${sid}`,
+      "data-station": sid,
+      transform: `translate(${s.x},${s.y})`,
+      tabindex: "0",
+      role: "button",
+      "aria-label": `${s.zh}${s.code ? "，" + s.code : ""}，點擊查看交通資訊`,
+    }, stationsG);
+
+    const primaryColor = linesHere.length
+      ? (LINES.find(l => l.id === linesHere[0]) || {}).color || "#7eb8a8"
+      : "#7eb8a8";
+
+    el("circle", {
+      r: isEmphHub ? "16" : "14",
+      cx: 0, cy: 0,
+      fill: "transparent",
+      class: "station-hit",
+    }, g);
+
+    if (isEmphHub) {
+      el("circle", {
+        class: "station-hub-halo",
+        r: "12.5",
+        cx: 0, cy: 0,
+      }, g);
+    }
+    if (xfer || isEmphHub) {
+      el("circle", {
+        class: "station-ring",
+        r: isEmphHub ? "10.2" : "9",
+        cx: 0, cy: 0,
+      }, g);
+    }
+    el("circle", {
+      class: "station-core",
+      r: isEmphHub ? "6.4" : xfer ? "5.5" : "4.2",
+      cx: 0, cy: 0,
+      stroke: primaryColor,
+      fill: (state.selected === sid || state.searchHit === sid) ? "#ffe8a8" : "#fffaf5",
+    }, g);
+
+    if (s.stop) {
+      el("circle", { r: "7.5", cx: "11", cy: "-11", fill: primaryColor }, g);
+      el("text", {
+        class: "stop-badge",
+        x: "11", y: "-8",
+        "text-anchor": "middle",
+      }, g).textContent = s.stop;
+    }
+
+    const placed = labelById[sid];
+    if (placed) {
+      const short = s.zh.replace(/（.*）/, "").replace(/公園$/, "公園");
+      const label = el("text", {
+        class: "station-label" + (placed.priority >= 80 || placed.isSearch ? " priority" : ""),
+        x: placed.lx,
+        y: placed.ly,
+        "text-anchor": placed.anchor,
+        "dominant-baseline": placed.baseline,
+        "font-size": String(placed.fontSize),
+        "stroke-width": String(Math.max(2.5, placed.fontSize * 0.38)),
+      }, g);
+      label.textContent = short;
+    }
+
+    if (state.highlightLine) {
+      const onLine = (TRANSFERS[sid] || []).includes(state.highlightLine);
+      if (!onLine) g.classList.add("dimmed");
+      else g.classList.add("highlighted");
+    }
+    if (state.searchHit === sid) {
+      el("circle", {
+        r: 14, fill: "none", stroke: "#e8a87c",
+        "stroke-width": 2, "stroke-dasharray": "3 2", opacity: 0.9,
+      }, g);
+    }
+  });
+
+  applyTransform();
+}
+
+function labelZoomFactor() {
+  const scale = Math.max(state.scale, 0.55);
+  const baseRef = 10;
+  let screenTarget = 11;
+  if (scale > 1.15) {
+    const t = Math.min(1, (scale - 1.15) / 2.5);
+    screenTarget = 11 + 17 * t;
+  }
+  return Math.max(0.18, Math.min(1.5, screenTarget / (scale * baseRef)));
+}
+
+function getVisibleMapBounds() {
+  const vb = svg.viewBox.baseVal;
+  const pad = 40 / Math.max(state.scale, 0.5);
+  const x1 = (-state.panX) / state.scale - pad;
+  const y1 = (-state.panY) / state.scale - pad;
+  const x2 = (vb.width - state.panX) / state.scale + pad;
+  const y2 = (vb.height - state.panY) / state.scale + pad;
+  return { x1, y1, x2, y2 };
+}
+
+function inMapBounds(s, b) {
+  return s.x >= b.x1 && s.x <= b.x2 && s.y >= b.y1 && s.y <= b.y2;
+}
+
+function estimateLabelSize(text, priority, zf) {
+  const base = priority >= 80 ? 12 : 10.5;
+  const fontSize = Math.max(2.8, base * zf);
+  const strokePad = Math.max(2, 6 * zf);
+  const w = Math.max(10, text.length * fontSize * 1.12 + strokePad);
+  const h = fontSize + Math.max(2.5, 6 * zf);
+  return { w, h, fontSize };
+}
+
+function placeStationLabels(candidates, zf = 1) {
+  const occupied = [];
+  const placed = [];
+  const pad = Math.max(2, 6 * zf);
+
+  const dirs = [
+    { dx: 0, dy: -1, anchor: "middle", baseline: "auto" },
+    { dx: 1, dy: -1, anchor: "start", baseline: "auto" },
+    { dx: 1, dy: 0, anchor: "start", baseline: "middle" },
+    { dx: 1, dy: 1, anchor: "start", baseline: "hanging" },
+    { dx: 0, dy: 1, anchor: "middle", baseline: "hanging" },
+    { dx: -1, dy: 1, anchor: "end", baseline: "hanging" },
+    { dx: -1, dy: 0, anchor: "end", baseline: "middle" },
+    { dx: -1, dy: -1, anchor: "end", baseline: "auto" },
+  ];
+  const radii = [0, 8, 16, 24, 34].map(r => r * zf);
+
+  function overlaps(box) {
+    return occupied.some(o =>
+      box.x1 < o.x2 + pad && box.x2 > o.x1 - pad &&
+      box.y1 < o.y2 + pad && box.y2 > o.y1 - pad
+    );
+  }
+
+  function boxFor(sx, sy, lx, ly, anchor, baseline, w, h) {
+    const ax = sx + lx;
+    const ay = sy + ly;
+    let x1, x2, y1, y2;
+    if (anchor === "start") { x1 = ax; x2 = ax + w; }
+    else if (anchor === "end") { x1 = ax - w; x2 = ax; }
+    else { x1 = ax - w / 2; x2 = ax + w / 2; }
+
+    if (baseline === "hanging") { y1 = ay; y2 = ay + h; }
+    else if (baseline === "middle") { y1 = ay - h / 2; y2 = ay + h / 2; }
+    else { y1 = ay - h; y2 = ay; }
+    return { x1, y1, x2, y2 };
+  }
+
+  candidates.forEach(c => {
+    const labelText = c.s.zh.replace(/（.*）/, "");
+    const { w, h, fontSize } = estimateLabelSize(labelText, c.priority, zf);
+    const baseGap = (c.xfer ? 12 : 10) * zf;
+    let best = null;
+
+    outer:
+    for (const extra of radii) {
+      for (const d of dirs) {
+        const dist = baseGap + extra;
+        const finalLx = d.dx * dist;
+        const finalLy = d.dy * dist;
+        const box = boxFor(c.s.x, c.s.y, finalLx, finalLy, d.anchor, d.baseline, w, h);
+
+        const hitsMarker = candidates.some(other => {
+          if (other.sid === c.sid) return false;
+          const mx = other.s.x, my = other.s.y;
+          const mr = (other.xfer ? 10 : 7) * zf;
+          return box.x1 < mx + mr && box.x2 > mx - mr &&
+                 box.y1 < my + mr && box.y2 > my - mr;
+        });
+        if (hitsMarker || overlaps(box)) continue;
+
+        best = {
+          sid: c.sid,
+          lx: finalLx,
+          ly: finalLy,
+          anchor: d.anchor,
+          baseline: d.baseline,
+          priority: c.priority,
+          isSearch: c.isSearch,
+          fontSize,
+          box,
+        };
+        break outer;
+      }
+    }
+
+    if (!best && c.isSearch) {
+      const d = dirs[0];
+      const finalLx = 0, finalLy = -(baseGap + 6 * zf);
+      const box = boxFor(c.s.x, c.s.y, finalLx, finalLy, d.anchor, d.baseline, w, h);
+      best = {
+        sid: c.sid, lx: finalLx, ly: finalLy,
+        anchor: d.anchor, baseline: d.baseline,
+        priority: c.priority, isSearch: c.isSearch, fontSize, box,
+      };
+    }
+
+    if (best) {
+      occupied.push(best.box);
+      placed.push(best);
+    }
+  });
+
+  return placed;
+}
+
+function applyTransform() {
+  const gLines = svg.querySelector("#lines");
+  const gSt = svg.querySelector("#stations");
+  const gBg = svg.querySelector("#bg");
+  const t = `translate(${state.panX} ${state.panY}) scale(${state.scale})`;
+  [gLines, gSt, gBg].forEach(g => { if (g) g.setAttribute("transform", t); });
+}
+
+function getSvgMetrics() {
+  const rect = svg.getBoundingClientRect();
+  const vb = svg.viewBox.baseVal;
+  const screenPerSvg = Math.min(rect.width / vb.width, rect.height / vb.height);
+  const offsetX = (rect.width - vb.width * screenPerSvg) / 2;
+  const offsetY = (rect.height - vb.height * screenPerSvg) / 2;
+  return { rect, vb, screenPerSvg, offsetX, offsetY };
+}
+
+function clientToSvg(clientX, clientY) {
+  const m = getSvgMetrics();
+  return {
+    x: (clientX - m.rect.left - m.offsetX) / m.screenPerSvg,
+    y: (clientY - m.rect.top - m.offsetY) / m.screenPerSvg,
+    metrics: m,
+  };
+}
+
+let focusToken = 0;
+function focusStation(sid, { zoom = true } = {}) {
+  const s = STATIONS[sid];
+  if (!s) return false;
+  const token = ++focusToken;
+  state.searchHit = sid;
+
+  const lids = TRANSFERS[sid] || [];
+  if (lids.length && !lids.some(l => state.visible.has(l))) {
+    lids.forEach(l => state.visible.add(l));
+    renderLineList();
+  }
+
+  if (zoom) state.scale = Math.max(state.scale, 1.6);
+  const vb = svg.viewBox.baseVal;
+  state.panX = vb.width / 2 - s.x * state.scale;
+  state.panY = vb.height / 2 - s.y * state.scale;
+  renderMap();
+
+  requestAnimationFrame(() => {
+    if (token !== focusToken || state.searchHit !== sid) return;
+    const node = document.getElementById(`st-${sid}`);
+    if (!node) return;
+    const r = node.getBoundingClientRect();
+    showTooltip(sid, r.left + r.width / 2, r.top + r.height / 2);
+  });
+  return true;
+}
+
+function findStationQuery(raw) {
+  const q = raw.trim();
+  if (!q) return null;
+  const qLower = q.toLowerCase();
+  const entries = Object.entries(STATIONS);
+
+  const exact = entries.find(([, s]) =>
+    s.zh === q || s.jp === q ||
+    (s.code && s.code === q) ||
+    (s.stop && String(s.stop) === q)
+  );
+  if (exact) return exact;
+
+  const starts = entries.find(([, s]) =>
+    s.zh.startsWith(q) || s.jp.startsWith(q) ||
+    (s.code && s.code.toLowerCase().startsWith(qLower)) ||
+    (s.jp && s.jp.toLowerCase().startsWith(qLower))
+  );
+  if (starts) return starts;
+
+  return entries.find(([id, s]) =>
+    s.zh.includes(q) ||
+    s.jp.includes(q) ||
+    s.jp.toLowerCase().includes(qLower) ||
+    id.includes(qLower) ||
+    (s.code && s.code.toLowerCase().includes(qLower)) ||
+    (s.stop && String(s.stop).includes(q)) ||
+    (s.area && s.area.includes(q)) ||
+    (s.spots || []).some(sp => sp.includes(q))
+  ) || null;
+}
+
+/* ========== Tooltip ========== */
+function showTooltip(sid, clientX, clientY) {
+  const s = STATIONS[sid];
+  if (!s) return;
+  const lineIds = TRANSFERS[sid] || [];
+  const allLines = lineIds.map(id => LINES.find(l => l.id === id)).filter(Boolean);
+  const visibleLines = allLines.filter(l => state.visible.has(l.id));
+  const hiddenLines = allLines.filter(l => !state.visible.has(l.id));
+
+  const tagsHtml = (s.tags || []).map(t => {
+    const cls = t === "親子" ? "family" : t === "文化" ? "culture" : "";
+    return `<span class="tag ${cls}">${t}</span>`;
+  }).join("");
+
+  const spots = s.spots || [];
+  tooltip.innerHTML = `
+    <h3>${s.zh}</h3>
+    <div class="jp">${s.jp}${s.code ? " · " + s.code : ""}${s.area ? " · " + s.area : ""}</div>
+    ${s.intro ? `<p class="intro">${s.intro}</p>` : ""}
+    <div class="section">
+      <div class="label">經過路線（目前顯示）</div>
+      <div class="line-pills">
+        ${visibleLines.map(l => `<span class="lpill" style="background:${l.color}">${l.name}</span>`).join("") ||
+          "<span style='font-size:0.75rem;color:#888'>此站相關路線目前都隱藏中</span>"}
+      </div>
+    </div>
+    ${hiddenLines.length ? `
+    <div class="section">
+      <div class="label">其他可轉乘（圖層未開）</div>
+      <div class="line-pills">
+        ${hiddenLines.map(l => `<span class="lpill" style="background:${l.color};opacity:.55">${l.name}</span>`).join("")}
+      </div>
+    </div>` : ""}
+    ${spots.length ? `
+    <div class="section">
+      <div class="label">附近景點</div>
+      <ul class="spots">${spots.map(p => `<li>${p}</li>`).join("")}</ul>
+    </div>` : ""}
+    ${s.how ? `
+    <div class="section">
+      <div class="label">怎麼去</div>
+      <div style="font-size:0.78rem">${s.how}</div>
+    </div>` : ""}
+    ${stayDirectionsFor(sid).length ? `
+    <div class="section">
+      <div class="label">從住宿出發</div>
+      <div style="font-size:0.78rem">點擊站點可查看從各住宿出發的完整搭乘順序。</div>
+    </div>` : ""}
+    ${s.tip ? `<div class="tip-box">${s.tip}</div>` : ""}
+    ${tagsHtml ? `<div class="tags">${tagsHtml}</div>` : ""}
+  `;
+  tooltip.classList.add("show");
+  positionTooltip(clientX, clientY);
+}
+
+function positionTooltip(x, y) {
+  const pad = 16;
+  const tw = tooltip.offsetWidth || 300;
+  const th = tooltip.offsetHeight || 200;
+  let left = x + 18;
+  let top = y + 18;
+  if (left + tw > window.innerWidth - pad) left = x - tw - 12;
+  if (top + th > window.innerHeight - pad) top = y - th - 12;
+  tooltip.style.left = Math.max(pad, left) + "px";
+  tooltip.style.top = Math.max(pad, top) + "px";
+}
+
+function hideTooltip() {
+  tooltip.classList.remove("show");
+}
+
+/* ========== Events ========== */
+document.getElementById("lineList").addEventListener("change", (e) => {
+  const cb = e.target.closest("input[data-line]");
+  if (!cb) return;
+  if (cb.checked) state.visible.add(cb.dataset.line);
+  else state.visible.delete(cb.dataset.line);
+  document.querySelectorAll("#presetRow .chip").forEach(c => c.classList.remove("active"));
+  state.activePreset = null;
+  state.selected = null;
+  updateGuidePanel();
+  renderMap();
+});
+
+document.getElementById("presetRow").addEventListener("click", (e) => {
+  const chip = e.target.closest(".chip");
+  if (!chip) return;
+  document.querySelectorAll("#presetRow .chip").forEach(c => c.classList.remove("active"));
+  chip.classList.add("active");
+  const p = chip.dataset.preset;
+  state.activePreset = p;
+  state.panelDismissed = false;
+  state.selected = null;
+  state.highlightLine = null;
+  state.visible = new Set(PRESETS[p] || []);
+  updateGuidePanel();
+  renderLineList();
+  renderMap();
+});
+
+svg.addEventListener("click", (e) => {
+  const path = e.target.closest(".rail-line");
+  if (path) {
+    const id = path.dataset.line;
+    state.highlightLine = state.highlightLine === id ? null : id;
+    renderMap();
+    return;
+  }
+  const st = e.target.closest(".station-group");
+  if (st) {
+    hideTooltip();
+    showStationPanel(st.dataset.station);
+    return;
+  }
+  if (e.target === svg || e.target.closest("#bg")) {
+    if (state.highlightLine || state.selected) {
+      state.highlightLine = null;
+      state.selected = null;
+      updateGuidePanel();
+      renderMap();
+    }
+  }
+});
+
+svg.addEventListener("keydown", (e) => {
+  if (e.key !== "Enter" && e.key !== " ") return;
+  const path = e.target.closest(".rail-line");
+  const st = e.target.closest(".station-group");
+  if (!path && !st) return;
+  e.preventDefault();
+  if (path) {
+    const id = path.dataset.line;
+    state.highlightLine = state.highlightLine === id ? null : id;
+    renderMap();
+  } else if (st) {
+    showStationPanel(st.dataset.station);
+  }
+});
+
+svg.addEventListener("pointermove", (e) => {
+  const st = e.target.closest(".station-group");
+  if (st && state.selected !== st.dataset.station) {
+    showTooltip(st.dataset.station, e.clientX, e.clientY);
+  } else {
+    hideTooltip();
+  }
+});
+svg.addEventListener("pointerleave", hideTooltip);
+
+const mapWrap = document.getElementById("mapWrap");
+let dragging = false;
+let lastX = 0, lastY = 0;
+
+mapWrap.addEventListener("pointerdown", (e) => {
+  if (e.target.closest(".station-group") || e.target.closest(".rail-line")) return;
+  dragging = true;
+  lastX = e.clientX;
+  lastY = e.clientY;
+  mapWrap.classList.add("dragging");
+  mapWrap.setPointerCapture(e.pointerId);
+});
+mapWrap.addEventListener("pointermove", (e) => {
+  if (!dragging) return;
+  const { screenPerSvg } = getSvgMetrics();
+  state.panX += (e.clientX - lastX) / screenPerSvg;
+  state.panY += (e.clientY - lastY) / screenPerSvg;
+  lastX = e.clientX;
+  lastY = e.clientY;
+  applyTransform();
+});
+mapWrap.addEventListener("pointerup", () => {
+  if (dragging) schedulePanLabelRefresh();
+  dragging = false;
+  mapWrap.classList.remove("dragging");
+});
+mapWrap.addEventListener("wheel", (e) => {
+  e.preventDefault();
+  const { x: svgX, y: svgY } = clientToSvg(e.clientX, e.clientY);
+  const prev = state.scale;
+  const next = Math.min(6.5, Math.max(0.4, prev * (e.deltaY < 0 ? 1.12 : 0.89)));
+  state.panX = svgX - (svgX - state.panX) * (next / prev);
+  state.panY = svgY - (svgY - state.panY) * (next / prev);
+  state.scale = next;
+  applyTransform();
+  scheduleLabelRefresh(prev, next);
+}, { passive: false });
+
+function zoomMap(factor) {
+  const prev = state.scale;
+  const next = Math.min(6.5, Math.max(0.4, prev * factor));
+  const vb = svg.viewBox.baseVal;
+  const cx = vb.width / 2;
+  const cy = vb.height / 2;
+  state.panX = cx - (cx - state.panX) * (next / prev);
+  state.panY = cy - (cy - state.panY) * (next / prev);
+  state.scale = next;
+  renderMap();
+}
+
+function resetMapView() {
+  state.scale = window.matchMedia("(max-width: 900px)").matches ? 0.72 : 0.88;
+  state.panX = window.matchMedia("(max-width: 900px)").matches ? 10 : 40;
+  state.panY = 30;
+  state.highlightLine = null;
+  renderMap();
+}
+
+document.getElementById("zoomIn").addEventListener("click", () => zoomMap(1.25));
+document.getElementById("zoomOut").addEventListener("click", () => zoomMap(0.8));
+document.getElementById("resetMap").addEventListener("click", resetMapView);
+
+let labelRefreshTimer = null;
+let lastLabelScale = state.scale;
+function labelTier(scale) {
+  if (scale >= 1.6) return 2;
+  if (scale >= 1.1) return 1;
+  return 0;
+}
+function scheduleLabelRefresh(prevScale, nextScale) {
+  const tierChanged = labelTier(prevScale) !== labelTier(nextScale);
+  const scaleJump = Math.abs(Math.log(nextScale / Math.max(lastLabelScale, 0.01))) > 0.18;
+  if (!tierChanged && !scaleJump) return;
+  clearTimeout(labelRefreshTimer);
+  labelRefreshTimer = setTimeout(() => {
+    lastLabelScale = state.scale;
+    renderMap();
+  }, 80);
+}
+
+let panRefreshTimer = null;
+function schedulePanLabelRefresh() {
+  if (state.scale < 1.1) return;
+  clearTimeout(panRefreshTimer);
+  panRefreshTimer = setTimeout(() => renderMap(), 120);
+}
+
+const sidebar = document.getElementById("sidebar");
+const sidebarToggle = document.getElementById("sidebarToggle");
+const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+function setSidebarOpen(open) {
+  sidebar.classList.toggle("collapsed", !open);
+  sidebarToggle.textContent = open ? "«" : "»";
+  sidebarToggle.setAttribute("aria-expanded", String(open));
+  sidebarToggle.setAttribute("aria-label", open ? "收合路線選單" : "展開路線選單");
+  mobileMenuBtn.setAttribute("aria-expanded", String(open));
+}
+sidebarToggle.addEventListener("click", () => {
+  setSidebarOpen(sidebar.classList.contains("collapsed"));
+});
+mobileMenuBtn.addEventListener("click", () => setSidebarOpen(true));
+
+/* ========== Interactive / hand-drawn map modes ========== */
+const appRoot = document.querySelector(".app");
+const stageMain = document.getElementById("stageMain");
+const handdrawnView = document.getElementById("handdrawnView");
+const interactiveModeBtn = document.getElementById("interactiveModeBtn");
+const handdrawnModeBtn = document.getElementById("handdrawnModeBtn");
+const handdrawnImage = document.getElementById("handdrawnImage");
+const handdrawnFigure = document.getElementById("handdrawnFigure");
+const handdrawnCanvas = document.getElementById("handdrawnCanvas");
+const handdrawnOriginal = document.getElementById("handdrawnOriginal");
+const handdrawnTitle = document.getElementById("handdrawnTitle");
+const handdrawnSubtitle = document.getElementById("handdrawnSubtitle");
+const handdrawnCaption = document.getElementById("handdrawnCaption");
+const imageZoomReadout = document.getElementById("imageZoomReadout");
+
+const HANDDRAWN_MAPS = {
+  kawaguchiko: {
+    src: "assets/images/kawaguchiko-handdrawn.png",
+    title: "河口湖・富士五湖",
+    subtitle: "景點分布、周遊巴士與外圈延伸",
+    alt: "河口湖與富士五湖手繪觀光地圖，包含河口湖景點、三色周遊巴士、富士吉田、忍野與山中湖方向",
+    caption: "主圖呈現河口湖周邊；西湖、精進湖、本栖湖、富士吉田、忍野與山中湖以外圈延伸方式標示。",
+  },
+  hakone: {
+    src: "assets/images/hakone-handdrawn.png",
+    title: "箱根",
+    subtitle: "黃金路線、蘆之湖、溫泉與美術館",
+    alt: "箱根手繪觀光地圖，包含登山電車、纜車、空中纜車、海賊船、登山巴士和主要景點",
+    caption: "以箱根黃金路線為主軸，呈現湯本、強羅、大涌谷、桃源台、蘆之湖與仙石原等區域。",
+  },
+  transfer: {
+    src: "assets/images/fuji-hakone-transfer-handdrawn.png",
+    title: "河口湖—箱根轉乘",
+    subtitle: "御殿場換車與進入箱根的主要方向",
+    alt: "河口湖至箱根轉乘手繪地圖，說明G-Liner、一般路線巴士、御殿場換車及箱根方向",
+    caption: "跨區交通並非直達；以御殿場站或御殿場 Outlet 為換車核心，再前往仙石原、桃源台、強羅或箱根湯本。",
+  },
+};
+
+let handdrawnZoom = 1;
+let activeHanddrawnMap = "kawaguchiko";
+
+function setMapMode(mode) {
+  const handdrawn = mode === "handdrawn";
+  appRoot.classList.toggle("handdrawn-active", handdrawn);
+  stageMain.hidden = handdrawn;
+  handdrawnView.hidden = !handdrawn;
+  interactiveModeBtn.setAttribute("aria-pressed", String(!handdrawn));
+  handdrawnModeBtn.setAttribute("aria-pressed", String(handdrawn));
+  if (handdrawn) {
+    hideTooltip();
+    if (window.matchMedia("(max-width: 900px)").matches) setSidebarOpen(false);
+    if (!handdrawnImage.hasAttribute("src")) selectHanddrawnMap(activeHanddrawnMap);
+    requestAnimationFrame(() => handdrawnCanvas.focus({ preventScroll: true }));
+  } else {
+    requestAnimationFrame(() => {
+      applyTransform();
+      document.getElementById("mapWrap").focus({ preventScroll: true });
+    });
+  }
+}
+
+function setHanddrawnZoom(next, focusX, focusY) {
+  const previous = handdrawnZoom;
+  handdrawnZoom = Math.min(3, Math.max(.75, Math.round(next * 4) / 4));
+  if (handdrawnZoom === previous) return;
+  const beforeWidth = handdrawnCanvas.scrollWidth;
+  const beforeHeight = handdrawnCanvas.scrollHeight;
+  const viewportX = focusX ?? handdrawnCanvas.clientWidth / 2;
+  const viewportY = focusY ?? handdrawnCanvas.clientHeight / 2;
+  const contentX = (handdrawnCanvas.scrollLeft + viewportX) / Math.max(beforeWidth, 1);
+  const contentY = (handdrawnCanvas.scrollTop + viewportY) / Math.max(beforeHeight, 1);
+  handdrawnFigure.style.setProperty("--image-zoom", String(handdrawnZoom));
+  imageZoomReadout.textContent = `${Math.round(handdrawnZoom * 100)}%`;
+  handdrawnCanvas.classList.toggle("zoomed", handdrawnZoom > 1);
+  requestAnimationFrame(() => {
+    handdrawnCanvas.scrollLeft = contentX * handdrawnCanvas.scrollWidth - viewportX;
+    handdrawnCanvas.scrollTop = contentY * handdrawnCanvas.scrollHeight - viewportY;
+  });
+}
+
+function selectHanddrawnMap(id, focusTab = false) {
+  const item = HANDDRAWN_MAPS[id];
+  if (!item) return;
+  activeHanddrawnMap = id;
+  document.querySelectorAll(".map-tab").forEach(tab => {
+    const active = tab.dataset.map === id;
+    tab.setAttribute("aria-selected", String(active));
+    tab.tabIndex = active ? 0 : -1;
+    if (active && focusTab) tab.focus();
+  });
+  handdrawnImage.src = item.src;
+  handdrawnImage.alt = item.alt;
+  handdrawnOriginal.href = item.src;
+  handdrawnTitle.textContent = item.title;
+  handdrawnSubtitle.textContent = item.subtitle;
+  handdrawnCaption.textContent = item.caption;
+  setHanddrawnZoom(1);
+  handdrawnCanvas.scrollTo({ left: 0, top: 0, behavior: "auto" });
+}
+
+interactiveModeBtn.addEventListener("click", () => setMapMode("interactive"));
+handdrawnModeBtn.addEventListener("click", () => setMapMode("handdrawn"));
+document.querySelector(".map-tabs").addEventListener("click", e => {
+  const tab = e.target.closest(".map-tab");
+  if (tab) selectHanddrawnMap(tab.dataset.map);
+});
+document.querySelector(".map-tabs").addEventListener("keydown", e => {
+  if (!['ArrowLeft','ArrowRight','Home','End'].includes(e.key)) return;
+  e.preventDefault();
+  const ids = Object.keys(HANDDRAWN_MAPS);
+  let index = ids.indexOf(activeHanddrawnMap);
+  if (e.key === 'ArrowRight') index = (index + 1) % ids.length;
+  if (e.key === 'ArrowLeft') index = (index - 1 + ids.length) % ids.length;
+  if (e.key === 'Home') index = 0;
+  if (e.key === 'End') index = ids.length - 1;
+  selectHanddrawnMap(ids[index], true);
+});
+document.getElementById("imageZoomIn").addEventListener("click", () => setHanddrawnZoom(handdrawnZoom + .25));
+document.getElementById("imageZoomOut").addEventListener("click", () => setHanddrawnZoom(handdrawnZoom - .25));
+document.getElementById("imageZoomReset").addEventListener("click", () => setHanddrawnZoom(1));
+handdrawnCanvas.addEventListener("wheel", e => {
+  if (!e.ctrlKey && !e.metaKey) return;
+  e.preventDefault();
+  const rect = handdrawnCanvas.getBoundingClientRect();
+  setHanddrawnZoom(handdrawnZoom + (e.deltaY < 0 ? .25 : -.25), e.clientX - rect.left, e.clientY - rect.top);
+}, { passive: false });
+handdrawnCanvas.addEventListener("dblclick", e => {
+  const rect = handdrawnCanvas.getBoundingClientRect();
+  setHanddrawnZoom(handdrawnZoom >= 2 ? 1 : handdrawnZoom + .75, e.clientX - rect.left, e.clientY - rect.top);
+});
+
+document.getElementById("panelClose").addEventListener("click", () => {
+  state.panelDismissed = true;
+  state.selected = null;
+  document.getElementById("stageMain").classList.remove("guide-mode");
+  document.getElementById("guidePanel").setAttribute("aria-hidden", "true");
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key !== "Escape") return;
+  if (!sidebar.classList.contains("collapsed") && window.matchMedia("(max-width: 900px)").matches) setSidebarOpen(false);
+  else document.getElementById("panelClose").click();
+});
+
+const searchInput = document.getElementById("searchInput");
+let searchTimer = null;
+function runSearch() {
+  const q = searchInput.value.trim();
+  if (!q) {
+    state.searchHit = null;
+    hideTooltip();
+    renderMap();
+    return;
+  }
+  const hit = findStationQuery(q);
+  if (hit) {
+    focusStation(hit[0]);
+    showStationPanel(hit[0]);
+  }
+}
+searchInput.addEventListener("input", () => {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(runSearch, 120);
+});
+searchInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    clearTimeout(searchTimer);
+    runSearch();
+  }
+});
+
+/* Init */
+renderLineList();
+renderSpotQuick();
+updateGuidePanel();
+renderMap();
+
+state.scale = 0.88;
+state.panX = 40;
+state.panY = 30;
+applyTransform();
+if (window.matchMedia("(max-width: 900px)").matches) {
+  setSidebarOpen(false);
+  resetMapView();
+}
+</script>
+<script src="assets/site.js" defer></script>
+</body>
+</html>

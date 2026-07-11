@@ -12,7 +12,7 @@ window.TRIP_DATA = Object.freeze({
   ],
   accommodations: [
     {id:'dot-hostel',name:'DOT HOSTEL & BAR',nameJp:'DOT HOSTEL & BAR',area:'河口湖',address:'〒401-0305 山梨縣南都留郡富士河口湖町大石 1509',addressJp:'山梨県南都留郡富士河口湖町大石1509',checkIn:'2026-07-19',checkOut:'2026-07-20',checkInTime:'15:00',checkOutTime:'10:00',platform:'Agoda'},
-    {id:'fujibare',name:'富士晴 Guest House',nameJp:'富士晴 Guest House',area:'河口湖',address:'〒401-0301 山梨縣南都留郡富士河口湖町河口 605-1',addressJp:'山梨県南都留郡富士河口湖町河口605-1',checkIn:'2026-07-20',checkOut:'2026-07-22',checkInTime:'15:00',checkOutTime:'10:00',platform:'Agoda'},
+    {id:'fujibare',name:'富士晴 Guest House',nameJp:'富士晴 Guest House',area:'河口湖船津',address:'〒401-0301 山梨縣南都留郡富士河口湖町船津 605-1',addressJp:'山梨県南都留郡富士河口湖町船津605-1',checkIn:'2026-07-20',checkOut:'2026-07-22',checkInTime:'15:00',checkOutTime:'10:00',platform:'Agoda'},
     {id:'uenoyama',name:'Hakone UENOYAMA 上の山 Room 102',nameJp:'UENOYAMA 上の山 Room102',area:'箱根仙石原',address:'〒250-0631 神奈川縣足柄下郡箱根町仙石原 183',addressJp:'神奈川県足柄下郡箱根町仙石原183',checkIn:'2026-07-22',checkOut:'2026-07-23',platform:'Agoda'},
     {id:'tokyo-dome-hotel',name:'東京巨蛋飯店',nameJp:'東京ドームホテル',nameEn:'Tokyo Dome Hotel',area:'東京',address:'〒112-8562 東京都文京區後樂1丁目3-61',addressJp:'東京都文京区後楽1丁目3-61',tel:'+81-3-5805-2111',checkIn:'2026-07-23',checkOut:'2026-07-25',checkInTime:'14:00',checkOutTime:'11:00',station:'水道橋／後樂園',stationIds:['suidobashi','korakuen'],platform:'Trip.com',bookedAt:'2026-07-11',status:'已確認',facilities:['公共停車場','戶外泳池','按摩室','免費 Wi-Fi'],rooms:[{type:'雙床房B（9-22F 禁菸）',guest:'MEI FANG CHEN',orderId:'1616331777272466',priceTwd:9842},{type:'雙床房B（9-22F 禁菸）',guest:'WEI CHE TSENG',orderId:'1616331777308966',priceTwd:10172}],notes:'兩間雙人房共 2 晚，總價 TWD 20,014。7/25 退房後可搭 JR 總武線至日暮里轉 Skyliner 去成田。'}
   ],
@@ -20,13 +20,16 @@ window.TRIP_DATA = Object.freeze({
     ['旅行時程','可編輯行程、甘特圖與任務','trip_timeline.html','行程 時間 日期 任務'],
     ['行前準備清單','護照、網路、保險、行李與入境','packing_checklist.html','清單 護照 esim 保險 行李'],
     ['交通完全攻略','羽田、河口湖、箱根、東京與成田交通','transportation_guide.html','交通 巴士 電車 車票 河口湖 箱根'],
-    ['河口湖與箱根景點','景點、營業資訊、費用與停留時間','attractions_guide.html','景點 河口湖 箱根 大石公園 大湧谷 神社 美術館'],
+    ['河口湖・箱根・東京景點','景點、營業資訊、費用與停留時間','attractions_guide.html','景點 河口湖 箱根 東京 山手線 淺草 晴空塔 明治神宮 秋葉原 池袋 鐵塔 大石公園 大湧谷'],
     ['東京鐵路導覽','東京市區路線與轉乘節點','tokyo_rail.html','東京 鐵路 地圖 車站 轉乘 成田'],
+    ['河口湖・箱根交通','周遊巴士、富士急行、登山線與景點換乘','fuji_hakone_rail.html','河口湖 箱根 巴士 纜車 周遊 登山'],
     ['旅遊日語速查','餐廳、交通、飯店與緊急日語','japanese_phrases.html','日語 翻譯 餐廳 飯店'],
     ['緊急應變手冊','電話、就醫、遺失物與災害應對','emergency_guide.html','緊急 醫院 警察 遺失 地震'],
     ['旅費與分帳','預算、支出紀錄與同行者分帳','budget.html','預算 費用 分帳 日圓 台幣'],
     ['大石公園','富士山、湖景與薰衣草','attractions_guide.html#kawaguchiko','河口湖 富士山 薰衣草 收藏'],
     ['大湧谷','箱根火山地景與黑蛋','attractions_guide.html#hakone','箱根 火山 黑蛋 收藏'],
+    ['淺草寺・雷門','江戶風情與仲見世','attractions_guide.html#tokyo','淺草 東京 雷門 收藏'],
+    ['明治神宮','原宿森林神社','attractions_guide.html#tokyo','原宿 神社 東京 收藏'],
     ['東京巨蛋飯店','後樂園住宿、兩間雙人房訂房確認與周邊交通','emergency_guide.html','巨蛋 飯店 後樂園 水道橋 住宿 訂房']
   ]
 });
