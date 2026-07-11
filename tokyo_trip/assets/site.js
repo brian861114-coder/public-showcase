@@ -11,7 +11,7 @@
   }
   if (nav) {
     nav.setAttribute('aria-label', nav.getAttribute('aria-label') || '旅程導覽');
-    [['search.html','搜尋'],['budget.html','旅費']].forEach(([href,label]) => { if (!nav.querySelector(`[href="${href}"]`)) { const link=document.createElement('a'); link.href=href; link.textContent=label; nav.append(link); } });
+    [['search.html','搜尋']].forEach(([href,label]) => { if (!nav.querySelector(`[href="${href}"]`)) { const link=document.createElement('a'); link.href=href; link.textContent=label; nav.append(link); } });
   }
   if (document.querySelector('.spot')) {
     const key = 'tokyo-trip-favorites-v1';

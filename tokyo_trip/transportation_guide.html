@@ -247,11 +247,15 @@
   .trip-nav { position: sticky; top: 0; z-index: 50; display: flex; justify-content: center; flex-wrap: wrap; gap: 4px 12px; padding: 8px 14px; background: rgba(255,255,255,.92); border-bottom: 1px solid #dbe5ea; backdrop-filter: blur(12px); }
   .trip-nav a { color: #475569; text-decoration: none; font-size: .78rem; font-weight: 700; padding: 3px 7px; border-radius: 999px; }
   .trip-nav a:hover, .trip-nav a[aria-current="page"] { color: #0f3460; background: #dbeafe; }
-  @media (max-width: 480px) { .trip-nav { gap: 2px 5px; padding: 6px; } .trip-nav a { font-size: .72rem; padding: 3px 5px; } }
+  .map-shortcuts { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding: 8px 20px; background: #f0f7fb; border-bottom: 1px solid #dbe5ea; font-size: .78rem; }
+  .map-shortcuts span { color: #64748b; font-weight: 650; }
+  .map-shortcuts a { color: #0f3460; font-weight: 700; text-decoration: none; }
+  .map-shortcuts a:hover { text-decoration: underline; }
+  @media (max-width: 480px) { .trip-nav { gap: 2px 5px; padding: 6px; } .trip-nav a { font-size: .72rem; padding: 3px 5px; } .map-shortcuts { padding: 8px 14px; } }
 </style>
 </head>
 <body>
-<nav class="trip-nav" aria-label="旅程工具"><a href="index.html">入口</a><a href="tokyo_rail.html">鐵路</a><a href="transportation_guide.html" aria-current="page">交通</a><a href="attractions_guide.html">景點</a><a href="packing_checklist.html">清單</a><a href="japanese_phrases.html">日語</a><a href="emergency_guide.html">緊急</a></nav>
+<nav class="trip-nav" aria-label="旅程工具"><a href="index.html">入口</a><a href="trip_timeline.html">行程</a><a href="transportation_guide.html" aria-current="page">移動</a><a href="attractions_guide.html">景點</a><a href="packing_checklist.html">行前</a><a href="emergency_guide.html">緊急</a><a href="search.html">搜尋</a></nav>
 
 <div class="app">
 
@@ -269,6 +273,12 @@
     <button class="tab-btn" onclick="switchTab('calc')">💰 CP 值比較</button>
     <button class="tab-btn" onclick="switchTab('etiquette')">🙇 交通禮儀</button>
   </div>
+</div>
+<div class="map-shortcuts" aria-label="地圖捷徑">
+  <span>地圖：</span>
+  <a href="tokyo_rail.html">東京地圖</a>
+  <span aria-hidden="true">｜</span>
+  <a href="fuji_hakone_rail.html">河口湖・箱根地圖</a>
 </div>
 
 <div class="content">
@@ -853,13 +863,18 @@ const tocs = {
   ]
 };
 
-function switchTab(tab) {
+function switchTab(tab, syncHash) {
+  if (!titles[tab]) return;
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-  document.querySelector(`.tab-btn[onclick*="${tab}"]`).classList.add('active');
+  document.querySelector(`.tab-btn[onclick*="'${tab}'"]`).classList.add('active');
   document.getElementById('tab-' + tab).classList.add('active');
   document.getElementById('pageTitle').textContent = titles[tab];
   buildTOC(tab);
+  if (syncHash !== false) {
+    const next = '#tab-' + tab;
+    if (location.hash !== next) history.replaceState(null, '', next);
+  }
 }
 
 function buildTOC(tab) {
@@ -881,13 +896,17 @@ function toggleSection(h) { h.parentElement.classList.toggle('open'); }
 
 // ── Calculator ──
 document.addEventListener('DOMContentLoaded', () => {
+  const hash = (location.hash || '').replace(/^#/, '');
+  const tabFromHash = hash.startsWith('tab-') ? hash.slice(4) : hash;
+  if (titles[tabFromHash]) switchTab(tabFromHash, false);
+  else buildTOC('intercity');
+
   document.querySelectorAll('#tab-calc input[type="checkbox"]').forEach(cb => {
     cb.addEventListener('change', updateCalc);
   });
   document.querySelectorAll('#calc-pass-days select').forEach(select => {
     select.addEventListener('change', updateCalc);
   });
-  buildTOC('intercity');
   updateCalc();
 });
 
