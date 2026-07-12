@@ -35,6 +35,7 @@ tokyo_trip/index.html
 3. **鐵路地圖是 `tokyo_rail.html`**，不是 `index.html`
 4. **路徑使用相對路徑**（例如 `assets/site.css`），不要用 `/assets/...` 開頭的絕對路徑
 5. **本機預覽請用 HTTP**，不要直接雙擊 HTML（`file://` 會讓部分功能異常）
+6. **大改內容後，把 `sw.js` 的快取版本號 +1**（見下方「快取版本」）
 
 本機預覽：
 
@@ -44,6 +45,29 @@ npx --yes serve .
 ```
 
 瀏覽器開啟終端機顯示的網址，確認入口與各子頁正常。
+
+### 快取版本（部署必做檢查）
+
+網站有 Service Worker（`sw.js`），會在訪客瀏覽器裡快取頁面，方便離線觀看。  
+若部署後不 bump 版本，有些人可能還短暫看到舊檔。
+
+**每次有實質內容更新（改 HTML／CSS／JS／圖片）要上線前：**
+
+1. 打開 `sw.js` 第一行，例如：
+
+```js
+const CACHE = 'tokyo-trip-gh-v16';
+```
+
+2. 把結尾數字 **+1**，例如改成：
+
+```js
+const CACHE = 'tokyo-trip-gh-v17';
+```
+
+3. 再連同其他改動一起複製到 `public-showcase` 並 push
+
+數字只要單調遞增即可，不需跳號。只改說明文件、沒改網站內容時，可不用動。
 
 ---
 
@@ -99,7 +123,10 @@ git push origin main
 
 1. 等 1–2 分鐘讓 GitHub Pages 重新部署
 2. 開啟 https://brian861114-coder.github.io/public-showcase/tokyo_trip/
-3. 若看到舊版，使用強制重新整理（Windows：`Ctrl + F5`）
+3. 若看到舊版：
+   - 先確認本次是否有把 `sw.js` 的 `CACHE` 版本號 +1
+   - 再強制重新整理（Windows：`Ctrl + Shift + R` 或 `Ctrl + F5`）
+   - 仍舊時：Chrome → F12 → **Application** → **Service Workers** → **Unregister** → 再重新整理
 
 ---
 
@@ -151,9 +178,18 @@ github-pages/
 
 ### Q1. 推送後網站還是舊版？
 
-- 等 GitHub Pages 部署完成（通常 1–2 分鐘）
-- 瀏覽器強制重新整理
-- 到 repo 的 **Actions** 或 **Settings → Pages** 看部署狀態
+依序檢查：
+
+1. **等 GitHub Pages 部署完成**（通常 1–2 分鐘；可到 repo 的 **Actions** 或 **Settings → Pages** 看狀態）
+2. **確認有 bump `sw.js` 快取版本**（例如 `v16` → `v17`）。這是最常漏掉的一步
+3. **強制重新整理**：`Ctrl + Shift + R`（Mac：`Cmd + Shift + R`）
+4. **解除 Service Worker**：F12 → Application → Service Workers → Unregister → 重新整理
+
+補充說明：
+
+- 目前 HTML 採「網路優先」：有網路時會盡量抓 GitHub 上的新頁面
+- Service Worker 仍會快取內容供離線使用；換版本號可一次清掉訪客瀏覽器裡的舊快取箱
+- 新版 Service Worker 接管後，頁面通常會自動重整一次；若對方一直開著舊分頁不重新進入，仍可能暫時看到舊內容
 
 ### Q2. 圖示或 SVG 不顯示？
 
@@ -179,6 +215,8 @@ github-pages/
 ```text
 在 github-pages/ 修改並本機測試
         ↓
+（有改網站內容）sw.js 的 CACHE 版本號 +1
+        ↓
 複製到 public-showcase/tokyo_trip/
         ↓
 commit + push
@@ -186,7 +224,17 @@ commit + push
 GitHub Pages 自動更新
 ```
 
----
+### Q6. Service Worker / 快取到底在做什麼？
+
+簡短版：
+
+| 狀況 | 行為 |
+|------|------|
+| 有網路、開 HTML 頁 | 優先向 GitHub 抓新版，再更新本機快取 |
+| 沒網路 | 用本機快取，離線仍可看已開過的頁 |
+| 你把 CACHE 改成新版本號 | 訪客下次進站會刪掉舊快取箱 |
+
+所以「內容更新 + CACHE +1」是最穩的上線組合。
 
 ## 七、建議的 commit 訊息
 

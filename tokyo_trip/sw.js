@@ -1,5 +1,6 @@
-const CACHE='tokyo-trip-gh-v15';
-const ASSETS=[
+/* 部署後請把 CACHE 版本號 +1，舊快取才會被清掉 */
+const CACHE = 'tokyo-trip-gh-v16';
+const ASSETS = [
   './',
   './index.html',
   './transportation.html',
@@ -44,6 +45,64 @@ const ASSETS=[
   './assets/attraction-resources.js',
   './manifest.webmanifest'
 ];
-self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting())));
-self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
-self.addEventListener('fetch',event=>{if(event.request.method!=='GET')return;event.respondWith(caches.match(event.request).then(cached=>cached||fetch(event.request).then(response=>{const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(event.request,copy));return response;}).catch(()=>caches.match('./index.html'))));});
+
+function isHTML(request) {
+  if (request.mode === 'navigate') return true;
+  const accept = request.headers.get('accept') || '';
+  if (accept.includes('text/html')) return true;
+  const url = new URL(request.url);
+  return url.pathname.endsWith('.html') || url.pathname.endsWith('/');
+}
+
+function putCache(request, response) {
+  if (!response || !response.ok) return;
+  const copy = response.clone();
+  caches.open(CACHE).then(cache => cache.put(request, copy)).catch(() => {});
+}
+
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(CACHE)
+      .then(cache => cache.addAll(ASSETS))
+      .then(() => self.skipWaiting())
+  );
+});
+
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys()
+      .then(keys => Promise.all(keys.filter(key => key !== CACHE).map(key => caches.delete(key))))
+      .then(() => self.clients.claim())
+  );
+});
+
+self.addEventListener('fetch', event => {
+  if (event.request.method !== 'GET') return;
+  const request = event.request;
+
+  // HTML：網路優先，確保 GitHub Pages 更新後能馬上看到新內容；離線才用快取
+  if (isHTML(request)) {
+    event.respondWith(
+      fetch(request)
+        .then(response => {
+          putCache(request, response);
+          return response;
+        })
+        .catch(() => caches.match(request).then(cached => cached || caches.match('./index.html')))
+    );
+    return;
+  }
+
+  // 其他靜態檔：快取優先，背景更新（離線友善）
+  event.respondWith(
+    caches.match(request).then(cached => {
+      const network = fetch(request)
+        .then(response => {
+          putCache(request, response);
+          return response;
+        })
+        .catch(() => cached);
+      return cached || network;
+    })
+  );
+});
