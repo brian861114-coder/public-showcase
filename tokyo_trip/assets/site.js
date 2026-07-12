@@ -1,4 +1,11 @@
 (() => {
+  if (!document.querySelector('link[href$="assets/site.css"]')) {
+    const styles = document.createElement('link');
+    styles.rel = 'stylesheet';
+    styles.href = 'assets/site.css';
+    document.head.append(styles);
+  }
+  document.body.classList.add('subpage-ui');
   const nav = document.querySelector('.trip-nav');
   const main = document.querySelector('main, .app, #app');
   if (main && !main.id) main.id = 'main-content';
@@ -11,7 +18,55 @@
   }
   if (nav) {
     nav.setAttribute('aria-label', nav.getAttribute('aria-label') || '旅程導覽');
-    [['search.html','搜尋']].forEach(([href,label]) => { if (!nav.querySelector(`[href="${href}"]`)) { const link=document.createElement('a'); link.href=href; link.textContent=label; nav.append(link); } });
+    const current = location.pathname.split('/').pop() || 'index.html';
+    const group = current === 'transportation_guide.html' || current === 'fuji_hakone_rail.html' || current === 'tokyo_rail.html' ? 'transport' :
+      current === 'attractions_guide.html' ? 'attractions' :
+      current === 'packing_checklist.html' || current === 'japanese_phrases.html' || current === 'budget.html' ? 'preparation' :
+      current === 'emergency_guide.html' ? 'emergency' : current === 'search.html' ? 'search' : current === 'trip_timeline.html' ? 'preparation' : 'home';
+    const links = [
+      ['index.html', '首頁', 'home'],
+      ['transportation.html', '交通', 'transport'],
+      ['attractions.html', '景點', 'attractions'],
+      ['preparation.html', '準備', 'preparation'],
+      ['tools.html', '其他', 'tools'],
+      ['search.html', '搜尋', 'search'],
+      ['emergency_guide.html', '緊急協助', 'emergency']
+    ];
+    nav.replaceChildren(...links.map(([href, label, key]) => {
+      const link = document.createElement('a');
+      link.href = href; link.textContent = label;
+      if (key === group) { link.setAttribute('aria-current', 'page'); }
+      return link;
+    }));
+  }
+  if (main && !document.querySelector('.site-page-actions')) {
+    const current = location.pathname.split('/').pop() || 'index.html';
+    const parent = current === 'transportation_guide.html' || current === 'fuji_hakone_rail.html' || current === 'tokyo_rail.html' ? ['transportation.html', '返回交通分類'] :
+      current === 'attractions_guide.html' ? ['attractions.html', '返回景點分類'] :
+      current === 'packing_checklist.html' || current === 'japanese_phrases.html' || current === 'budget.html' || current === 'trip_timeline.html' ? ['preparation.html', '返回準備分類'] :
+      current === 'search.html' ? ['tools.html', '返回其他工具'] :
+      current === 'emergency_guide.html' ? ['index.html', '返回旅程首頁'] : ['index.html', '返回旅程首頁'];
+    const actions = document.createElement('nav');
+    actions.className = 'site-page-actions';
+    actions.setAttribute('aria-label', '返回導覽');
+    const back = document.createElement('button');
+    back.type = 'button';
+    back.className = 'site-history-back';
+    back.textContent = '← 上一頁';
+    back.addEventListener('click', () => {
+      const sameSiteReferrer = document.referrer && new URL(document.referrer).origin === location.origin;
+      if (sameSiteReferrer) history.back();
+      else location.href = parent[0];
+    });
+    const category = document.createElement('a');
+    category.href = parent[0];
+    category.textContent = parent[1];
+    const home = document.createElement('a');
+    home.href = 'index.html';
+    home.textContent = '旅程首頁';
+    actions.append(back, category, home);
+    if (nav) nav.insertAdjacentElement('afterend', actions);
+    else main.insertAdjacentElement('beforebegin', actions);
   }
   if (document.querySelector('.spot')) {
     const key = 'tokyo-trip-favorites-v1';

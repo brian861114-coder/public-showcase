@@ -1,7 +1,11 @@
-const CACHE='tokyo-trip-gh-v8';
+const CACHE='tokyo-trip-gh-v15';
 const ASSETS=[
   './',
   './index.html',
+  './transportation.html',
+  './attractions.html',
+  './preparation.html',
+  './tools.html',
   './tokyo_rail.html',
   './fuji_hakone_rail.html',
   './trip_timeline.html',
@@ -18,6 +22,10 @@ const ASSETS=[
   './assets/images/kawaguchiko-hero.webp',
   './assets/images/hakone-forest.webp',
   './assets/images/tokyo-rail.webp',
+  './assets/images/generated/trip-hero.webp',
+  './assets/images/generated/hakone-forest.webp',
+  './assets/images/generated/tokyo-rail-blue-hour.webp',
+  './assets/images/generated/travel-preparation.webp',
   './assets/images/map-icons/mount-fuji.png',
   './assets/images/map-icons/lake-kawaguchiko.png',
   './assets/images/map-icons/tenjo-ropeway.png',
@@ -30,6 +38,8 @@ const ASSETS=[
   './assets/images/map-icons/sengokuhara.png',
   './assets/site.css',
   './assets/site.js',
+  './assets/portal.css',
+  './assets/portal.js',
   './assets/trip-data.js',
   './assets/attraction-resources.js',
   './manifest.webmanifest'

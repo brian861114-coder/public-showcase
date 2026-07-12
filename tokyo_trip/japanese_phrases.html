@@ -49,6 +49,8 @@
   .cat-shop  { background: #fdf2f8; color: #9d174d; }
   .cat-hotel { background: #f5f3ff; color: #5b21b6; }
   .cat-trans { background: #ecfdf5; color: #065f46; }
+  .cat-onsen { background: #fff7ed; color: #9a3412; }
+  .cat-sight { background: #f0f9ff; color: #0369a1; }
   .cat-emerg { background: #fef2f2; color: #991b1b; }
 
   /* ── Phrase Cards ── */
@@ -140,7 +142,7 @@
 
 <header>
   <h1>🗣️ 旅遊日語速查手冊</h1>
-  <div class="sub">河口湖 → 箱根 → 東京 · 每句附發音 · 給對方看也可以</div>
+  <div class="sub">河口湖 → 箱根 → 東京 · 165 句常用語 · 每句附發音 · 給對方看也可以</div>
 </header>
 
 <div class="filters">
@@ -151,13 +153,15 @@
   <button class="f-btn" onclick="filter('shop')">🛍️ 購物</button>
   <button class="f-btn" onclick="filter('hotel')">🏨 飯店</button>
   <button class="f-btn" onclick="filter('trans')">🚃 交通</button>
+  <button class="f-btn" onclick="filter('onsen')">♨️ 溫泉</button>
+  <button class="f-btn" onclick="filter('sight')">📸 景點</button>
   <button class="f-btn" onclick="filter('emerg')">🆘 緊急</button>
 </div>
 
 <main id="phrase-list">
 
-  <!-- ====== 招呼 / 基本 ====== -->
   <div class="cat-title cat-greet" data-cat="greet">👋 招呼・基本用語</div>
+
 
   <div class="phrase" data-cat="greet">
     <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
@@ -213,6 +217,19 @@
 
   <div class="phrase" data-cat="greet">
     <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🌆</div>
+      <div class="p-body">
+        <div class="p-jp">こんばんは</div>
+        <div class="p-read">ko-n-ban-wa</div>
+        <div class="p-zh">晚上好</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">傍晚以後打招呼用。同樣「は」唸 wa。</div>
+  </div>
+
+  <div class="phrase" data-cat="greet">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
       <div class="p-icon">🌙</div>
       <div class="p-body">
         <div class="p-jp">おやすみなさい</div>
@@ -221,7 +238,7 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">晚上回到民宿或飯店跟人說晚安用。不是打招呼用的「晚上好」（那是 こんばんは）。</div>
+    <div class="p-note">晚上回到民宿或飯店跟人說晚安用。不是打招呼用的「晚上好」。</div>
   </div>
 
   <div class="phrase" data-cat="greet">
@@ -234,7 +251,7 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">另一個萬用句。點餐完、請人幫忙、辦入住手續都可以用。等於說「那就麻煩你了」。</div>
+    <div class="p-note">點餐完、請人幫忙、辦入住手續都可以用。等於說「那就麻煩你了」。</div>
   </div>
 
   <div class="phrase" data-cat="greet">
@@ -247,11 +264,141 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">萬用婉拒句。店員問你要不要袋子、要不要加點、有沒有受傷，全部可以回這句。「大丈夫」本身就是「沒問題」的意思。</div>
+    <div class="p-note">萬用婉拒句。店員問你要不要袋子、要不要加點、有沒有受傷，全部可以回這句。</div>
   </div>
 
-  <!-- ====== 問路 / 方向 ====== -->
+  <div class="phrase" data-cat="greet">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🙇‍♂️</div>
+      <div class="p-body">
+        <div class="p-jp">申し訳ありません</div>
+        <div class="p-read">mou-shi-wa-ke a-ri-ma-se-n</div>
+        <div class="p-zh">非常抱歉（正式）</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">弄丟東西、遲到、造成麻煩時用。比「すみません」更正式、更誠懇。</div>
+  </div>
+
+  <div class="phrase" data-cat="greet">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">👋</div>
+      <div class="p-body">
+        <div class="p-jp">さようなら</div>
+        <div class="p-read">sa-yo-u-na-ra</div>
+        <div class="p-zh">再見</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">正式告別。日常更常說「じゃあね」或「失礼します」（我先失陪了）。</div>
+  </div>
+
+  <div class="phrase" data-cat="greet">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🚪</div>
+      <div class="p-body">
+        <div class="p-jp">失礼します</div>
+        <div class="p-read">shi-tsu-re-i shi-ma-su</div>
+        <div class="p-zh">打擾了 / 我先走了</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">進房間、離開櫃檯、結束對話時常用的禮貌語。</div>
+  </div>
+
+  <div class="phrase" data-cat="greet">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🤷</div>
+      <div class="p-body">
+        <div class="p-jp">わかりません</div>
+        <div class="p-read">wa-ka-ri-ma-se-n</div>
+        <div class="p-zh">我聽不懂 / 我不知道</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">聽不懂日文時搖頭加這句。可接「英語でお願いします」（請用英文）。</div>
+  </div>
+
+  <div class="phrase" data-cat="greet">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🐢</div>
+      <div class="p-body">
+        <div class="p-jp">ゆっくり話してください</div>
+        <div class="p-read">yu-kku-ri ha-na-shi-te ku-da-sa-i</div>
+        <div class="p-zh">請說慢一點</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">日本人講話快時用。對方通常會立刻放慢速度。</div>
+  </div>
+
+  <div class="phrase" data-cat="greet">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🔁</div>
+      <div class="p-body">
+        <div class="p-jp">もう一度お願いします</div>
+        <div class="p-read">mou i-chi-do o-ne-ga-i shi-ma-su</div>
+        <div class="p-zh">請再說一次</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">沒聽清楚時用。也可說「もう一度言ってください」。</div>
+  </div>
+
+  <div class="phrase" data-cat="greet">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🌐</div>
+      <div class="p-body">
+        <div class="p-jp">英語でお願いします</div>
+        <div class="p-read">e-i-go de o-ne-ga-i shi-ma-su</div>
+        <div class="p-zh">請用英文</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">觀光區很多人會一點英文。河口湖、箱根、東京車站通常有英文服務。</div>
+  </div>
+
+  <div class="phrase" data-cat="greet">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🙋</div>
+      <div class="p-body">
+        <div class="p-jp">私は観光客です</div>
+        <div class="p-read">wa-ta-shi wa kan-kou-kya-ku de-su</div>
+        <div class="p-zh">我是觀光客</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">表明身份，對方通常會更有耐心、改用簡單日文或手勢。</div>
+  </div>
+
+  <div class="phrase" data-cat="greet">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">😊</div>
+      <div class="p-body">
+        <div class="p-jp">はじめまして</div>
+        <div class="p-read">ha-ji-me-ma-shi-te</div>
+        <div class="p-zh">初次見面，請多指教</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">跟民宿主人、導覽員第一次見面時說。後面常接「よろしくお願いします」。</div>
+  </div>
+
+  <div class="phrase" data-cat="greet">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">👍</div>
+      <div class="p-body">
+        <div class="p-jp">はい / いいえ</div>
+        <div class="p-read">ha-i / i-i-e</div>
+        <div class="p-zh">是 / 不是</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">はい＝是、好的；いいえ＝不是、沒有。日本人點頭也可能只是「我在聽」，不一定是同意。</div>
+  </div>
+
   <div class="cat-title cat-dir" data-cat="dir">🧭 問路・找地點</div>
+
 
   <div class="phrase" data-cat="dir">
     <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
@@ -276,7 +423,7 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">在「〜」前面插入地名即可。例如「トイレはどこですか？」= 廁所在哪裡？。可搭配手機地圖或直接秀地址。</div>
+    <div class="p-note">在「〜」前面插入地名即可。例如「トイレはどこですか？」= 廁所在哪裡？</div>
   </div>
 
   <div class="phrase" data-cat="dir">
@@ -289,7 +436,7 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">找便利商店：コンビニ（con-bi-ni）。找車站：駅（e-ki）。找廁所：トイレ（to-i-re）。</div>
+    <div class="p-note">找便利商店：コンビニ。找車站：駅（e-ki）。找廁所：トイレ。</div>
   </div>
 
   <div class="phrase" data-cat="dir">
@@ -302,7 +449,7 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">日本人指路最常說這三個詞。まっすぐ（massugu）的「っ」要停頓一拍，小寫 tsu 表示促音。</div>
+    <div class="p-note">日本人指路最常說這三個詞。まっすぐ的「っ」要停頓一拍。</div>
   </div>
 
   <div class="phrase" data-cat="dir">
@@ -315,11 +462,154 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">把這句話跟手機上飯店的日文地址一起給對方看，效果最好。連計程車司機都懂。</div>
+    <div class="p-note">把這句話跟手機上飯店的日文地址一起給對方看，效果最好。</div>
   </div>
 
-  <!-- ====== 餐廳 ====== -->
+  <div class="phrase" data-cat="dir">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🚽</div>
+      <div class="p-body">
+        <div class="p-jp">トイレはどこですか？</div>
+        <div class="p-read">to-i-re wa do-ko de-su-ka?</div>
+        <div class="p-zh">廁所在哪裡？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">最常用的問路句之一。也可說「お手洗い」（o-te-a-ra-i）。</div>
+  </div>
+
+  <div class="phrase" data-cat="dir">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🏪</div>
+      <div class="p-body">
+        <div class="p-jp">コンビニはどこですか？</div>
+        <div class="p-read">kon-bi-ni wa do-ko de-su-ka?</div>
+        <div class="p-zh">便利商店在哪裡？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">日本超商密度極高。7-Eleven＝セブンイレブン、Lawson＝ローソン、FamilyMart＝ファミマ。</div>
+  </div>
+
+  <div class="phrase" data-cat="dir">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🚉</div>
+      <div class="p-body">
+        <div class="p-jp">駅はどこですか？</div>
+        <div class="p-read">e-ki wa do-ko de-su-ka?</div>
+        <div class="p-zh">車站在哪裡？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">找地鐵或 JR 車站用。東京站是「東京駅」（tou-kyou e-ki）。</div>
+  </div>
+
+  <div class="phrase" data-cat="dir">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">⏱️</div>
+      <div class="p-body">
+        <div class="p-jp">どのくらいかかりますか？</div>
+        <div class="p-read">do-no ku-rai ka-ka-ri-ma-su-ka?</div>
+        <div class="p-zh">大概要多久？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">問路時問距離／時間。對方可能回「徒歩10分」（走路 10 分鐘）。</div>
+  </div>
+
+  <div class="phrase" data-cat="dir">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">📏</div>
+      <div class="p-body">
+        <div class="p-jp">遠いですか？ / 近いですか？</div>
+        <div class="p-read">to-o-i de-su-ka? / chi-ka-i de-su-ka?</div>
+        <div class="p-zh">遠嗎？ / 近嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">判斷要不要搭車。徒歩（to-ho）＝走路；電車で＝搭電車。</div>
+  </div>
+
+  <div class="phrase" data-cat="dir">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">↩️</div>
+      <div class="p-body">
+        <div class="p-jp">曲がってください</div>
+        <div class="p-read">ma-ga-tte ku-da-sa-i</div>
+        <div class="p-zh">請轉彎</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">聽指路時會聽到「右に曲がって」（往右拐）。</div>
+  </div>
+
+  <div class="phrase" data-cat="dir">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">⬆️</div>
+      <div class="p-body">
+        <div class="p-jp">角を右／左に曲がって</div>
+        <div class="p-read">ka-do wo mi-gi / hi-da-ri ni ma-ga-tte</div>
+        <div class="p-zh">在轉角往右／往左拐</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">「角」（kado）＝街角。日本人指路常說「二つ目の角を右」。</div>
+  </div>
+
+  <div class="phrase" data-cat="dir">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">📱</div>
+      <div class="p-body">
+        <div class="p-jp">地図を見せてもいいですか？</div>
+        <div class="p-read">chi-zu wo mi-se-te mo i-i de-su-ka?</div>
+        <div class="p-zh">我可以給你看地圖嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">把手機地圖遞給對方請他指路時用。</div>
+  </div>
+
+  <div class="phrase" data-cat="dir">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🧭</div>
+      <div class="p-body">
+        <div class="p-jp">道に迷いました</div>
+        <div class="p-read">mi-chi ni ma-yo-i-ma-shi-ta</div>
+        <div class="p-zh">我迷路了</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">開場白。接著秀目的地地址或地圖。</div>
+  </div>
+
+  <div class="phrase" data-cat="dir">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🏧</div>
+      <div class="p-body">
+        <div class="p-jp">ATMはどこですか？</div>
+        <div class="p-read">ATM wa do-ko de-su-ka?</div>
+        <div class="p-zh">ATM 在哪裡？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">Seven Bank（超商內）與郵局 ATM 最常能刷外國卡。</div>
+  </div>
+
+  <div class="phrase" data-cat="dir">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🅿️</div>
+      <div class="p-body">
+        <div class="p-jp">駐車場はありますか？</div>
+        <div class="p-read">chu-u-sha-jou wa a-ri-ma-su-ka?</div>
+        <div class="p-zh">有停車場嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">租車自駕河口湖／箱根時用。</div>
+  </div>
+
   <div class="cat-title cat-food" data-cat="food">🍜 餐廳・點餐</div>
+
 
   <div class="phrase" data-cat="food">
     <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
@@ -331,7 +621,7 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">進餐廳時店員會問。回答：一人（hi-to-ri）、二人（fu-ta-ri）、三人（sa-n-nin）。舉手指比數字也通。</div>
+    <div class="p-note">回答：一人、二人（fu-ta-ri）、三人（sa-n-nin）。舉手指比數字也通。</div>
   </div>
 
   <div class="phrase" data-cat="food">
@@ -344,7 +634,7 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">日本很多餐廳有食物模型或圖片菜單。直接指著說這句就搞定了，不需要唸出菜名。</div>
+    <div class="p-note">有食物模型或圖片菜單時，直接指著說這句就搞定。</div>
   </div>
 
   <div class="phrase" data-cat="food">
@@ -357,7 +647,7 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">吃飯前說，自己一個人吃飯不一定要講。跟民宿主人或其他旅客共餐時說這句會讓人覺得你有禮貌。</div>
+    <div class="p-note">吃飯前說。跟民宿主人或其他旅客共餐時說這句會讓人覺得有禮貌。</div>
   </div>
 
   <div class="phrase" data-cat="food">
@@ -370,7 +660,7 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">吃完飯後說。對廚師或店員說這句是很大的尊重。離開餐廳時對著吧檯輕聲說一句即可。</div>
+    <div class="p-note">吃完飯後說。離開餐廳時對著吧檯輕聲說一句即可。</div>
   </div>
 
   <div class="phrase" data-cat="food">
@@ -383,7 +673,7 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">日本餐廳通常一坐下就送上免費水或茶。如果要續杯就用這句。お冷（o-hiya）也是水的意思。</div>
+    <div class="p-note">通常坐下就送免費水或茶。續杯用這句。お冷（o-hiya）也是水。</div>
   </div>
 
   <div class="phrase" data-cat="food">
@@ -396,7 +686,7 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">需要餐具時直接說這三個詞。日本餐廳不一定主動給叉子，如果不會用筷子就說「フォークをください」。</div>
+    <div class="p-note">不會用筷子就說「フォークをください」。</div>
   </div>
 
   <div class="phrase" data-cat="food">
@@ -409,7 +699,7 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">辛い（karai）= 辣。日本人說的「辛口」指味道濃烈，不一定辣。要確認辣度最好直接問這句。</div>
+    <div class="p-note">辛い＝辣。「辛口」指味道濃烈，不一定辣。</div>
   </div>
 
   <div class="phrase" data-cat="food">
@@ -422,7 +712,7 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">後面接過敏原：卵（ta-ma-go / 蛋）、小麦（ko-mu-gi / 麵粉）、乳（nyu-u / 奶）、そば（蕎麥）、ピーナッツ（花生）。日本餐廳對過敏很重視。</div>
+    <div class="p-note">後接：卵（蛋）、小麦（麵粉）、乳（奶）、そば、ピーナッツ。</div>
   </div>
 
   <div class="phrase" data-cat="food">
@@ -435,7 +725,7 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">不會說整句的話，簡單說「お会計」（o-ka-i-ke-i）加舉手示意就行。很多餐廳現在用呼叫鈴或平板點餐。</div>
+    <div class="p-note">也可只說「お会計」加舉手。很多店有呼叫鈴。</div>
   </div>
 
   <div class="phrase" data-cat="food">
@@ -448,11 +738,245 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">日本人常用外來語「テイクアウト」（take out）。在店內吃是「店内で」（te-n-na-i de）。</div>
+    <div class="p-note">店內吃是「店内で」（te-n-na-i de）。</div>
   </div>
 
-  <!-- ====== 購物 ====== -->
+  <div class="phrase" data-cat="food">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">📅</div>
+      <div class="p-body">
+        <div class="p-jp">予約しています</div>
+        <div class="p-read">yo-ya-ku shi-te-i-ma-su</div>
+        <div class="p-zh">我有預約</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">進門時跟店員說，並報名字或預約時間。</div>
+  </div>
+
+  <div class="phrase" data-cat="food">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">⏰</div>
+      <div class="p-body">
+        <div class="p-jp">予約したいです</div>
+        <div class="p-read">yo-ya-ku shi-ta-i de-su</div>
+        <div class="p-zh">我想預約</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">電話或現場訂位用。可接「○時に」（幾點）。</div>
+  </div>
+
+  <div class="phrase" data-cat="food">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🚫</div>
+      <div class="p-body">
+        <div class="p-jp">肉は食べられません</div>
+        <div class="p-read">ni-ku wa ta-be-ra-re-ma-se-n</div>
+        <div class="p-zh">我不吃肉</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">素食／宗教飲食需求開場白。</div>
+  </div>
+
+  <div class="phrase" data-cat="food">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🥬</div>
+      <div class="p-body">
+        <div class="p-jp">ベジタリアンです</div>
+        <div class="p-read">be-ji-ta-ri-an de-su</div>
+        <div class="p-zh">我是素食者</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">日本對素食理解不一，最好再具體說明不吃什麼。</div>
+  </div>
+
+  <div class="phrase" data-cat="food">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🐟</div>
+      <div class="p-body">
+        <div class="p-jp">魚は大丈夫です</div>
+        <div class="p-read">sa-ka-na wa da-i-jo-o-bu de-su</div>
+        <div class="p-zh">魚可以吃</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">pescatarian 或半素時補充說明。</div>
+  </div>
+
+  <div class="phrase" data-cat="food">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🐷</div>
+      <div class="p-body">
+        <div class="p-jp">豚肉は食べられません</div>
+        <div class="p-read">bu-ta-ni-ku wa ta-be-ra-re-ma-se-n</div>
+        <div class="p-zh">我不吃豬肉</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">宗教或個人禁忌時用。</div>
+  </div>
+
+  <div class="phrase" data-cat="food">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">😋</div>
+      <div class="p-body">
+        <div class="p-jp">おいしいです！</div>
+        <div class="p-read">o-i-shi-i de-su!</div>
+        <div class="p-zh">很好吃！</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">對廚師或店員說，對方會很開心。</div>
+  </div>
+
+  <div class="phrase" data-cat="food">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🔥</div>
+      <div class="p-body">
+        <div class="p-jp">熱いです / 冷たいです</div>
+        <div class="p-read">a-tsu-i de-su / tsu-me-ta-i de-su</div>
+        <div class="p-zh">很燙 / 很冰</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">熱い＝溫度熱；辛い＝辣。不要搞混。</div>
+  </div>
+
+  <div class="phrase" data-cat="food">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">➕</div>
+      <div class="p-body">
+        <div class="p-jp">もう少しお願いします</div>
+        <div class="p-read">mou su-ko-shi o-ne-ga-i shi-ma-su</div>
+        <div class="p-zh">請再給我一點</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">續飯、續湯、續茶用。拉麵店續麵常說「替え玉」。</div>
+  </div>
+
+  <div class="phrase" data-cat="food">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🍚</div>
+      <div class="p-body">
+        <div class="p-jp">ご飯をください</div>
+        <div class="p-read">go-han wo ku-da-sa-i</div>
+        <div class="p-zh">請給我白飯</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">定食要加飯、或只要白飯時用。</div>
+  </div>
+
+  <div class="phrase" data-cat="food">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🍺</div>
+      <div class="p-body">
+        <div class="p-jp">生ビールをください</div>
+        <div class="p-read">na-ma bi-i-ru wo ku-da-sa-i</div>
+        <div class="p-zh">請給我生啤酒</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">居酒屋經典點法。無酒精可說「ノンアルコール」。</div>
+  </div>
+
+  <div class="phrase" data-cat="food">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">☕</div>
+      <div class="p-body">
+        <div class="p-jp">コーヒーをください</div>
+        <div class="p-read">kō-hī wo ku-da-sa-i</div>
+        <div class="p-zh">請給我咖啡</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">熱的：ホット；冰的：アイス。</div>
+  </div>
+
+  <div class="phrase" data-cat="food">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🧂</div>
+      <div class="p-body">
+        <div class="p-jp">塩 / 醤油 / ソース</div>
+        <div class="p-read">shi-o / shou-yu / sō-su</div>
+        <div class="p-zh">鹽 / 醬油 / 醬汁</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">需要調味料時直接說名稱＋「をください」。</div>
+  </div>
+
+  <div class="phrase" data-cat="food">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">📝</div>
+      <div class="p-body">
+        <div class="p-jp">メニューをください</div>
+        <div class="p-read">me-nyu-u wo ku-da-sa-i</div>
+        <div class="p-zh">請給我菜單</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">也可問「英語のメニューはありますか？」（有英文菜單嗎？）。</div>
+  </div>
+
+  <div class="phrase" data-cat="food">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🧍</div>
+      <div class="p-body">
+        <div class="p-jp">空いていますか？</div>
+        <div class="p-read">a-i-te i-ma-su-ka?</div>
+        <div class="p-zh">還有空位嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">排隊店門口問。滿座會回「満席です」。</div>
+  </div>
+
+  <div class="phrase" data-cat="food">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">⏳</div>
+      <div class="p-body">
+        <div class="p-jp">どのくらい待ちますか？</div>
+        <div class="p-read">do-no ku-rai ma-chi-ma-su-ka?</div>
+        <div class="p-zh">大概要等多久？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">人氣店排隊時問。</div>
+  </div>
+
+  <div class="phrase" data-cat="food">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🧾</div>
+      <div class="p-body">
+        <div class="p-jp">別々にお願いします</div>
+        <div class="p-read">be-tsu-be-tsu ni o-ne-ga-i shi-ma-su</div>
+        <div class="p-zh">請分開結帳</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">AA 制時用。一起付說「一緒に」（i-ssho ni）。</div>
+  </div>
+
+  <div class="phrase" data-cat="food">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🧃</div>
+      <div class="p-body">
+        <div class="p-jp">おすすめは何ですか？</div>
+        <div class="p-read">o-su-su-me wa na-n de-su-ka?</div>
+        <div class="p-zh">有什麼推薦？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">店員會指人氣品項。再指著說「これをお願いします」。</div>
+  </div>
+
   <div class="cat-title cat-shop" data-cat="shop">🛍️ 購物・支付</div>
+
 
   <div class="phrase" data-cat="shop">
     <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
@@ -464,7 +988,7 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">河口湖和箱根的小店家很多只收現金，購物前先確認。回答可能是「大丈夫です」（可以）或「現金のみです」（只收現金）。</div>
+    <div class="p-note">河口湖和箱根小店很多只收現金，購物前先確認。</div>
   </div>
 
   <div class="phrase" data-cat="shop">
@@ -477,7 +1001,7 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">日本人通常把價格打在商品上或標籤上，不太需要問。但傳統市場或小攤販可以用這句。</div>
+    <div class="p-note">傳統市場或小攤販可用。大店通常有標價。</div>
   </div>
 
   <div class="phrase" data-cat="shop">
@@ -490,7 +1014,7 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">日本超商和超市塑膠袋要收費（約 3~5 円）。店員會問要不要袋子：袋はご利用ですか？（要袋子嗎？）。自備購物袋省錢又環保。</div>
+    <div class="p-note">塑膠袋約 3~5 円。自備購物袋更省。</div>
   </div>
 
   <div class="phrase" data-cat="shop">
@@ -503,7 +1027,7 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">日本店家包裝超精美。買伴手禮要送人時說這句，店員會幫你包得漂漂亮亮。</div>
+    <div class="p-note">買伴手禮時說，店員會包得很漂亮。</div>
   </div>
 
   <div class="phrase" data-cat="shop">
@@ -516,11 +1040,167 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">大型藥妝店和百貨公司通常消費滿 5,000 円（未稅）可免稅。需出示護照。食品、藥品、化妝品會用免稅密封袋，離境前不可拆開。</div>
+    <div class="p-note">滿 5,000 円（未稅）可免稅，需護照。食品藥妝離境前勿拆封。</div>
   </div>
 
-  <!-- ====== 飯店 ====== -->
+  <div class="phrase" data-cat="shop">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">💵</div>
+      <div class="p-body">
+        <div class="p-jp">現金のみですか？</div>
+        <div class="p-read">gen-kin no-mi de-su-ka?</div>
+        <div class="p-zh">只收現金嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">進店前確認支付方式。</div>
+  </div>
+
+  <div class="phrase" data-cat="shop">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">📱</div>
+      <div class="p-body">
+        <div class="p-jp">PayPayで払えますか？</div>
+        <div class="p-read">PayPay de ha-ra-e-ma-su-ka?</div>
+        <div class="p-zh">可以用 PayPay 嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">日本常見行動支付。外國遊客通常仍以現金／卡為主。</div>
+  </div>
+
+  <div class="phrase" data-cat="shop">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🧾</div>
+      <div class="p-body">
+        <div class="p-jp">レシートをください</div>
+        <div class="p-read">re-shi-i-to wo ku-da-sa-i</div>
+        <div class="p-zh">請給我收據</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">報帳或退稅需要時用。</div>
+  </div>
+
+  <div class="phrase" data-cat="shop">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">👕</div>
+      <div class="p-body">
+        <div class="p-jp">試着してもいいですか？</div>
+        <div class="p-read">shi-cha-ku shi-te mo i-i de-su-ka?</div>
+        <div class="p-zh">可以試穿嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">服飾店試衣間＝試着室（shi-cha-ku-shi-tsu）。</div>
+  </div>
+
+  <div class="phrase" data-cat="shop">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">📐</div>
+      <div class="p-body">
+        <div class="p-jp">もっと大きいサイズはありますか？</div>
+        <div class="p-read">mot-to oo-ki-i sa-i-zu wa a-ri-ma-su-ka?</div>
+        <div class="p-zh">有更大的尺寸嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">小一號：もっと小さい。</div>
+  </div>
+
+  <div class="phrase" data-cat="shop">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">👀</div>
+      <div class="p-body">
+        <div class="p-jp">これを見せてください</div>
+        <div class="p-read">ko-re wo mi-se-te ku-da-sa-i</div>
+        <div class="p-zh">請讓我看看這個</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">玻璃櫃商品、藥妝櫃檯商品用。</div>
+  </div>
+
+  <div class="phrase" data-cat="shop">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🛒</div>
+      <div class="p-body">
+        <div class="p-jp">これだけです</div>
+        <div class="p-read">ko-re da-ke de-su</div>
+        <div class="p-zh">就買這些</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">結帳時把東西放上櫃檯說這句。</div>
+  </div>
+
+  <div class="phrase" data-cat="shop">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🔄</div>
+      <div class="p-body">
+        <div class="p-jp">返品できますか？</div>
+        <div class="p-read">hen-pin de-ki-ma-su-ka?</div>
+        <div class="p-zh">可以退貨嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">日本退貨規定較嚴，食品與特價品多半不行。</div>
+  </div>
+
+  <div class="phrase" data-cat="shop">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🇯🇵</div>
+      <div class="p-body">
+        <div class="p-jp">日本製ですか？</div>
+        <div class="p-read">ni-hon-sei de-su-ka?</div>
+        <div class="p-zh">這是日本製嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">買紀念品、刀具、電子產品時可問。</div>
+  </div>
+
+  <div class="phrase" data-cat="shop">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">💊</div>
+      <div class="p-body">
+        <div class="p-jp">お土産を探しています</div>
+        <div class="p-read">o-mi-ya-ge wo sa-ga-shi-te i-ma-su</div>
+        <div class="p-zh">我在找伴手禮</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">店員通常會帶你到人氣商品區。</div>
+  </div>
+
+  <div class="phrase" data-cat="shop">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">✂️</div>
+      <div class="p-body">
+        <div class="p-jp">切ってもらえますか？</div>
+        <div class="p-read">ki-tte mo-ra-e-ma-su-ka?</div>
+        <div class="p-zh">可以幫我剪開／切開嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">買布料、繩子、或請店員拆包裝時用。</div>
+  </div>
+
+  <div class="phrase" data-cat="shop">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🧊</div>
+      <div class="p-body">
+        <div class="p-jp">温めますか？</div>
+        <div class="p-read">a-ta-ta-me-ma-su-ka?</div>
+        <div class="p-zh">要加熱嗎？（店員常問）</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">超商便當結帳時店員會問。要：はい；不要：大丈夫です。</div>
+  </div>
+
   <div class="cat-title cat-hotel" data-cat="hotel">🏨 住宿・飯店</div>
+
 
   <div class="phrase" data-cat="hotel">
     <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
@@ -532,7 +1212,7 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">到櫃檯直接說這句，同時給護照。預訂確認信（Agoda 截圖）也一起給看，加速辦理。</div>
+    <div class="p-note">同時給護照與預訂確認信／截圖。</div>
   </div>
 
   <div class="phrase" data-cat="hotel">
@@ -545,7 +1225,7 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">已訂房但現場找不到紀錄時用。直接秀 Agoda 預訂編號更快。</div>
+    <div class="p-note">找不到紀錄時用。直接秀預訂編號更快。</div>
   </div>
 
   <div class="phrase" data-cat="hotel">
@@ -558,7 +1238,7 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">退房後想繼續玩但還沒要離開城市，或提早到還不能入住時用。日本絕大多數住宿都願意免費寄放行李。</div>
+    <div class="p-note">提早到或退房後繼續玩時用。多數住宿免費寄放。</div>
   </div>
 
   <div class="phrase" data-cat="hotel">
@@ -571,7 +1251,7 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">所有住宿都有免費 Wi-Fi。青年旅館可能在前台或房間內直接貼密碼；東京巨蛋飯店為大型商務飯店，入住時櫃檯會告知。</div>
+    <div class="p-note">青年旅館常直接貼在前台或房間內。</div>
   </div>
 
   <div class="phrase" data-cat="hotel">
@@ -584,11 +1264,167 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">DOT HOSTEL 早餐 8:30 開始。東京巨蛋飯店有付費早餐方案，若當天要趕早班車需先確認時間。</div>
+    <div class="p-note">趕早班車前務必確認時間。</div>
   </div>
 
-  <!-- ====== 交通 ====== -->
+  <div class="phrase" data-cat="hotel">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🚪</div>
+      <div class="p-body">
+        <div class="p-jp">チェックアウトをお願いします</div>
+        <div class="p-read">che-kku-a-u-to wo o-ne-ga-i shi-ma-su</div>
+        <div class="p-zh">我要辦理退房</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">通常 10:00 或 11:00 前。逾時可能加收費用。</div>
+  </div>
+
+  <div class="phrase" data-cat="hotel">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🔐</div>
+      <div class="p-body">
+        <div class="p-jp">部屋の鍵を忘れました</div>
+        <div class="p-read">he-ya no ka-gi wo wa-su-re-ma-shi-ta</div>
+        <div class="p-zh">我忘了帶房卡／鑰匙</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">回櫃檯報房號與名字即可補發。</div>
+  </div>
+
+  <div class="phrase" data-cat="hotel">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🔢</div>
+      <div class="p-body">
+        <div class="p-jp">部屋番号は何番ですか？</div>
+        <div class="p-read">he-ya bang-gou wa nan-ban de-su-ka?</div>
+        <div class="p-zh">房間號碼是幾號？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">入住後確認用。</div>
+  </div>
+
+  <div class="phrase" data-cat="hotel">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🧼</div>
+      <div class="p-body">
+        <div class="p-jp">タオルを追加できますか？</div>
+        <div class="p-read">ta-o-ru wo tsu-i-ka de-ki-ma-su-ka?</div>
+        <div class="p-zh">可以多給我一條毛巾嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">牙刷、枕頭等同理：〜を追加できますか？</div>
+  </div>
+
+  <div class="phrase" data-cat="hotel">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🧺</div>
+      <div class="p-body">
+        <div class="p-jp">洗濯できますか？</div>
+        <div class="p-read">sen-ta-ku de-ki-ma-su-ka?</div>
+        <div class="p-zh">可以洗衣服嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">問有沒有洗衣機或洗衣服務。</div>
+  </div>
+
+  <div class="phrase" data-cat="hotel">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🧊</div>
+      <div class="p-body">
+        <div class="p-jp">冷蔵庫はありますか？</div>
+        <div class="p-read">rei-zou-ko wa a-ri-ma-su-ka?</div>
+        <div class="p-zh">有冰箱嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">買了便當、飲料要冰時問。</div>
+  </div>
+
+  <div class="phrase" data-cat="hotel">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🔇</div>
+      <div class="p-body">
+        <div class="p-jp">静かなお部屋はありますか？</div>
+        <div class="p-read">shi-zu-ka na o-he-ya wa a-ri-ma-su-ka?</div>
+        <div class="p-zh">有比較安靜的房間嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">對噪音敏感或想睡好時用。</div>
+  </div>
+
+  <div class="phrase" data-cat="hotel">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">⬆️</div>
+      <div class="p-body">
+        <div class="p-jp">上の階の部屋はありますか？</div>
+        <div class="p-read">ue no kai no he-ya wa a-ri-ma-su-ka?</div>
+        <div class="p-zh">有較高樓層的房間嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">景觀或減少噪音時可問。</div>
+  </div>
+
+  <div class="phrase" data-cat="hotel">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🔌</div>
+      <div class="p-body">
+        <div class="p-jp">充電器を借りられますか？</div>
+        <div class="p-read">ju-u-den-ki wo ka-ri-ra-re-ma-su-ka?</div>
+        <div class="p-zh">可以借用充電器嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">部分飯店前台有租借。</div>
+  </div>
+
+  <div class="phrase" data-cat="hotel">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">⏰</div>
+      <div class="p-body">
+        <div class="p-jp">モーニングコールをお願いします</div>
+        <div class="p-read">mō-ningu kō-ru wo o-ne-ga-i shi-ma-su</div>
+        <div class="p-zh">請幫我設定叫醒服務</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">趕早車、早班巴士時用。報時間：○時に。</div>
+  </div>
+
+  <div class="phrase" data-cat="hotel">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">📅</div>
+      <div class="p-body">
+        <div class="p-jp">チェックアウトを延ばせますか？</div>
+        <div class="p-read">che-kku-a-u-to wo no-ba-se-ma-su-ka?</div>
+        <div class="p-zh">可以延後退房嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">視空房狀況，有時免費、有時收費。</div>
+  </div>
+
+  <div class="phrase" data-cat="hotel">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">♨️</div>
+      <div class="p-body">
+        <div class="p-jp">大浴場は何時までですか？</div>
+        <div class="p-read">dai-yo-ku-jou wa na-n-ji ma-de de-su-ka?</div>
+        <div class="p-zh">大浴場營業到幾點？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">溫泉旅館／有大浴場的飯店常用。</div>
+  </div>
+
   <div class="cat-title cat-trans" data-cat="trans">🚃 交通・搭車</div>
+
 
   <div class="phrase" data-cat="trans">
     <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
@@ -600,7 +1436,7 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">用 Suica 就不用買票。但買特急券、浪漫特快指定席時會用到。例句：新宿までの切符をください。</div>
+    <div class="p-note">用 Suica 多半不用買票。特急券、指定席會用到。</div>
   </div>
 
   <div class="phrase" data-cat="trans">
@@ -613,7 +1449,7 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">河口湖和箱根的巴士班距較長（30~60 分一班），錯過可能要等很久。出發前查好時刻表更好。</div>
+    <div class="p-note">河口湖／箱根班距較長，錯過可能等很久。</div>
   </div>
 
   <div class="phrase" data-cat="trans">
@@ -626,7 +1462,7 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">搭計程車最實用的一句。司機一看 Google 地圖導航或地址就知道怎麼走。日本計程車後門會自動開，不用自己拉門。</div>
+    <div class="p-note">日本計程車後門自動開，不用自己拉門。</div>
   </div>
 
   <div class="phrase" data-cat="trans">
@@ -639,7 +1475,7 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">上車前不確定方向時問站務員或路人。日本電車同一月台可能不同目的地，確認再上車。</div>
+    <div class="p-note">同一月台可能不同目的地，確認再上車。</div>
   </div>
 
   <div class="phrase" data-cat="trans">
@@ -652,11 +1488,615 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">大多數電車、巴士、超商都可用。但高速巴士和部分鄉間小巴可能只收現金，上車前先問。</div>
+    <div class="p-note">多數電車、巴士、超商可用；部分鄉間小巴可能只收現金。</div>
   </div>
 
-  <!-- ====== 緊急 ====== -->
+  <div class="phrase" data-cat="trans">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🔀</div>
+      <div class="p-body">
+        <div class="p-jp">乗り換えはどこですか？</div>
+        <div class="p-read">no-ri-ka-e wa do-ko de-su-ka?</div>
+        <div class="p-zh">轉車在哪裡？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">東京地鐵轉乘超常用。跟著橘色「乗換」標示走。</div>
+  </div>
+
+  <div class="phrase" data-cat="trans">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🪧</div>
+      <div class="p-body">
+        <div class="p-jp">何番線ですか？</div>
+        <div class="p-read">nan-ban-sen de-su-ka?</div>
+        <div class="p-zh">是幾號月台？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">月台＝番線（ban-sen）或ホーム（hō-mu）。</div>
+  </div>
+
+  <div class="phrase" data-cat="trans">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">⬅️</div>
+      <div class="p-body">
+        <div class="p-jp">どっち行きですか？</div>
+        <div class="p-read">do-cchi i-ki de-su-ka?</div>
+        <div class="p-zh">是往哪個方向？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">確認列車方向，避免搭反。</div>
+  </div>
+
+  <div class="phrase" data-cat="trans">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🎟️</div>
+      <div class="p-body">
+        <div class="p-jp">指定席はありますか？</div>
+        <div class="p-read">shi-tei-se-ki wa a-ri-ma-su-ka?</div>
+        <div class="p-zh">有指定席嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">浪漫特快、新幹線用。自由席＝自由席（ji-yu-u-se-ki）。</div>
+  </div>
+
+  <div class="phrase" data-cat="trans">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">💺</div>
+      <div class="p-body">
+        <div class="p-jp">窓側／通路側をお願いします</div>
+        <div class="p-read">ma-do-ga-wa / tsu-u-ro-ga-wa wo o-ne-ga-i shi-ma-su</div>
+        <div class="p-zh">靠窗／靠走道請給我</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">劃位時用。</div>
+  </div>
+
+  <div class="phrase" data-cat="trans">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">⏱️</div>
+      <div class="p-body">
+        <div class="p-jp">遅れていますか？</div>
+        <div class="p-read">o-ku-re-te i-ma-su-ka?</div>
+        <div class="p-zh">有延誤嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">看電光看板或問站務員。</div>
+  </div>
+
+  <div class="phrase" data-cat="trans">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🚏</div>
+      <div class="p-body">
+        <div class="p-jp">このバスは〜に行きますか？</div>
+        <div class="p-read">ko-no ba-su wa (place) ni i-ki-ma-su-ka?</div>
+        <div class="p-zh">這班巴士有到（某處）嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">箱根登山巴士、河口湖周遊巴士上車前確認。</div>
+  </div>
+
+  <div class="phrase" data-cat="trans">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🪙</div>
+      <div class="p-body">
+        <div class="p-jp">運賃はいくらですか？</div>
+        <div class="p-read">un-chin wa i-ku-ra de-su-ka?</div>
+        <div class="p-zh">車費多少錢？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">後門下車刷卡前可問司機。</div>
+  </div>
+
+  <div class="phrase" data-cat="trans">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🛑</div>
+      <div class="p-body">
+        <div class="p-jp">降ります</div>
+        <div class="p-read">o-ri-ma-su</div>
+        <div class="p-zh">我要下車</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">巴士要下車時按鈴後可跟司機說。也可說「次で降ります」。</div>
+  </div>
+
+  <div class="phrase" data-cat="trans">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🧳</div>
+      <div class="p-body">
+        <div class="p-jp">大きな荷物はどこに置けますか？</div>
+        <div class="p-read">oo-ki-na ni-mo-tsu wa do-ko ni o-ke-ma-su-ka?</div>
+        <div class="p-zh">大行李可以放哪裡？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">高速巴士通常有行李艙。</div>
+  </div>
+
+  <div class="phrase" data-cat="trans">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">✈️</div>
+      <div class="p-body">
+        <div class="p-jp">空港までお願いします</div>
+        <div class="p-read">ku-u-kou ma-de o-ne-ga-i shi-ma-su</div>
+        <div class="p-zh">請到機場</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">成田＝成田空港；羽田＝羽田空港。</div>
+  </div>
+
+  <div class="phrase" data-cat="trans">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🔋</div>
+      <div class="p-body">
+        <div class="p-jp">ICカードをチャージしたいです</div>
+        <div class="p-read">IC kā-do wo chā-ji shi-ta-i de-su</div>
+        <div class="p-zh">我想幫 IC 卡儲值</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">在售票機或超商都可以加值 Suica／Pasmo。</div>
+  </div>
+
+  <div class="phrase" data-cat="trans">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🧒</div>
+      <div class="p-body">
+        <div class="p-jp">子供料金はいくらですか？</div>
+        <div class="p-read">ko-do-mo ryou-kin wa i-ku-ra de-su-ka?</div>
+        <div class="p-zh">兒童票多少錢？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">通常 6–11 歲半票。</div>
+  </div>
+
+  <div class="cat-title cat-onsen" data-cat="onsen">♨️ 溫泉・澡堂（箱根／河口湖）</div>
+
+
+  <div class="phrase" data-cat="onsen">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">♨️</div>
+      <div class="p-body">
+        <div class="p-jp">温泉に入りたいです</div>
+        <div class="p-read">on-sen ni ha-i-ri-ta-i de-su</div>
+        <div class="p-zh">我想泡溫泉</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">進溫泉旅館或日歸溫泉時用。</div>
+  </div>
+
+  <div class="phrase" data-cat="onsen">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🎫</div>
+      <div class="p-body">
+        <div class="p-jp">入浴料はいくらですか？</div>
+        <div class="p-read">nyu-u-yo-ku-ryou wa i-ku-ra de-su-ka?</div>
+        <div class="p-zh">入浴費多少錢？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">日歸溫泉（日帰り温泉）常見問法。</div>
+  </div>
+
+  <div class="phrase" data-cat="onsen">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🧴</div>
+      <div class="p-body">
+        <div class="p-jp">タオルを借りられますか？</div>
+        <div class="p-read">ta-o-ru wo ka-ri-ra-re-ma-su-ka?</div>
+        <div class="p-zh">可以租毛巾嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">大毛巾＝バスタオル；小毛巾＝フェイスタオル。</div>
+  </div>
+
+  <div class="phrase" data-cat="onsen">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🩹</div>
+      <div class="p-body">
+        <div class="p-jp">タトゥーがあります</div>
+        <div class="p-read">ta-tu-u ga a-ri-ma-su</div>
+        <div class="p-zh">我有刺青</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">部分溫泉禁止刺青。可先問「タトゥーは大丈夫ですか？」。</div>
+  </div>
+
+  <div class="phrase" data-cat="onsen">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">❓</div>
+      <div class="p-body">
+        <div class="p-jp">タトゥーは大丈夫ですか？</div>
+        <div class="p-read">ta-tu-u wa da-i-jo-o-bu de-su-ka?</div>
+        <div class="p-zh">有刺青可以進去嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">箱根／河口湖部分設施可遮蓋後入場，先確認。</div>
+  </div>
+
+  <div class="phrase" data-cat="onsen">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🧼</div>
+      <div class="p-body">
+        <div class="p-jp">先に体を洗ってください</div>
+        <div class="p-read">sa-ki ni ka-ra-da wo a-ra-tte ku-da-sa-i</div>
+        <div class="p-zh">請先把身體洗乾淨</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">泡湯前必洗。這是溫泉最重要禮儀。</div>
+  </div>
+
+  <div class="phrase" data-cat="onsen">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🩱</div>
+      <div class="p-body">
+        <div class="p-jp">水着は必要ですか？</div>
+        <div class="p-read">mi-zu-gi wa hi-tsu-you de-su-ka?</div>
+        <div class="p-zh">需要泳裝嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">一般日本溫泉裸湯；混浴／溫泉主題樂園可能要泳裝。</div>
+  </div>
+
+  <div class="phrase" data-cat="onsen">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🚹</div>
+      <div class="p-body">
+        <div class="p-jp">男湯／女湯はどちらですか？</div>
+        <div class="p-read">o-to-ko-yu / on-na-yu wa do-chi-ra de-su-ka?</div>
+        <div class="p-zh">男湯／女湯在哪邊？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">看門簾顏色：紅多為女、藍多為男，仍以文字為準。</div>
+  </div>
+
+  <div class="phrase" data-cat="onsen">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🌡️</div>
+      <div class="p-body">
+        <div class="p-jp">露天風呂はありますか？</div>
+        <div class="p-read">ro-ten-bu-ro wa a-ri-ma-su-ka?</div>
+        <div class="p-zh">有露天風呂嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">箱根很多旅館有。室內湯＝内湯（uchi-yu）。</div>
+  </div>
+
+  <div class="phrase" data-cat="onsen">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">⏰</div>
+      <div class="p-body">
+        <div class="p-jp">何時まで入れますか？</div>
+        <div class="p-read">na-n-ji ma-de ha-i-re-ma-su-ka?</div>
+        <div class="p-zh">可以泡到幾點？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">確認入浴截止時間，避免錯過。</div>
+  </div>
+
+  <div class="phrase" data-cat="onsen">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🚫</div>
+      <div class="p-body">
+        <div class="p-jp">写真は撮ってもいいですか？</div>
+        <div class="p-read">sha-shin wa to-tte mo i-i de-su-ka?</div>
+        <div class="p-zh">可以拍照嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">浴場內通常禁止拍照。庭園／外觀另說。</div>
+  </div>
+
+  <div class="phrase" data-cat="onsen">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">💇</div>
+      <div class="p-body">
+        <div class="p-jp">髪を結んでもいいですか？</div>
+        <div class="p-read">ka-mi wo mu-sun-de mo i-i de-su-ka?</div>
+        <div class="p-zh">可以把頭髮綁起來嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">長髮進溫泉應綁起，避免漂在水面。</div>
+  </div>
+
+  <div class="phrase" data-cat="onsen">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🥤</div>
+      <div class="p-body">
+        <div class="p-jp">水分を取ってください</div>
+        <div class="p-read">su-i-bun wo to-tte ku-da-sa-i</div>
+        <div class="p-zh">請補充水分</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">泡完容易頭暈，記得喝水。</div>
+  </div>
+
+  <div class="phrase" data-cat="onsen">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🛏️</div>
+      <div class="p-body">
+        <div class="p-jp">浴衣を着てもいいですか？</div>
+        <div class="p-read">yu-ka-ta wo ki-te mo i-i de-su-ka?</div>
+        <div class="p-zh">可以穿浴衣嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">旅館內常可穿浴衣／甚平到餐廳或大浴場。</div>
+  </div>
+
+  <div class="cat-title cat-sight" data-cat="sight">📸 景點・體驗・便利店</div>
+
+
+  <div class="phrase" data-cat="sight">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🎫</div>
+      <div class="p-body">
+        <div class="p-jp">チケットを二枚ください</div>
+        <div class="p-read">chi-ke-tto wo ni-mai ku-da-sa-i</div>
+        <div class="p-zh">請給我兩張票</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">枚（mai）用於扁平物。一張＝一枚。</div>
+  </div>
+
+  <div class="phrase" data-cat="sight">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">📷</div>
+      <div class="p-body">
+        <div class="p-jp">写真を撮ってもいいですか？</div>
+        <div class="p-read">sha-shin wo to-tte mo i-i de-su-ka?</div>
+        <div class="p-zh">可以拍照嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">神社、美術館、展覽常有限制，先進門問。</div>
+  </div>
+
+  <div class="phrase" data-cat="sight">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🤳</div>
+      <div class="p-body">
+        <div class="p-jp">撮っていただけますか？</div>
+        <div class="p-read">to-tte i-ta-da-ke-ma-su-ka?</div>
+        <div class="p-zh">可以幫我拍一張嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">請路人幫忙拍照。遞手機時說這句。</div>
+  </div>
+
+  <div class="phrase" data-cat="sight">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">⏰</div>
+      <div class="p-body">
+        <div class="p-jp">開館時間は何時ですか？</div>
+        <div class="p-read">kai-kan ji-kan wa na-n-ji de-su-ka?</div>
+        <div class="p-zh">幾點開門？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">閉館：閉館時間（hei-kan ji-kan）。</div>
+  </div>
+
+  <div class="phrase" data-cat="sight">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🚫</div>
+      <div class="p-body">
+        <div class="p-jp">休業日はいつですか？</div>
+        <div class="p-read">kyuu-gyou-bi wa i-tsu de-su-ka?</div>
+        <div class="p-zh">公休日是哪天？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">很多博物館週一休館。</div>
+  </div>
+
+  <div class="phrase" data-cat="sight">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🔊</div>
+      <div class="p-body">
+        <div class="p-jp">音声ガイドはありますか？</div>
+        <div class="p-read">on-sei ga-i-do wa a-ri-ma-su-ka?</div>
+        <div class="p-zh">有語音導覽嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">博物館、美術館常用。</div>
+  </div>
+
+  <div class="phrase" data-cat="sight">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🗻</div>
+      <div class="p-body">
+        <div class="p-jp">富士山は見えますか？</div>
+        <div class="p-read">fu-ji-san wa mi-e-ma-su-ka?</div>
+        <div class="p-zh">看得到富士山嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">河口湖天氣不穩時常用。也可問「今日は晴れますか？」。</div>
+  </div>
+
+  <div class="phrase" data-cat="sight">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🌤️</div>
+      <div class="p-body">
+        <div class="p-jp">天気はどうですか？</div>
+        <div class="p-read">ten-ki wa dou de-su-ka?</div>
+        <div class="p-zh">天氣怎麼樣？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">規劃河口湖看山、箱根戶外活動前問。</div>
+  </div>
+
+  <div class="phrase" data-cat="sight">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🌧️</div>
+      <div class="p-body">
+        <div class="p-jp">傘を借りられますか？</div>
+        <div class="p-read">ka-sa wo ka-ri-ra-re-ma-su-ka?</div>
+        <div class="p-zh">可以借傘嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">飯店／車站常有服務傘（貸し傘）。</div>
+  </div>
+
+  <div class="phrase" data-cat="sight">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🪙</div>
+      <div class="p-body">
+        <div class="p-jp">コインロッカーはどこですか？</div>
+        <div class="p-read">ko-in ro-kka-a wa do-ko de-su-ka?</div>
+        <div class="p-zh">置物櫃在哪裡？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">車站、景點入口常見。部分可用 IC 卡。</div>
+  </div>
+
+  <div class="phrase" data-cat="sight">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🔒</div>
+      <div class="p-body">
+        <div class="p-jp">荷物を預けられますか？</div>
+        <div class="p-read">ni-mo-tsu wo a-zu-ke-ra-re-ma-su-ka?</div>
+        <div class="p-zh">可以寄放行李嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">景點或遊客中心有時提供寄物。</div>
+  </div>
+
+  <div class="phrase" data-cat="sight">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🛍️</div>
+      <div class="p-body">
+        <div class="p-jp">売店はどこですか？</div>
+        <div class="p-read">ba-i-ten wa do-ko de-su-ka?</div>
+        <div class="p-zh">賣店在哪裡？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">找伴手禮、飲料、切手時用。</div>
+  </div>
+
+  <div class="phrase" data-cat="sight">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🚭</div>
+      <div class="p-body">
+        <div class="p-jp">喫煙所はどこですか？</div>
+        <div class="p-read">ki-tsu-en-jo wa do-ko de-su-ka?</div>
+        <div class="p-zh">吸菸區在哪裡？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">日本公共場所多禁菸，需找指定吸菸所。</div>
+  </div>
+
+  <div class="phrase" data-cat="sight">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🏪</div>
+      <div class="p-body">
+        <div class="p-jp">温めますか？ → はい、お願いします</div>
+        <div class="p-read">a-ta-ta-me-ma-su-ka? → ha-i, o-ne-ga-i shi-ma-su</div>
+        <div class="p-zh">（超商）要加熱嗎？→ 好，麻煩了</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">便當、關東煮結帳經典對話。</div>
+  </div>
+
+  <div class="phrase" data-cat="sight">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🥢</div>
+      <div class="p-body">
+        <div class="p-jp">箸をください</div>
+        <div class="p-read">ha-shi wo ku-da-sa-i</div>
+        <div class="p-zh">請給我筷子</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">超商結帳後常要自己拿，不夠就跟店員說。</div>
+  </div>
+
+  <div class="phrase" data-cat="sight">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">☕</div>
+      <div class="p-body">
+        <div class="p-jp">お湯はどこですか？</div>
+        <div class="p-read">o-yu wa do-ko de-su-ka?</div>
+        <div class="p-zh">熱水在哪裡？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">超商泡杯麵用。通常在咖啡機旁。</div>
+  </div>
+
+  <div class="phrase" data-cat="sight">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🚻</div>
+      <div class="p-body">
+        <div class="p-jp">トイレは鍵が必要ですか？</div>
+        <div class="p-read">to-i-re wa ka-gi ga hi-tsu-you de-su-ka?</div>
+        <div class="p-zh">廁所需要鑰匙嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">部分店廁所要跟店員拿鑰匙。</div>
+  </div>
+
+  <div class="phrase" data-cat="sight">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">📦</div>
+      <div class="p-body">
+        <div class="p-jp">宅配便で送りたいです</div>
+        <div class="p-read">ta-ku-hai-bin de o-ku-ri-ta-i de-su</div>
+        <div class="p-zh">我想用宅配寄送</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">超商／飯店可寄行李到機場或下一間住宿。</div>
+  </div>
+
+  <div class="phrase" data-cat="sight">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">📮</div>
+      <div class="p-body">
+        <div class="p-jp">切手をください</div>
+        <div class="p-read">ki-tte wo ku-da-sa-i</div>
+        <div class="p-zh">請給我郵票</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">明信片寄回台灣：台灣＝台湾（ta-i-wan）。</div>
+  </div>
+
   <div class="cat-title cat-emerg" data-cat="emerg">🆘 緊急狀況（詳細版請參考緊急應變手冊）</div>
+
 
   <div class="phrase" data-cat="emerg">
     <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
@@ -668,7 +2108,7 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">遇到危險時大聲喊這句。詳見 emergency_guide.html 完整緊急應變資訊。</div>
+    <div class="p-note">遇到危險時大聲喊。詳見 emergency_guide.html。</div>
   </div>
 
   <div class="phrase" data-cat="emerg">
@@ -681,7 +2121,7 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">日本報警電話：110。英文可能不通，直接說關鍵字「POLICE」也行。</div>
+    <div class="p-note">報警電話：110。也可喊「POLICE」。</div>
   </div>
 
   <div class="phrase" data-cat="emerg">
@@ -694,7 +2134,7 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">日本救護車電話：119。免費！不要因為怕花錢而不叫。</div>
+    <div class="p-note">電話：119。免費！不要怕花錢而不叫。</div>
   </div>
 
   <div class="phrase" data-cat="emerg">
@@ -707,7 +2147,189 @@
       </div>
       <div class="p-expand">▼</div>
     </div>
-    <div class="p-note">日本觀光區常有會中文的店員。河口湖和箱根因為台灣遊客多，中文服務員不罕見。</div>
+    <div class="p-note">觀光區常有會中文的店員。</div>
+  </div>
+
+  <div class="phrase" data-cat="emerg">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🛂</div>
+      <div class="p-body">
+        <div class="p-jp">パスポートをなくしました</div>
+        <div class="p-read">pa-su-pō-to wo na-ku-shi-ma-shi-ta</div>
+        <div class="p-zh">我的護照弄丟了</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">立刻報警開遺失證明，再聯絡駐日代表處。</div>
+  </div>
+
+  <div class="phrase" data-cat="emerg">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">💳</div>
+      <div class="p-body">
+        <div class="p-jp">財布を盗まれました</div>
+        <div class="p-read">sa-i-fu wo nu-su-ma-re-ma-shi-ta</div>
+        <div class="p-zh">我的錢包被偷了</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">報警＋凍結信用卡。也可說「財布をなくしました」（弄丟錢包）。</div>
+  </div>
+
+  <div class="phrase" data-cat="emerg">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🤒</div>
+      <div class="p-body">
+        <div class="p-jp">具合が悪いです</div>
+        <div class="p-read">gu-ai ga wa-ru-i de-su</div>
+        <div class="p-zh">我不舒服</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">接著說明症狀：熱がある（發燒）、痛い（痛）。</div>
+  </div>
+
+  <div class="phrase" data-cat="emerg">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🤕</div>
+      <div class="p-body">
+        <div class="p-jp">ここが痛いです</div>
+        <div class="p-read">ko-ko ga i-ta-i de-su</div>
+        <div class="p-zh">這裡很痛</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">手指痛的地方。頭＝頭、お腹＝肚子、歯＝牙齒。</div>
+  </div>
+
+  <div class="phrase" data-cat="emerg">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🌡️</div>
+      <div class="p-body">
+        <div class="p-jp">熱があります</div>
+        <div class="p-read">ne-tsu ga a-ri-ma-su</div>
+        <div class="p-zh">我發燒了</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">可量體溫給對方看。</div>
+  </div>
+
+  <div class="phrase" data-cat="emerg">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">💊</div>
+      <div class="p-body">
+        <div class="p-jp">薬局はどこですか？</div>
+        <div class="p-read">ya-kkyo-ku wa do-ko de-su-ka?</div>
+        <div class="p-zh">藥局在哪裡？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">藥妝店＝ドラッグストア；處方藥局＝薬局。</div>
+  </div>
+
+  <div class="phrase" data-cat="emerg">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🏥</div>
+      <div class="p-body">
+        <div class="p-jp">病院に行きたいです</div>
+        <div class="p-read">byou-in ni i-ki-ta-i de-su</div>
+        <div class="p-zh">我想去醫院</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">請飯店幫忙叫車或翻譯。</div>
+  </div>
+
+  <div class="phrase" data-cat="emerg">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🩹</div>
+      <div class="p-body">
+        <div class="p-jp">風邪薬をください</div>
+        <div class="p-read">ka-ze-gu-su-ri wo ku-da-sa-i</div>
+        <div class="p-zh">請給我感冒藥</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">止痛：痛み止め；腸胃：胃薬；创可贴＝OK繃。</div>
+  </div>
+
+  <div class="phrase" data-cat="emerg">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🤧</div>
+      <div class="p-body">
+        <div class="p-jp">マスクをください</div>
+        <div class="p-read">ma-su-ku wo ku-da-sa-i</div>
+        <div class="p-zh">請給我口罩</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">超商、藥妝都有賣。</div>
+  </div>
+
+  <div class="phrase" data-cat="emerg">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">📱</div>
+      <div class="p-body">
+        <div class="p-jp">スマホが壊れました</div>
+        <div class="p-read">su-ma-ho ga ko-wa-re-ma-shi-ta</div>
+        <div class="p-zh">手機壞了</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">找通訊行或請飯店協助。可先用紙筆溝通。</div>
+  </div>
+
+  <div class="phrase" data-cat="emerg">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🔋</div>
+      <div class="p-body">
+        <div class="p-jp">充電できますか？</div>
+        <div class="p-read">ju-u-den de-ki-ma-su-ka?</div>
+        <div class="p-zh">可以充電嗎？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">咖啡館、車站有時有充電座位。</div>
+  </div>
+
+  <div class="phrase" data-cat="emerg">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🌋</div>
+      <div class="p-body">
+        <div class="p-jp">地震です！</div>
+        <div class="p-read">ji-shin de-su!</div>
+        <div class="p-zh">地震了！</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">躲到堅固桌子下，遠離窗戶。詳見緊急手冊。</div>
+  </div>
+
+  <div class="phrase" data-cat="emerg">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">📞</div>
+      <div class="p-body">
+        <div class="p-jp">大使館に電話したいです</div>
+        <div class="p-read">tai-shi-kan ni den-wa shi-ta-i de-su</div>
+        <div class="p-zh">我想打電話給大使館</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">台灣：台北駐日經濟文化代表處。請飯店協助撥打。</div>
+  </div>
+
+  <div class="phrase" data-cat="emerg">
+    <div class="p-main" onclick="this.parentElement.classList.toggle('open')">
+      <div class="p-icon">🗺️</div>
+      <div class="p-body">
+        <div class="p-jp">交番はどこですか？</div>
+        <div class="p-read">kou-ban wa do-ko de-su-ka?</div>
+        <div class="p-zh">派出所在哪裡？</div>
+      </div>
+      <div class="p-expand">▼</div>
+    </div>
+    <div class="p-note">日本交番很常見，可報案、問路、暫存遺失物。</div>
   </div>
 
 </main>
