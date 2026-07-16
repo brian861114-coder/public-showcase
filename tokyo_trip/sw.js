@@ -1,5 +1,5 @@
 /* 部署後請把 CACHE 版本號 +1，舊快取才會被清掉 */
-const CACHE = 'tokyo-trip-gh-v16';
+const CACHE = 'tokyo-trip-gh-v17';
 const ASSETS = [
   './',
   './index.html',
