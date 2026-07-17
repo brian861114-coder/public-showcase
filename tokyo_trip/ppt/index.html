@@ -7,182 +7,285 @@
 <link rel="stylesheet" href="assets/base.css">
 <link rel="stylesheet" id="theme-link" href="assets/themes/japanese-minimal.css">
 <link rel="stylesheet" href="assets/animations/animations.css">
+<style>
+/* ── cover hero ── */
+.hero{position:relative;height:calc(100vh - 180px);overflow:hidden}
+.hero .bg{position:absolute;inset:0;background:
+  radial-gradient(80% 60% at 20% 30%,#c9a96122,transparent 60%),
+  radial-gradient(60% 50% at 80% 70%,#d93a2a18,transparent 60%),
+  linear-gradient(165deg,#f2f0e6,#fafaf5)}
+.hero .bg.kb{animation:kf-kenburns 14s ease-in-out infinite alternate}
+.hero .overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(240,238,225,.92))}
+.hero .caption{position:absolute;bottom:64px;left:64px;right:64px;z-index:2}
+.hero h1{font-family:var(--font-serif);font-size:clamp(48px,6vw,88px);line-height:1.05;font-weight:600;letter-spacing:.02em;margin:0}
+.hero .sub{font-size:18px;opacity:.7;margin:12px 0 0;max-width:60ch;line-height:1.6}
+
+/* ── process steps ── */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:28px}
+.step{position:relative;padding:28px 24px 22px;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface)}
+.step .num{position:absolute;top:-22px;left:20px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;font-family:var(--font-sans)}
+.step h4{margin:14px 0 6px;font-size:16px;font-weight:700}
+.step p{font-size:13px;color:var(--text-2);line-height:1.6}
+
+/* ── table timeline ── */
+.tl-table{width:100%;border-collapse:collapse;font-size:14px}
+.tl-table td{padding:10px 14px;border-bottom:1px solid var(--border)}
+.tl-table td:first-child{font-weight:700;white-space:nowrap;color:var(--text-1);width:80px}
+.tl-table tr.hl td{background:var(--grad-soft);font-weight:700;color:var(--accent)}
+.tl-table tr:last-child td{border-bottom:none}
+
+/* ── hotel cards ── */
+.hotel-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:24px}
+.hotel-card{padding:24px 28px;border:1px solid var(--border);background:var(--surface)}
+.hotel-card h4{font-size:15px;margin:0 0 4px}
+.hotel-card .h-date{font-size:11px;color:var(--accent);letter-spacing:.15em;margin-bottom:8px;text-transform:uppercase}
+.hotel-card p{font-size:13px;color:var(--text-2);line-height:1.7;margin:0}
+
+/* ── checklist ── */
+.chk-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:20px}
+.chk-item{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);font-size:14px}
+.chk-item .icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.chk-item.done{opacity:.55}
+.chk-item p{margin:0;line-height:1.5}
+
+/* ── closing ── */
+.closing{text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh}
+.closing h1{font-family:var(--font-serif);font-size:clamp(36px,5vw,72px);margin-bottom:24px}
+.closing .divider{width:60px;height:2px;background:var(--accent);margin:0 auto 24px}
+
+/* ── row helper ── */
+.row-wrap{display:flex;flex-wrap:wrap;gap:8px}
+</style>
 </head>
-<body data-themes="japanese-minimal,minimal-white,editorial-serif" data-theme-base="assets/themes/">
+<body data-themes="japanese-minimal,minimal-white,editorial-serif,catppuccin-latte,soft-pastel" data-theme-base="assets/themes/">
 <div class="deck">
 
-  <!-- 1. Cover -->
-  <section class="slide center tc" data-title="封面">
+<!-- ═══════════ 1. COVER ═══════════ -->
+<section class="slide is-active" data-title="封面" style="padding:56px">
+  <div class="hero">
+    <div class="bg kb"></div>
+    <div class="overlay"></div>
+    <div class="caption">
+      <p class="kicker anim-fade-in" data-anim="fade-in" style="font-size:13px;letter-spacing:.25em;margin-bottom:8px">2026 · 家族旅行</p>
+      <h1 class="anim-rise-in" data-anim="rise-in">東京・河口湖<br>箱根</h1>
+      <p class="sub" style="margin-top:16px">7 月 19 日（日） → 7 月 25 日（六） <span style="margin:0 10px;color:var(--accent)">·</span> 4 人</p>
+      <div class="row-wrap" style="margin-top:24px">
+        <span class="pill pill-accent">✈️ 虎航</span>
+        <span class="pill">🏔️ 河口湖 3 晚</span>
+        <span class="pill">♨️ 箱根 1 晚</span>
+        <span class="pill">🗼 東京 2 晚</span>
+      </div>
+    </div>
+  </div>
+  <div class="deck-footer"><span class="dim2">家族旅行計畫書</span><span class="slide-number" data-current="1" data-total="10"></span></div>
+  <div class="notes">大家好！這是我們 2026 年夏天的東京家族旅行計畫，7 天 6 晚，我們 4 個人一起去。</div>
+</section>
+
+<!-- ═══════════ 2. OVERVIEW ═══════════ -->
+<section class="slide" data-title="行程總覽">
+  <p class="kicker">7 日行程總覽</p>
+  <h2 class="h2">四段旅程</h2>
+  <p class="lede">從羽田落地到成田起飛，跨越富士山麓、箱根溫泉、東京都會。</p>
+  <div class="steps anim-stagger-list" data-anim-target>
+    <div class="step"><div class="num">1</div><h4>✈️ 出發</h4><p>7/19 凌晨虎航紅眼航班<br>桃園 → 羽田 T3</p></div>
+    <div class="step"><div class="num">2</div><h4>🏔️ 河口湖</h4><p>7/19-7/22 · 3 晚<br>DOT HOSTEL + 富士晴</p></div>
+    <div class="step"><div class="num">3</div><h4>♨️ 箱根</h4><p>7/22-7/23 · 1 晚<br>UENOYAMA 仙石原</p></div>
+    <div class="step"><div class="num">4</div><h4>🗼 東京</h4><p>7/23-7/25 · 2 晚<br>東京巨蛋飯店</p></div>
+  </div>
+  <div class="deck-footer"><span class="slide-number" data-current="2" data-total="10"></span></div>
+</section>
+
+<!-- ═══════════ 3. DAY 1 ═══════════ -->
+<section class="slide" data-title="Day 1 出發">
+  <p class="kicker">7/19 週日 · Day 1</p>
+  <h2 class="h2">羽田 → KKDay 一日遊 → 河口湖</h2>
+  <div class="grid g2 mt-l">
     <div>
-      <p class="kicker anim-fade-in" data-anim="fade-in">2026 · 夏日家族旅行</p>
-      <h1 class="h1 anim-fade-up" data-anim="fade-up">東京・河口湖・箱根</h1>
-      <p class="lede" style="margin:12px auto 0">7 月 19 日（日）→ 7 月 25 日（六） · 4 人同行</p>
-      <p class="dim" style="margin-top:48px;font-size:14px">虎航 · 羽田進 成田出 · 6 晚住宿</p>
-      <div class="deck-footer"><span class="dim2">家族旅行計畫書</span><span class="slide-number" data-current="1" data-total="8"></span></div>
+      <table class="tl-table">
+        <tr><td>00:10</td><td>虎航起飛（桃園 T1）</td></tr>
+        <tr><td>04:25</td><td>落地羽田 T3 · 入境</td></tr>
+        <tr><td>06:00</td><td>機場巴士 → 新宿</td></tr>
+        <tr class="hl"><td>08:15</td><td>KKDay 團出發！</td></tr>
+        <tr><td>10:30</td><td>箱根神社 · 湖上鳥居</td></tr>
+        <tr><td>11:30</td><td>海賊船（蘆之湖 · 30 分）</td></tr>
+        <tr><td>12:00</td><td>空中纜車 → 大湧谷</td></tr>
+        <tr><td>13:20</td><td>午餐（炸雞定食）</td></tr>
+        <tr><td>14:10</td><td>山中湖白鳥濱</td></tr>
+        <tr class="hl"><td>15:40</td><td>忍野八海 · 離團！</td></tr>
+        <tr><td>16:30</td><td>DOT HOSTEL 入住</td></tr>
+      </table>
     </div>
-  </section>
-
-  <!-- 2. 行程總覽 -->
-  <section class="slide" data-title="行程總覽">
-    <p class="kicker">7 日行程總覽</p>
-    <h2 class="h2">我們要去哪裡？</h2>
-    <div class="grid g3 mt-l anim-stagger-list" data-anim-target>
-      <div class="card"><h4>🏔️ 河口湖 3 晚</h4><p class="dim">7/19-7/22<br>DOT HOSTEL → 富士晴</p></div>
-      <div class="card"><h4>♨️ 箱根 1 晚</h4><p class="dim">7/22-7/23<br>UENOYAMA 仙石原</p></div>
-      <div class="card"><h4>🗼 東京 2 晚</h4><p class="dim">7/23-7/25<br>東京巨蛋飯店</p></div>
-    </div>
-    <div class="mt-l" style="display:flex;gap:8px;flex-wrap:wrap">
-      <span class="tag">✈️ 虎航紅眼航班</span>
-      <span class="tag">🚌 KKDay 一日遊</span>
-      <span class="tag">⛩️ 箱根神社</span>
-      <span class="tag">🚡 空中纜車</span>
-      <span class="tag">🚢 海賊船</span>
-      <span class="tag">♨️ 大湧谷</span>
-      <span class="tag">🏞️ 忍野八海</span>
-    </div>
-  </section>
-
-  <!-- 3. Day 1 -->
-  <section class="slide" data-title="Day 1">
-    <p class="kicker">7/19 週日 · Day 1</p>
-    <h2 class="h2">羽田 → 富士箱根一日遊 → 河口湖</h2>
-    <div class="grid g2 mt-l">
-      <div>
-        <table style="width:100%;border-collapse:collapse">
-          <tr><td style="padding:8px 12px;border-bottom:1px solid var(--border);font-weight:600;white-space:nowrap">00:10</td><td style="padding:8px 0;border-bottom:1px solid var(--border)">虎航起飛（桃園 T1）</td></tr>
-          <tr><td style="padding:8px 12px;border-bottom:1px solid var(--border);font-weight:600">04:25</td><td style="padding:8px 0;border-bottom:1px solid var(--border)">落地羽田 T3</td></tr>
-          <tr><td style="padding:8px 12px;border-bottom:1px solid var(--border);font-weight:600">06:00</td><td style="padding:8px 0;border-bottom:1px solid var(--border)">機場巴士 → 新宿</td></tr>
-          <tr class="accent-row"><td style="padding:8px 12px;font-weight:700;color:var(--accent)">08:15</td><td style="padding:8px 0;font-weight:700;color:var(--accent)">KKDay 團出發！</td></tr>
-          <tr><td style="padding:8px 12px;border-bottom:1px solid var(--border);font-weight:600">10:30</td><td style="padding:8px 0;border-bottom:1px solid var(--border)">箱根神社 · 湖上鳥居</td></tr>
-          <tr><td style="padding:8px 12px;border-bottom:1px solid var(--border);font-weight:600">11:30</td><td style="padding:8px 0;border-bottom:1px solid var(--border)">海賊船（蘆之湖）</td></tr>
-          <tr><td style="padding:8px 12px;border-bottom:1px solid var(--border);font-weight:600">12:00</td><td style="padding:8px 0;border-bottom:1px solid var(--border)">空中纜車 → 大湧谷</td></tr>
-          <tr class="accent-row"><td style="padding:8px 12px;font-weight:700;color:var(--accent)">15:40</td><td style="padding:8px 0;font-weight:700;color:var(--accent)">忍野八海 離團！</td></tr>
-          <tr><td style="padding:8px 12px;font-weight:600">16:30</td><td style="padding:8px 0">DOT HOSTEL 入住</td></tr>
-        </table>
+    <div>
+      <div class="card" style="border-left:3px solid var(--accent)">
+        <h4>⚠️ 本日重點</h4>
+        <p class="dim" style="font-size:13px;line-height:2">
+        • 行李放遊覽車，貴重物隨身<br>
+        • 提前跟導遊說「忍野八海で降ります」<br>
+        • 忍野八海 → 住宿：GO app 叫計程車<br>
+        • 約 20 分 · ¥3,000~4,000<br>
+        • 紅眼航班 → 車上補眠！
+        </p>
       </div>
-      <div>
-        <div class="card">
-          <h4>⚠️ 注意事項</h4>
-          <p class="dim" style="font-size:14px;line-height:1.8">
-          • 行李放遊覽車，貴重物隨身<br>
-          • 提前跟導遊說「忍野八海で降ります」<br>
-          • 忍野八海→住宿：GO app 叫計程車<br>
-          • 車程約 20 分 · ¥3,000~4,000<br>
-          • 紅眼航班 · 車上補眠！
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 4. Day 2-3 -->
-  <section class="slide" data-title="Day 2-3">
-    <p class="kicker">7/20-21 · Day 2-3</p>
-    <h2 class="h2">河口湖時光</h2>
-    <div class="grid g2 mt-l">
-      <div class="card">
-        <h4>📅 Day 2（週一）換宿日</h4>
-        <p class="dim">DOT HOSTEL 退房 → 富士晴 12:00 先放行李 → 紅線巴士玩河口湖（纜車、遊覽船、大石公園）</p>
-      </div>
-      <div class="card">
-        <h4>📅 Day 3（週二）自由行</h4>
-        <p class="dim">新倉山淺間公園 → 天梯小鎮 → 日川時計店 → 河口湖遊覽船 → 大石公園（跳過五合目，搭巴士+步行）</p>
-      </div>
-    </div>
-    <p class="dim mt-m" style="font-size:13px">🏠 富士晴 Guest House：獨棟 Villa · 4 間臥室 · 全配廚房</p>
-  </section>
-
-  <!-- 5. Day 4 -->
-  <section class="slide" data-title="Day 4">
-    <p class="kicker">7/22 週三 · Day 4</p>
-    <h2 class="h2">河口湖 → 箱根仙石原</h2>
-    <div class="grid g2 mt-l">
-      <div>
-        <table style="width:100%;border-collapse:collapse">
-          <tr><td style="padding:8px 12px;font-weight:600">10:00</td><td style="padding:8px 0">富士晴退房</td></tr>
-          <tr><td style="padding:8px 12px;font-weight:600">10:30</td><td style="padding:8px 0">巴士 → 御殿場站（1.5h）</td></tr>
-          <tr><td style="padding:8px 12px;font-weight:600">12:30</td><td style="padding:8px 0">轉車 → 仙石原（30分）</td></tr>
-          <tr><td style="padding:8px 12px;font-weight:600">13:00</td><td style="padding:8px 0">UENOYAMA 入住</td></tr>
-          <tr><td style="padding:8px 12px;font-weight:600">下午</td><td style="padding:8px 0">拉利克博物館、玻璃博物館</td></tr>
-        </table>
-      </div>
-      <div class="card">
-        <h4>🏠 UENOYAMA Room 102</h4>
-        <p class="dim" style="font-size:14px">
-        仙石原 · 獨棟房屋<br>
-        無接觸入住（等房東發密碼）<br>
-        周邊：LAWSON 340m<br>
-        評分 9.6！
+      <div class="card mt-m" style="background:var(--grad-soft);border:none">
+        <h4>🏠 DOT HOSTEL & BAR</h4>
+        <p class="dim" style="font-size:12px;line-height:1.6">
+        大石公園旁 170m · 15:00 入住 · 最晚 21:00<br>
+        評分 8.9 · 單車租賃 · 公共廚房
         </p>
       </div>
     </div>
-  </section>
+  </div>
+  <div class="deck-footer"><span class="slide-number" data-current="3" data-total="10"></span></div>
+</section>
 
-  <!-- 6. Day 5 -->
-  <section class="slide" data-title="Day 5">
-    <p class="kicker">7/23 週四 · Day 5</p>
-    <h2 class="h2">仙石原美術館 → 東京</h2>
-    <div class="grid g3 mt-l">
-      <div class="card"><h4>🎨 上午</h4><p class="dim">拉利克博物館（100m）<br>威尼斯玻璃博物館<br>波拉美術館</p></div>
-      <div class="card"><h4>🚃 下午</h4><p class="dim">巴士到箱根湯本<br>普通小田急急行<br>¥1,260 · 100 分<br>→ 新宿 → 水道橋</p></div>
-      <div class="card"><h4>🏨 入住</h4><p class="dim">東京巨蛋飯店<br>雙床房 ×2<br>14:00 起可入住</p></div>
+<!-- ═══════════ 4. DAY 2-3 ═══════════ -->
+<section class="slide" data-title="河口湖">
+  <p class="kicker">7/20-21 · Day 2-3</p>
+  <h2 class="h2">河口湖時光</h2>
+  <div class="grid g2 mt-l">
+    <div class="card">
+      <h4>📅 Day 2（週一）換宿</h4>
+      <p class="dim">10:00 DOT HOSTEL 退房<br>12:00 富士晴先放行李<br>下午：紅線巴士遊湖<br>→ 富士全景纜車<br>→ 河口湖遊覽船 天晴號<br>→ 大石公園（住處隔壁）<br><br>15:00 富士晴 Guest House 入住</p>
     </div>
-    <p class="dim mt-m" style="font-size:13px">💡 箱根經典路線已在 Day 1 跟團完成，今天輕鬆逛美術館</p>
-  </section>
+    <div class="card">
+      <h4>📅 Day 3（週二）自由行</h4>
+      <p class="dim">全天自由安排，建議路線：<br><br>→ 新倉山淺間公園<br>→ 天梯小鎮（日川時計店）<br>→ 富士吉田本町通<br>→ 河口湖遊覽船<br>→ 大石公園<br><br>搭紅線巴士 + 富士急行線<br>跳過五合目（交通不便）</p>
+    </div>
+  </div>
+  <p class="dim mt-m" style="font-size:12px">🏠 富士晴 Guest House：獨棟 Villa · 4 間臥室 · 全配廚房 · 評分 9.3</p>
+  <div class="deck-footer"><span class="slide-number" data-current="4" data-total="10"></span></div>
+</section>
 
-  <!-- 7. Day 6-7 -->
-  <section class="slide" data-title="Day 6-7">
-    <p class="kicker">7/24-25 · Day 6-7</p>
-    <h2 class="h2">東京自由日 & 回家</h2>
-    <div class="grid g2 mt-l">
-      <div class="card">
-        <h4>📅 Day 6（週五）東京</h4>
-        <p class="dim">購物、景點，到了再決定<br>帶護照辦退稅（滿 ¥5,500）<br>⚠️ 今天或明早買 Skyliner 票</p>
+<!-- ═══════════ 5. DAY 4 ═══════════ -->
+<section class="slide" data-title="Day 4 河口湖→箱根">
+  <p class="kicker">7/22 週三 · Day 4</p>
+  <h2 class="h2">河口湖 → 箱根仙石原</h2>
+  <div class="grid g2 mt-l">
+    <div>
+      <table class="tl-table">
+        <tr><td>10:00</td><td>富士晴退房</td></tr>
+        <tr><td>10:30</td><td>巴士 → 御殿場站（1.5h）</td></tr>
+        <tr><td>12:00</td><td>轉車 → 仙石原（30 分）</td></tr>
+        <tr class="hl"><td>13:00</td><td>UENOYAMA 入住</td></tr>
+        <tr><td>下午</td><td>拉利克博物館（100m）<br>威尼斯玻璃博物館（880m）<br>LAWSON 補給（340m）</td></tr>
+      </table>
+    </div>
+    <div>
+      <div class="card" style="background:var(--grad-soft);border:none">
+        <h4>🏠 UENOYAMA Room 102</h4>
+        <p class="dim" style="font-size:13px;line-height:1.8">
+        仙石原 · 獨棟房屋 · 無接觸入住<br>
+        2 張單人床 + 1 張沙發床<br>
+        全配廚房 · 免費 WiFi<br>
+        評分 <strong>9.6</strong>（405 則評論）<br>
+        ⚠️ 等房東發入住密碼
+        </p>
       </div>
-      <div class="card">
-        <h4>✈️ Day 7（週六）回程</h4>
-        <p class="dim">11:00 退房<br>水道橋 → 日暮里（15分）<br>Skyliner → 成田 T2（36分）<br>13:30 虎航起飛<br>16:25 到桃園 · 開車回台中</p>
-      </div>
+      <p class="dim mt-m" style="font-size:12px">💡 箱根景點（神社、纜車、大湧谷）Day 1 跟團已完成，今天純休息</p>
     </div>
-  </section>
+  </div>
+  <div class="deck-footer"><span class="slide-number" data-current="5" data-total="10"></span></div>
+</section>
 
-  <!-- 8. 重要提醒 -->
-  <section class="slide" data-title="重要提醒">
-    <p class="kicker">出發前最後確認</p>
-    <h2 class="h2">重要提醒</h2>
-    <div class="grid g2 mt-l anim-stagger-list" data-anim-target>
-      <div class="card"><h4>✅ 已完成</h4><p class="dim" style="font-size:14px;line-height:2">護照 · 機票 · 訂房<br>VJW · 保險 · SIM卡<br>15萬円 · Suica · 離線地圖</p></div>
-      <div class="card"><h4>⚠️ 待辦</h4><p class="dim" style="font-size:14px;line-height:2">7/17 虎航線上報到<br>等 UENOYAMA 密碼<br>7/24 買 Skyliner 票<br>自備水+零食上機</p></div>
+<!-- ═══════════ 6. DAY 5-7 ═══════════ -->
+<section class="slide" data-title="Day 5-7 箱根→東京">
+  <p class="kicker">7/23-25 · Day 5-7</p>
+  <h2 class="h2">美術館 → 東京 → 回家</h2>
+  <div class="grid g3 mt-l">
+    <div class="card">
+      <h4>📅 Day 5（週四）</h4>
+      <p class="dim" style="font-size:13px;line-height:1.7">
+      <strong>上午</strong><br>仙石原美術館散步<br>（拉利克 · 玻璃 · 波拉）<br><br>
+      <strong>下午</strong><br>巴士 → 箱根湯本<br>普通電車 ¥1,260 → 新宿<br>→ 東京巨蛋飯店
+      </p>
     </div>
-  </section>
+    <div class="card">
+      <h4>📅 Day 6（週五）</h4>
+      <p class="dim" style="font-size:13px;line-height:1.7">
+      東京自由安排<br>
+      購物 · 景點 · 美食<br>
+      帶護照辦退稅<br>
+      ⚠️ 今天買 Skyliner 票
+      </p>
+    </div>
+    <div class="card">
+      <h4>✈️ Day 7（週六）</h4>
+      <p class="dim" style="font-size:13px;line-height:1.7">
+      11:00 退房<br>
+      水道橋 → 日暮里（15 分）<br>
+      Skyliner → 成田 T2（36 分）<br>
+      13:30 虎航起飛<br>
+      16:25 桃園 · 開車回台中
+      </p>
+    </div>
+  </div>
+  <div class="deck-footer"><span class="slide-number" data-current="6" data-total="10"></span></div>
+</section>
+
+<!-- ═══════════ 7. HOTELS ═══════════ -->
+<section class="slide" data-title="住宿一覽">
+  <p class="kicker">住宿</p>
+  <h2 class="h2">四間住宿一覽</h2>
+  <div class="hotel-grid anim-stagger-list" data-anim-target>
+    <div class="hotel-card"><div class="h-date">7/19 · 1 晚</div><h4>🏠 DOT HOSTEL & BAR</h4><p>河口湖大石 · 評分 8.9<br>大石公園 170m · 15:00-21:00</p></div>
+    <div class="hotel-card"><div class="h-date">7/20-21 · 2 晚</div><h4>🏡 富士晴 Guest House</h4><p>河口湖船津 · 評分 9.3<br>獨棟 Villa · 4 臥室 · 全配廚房</p></div>
+    <div class="hotel-card"><div class="h-date">7/22 · 1 晚</div><h4>🏘️ UENOYAMA Room 102</h4><p>箱根仙石原 · 評分 9.6<br>獨棟 · 無接觸入住 · LAWSON 340m</p></div>
+    <div class="hotel-card"><div class="h-date">7/23-24 · 2 晚</div><h4>🏨 東京巨蛋飯店</h4><p>文京區後樂 · 雙床房 ×2<br>水道橋站步行 5 分 · 14:00-11:00</p></div>
+  </div>
+  <div class="deck-footer"><span class="slide-number" data-current="7" data-total="10"></span></div>
+</section>
+
+<!-- ═══════════ 8. PACKING ═══════════ -->
+<section class="slide" data-title="行前準備">
+  <p class="kicker">行前準備</p>
+  <h2 class="h2">出發前確認事項</h2>
+  <div class="chk-grid">
+    <div class="chk-item done"><span class="icon">✅</span><div><strong>護照 · 機票 · 訂房</strong><p class="dim" style="margin:0;font-size:12px">4 人護照效期 OK · 虎航確認 · 4 間住宿已訂</p></div></div>
+    <div class="chk-item done"><span class="icon">✅</span><div><strong>Visit Japan Web</strong><p class="dim" style="margin:0;font-size:12px">4 人已填 · QR code 存手機</p></div></div>
+    <div class="chk-item done"><span class="icon">✅</span><div><strong>日圓現金 15 萬</strong><p class="dim" style="margin:0;font-size:12px">4 人共用 · 河口湖箱根多小店只收現金</p></div></div>
+    <div class="chk-item done"><span class="icon">✅</span><div><strong>SIM 卡 · 保險</strong><p class="dim" style="margin:0;font-size:12px">4 人各自有 SIM · 旅遊保險已保</p></div></div>
+    <div class="chk-item done"><span class="icon">✅</span><div><strong>Suica · 離線地圖</strong><p class="dim" style="margin:0;font-size:12px">卡 ×2 + iPhone ×1 + 東京再買 1 張</p></div></div>
+    <div class="chk-item done"><span class="icon">✅</span><div><strong>行動電源合規</strong><p class="dim" style="margin:0;font-size:12px">虎航：100Wh↓ · 隨身 · 禁機上充電</p></div></div>
+    <div class="chk-item"><span class="icon">🔲</span><div><strong>虎航線上報到</strong><p class="dim" style="margin:0;font-size:12px">7/17 起開放 · 一次報到 4 人</p></div></div>
+    <div class="chk-item"><span class="icon">🔲</span><div><strong>自備水+零食上機</strong><p class="dim" style="margin:0;font-size:12px">紅眼航班不供餐 · 3 小時飛行</p></div></div>
+    <div class="chk-item"><span class="icon">⚠️</span><div><strong>等 UENOYAMA 密碼</strong><p class="dim" style="margin:0;font-size:12px">出發前確認收到入住指示</p></div></div>
+    <div class="chk-item"><span class="icon">⚠️</span><div><strong>買 Skyliner 回程票</strong><p class="dim" style="margin:0;font-size:12px">7/24 或 7/25 早上 · 京成官網</p></div></div>
+  </div>
+  <div class="deck-footer"><span class="slide-number" data-current="8" data-total="10"></span></div>
+</section>
+
+<!-- ═══════════ 9. TIPS ═══════════ -->
+<section class="slide" data-title="旅途提醒">
+  <p class="kicker">旅途提醒</p>
+  <h2 class="h2">記住這幾件事</h2>
+  <div class="grid g2 mt-l anim-stagger-list" data-anim-target>
+    <div class="card card-accent"><h4>🚕 河口湖叫車</h4><p class="dim">站前計程車不多，安裝 <strong>GO app</strong> 備用。4 人分攤不貴。</p></div>
+    <div class="card card-accent"><h4>💴 現金優先區</h4><p class="dim">河口湖、箱根小店多只收現金。15 萬円省著用，東京可刷卡。</p></div>
+    <div class="card card-accent"><h4>🌧️ 天氣備案</h4><p class="dim">7 月午後雷陣雨常見。空中纜車遇強風會停駛，改搭登山巴士。</p></div>
+    <div class="card card-accent"><h4>🆘 緊急聯絡</h4><p class="dim">警察 110 · 救護 119<br>台灣代表處 03-3280-7811<br>急難救助 24H 080-6557-8795</p></div>
+  </div>
+  <div class="deck-footer"><span class="slide-number" data-current="9" data-total="10"></span></div>
+</section>
+
+<!-- ═══════════ 10. CLOSING ═══════════ -->
+<section class="slide" data-title="結語" style="display:flex;align-items:center;justify-content:center">
+  <div class="closing">
+    <p class="kicker" style="letter-spacing:.25em;margin-bottom:12px">Tokyo · Kawaguchiko · Hakone</p>
+    <h1 class="anim-rise-in" data-anim="rise-in">祝旅途愉快</h1>
+    <div class="divider"></div>
+    <p class="lede" style="font-size:18px">7 月 19 日 → 7 月 25 日</p>
+    <div class="row-wrap" style="margin-top:32px;justify-content:center">
+      <span class="pill">🏔️ 河口湖</span>
+      <span class="pill">♨️ 箱根</span>
+      <span class="pill">🗼 東京</span>
+    </div>
+    <p class="dim mt-l" style="font-size:13px">虎航 00:10 桃園 T1 · 別忘了帶護照！</p>
+  </div>
+  <div class="deck-footer"><span class="slide-number" data-current="10" data-total="10"></span></div>
+  <div class="notes">最後提醒：7/18 晚上開車到桃園機場，卡友免費停車。祝我們旅途愉快！</div>
+</section>
 
 </div>
-<script>
-// Minimal runtime for navigation
-(function(){
-  const slides = document.querySelectorAll('.slide');
-  let idx = 0;
-  function show(n) {
-    slides.forEach((s,i) => s.classList.toggle('is-active', i===n));
-    document.querySelectorAll('.slide-number').forEach(el => {
-    el.textContent = (n+1) + ' / ' + el.dataset.total;
-  });
-  }
-  document.addEventListener('keydown', e => {
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
-      e.preventDefault(); idx = Math.min(idx+1, slides.length-1); show(idx);
-    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-      e.preventDefault(); idx = Math.max(idx-1, 0); show(idx);
-    } else if (e.key === 'Home') { e.preventDefault(); idx = 0; show(idx); }
-    else if (e.key === 'End') { e.preventDefault(); idx = slides.length-1; show(idx); }
-    else if (e.key === 'f') { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); }
-  });
-  show(0);
-})();
-</script>
-<style>
-.tag{display:inline-block;padding:4px 12px;border:1px solid var(--border);font-size:12px;border-radius:99px;color:var(--text-2)}
-.accent-row td{background:var(--grad-soft)}
-</style>
+<script src="assets/runtime.js"></script>
 </body>
 </html>
