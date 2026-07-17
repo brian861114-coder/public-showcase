@@ -55,6 +55,35 @@
 
 /* ── row helper ── */
 .row-wrap{display:flex;flex-wrap:wrap;gap:8px}
+
+/* ── 平板閱讀優化 ── */
+@media (max-width:1024px),(pointer:coarse){
+  body{font-size:17px}
+  .slide{padding:40px 28px !important}
+  .h2{font-size:clamp(22px,5vw,32px) !important}
+  .lede{font-size:16px !important}
+  .kicker{font-size:13px !important}
+  .card{padding:24px 22px !important}
+  .card h4{font-size:17px !important}
+  .card p,.card .dim{font-size:15px !important;line-height:1.7 !important}
+  .tl-table{font-size:15px}
+  .tl-table td{padding:12px 14px}
+  .hotel-card p{font-size:14px !important}
+  .chk-item{font-size:15px}
+  .chk-item p.dim{font-size:13px !important}
+  .hotel-card h4{font-size:16px !important}
+  .hero h1{font-size:clamp(40px,7vw,72px) !important}
+  .hero .sub{font-size:16px !important}
+  .steps{grid-template-columns:repeat(2,1fr)}
+  .grid.g2,.grid.g3{grid-template-columns:1fr !important}
+  .hotel-grid{grid-template-columns:1fr !important}
+  .chk-grid{grid-template-columns:1fr !important}
+  /* 加深文字對比 */
+  .dim,.dim2,body p{color:#2d2a24 !important}
+  .card .dim{color:#2d2a24 !important}
+  .hotel-card p{color:#2d2a24 !important}
+  .chk-item p.dim{color:#3a3630 !important}
+}
 </style>
 </head>
 <body data-themes="japanese-minimal,minimal-white,editorial-serif,catppuccin-latte,soft-pastel" data-theme-base="assets/themes/">
