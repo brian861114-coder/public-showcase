@@ -217,6 +217,19 @@
       document.body.appendChild(overview);
     }
 
+    /* ===== touch navigation (tablet / phone) ===== */
+    const touchNav = document.createElement('nav');
+    touchNav.className = 'touch-nav';
+    touchNav.setAttribute('aria-label', '投影片翻頁');
+    touchNav.innerHTML =
+      '<button class="touch-nav__button touch-nav__prev" type="button" aria-label="上一頁">←<span>上一頁</span></button>' +
+      '<output class="touch-nav__count" aria-live="polite"></output>' +
+      '<button class="touch-nav__button touch-nav__next" type="button" aria-label="下一頁"><span>下一頁</span>→</button>';
+    document.body.appendChild(touchNav);
+    const touchPrev = touchNav.querySelector('.touch-nav__prev');
+    const touchNext = touchNav.querySelector('.touch-nav__next');
+    const touchCount = touchNav.querySelector('.touch-nav__count');
+
     /* ===== navigation ===== */
     function go(n, fromRemote){
       n = Math.max(0, Math.min(total-1, n));
@@ -228,6 +241,9 @@
       barFill.style.width = ((n+1)/total*100)+'%';
       const numEl = document.querySelector('.slide-number');
       if (numEl) { numEl.setAttribute('data-current', n+1); numEl.setAttribute('data-total', total); }
+      touchCount.textContent = (n+1) + ' / ' + total;
+      touchPrev.disabled = n === 0;
+      touchNext.disabled = n === total - 1;
 
       // notes (bottom overlay)
       const note = slides[n].querySelector('.notes, aside.notes, .speaker-notes');
@@ -267,6 +283,26 @@
         bc.postMessage({ type: 'go', idx: n });
       }
     }
+
+    touchPrev.addEventListener('click', function(){ go(idx-1); });
+    touchNext.addEventListener('click', function(){ go(idx+1); });
+
+    let swipeStart = null;
+    document.addEventListener('pointerdown', function(e){
+      if (e.pointerType !== 'touch') return;
+      if (e.target.closest('button,a,input,textarea,select')) return;
+      swipeStart = { x:e.clientX, y:e.clientY, t:performance.now(), id:e.pointerId };
+    }, { passive:true });
+    document.addEventListener('pointerup', function(e){
+      if (!swipeStart || e.pointerId !== swipeStart.id) return;
+      const dx = e.clientX - swipeStart.x;
+      const dy = e.clientY - swipeStart.y;
+      const elapsed = performance.now() - swipeStart.t;
+      swipeStart = null;
+      if (elapsed > 800 || Math.abs(dx) < 72 || Math.abs(dx) < Math.abs(dy) * 1.35) return;
+      go(idx + (dx < 0 ? 1 : -1));
+    }, { passive:true });
+    document.addEventListener('pointercancel', function(){ swipeStart = null; }, { passive:true });
 
     /* ===== listen for remote navigation / theme changes ===== */
     if (bc) {

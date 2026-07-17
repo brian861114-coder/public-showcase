@@ -1,5 +1,5 @@
 /* 部署後請把 CACHE 版本號 +1，舊快取才會被清掉 */
-const CACHE = 'tokyo-trip-gh-v17';
+const CACHE = 'tokyo-trip-gh-v18';
 const ASSETS = [
   './',
   './index.html',
@@ -17,6 +17,21 @@ const ASSETS = [
   './emergency_guide.html',
   './budget.html',
   './search.html',
+  './ppt/index.html',
+  './ppt/assets/base.css',
+  './ppt/assets/fonts.css',
+  './ppt/assets/runtime.js',
+  './ppt/assets/trip-bind.js',
+  './ppt/assets/animations/animations.css',
+  './ppt/assets/themes/japanese-minimal.css',
+  './ppt/assets/themes/minimal-white.css',
+  './ppt/assets/themes/editorial-serif.css',
+  './ppt/assets/themes/catppuccin-latte.css',
+  './ppt/assets/themes/soft-pastel.css',
+  './ppt/assets/images/family-trip-hero-v2.webp',
+  './ppt/assets/images/family-wishes-v2.webp',
+  './ppt/assets/images/flexible-travel-v2.webp',
+  './ppt/assets/images/memory-ritual-v2.webp',
   './assets/icon.svg',
   './assets/icons.svg',
   './assets/noise.svg',

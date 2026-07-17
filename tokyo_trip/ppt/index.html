@@ -10,12 +10,9 @@
 <style>
 /* ── cover hero ── */
 .hero{position:relative;height:calc(100vh - 180px);overflow:hidden}
-.hero .bg{position:absolute;inset:0;background:
-  radial-gradient(80% 60% at 20% 30%,#c9a96122,transparent 60%),
-  radial-gradient(60% 50% at 80% 70%,#d93a2a18,transparent 60%),
-  linear-gradient(165deg,#f2f0e6,#fafaf5)}
+.hero .bg{position:absolute;inset:0;background:url("assets/images/family-trip-hero-v2.webp") center/cover no-repeat}
 .hero .bg.kb{animation:kf-kenburns 14s ease-in-out infinite alternate}
-.hero .overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(240,238,225,.92))}
+.hero .overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(247,243,234,.96) 0%,rgba(247,243,234,.84) 25%,rgba(247,243,234,.18) 55%,transparent 78%)}
 .hero .caption{position:absolute;bottom:64px;left:64px;right:64px;z-index:2}
 .hero h1{font-family:var(--font-serif);font-size:clamp(48px,6vw,88px);line-height:1.05;font-weight:600;letter-spacing:.02em;margin:0}
 .hero .sub{font-size:18px;opacity:.7;margin:12px 0 0;max-width:60ch;line-height:1.6}
@@ -56,33 +53,152 @@
 /* ── row helper ── */
 .row-wrap{display:flex;flex-wrap:wrap;gap:8px}
 
-/* ── 平板閱讀優化 ── */
-@media (max-width:1024px),(pointer:coarse){
-  body{font-size:17px}
-  .slide{padding:40px 28px !important}
-  .h2{font-size:clamp(22px,5vw,32px) !important}
-  .lede{font-size:16px !important}
-  .kicker{font-size:13px !important}
-  .card{padding:24px 22px !important}
-  .card h4{font-size:17px !important}
-  .card p,.card .dim{font-size:15px !important;line-height:1.7 !important}
-  .tl-table{font-size:15px}
-  .tl-table td{padding:12px 14px}
-  .hotel-card p{font-size:14px !important}
-  .chk-item{font-size:15px}
-  .chk-item p.dim{font-size:13px !important}
-  .hotel-card h4{font-size:16px !important}
-  .hero h1{font-size:clamp(40px,7vw,72px) !important}
-  .hero .sub{font-size:16px !important}
-  .steps{grid-template-columns:repeat(2,1fr)}
-  .grid.g2,.grid.g3{grid-template-columns:1fr !important}
-  .hotel-grid{grid-template-columns:1fr !important}
-  .chk-grid{grid-template-columns:1fr !important}
-  /* 加深文字對比 */
-  .dim,.dim2,body p{color:#2d2a24 !important}
-  .card .dim{color:#2d2a24 !important}
-  .hotel-card p{color:#2d2a24 !important}
-  .chk-item p.dim{color:#3a3630 !important}
+/* ── editorial storytelling ── */
+.text-label{display:inline-flex;align-items:center;min-height:26px;padding:4px 10px;border:1px solid var(--border);border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--accent);background:rgba(255,255,255,.65)}
+.region-code{font-size:11px;letter-spacing:.16em;color:var(--accent);font-weight:800;margin-bottom:12px}
+.story-split{display:grid;grid-template-columns:44% 56%;min-height:690px;border:1px solid var(--border);background:var(--surface);overflow:hidden}
+.story-split.reverse{grid-template-columns:56% 44%}
+.story-copy{padding:54px 58px;display:flex;flex-direction:column;justify-content:center}
+.story-art{min-height:690px;background-size:cover;background-position:center}
+.story-copy h3{font-family:var(--font-serif);font-size:44px;line-height:1.15;margin:0 0 24px}
+.story-copy p{font-size:20px;line-height:1.75;margin:0;color:var(--text-2)}
+.story-copy .big-question{font-family:var(--font-serif);font-size:34px;line-height:1.35;color:var(--text-1);margin-bottom:24px}
+.expect-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:26px}
+.expect-card{padding:24px 26px;border-top:3px solid var(--accent);background:var(--surface);font-size:17px;line-height:1.6}
+.expect-card strong{display:block;font-size:20px;margin-bottom:7px}
+.wish-lines{display:grid;gap:13px;margin-top:24px}
+.wish-line{display:grid;grid-template-columns:38px 1fr;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--border);font-size:18px}
+.wish-line .who{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:white;font-weight:800;font-size:13px}
+.rule-list{display:grid;gap:18px;margin-top:24px}
+.rule{display:grid;grid-template-columns:44px 1fr;gap:16px;align-items:start}
+.rule .n{font-family:var(--font-serif);font-size:36px;color:var(--accent);line-height:1}
+.rule strong{display:block;font-size:20px;margin-bottom:5px}
+.rule p{font-size:16px;line-height:1.55}
+.thinking-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:30px}
+.thinking-card{padding:30px 28px;min-height:240px;background:var(--surface);border-top:3px solid var(--accent)}
+.thinking-card .num{font-family:var(--font-serif);font-size:42px;color:var(--accent);line-height:1;margin-bottom:18px}
+.thinking-card h4{font-size:21px;margin:0 0 12px}
+.thinking-card p{font-size:17px;line-height:1.65;color:var(--text-2);margin:0}
+.status-mark{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:10px;vertical-align:1px}
+.status-mark.done{background:#62a97b}.status-mark.todo{background:#d9a234}.status-mark.pack{background:#6d78a8}
+.chk-item.done{opacity:1;background:#f3f7ef;border-color:rgba(74,107,62,.22)}
+.day-note{margin:18px 0 0;padding-top:14px;border-top:1px solid var(--border);font-size:13px;line-height:1.55;color:var(--accent)}
+.mini-schedule{display:grid;margin-top:14px}
+.mini-row{display:grid;grid-template-columns:112px 1fr;gap:14px;padding:11px 0;border-bottom:1px solid var(--border);font-size:15px}
+.mini-row strong{color:var(--text-1)}
+.mini-row.is-key strong,.mini-row.is-key span{color:var(--accent);font-weight:700}
+.option-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:28px}
+.option-card{position:relative;min-height:390px;padding:30px 28px;border:1px solid var(--border);background:var(--surface)}
+.option-card.recommended{border-color:var(--accent);box-shadow:inset 0 4px 0 var(--accent)}
+.option-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
+.option-code{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--accent);color:#fff;font-weight:800;font-size:18px}
+.option-effort{font-size:12px;letter-spacing:.08em;color:var(--text-2)}
+.option-card h3{font-family:var(--font-serif);font-size:34px;margin:0 0 8px}
+.option-mood{font-size:15px;color:var(--accent);font-weight:700;margin:0 0 28px}
+.option-route{font-size:20px;line-height:1.65;margin:0;color:var(--text-1)}
+.option-tags{display:flex;flex-wrap:wrap;gap:7px;position:absolute;left:28px;right:28px;bottom:28px}
+.option-tags span{padding:5px 9px;border:1px solid var(--border);border-radius:999px;font-size:11px;color:var(--text-2)}
+.option-tags .weather{border-color:transparent;background:var(--grad-soft);color:var(--accent);font-weight:700}
+.decision-bar{margin-top:20px;padding:18px 22px;border-left:4px solid var(--accent);background:var(--surface);font-size:18px;line-height:1.6}
+
+/* ── 候機區閱讀：亮光對比、平板觸控 ── */
+:root{
+  --bg:#f7f3e9;
+  --bg-soft:#eee9dc;
+  --surface:#fffefa;
+  --surface-2:#f2ede1;
+  --border:rgba(38,31,24,.18);
+  --border-strong:rgba(38,31,24,.38);
+  --text-2:#403b34;
+  --text-3:#6c645b;
+  --shadow:0 8px 24px rgba(45,34,22,.07);
+}
+.card,.step,.hotel-card,.chk-item,.option-card,.expect-card,.thinking-card{box-shadow:var(--shadow)}
+.airport-edition{background:#1f1b17;color:#fff;border-color:#1f1b17;letter-spacing:.08em}
+.touch-nav{display:none}
+
+@media (pointer:coarse){
+  body{font-size:17px;touch-action:pan-y;-webkit-tap-highlight-color:transparent}
+  .slide{padding:44px 56px 76px !important;transition-duration:.24s}
+  .h2{font-size:clamp(34px,4.2vw,48px) !important;line-height:1.12}
+  .lede{font-size:18px !important;line-height:1.45}
+  .kicker{font-size:13px !important;font-weight:800}
+  .card{padding:20px 22px !important}
+  .card h4{font-size:18px !important}
+  .card p,.card .dim{font-size:16px !important;line-height:1.58 !important}
+  .tl-table{font-size:16px}
+  .tl-table td{padding:10px 12px}
+  .slide[data-title="Day 1 出發"] .mt-l{margin-top:24px}
+  .hotel-card{padding:19px 22px}
+  .hotel-card h4{font-size:17px !important}
+  .hotel-card p{font-size:15px !important;line-height:1.55}
+  .chk-item{font-size:16px;padding:11px 13px}
+  .chk-item p.dim{font-size:14px !important}
+  .hero{height:calc(100vh - 132px)}
+  .hero .caption{left:48px;right:48px;bottom:46px}
+  .hero h1{font-size:clamp(48px,7vw,76px) !important}
+  .hero .sub{font-size:18px !important;font-weight:600;opacity:.82}
+  .steps{grid-template-columns:repeat(4,1fr);gap:13px}
+  .step{padding:25px 17px 17px}
+  .step h4{font-size:16px}
+  .step p{font-size:14px;line-height:1.48}
+  .grid.g2{grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:18px}
+  .hotel-grid,.chk-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+  .option-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:20px}
+  .option-card{min-height:330px;padding:22px 20px}
+  .option-card h3{font-size:27px}
+  .option-mood{margin-bottom:18px}
+  .option-route{font-size:17px}
+  .option-tags{left:20px;right:20px;bottom:20px}
+  .story-split,.story-split.reverse{min-height:0;height:calc(100vh - 120px)}
+  .story-art{min-height:0}
+  .story-copy{padding:34px 38px}
+  .story-copy h3{font-size:38px;margin-bottom:18px}
+  .story-copy p{font-size:18px;line-height:1.58}
+  .story-copy .big-question{font-size:29px}
+  .expect-grid{gap:12px;margin-top:18px}
+  .expect-card{padding:18px 20px;font-size:15px}
+  .expect-card strong{font-size:18px}
+  .wish-lines{gap:8px;margin-top:17px}
+  .wish-line{font-size:16px;padding:9px 0}
+  .rule-list{gap:13px;margin-top:17px}
+  .rule strong{font-size:18px}
+  .rule p{font-size:15px}
+  .thinking-grid{gap:14px;margin-top:20px}
+  .thinking-card{padding:22px 20px;min-height:205px}
+  .thinking-card .num{font-size:34px;margin-bottom:12px}
+  .thinking-card h4{font-size:19px}
+  .thinking-card p{font-size:15px;line-height:1.52}
+  .dim,.dim2,body p{color:#332f29}
+  .deck-footer .slide-number{display:none}
+  .touch-nav{
+    position:fixed;right:max(18px,env(safe-area-inset-right));bottom:max(14px,env(safe-area-inset-bottom));
+    z-index:35;display:grid;grid-template-columns:auto 62px auto;align-items:center;
+    min-height:56px;background:rgba(255,254,250,.94);border:1px solid var(--border-strong);
+    box-shadow:0 12px 34px rgba(36,27,18,.2);backdrop-filter:blur(14px)
+  }
+  .touch-nav__button{
+    min-width:94px;min-height:56px;padding:0 16px;border:0;background:transparent;color:var(--text-1);
+    font:700 15px/1 var(--font-sans);display:flex;align-items:center;justify-content:center;gap:8px
+  }
+  .touch-nav__button:active{background:var(--grad-soft);color:var(--accent)}
+  .touch-nav__button:disabled{opacity:.28}
+  .touch-nav__count{
+    display:grid;place-items:center;min-height:34px;border-inline:1px solid var(--border);
+    color:var(--text-2);font:700 13px/1 var(--font-sans);font-variant-numeric:tabular-nums
+  }
+}
+
+@media (pointer:coarse) and (orientation:portrait){
+  .slide{padding:40px 30px 82px !important;justify-content:flex-start;overflow:auto}
+  .steps,.option-grid,.thinking-grid{grid-template-columns:1fr}
+  .grid.g2,.hotel-grid,.chk-grid{grid-template-columns:1fr !important}
+  .story-split,.story-split.reverse{grid-template-columns:1fr;height:auto}
+  .story-art{min-height:42vh}
+}
+
+@media (prefers-reduced-motion:reduce),(pointer:coarse){
+  .hero .bg.kb{animation:none}
 }
 </style>
 </head>
@@ -99,14 +215,15 @@
       <h1 class="anim-rise-in" data-anim="rise-in">東京・河口湖<br>箱根</h1>
       <p class="sub" style="margin-top:16px">7 月 19 日（日） → 7 月 25 日（六） <span style="margin:0 10px;color:var(--accent)">·</span> 4 人</p>
       <div class="row-wrap" style="margin-top:24px">
-        <span class="pill pill-accent">✈️ 虎航</span>
-        <span class="pill">🏔️ 河口湖 3 晚</span>
-        <span class="pill">♨️ 箱根 1 晚</span>
-        <span class="pill">🗼 東京 2 晚</span>
+        <span class="pill airport-edition">候機版 · 約 10 分鐘</span>
+        <span class="pill pill-accent">TPE → HND</span>
+        <span class="pill">河口湖 · 3 晚</span>
+        <span class="pill">箱根 · 1 晚</span>
+        <span class="pill">東京 · 2 晚</span>
       </div>
     </div>
   </div>
-  <div class="deck-footer"><span class="dim2">家族旅行計畫書</span><span class="slide-number" data-current="1" data-total="11"></span></div>
+  <div class="deck-footer"><span class="dim2">家族旅行計畫書</span><span class="slide-number" data-current="1" data-total="14"></span></div>
   <div class="notes">大家好！這是我們 2026 年夏天的東京家族旅行計畫，7 天 6 晚，我們 4 個人一起去。</div>
 </section>
 
@@ -115,13 +232,8 @@
   <p class="kicker">7 日行程總覽</p>
   <h2 class="h2">四段旅程</h2>
   <p class="lede">從羽田落地到成田起飛，跨越富士山麓、箱根溫泉、東京都會。</p>
-  <div class="steps anim-stagger-list" data-anim-target>
-    <div class="step"><div class="num">1</div><h4>✈️ 出發</h4><p>7/19 凌晨虎航紅眼航班<br>桃園 → 羽田 T3</p></div>
-    <div class="step"><div class="num">2</div><h4>🏔️ 河口湖</h4><p>7/19-7/22 · 3 晚<br>DOT HOSTEL + 富士晴</p></div>
-    <div class="step"><div class="num">3</div><h4>♨️ 箱根</h4><p>7/22-7/23 · 1 晚<br>UENOYAMA 仙石原</p></div>
-    <div class="step"><div class="num">4</div><h4>🗼 東京</h4><p>7/23-7/25 · 2 晚<br>東京巨蛋飯店</p></div>
-  </div>
-  <div class="deck-footer"><span class="slide-number" data-current="2" data-total="11"></span></div>
+  <div class="steps anim-stagger-list" id="overviewSteps" data-anim-target></div>
+  <div class="deck-footer"><span class="slide-number" data-current="2" data-total="14"></span></div>
 </section>
 
 <!-- ═══════════ 3. DAY 1 ═══════════ -->
@@ -131,22 +243,13 @@
   <div class="grid g2 mt-l">
     <div>
       <table class="tl-table">
-        <tr><td>00:10</td><td>虎航起飛（桃園 T1）</td></tr>
-        <tr><td>04:25</td><td>落地羽田 T3 · 入境</td></tr>
-        <tr><td>06:00</td><td>機場巴士 → 新宿</td></tr>
-        <tr class="hl"><td>08:15</td><td>KKDay 團出發！</td></tr>
-        <tr><td>10:30</td><td>箱根神社 · 湖上鳥居</td></tr>
-        <tr><td>11:30</td><td>海賊船（蘆之湖 · 30 分）</td></tr>
-        <tr><td>12:00</td><td>空中纜車 → 大湧谷</td></tr>
-        <tr><td>13:20</td><td>午餐（炸雞定食）</td></tr>
-        <tr><td>14:10</td><td>山中湖白鳥濱</td></tr>
-        <tr class="hl"><td>15:40</td><td>忍野八海 · 離團！</td></tr>
-        <tr><td>16:30</td><td>DOT HOSTEL 入住</td></tr>
+        <tbody id="day1Rows"></tbody>
       </table>
     </div>
     <div>
       <div class="card" style="border-left:3px solid var(--accent)">
-        <h4>⚠️ 本日重點</h4>
+        <div class="region-code">DAY 1 · IMPORTANT</div>
+        <h4>本日重點</h4>
         <p class="dim" style="font-size:13px;line-height:2">
         • 行李放遊覽車，貴重物隨身<br>
         • 提前跟導遊說「忍野八海で降ります」<br>
@@ -156,7 +259,8 @@
         </p>
       </div>
       <div class="card mt-m" style="background:var(--grad-soft);border:none">
-        <h4>🏠 DOT HOSTEL & BAR</h4>
+        <div class="region-code">STAY 01</div>
+        <h4>DOT HOSTEL & BAR</h4>
         <p class="dim" style="font-size:12px;line-height:1.6">
         大石公園旁 170m · 15:00 入住 · 最晚 21:00<br>
         評分 8.9 · 單車租賃 · 公共廚房
@@ -164,7 +268,7 @@
       </div>
     </div>
   </div>
-  <div class="deck-footer"><span class="slide-number" data-current="3" data-total="11"></span></div>
+  <div class="deck-footer"><span class="slide-number" data-current="3" data-total="14"></span></div>
 </section>
 
 <!-- ═══════════ 4. DAY 2-3 ═══════════ -->
@@ -172,17 +276,11 @@
   <p class="kicker">7/20-21 · Day 2-3</p>
   <h2 class="h2">河口湖時光</h2>
   <div class="grid g2 mt-l">
-    <div class="card">
-      <h4>📅 Day 2（週一）換宿</h4>
-      <p class="dim">10:00 DOT HOSTEL 退房<br>12:00 富士晴先放行李<br>下午：紅線巴士遊湖<br>→ 富士全景纜車<br>→ 河口湖遊覽船 天晴號<br>→ 大石公園（住處隔壁）<br><br>15:00 富士晴 Guest House 入住</p>
-    </div>
-    <div class="card">
-      <h4>📅 Day 3（週二）自由行</h4>
-      <p class="dim">全天自由安排，建議路線：<br><br>→ 新倉山淺間公園<br>→ 天梯小鎮（日川時計店）<br>→ 富士吉田本町通<br>→ 河口湖遊覽船<br>→ 大石公園<br><br>搭紅線巴士 + 富士急行線<br>跳過五合目（交通不便）</p>
-    </div>
+    <div class="card" id="day2Card"></div>
+    <div class="card" id="day3Card"></div>
   </div>
-  <p class="dim mt-m" style="font-size:12px">🏠 富士晴 Guest House：獨棟 Villa · 4 間臥室 · 全配廚房 · 評分 9.3</p>
-  <div class="deck-footer"><span class="slide-number" data-current="4" data-total="11"></span></div>
+  <p class="dim mt-m" style="font-size:12px">STAY 02　富士晴 Guest House：獨棟 Villa · 4 間臥室 · 全配廚房 · 評分 9.3</p>
+  <div class="deck-footer"><span class="slide-number" data-current="4" data-total="14"></span></div>
 </section>
 
 <!-- ═══════════ 5. DAY 4 ═══════════ -->
@@ -192,171 +290,155 @@
   <div class="grid g2 mt-l">
     <div>
       <table class="tl-table">
-        <tr><td>10:00</td><td>富士晴退房</td></tr>
-        <tr><td>10:30</td><td>巴士 → 御殿場站（1.5h）</td></tr>
-        <tr><td>12:00</td><td>轉車 → 仙石原（30 分）</td></tr>
-        <tr class="hl"><td>13:00</td><td>UENOYAMA 入住</td></tr>
-        <tr><td>下午</td><td>拉利克博物館（100m）<br>威尼斯玻璃博物館（880m）<br>LAWSON 補給（340m）</td></tr>
+        <tbody id="day4Rows"></tbody>
       </table>
     </div>
     <div>
       <div class="card" style="background:var(--grad-soft);border:none">
-        <h4>🏠 UENOYAMA Room 102</h4>
+        <div class="region-code">STAY 03</div>
+        <h4>UENOYAMA Room 102</h4>
         <p class="dim" style="font-size:13px;line-height:1.8">
         仙石原 · 獨棟房屋 · 無接觸入住<br>
         2 張單人床 + 1 張沙發床<br>
         全配廚房 · 免費 WiFi<br>
         評分 <strong>9.6</strong>（405 則評論）<br>
-        ⚠️ 等房東發入住密碼
+        入住時間與密碼待房東確認
         </p>
       </div>
-      <p class="dim mt-m" style="font-size:12px">💡 箱根景點（神社、纜車、大湧谷）Day 1 跟團已完成，今天純休息</p>
+      <p class="dim mt-m" style="font-size:12px">NOTE　箱根神社、纜車與大湧谷 Day 1 已走過；今天以休息及仙石原散步為主</p>
     </div>
   </div>
-  <div class="deck-footer"><span class="slide-number" data-current="5" data-total="11"></span></div>
+  <div class="deck-footer"><span class="slide-number" data-current="5" data-total="14"></span></div>
 </section>
 
-<!-- ═══════════ 6. DAY 5-7 ═══════════ -->
-<section class="slide" data-title="Day 5-7 箱根→東京">
-  <p class="kicker">7/23-25 · Day 5-7</p>
-  <h2 class="h2">美術館 → 東京 → 回家</h2>
-  <div class="grid g3 mt-l">
-    <div class="card">
-      <h4>📅 Day 5（週四）</h4>
-      <p class="dim" style="font-size:13px;line-height:1.7">
-      <strong>上午</strong><br>仙石原美術館散步<br>（拉利克 · 玻璃 · 波拉）<br><br>
-      <strong>下午</strong><br>巴士 → 箱根湯本<br>普通電車 ¥1,260 → 新宿<br>→ 東京巨蛋飯店
-      </p>
-    </div>
-    <div class="card">
-      <h4>📅 Day 6（週五）</h4>
-      <p class="dim" style="font-size:13px;line-height:1.7">
-      東京自由安排<br>
-      購物 · 景點 · 美食<br>
-      帶護照辦退稅<br>
-      ⚠️ 今天買 Skyliner 票
-      </p>
-    </div>
-    <div class="card">
-      <h4>✈️ Day 7（週六）</h4>
-      <p class="dim" style="font-size:13px;line-height:1.7">
-      11:00 退房<br>
-      水道橋 → 日暮里（15 分）<br>
-      Skyliner → 成田 T2（36 分）<br>
-      13:30 虎航起飛<br>
-      16:25 桃園 · 開車回台中
-      </p>
-    </div>
+<!-- ═══════════ 6. DAY 5 + RETURN ═══════════ -->
+<section class="slide" data-title="Day 5 與回程">
+  <p class="kicker">7/23 與 7/25 · 關鍵移動</p>
+  <h2 class="h2">進東京，也要安全回家</h2>
+  <p class="lede">把 Day 6 留給家人的選擇；這一頁只處理兩段不能失誤的移動。</p>
+  <div class="grid g2 mt-l">
+    <div class="card" id="day5Card"></div>
+    <div class="card" id="day7Card"></div>
   </div>
-  <div class="deck-footer"><span class="slide-number" data-current="6" data-total="11"></span></div>
+  <div class="deck-footer"><span class="slide-number" data-current="6" data-total="14"></span></div>
 </section>
 
-<!-- ═══════════ 7. HOTELS ═══════════ -->
+<!-- ═══════════ 7. DAY 6 OPTIONS ═══════════ -->
+<section class="slide" data-title="Day 6 東京方案">
+  <p class="kicker">7/24 週五 · Day 6</p>
+  <h2 class="h2">東京自由日，不再只有「自由安排」</h2>
+  <p class="lede">從三種旅行心情選一條；不用三條都跑，也不臨時站在路口討論。</p>
+  <div class="option-grid anim-stagger-list" id="day6Options" data-anim-target></div>
+  <div class="decision-bar"><strong>決定方式：</strong><span id="day6Decision"></span></div>
+  <div class="deck-footer"><span class="slide-number" data-current="7" data-total="14"></span></div>
+  <div class="notes">A 適合第一次東京與經典拍照；B 轉移較簡單、室內選擇較多；C 最有都會感，但步行與人潮也最多。請家人依願望與天氣選一條。</div>
+</section>
+
+<!-- ═══════════ 8. HOTELS ═══════════ -->
 <section class="slide" data-title="住宿一覽">
   <p class="kicker">住宿</p>
   <h2 class="h2">四間住宿一覽</h2>
-  <div class="hotel-grid anim-stagger-list" data-anim-target>
-    <div class="hotel-card"><div class="h-date">7/19 · 1 晚</div><h4>🏠 DOT HOSTEL & BAR</h4><p>河口湖大石 · 評分 8.9<br>大石公園 170m · 15:00-21:00</p></div>
-    <div class="hotel-card"><div class="h-date">7/20-21 · 2 晚</div><h4>🏡 富士晴 Guest House</h4><p>河口湖船津 · 評分 9.3<br>獨棟 Villa · 4 臥室 · 全配廚房</p></div>
-    <div class="hotel-card"><div class="h-date">7/22 · 1 晚</div><h4>🏘️ UENOYAMA Room 102</h4><p>箱根仙石原 · 評分 9.6<br>獨棟 · 無接觸入住 · LAWSON 340m</p></div>
-    <div class="hotel-card"><div class="h-date">7/23-24 · 2 晚</div><h4>🏨 東京巨蛋飯店</h4><p>文京區後樂 · 雙床房 ×2<br>水道橋站步行 5 分 · 14:00-11:00</p></div>
-  </div>
-  <div class="deck-footer"><span class="slide-number" data-current="7" data-total="11"></span></div>
+  <div class="hotel-grid anim-stagger-list" id="hotelGrid" data-anim-target></div>
+  <p class="dim mt-m" style="font-size:14px">位置提醒：DOT 靠大石公園；富士晴位於河口湖町河口 605-1，換宿日需預留移動時間。</p>
+  <div class="deck-footer"><span class="slide-number" data-current="8" data-total="14"></span></div>
 </section>
 
-<!-- ═══════════ 8. PACKING ═══════════ -->
+<!-- ═══════════ 9. PACKING ═══════════ -->
 <section class="slide" data-title="行前準備">
   <p class="kicker">行前準備</p>
   <h2 class="h2">出發前確認事項</h2>
-  <div class="chk-grid">
-    <div class="chk-item done"><span class="icon">✅</span><div><strong>護照 · 機票 · 訂房</strong><p class="dim" style="margin:0;font-size:12px">4 人護照效期 OK · 虎航確認 · 4 間住宿已訂</p></div></div>
-    <div class="chk-item done"><span class="icon">✅</span><div><strong>Visit Japan Web</strong><p class="dim" style="margin:0;font-size:12px">4 人已填 · QR code 存手機</p></div></div>
-    <div class="chk-item done"><span class="icon">✅</span><div><strong>日圓現金 15 萬</strong><p class="dim" style="margin:0;font-size:12px">4 人共用 · 河口湖箱根多小店只收現金</p></div></div>
-    <div class="chk-item done"><span class="icon">✅</span><div><strong>SIM 卡 · 保險</strong><p class="dim" style="margin:0;font-size:12px">4 人各自有 SIM · 旅遊保險已保</p></div></div>
-    <div class="chk-item done"><span class="icon">✅</span><div><strong>Suica · 離線地圖</strong><p class="dim" style="margin:0;font-size:12px">卡 ×2 + iPhone ×1 + 東京再買 1 張</p></div></div>
-    <div class="chk-item done"><span class="icon">✅</span><div><strong>行動電源合規</strong><p class="dim" style="margin:0;font-size:12px">虎航：100Wh↓ · 隨身 · 禁機上充電</p></div></div>
-    <div class="chk-item done"><span class="icon">✅</span><div><strong>虎航線上報到</strong><p class="dim" style="margin:0;font-size:12px">已完成 · 7/17 線上報到 4 人</p></div></div>
-    <div class="chk-item"><span class="icon">🔲</span><div><strong>自備水+零食上機</strong><p class="dim" style="margin:0;font-size:12px">紅眼航班不供餐 · 3 小時飛行</p></div></div>
-    <div class="chk-item"><span class="icon">⚠️</span><div><strong>等 UENOYAMA 密碼</strong><p class="dim" style="margin:0;font-size:12px">出發前確認收到入住指示</p></div></div>
-    <div class="chk-item"><span class="icon">⚠️</span><div><strong>買 Skyliner 回程票</strong><p class="dim" style="margin:0;font-size:12px">7/24 或 7/25 早上 · 京成官網</p></div></div>
-  </div>
-  <div class="deck-footer"><span class="slide-number" data-current="8" data-total="11"></span></div>
+  <div class="chk-grid" id="prepGrid"></div>
+  <div class="deck-footer"><span class="slide-number" data-current="9" data-total="14"></span></div>
 </section>
 
-<!-- ═══════════ 9. TIPS ═══════════ -->
-<section class="slide" data-title="旅途提醒">
-  <p class="kicker">旅途提醒</p>
-  <h2 class="h2">記住這幾件事</h2>
-  <div class="grid g2 mt-l anim-stagger-list" data-anim-target>
-    <div class="card card-accent"><h4>🚕 河口湖叫車</h4><p class="dim">站前計程車不多，安裝 <strong>GO app</strong> 備用。4 人分攤不貴。</p></div>
-    <div class="card card-accent"><h4>💴 現金優先區</h4><p class="dim">河口湖、箱根小店多只收現金。15 萬円省著用，東京可刷卡。</p></div>
-    <div class="card card-accent"><h4>🌧️ 天氣備案</h4><p class="dim">7 月午後雷陣雨常見。空中纜車遇強風會停駛，改搭登山巴士。</p></div>
-    <div class="card card-accent"><h4>🆘 緊急聯絡</h4><p class="dim">警察 110 · 救護 119<br>台灣代表處 03-3280-7811<br>急難救助 24H 080-6557-8795</p></div>
-  </div>
-  <div class="deck-footer"><span class="slide-number" data-current="9" data-total="11"></span></div>
+<!-- ═══════════ 10. EXPECTATIONS ═══════════ -->
+<section class="slide" data-title="旅行的樣子">
+  <p class="kicker">出發前，先說清楚</p>
+  <h2 class="h2">這趟旅行的樣子</h2>
+  <p class="lede">不是每天都要玩滿；先知道哪天辛苦、哪天放鬆，現場更容易享受。</p>
+  <div class="expect-grid anim-stagger-list" id="expectGrid" data-anim-target></div>
+  <p class="dim mt-m" style="font-size:16px">限制也先說：住宿各有取捨、餐廳可能排隊、富士山可能被雲遮住；沒有看到不代表旅行失敗。</p>
+  <div class="deck-footer"><span class="slide-number" data-current="10" data-total="14"></span></div>
+  <div class="notes">先把行程大致走一遍，明講哪幾天比較累、哪些地方可能排隊或受天氣影響。事先降低不切實際的期待，現場反而比較容易得到驚喜。</div>
 </section>
 
-<!-- ═══════════ 10. 出發前最後檢查 ═══════════ -->
-<section class="slide" data-title="出發前">
-  <p class="kicker">出發前最後檢查</p>
-  <h2 class="h2">7/18 晚上 · 出發前確認</h2>
-  <div class="grid g2 mt-l anim-stagger-list" data-anim-target>
-    <div class="card card-accent">
-      <h4>🚗 去機場</h4>
-      <p class="dim" style="font-size:15px;line-height:1.8">
-      台中開車到桃園 T1<br>
-      卡友優惠免費停車<br>
-      22:00 前抵達機場
-      </p>
+<!-- ═══════════ 11. ONE WISH EACH ═══════════ -->
+<section class="slide" data-title="每人一個願望" style="padding:46px">
+  <div class="story-split">
+    <div class="story-copy">
+      <p class="kicker">EXPECTATION ALIGNMENT</p>
+      <h3>每人一個<br>旅行願望</h3>
+      <p>請每個人說出這趟最想完成的一件事。它不必偉大，但全家會優先保護它。</p>
+      <div class="wish-lines">
+        <div class="wish-line"><span class="who">1</span><span>我最想＿＿＿＿＿＿＿＿</span></div>
+        <div class="wish-line"><span class="who">2</span><span>我最想＿＿＿＿＿＿＿＿</span></div>
+        <div class="wish-line"><span class="who">3</span><span>我最想＿＿＿＿＿＿＿＿</span></div>
+        <div class="wish-line"><span class="who">4</span><span>我最想＿＿＿＿＿＿＿＿</span></div>
+      </div>
     </div>
-    <div class="card card-accent">
-      <h4>🛂 隨身必帶</h4>
-      <p class="dim" style="font-size:15px;line-height:1.8">
-      護照 · 手機（VJW QR）<br>
-      日圓現金 · 信用卡<br>
-      訂房 + 機票截圖
-      </p>
-    </div>
-    <div class="card card-accent">
-      <h4>🎒 上機隨身包</h4>
-      <p class="dim" style="font-size:15px;line-height:1.8">
-      水 + 零食（紅眼航班不供餐）<br>
-      頸枕 · 眼罩 · 耳塞<br>
-      行動電源（放座位下方）
-      </p>
-    </div>
-    <div class="card card-accent">
-      <h4>⏰ 時間線</h4>
-      <p class="dim" style="font-size:15px;line-height:1.8">
-      22:00 到桃園 T1<br>
-      22:00-23:00 虎航報到 · 託運<br>
-      00:10 起飛 ✈️<br>
-      04:25 抵達羽田 🗾
-      </p>
-    </div>
+    <div class="story-art" style="background-image:url('assets/images/family-wishes-v2.webp');background-position:58% center"></div>
   </div>
-  <div class="deck-footer"><span class="slide-number" data-current="10" data-total="11"></span></div>
+  <div class="deck-footer"><span class="slide-number" data-current="11" data-total="14"></span></div>
+  <div class="notes">可以是一碗拉麵、一間店、一張全家合照或一個景點。當大家知道某段行程是在成全某個人的願望，陪伴的感受會完全不同。</div>
 </section>
 
-<!-- ═══════════ 11. CLOSING ═══════════ -->
-<section class="slide" data-title="結語" style="display:flex;align-items:center;justify-content:center">
-  <div class="closing">
-    <p class="kicker" style="letter-spacing:.25em;margin-bottom:12px">Tokyo · Kawaguchiko · Hakone</p>
-    <h1 class="anim-rise-in" data-anim="rise-in">祝旅途愉快</h1>
-    <div class="divider"></div>
-    <p class="lede" style="font-size:18px">7 月 19 日 → 7 月 25 日</p>
-    <div class="row-wrap" style="margin-top:32px;justify-content:center">
-      <span class="pill">🏔️ 河口湖</span>
-      <span class="pill">♨️ 箱根</span>
-      <span class="pill">🗼 東京</span>
+<!-- ═══════════ 12. FLEXIBILITY ═══════════ -->
+<section class="slide" data-title="彈性原則" style="padding:46px">
+  <div class="story-split reverse">
+    <div class="story-art" style="background-image:url('assets/images/flexible-travel-v2.webp');background-position:42% center"></div>
+    <div class="story-copy">
+      <p class="kicker">OUR TRAVEL RULES</p>
+      <div class="big-question">行程是參考，<br>不是打卡任務。</div>
+      <div class="rule-list">
+        <div class="rule"><div class="n">01</div><div><strong>任何人都能喊暫停</strong><p>一句「我需要休息 30 分鐘」，不追問、不責怪。</p></div></div>
+        <div class="rule"><div class="n">02</div><div><strong>累了就刪掉一站</strong><p>在咖啡店坐著聊天，也可以是很好的旅行。</p></div></div>
+        <div class="rule"><div class="n">03</div><div><strong>一定會有出包時刻</strong><p>迷路、下雨、店沒開都正常；笑一笑，換方案。</p></div></div>
+      </div>
     </div>
-    <p class="dim mt-l" style="font-size:13px">虎航 00:10 桃園 T1 · 別忘了帶護照！</p>
   </div>
-  <div class="deck-footer"><span class="slide-number" data-current="11" data-total="11"></span></div>
-  <div class="notes">最後提醒：7/18 晚上開車到桃園機場，卡友免費停車。祝我們旅途愉快！</div>
+  <div class="deck-footer"><span class="slide-number" data-current="12" data-total="14"></span></div>
+  <div class="notes">這一頁要請全家真的點頭同意。先建立可以休息、可以改變的安全感，出狀況時就不容易互相怪罪。</div>
+</section>
+
+<!-- ═══════════ 13. PRE-TRIP THINKING ═══════════ -->
+<section class="slide" data-title="行前思考">
+  <p class="kicker">在出發前，各自想一想</p>
+  <h2 class="h2">讓這趟旅行也有你的參與</h2>
+  <div class="thinking-grid anim-stagger-list" data-anim-target>
+    <div class="thinking-card"><div class="num">01</div><h4>自由時間想怎麼用？</h4><p>先存 1–2 個東京想去的地方，避免現場陷入「都可以、不知道」的空轉。</p></div>
+    <div class="thinking-card"><div class="num">02</div><h4>認領一個小任務</h4><p>交通查詢、拍照紀錄、找廁所便利商店、保管票券，每人選一項。</p></div>
+    <div class="thinking-card"><div class="num">03</div><h4>想記得哪個畫面？</h4><p>旅途中留意最喜歡的一刻。回程在機場，四個人輪流分享。</p></div>
+  </div>
+  <div class="card mt-l" style="border-left:4px solid var(--accent);font-size:20px">
+    現在先完成：說出一個願望、選一個小任務、把想去的東京地點傳到群組。
+  </div>
+  <div class="deck-footer"><span class="slide-number" data-current="13" data-total="14"></span></div>
+  <div class="notes">有參與感的人，會把它視為「我們的旅行」。請大家現在就各自認領一項任務，不必等到出發後再分配。</div>
+</section>
+
+<!-- ═══════════ 14. MEMORY RITUAL ═══════════ -->
+<section class="slide" data-title="旅程的結尾" style="padding:46px">
+  <div class="story-split">
+    <div class="story-copy">
+      <p class="kicker">ONE LAST QUESTION</p>
+      <h3>回來時，<br>你想記得哪個畫面？</h3>
+      <p>回程在機場，每個人分享一個最喜歡的時刻。讓旅行不只結束在收行李，而是結束在共同的記憶裡。</p>
+      <div class="row-wrap" style="margin-top:32px">
+        <span class="text-label">TOKYO</span>
+        <span class="text-label">KAWAGUCHIKO</span>
+        <span class="text-label">HAKONE</span>
+        <span class="text-label">OUR FAMILY</span>
+      </div>
+    </div>
+    <div class="story-art" style="background-image:url('assets/images/memory-ritual-v2.webp');background-position:62% center"></div>
+  </div>
+  <div class="deck-footer"><span class="slide-number" data-current="14" data-total="14"></span></div>
+  <div class="notes">最後不是只說祝旅途愉快，而是先約好回程的分享儀式。每個人選一張照片、一個畫面或一句話，作為這趟旅程的結尾。</div>
 </section>
 
 </div>
+<script src="../assets/trip-data.js"></script>
+<script src="assets/trip-bind.js"></script>
 <script src="assets/runtime.js"></script>
 </body>
 </html>

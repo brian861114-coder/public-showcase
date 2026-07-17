@@ -64,6 +64,8 @@ img { display: block; max-width: 100%; }
 .today-card h2 { margin: 0 0 5px; font-size: 1.1rem; letter-spacing: -.02em; }
 .today-card p { margin: 0; font-size: .83rem; }
 .text-link { display: inline-flex; align-items: center; min-height: 44px; padding: 0 8px; color: var(--portal-blue); font-size: .8rem; font-weight: 750; text-decoration: none; white-space: nowrap; }
+.presentation-card { margin-top: -62px; border-color: rgba(198, 63, 42, .24); background: linear-gradient(120deg, rgba(255,255,255,.96), rgba(249,239,226,.94)); }
+.presentation-card .today-icon { background: #c63f2a; }
 
 .section-heading { max-width: 760px; margin: 0 0 24px; }
 .section-heading h2 { margin: 0 0 8px; font-size: clamp(2rem, 4.5vw, 3.7rem); letter-spacing: -.045em; }
