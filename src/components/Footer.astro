@@ -1,0 +1,32 @@
+---
+import { withBase } from '../lib/paths';
+---
+
+<footer class="footer" id="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a class="brand" href={withBase('/')}>
+        <span class="cat-logo"><i></i></span>
+        <span>NOTES</span>
+      </a>
+      <p>個人文章、圖片與短片演示，慢慢累積成一座小資料庫。</p>
+    </div>
+    <nav class="footer-links">
+      <a href={withBase('/')}>首頁</a>
+      <a href={`${withBase('/')}#articles`}>最新文章</a>
+      <a href={`${withBase('/')}#topics`}>文章分類</a>
+      <a href={withBase('/showcase/')}>展示館</a>
+      <a href={withBase('/about/')}>關於我</a>
+      <a href={withBase('/about/')}>寫作理念</a>
+      <a href={`${withBase('/')}#footer`}>外部連結</a>
+      <a href={`${withBase('/')}#footer`}>常見問題</a>
+      <a href={`${withBase('/')}#footer`}>聯絡方式</a>
+    </nav>
+    <div class="footer-contact">
+      這裡放個人介紹與聯絡方式<br /><br />
+      hello@example.com<br />
+      GitHub Pages 靜態部落格
+    </div>
+  </div>
+  <div class="copyright">© {new Date().getFullYear()} NOTES. 個人部落格。</div>
+</footer>

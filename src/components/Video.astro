@@ -1,0 +1,26 @@
+---
+import { withBase } from '../lib/paths';
+
+interface Props {
+  src: string;
+  poster?: string;
+}
+
+const { src, poster } = Astro.props;
+const videoSrc = src.startsWith('http') ? src : withBase(src);
+const posterSrc = poster ? (poster.startsWith('http') ? poster : withBase(poster)) : undefined;
+---
+
+<video class="post-video" controls preload="metadata" poster={posterSrc}>
+  <source src={videoSrc} type="video/mp4" />
+  你的瀏覽器不支援影片播放。
+</video>
+
+<style>
+  .post-video {
+    width: 100%;
+    border-radius: 16px;
+    margin: 1.4em 0;
+    background: #eef4f8;
+  }
+</style>

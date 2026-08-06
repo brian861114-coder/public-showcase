@@ -1,0 +1,42 @@
+---
+import { withBase } from '../lib/paths';
+
+interface Props {
+  current?: 'home' | 'posts' | 'about';
+}
+
+const { current = 'home' } = Astro.props;
+const isDev = import.meta.env.DEV;
+---
+
+<header class="header" id="site-header">
+  <div class="header-inner">
+    <a class="brand" href={withBase('/')}>
+      <span class="cat-logo"><i></i></span>
+      <span>NOTES<small>慢慢寫，慢慢想。</small></span>
+    </a>
+    <nav class="nav">
+      <a href={withBase('/')} aria-current={current === 'home' ? 'page' : undefined}>首頁</a>
+      <a href={`${withBase('/')}#articles`} aria-current={current === 'posts' ? 'page' : undefined}>文章</a>
+      <a href={withBase('/showcase/')}>展示館</a>
+      <a href={withBase('/about/')}>關於我</a>
+      <a href={`${withBase('/')}#footer`}>聯絡</a>
+      {isDev && <a href={withBase('/keystatic/')}>後台</a>}
+    </nav>
+    <form class="header-search" action={`${withBase('/')}`} method="get">
+      <input name="q" aria-label="全站搜尋" placeholder="搜尋文章…" />
+      <button type="submit">⌕</button>
+    </form>
+    <a class="about-link" href={withBase('/about/')}>關於我</a>
+    <button class="hamb" type="button" aria-label="開啟選單" data-hamb>☰</button>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector('#site-header');
+  const hamb = document.querySelector('[data-hamb]');
+  hamb?.addEventListener('click', () => {
+    const open = header?.classList.toggle('open');
+    if (hamb instanceof HTMLButtonElement) hamb.textContent = open ? '×' : '☰';
+  });
+</script>

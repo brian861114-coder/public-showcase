@@ -1,0 +1,40 @@
+---
+import { withBase } from '../lib/paths';
+import { categoryLabel } from '../lib/categories';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  post: CollectionEntry<'posts'>;
+}
+
+const { post } = Astro.props;
+const href = withBase(`/posts/${post.id}/`);
+const date = post.data.pubDate.toLocaleDateString('zh-TW', {
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+});
+---
+
+<a
+  class="card"
+  href={href}
+  data-level={post.data.category}
+  data-date={post.data.pubDate.toISOString()}
+  data-title={post.data.title}
+>
+  <div class="card-copy">
+    <div class="card-meta">
+      <span class="level">{categoryLabel(post.data.category)}</span>
+      <span class="views">{date}</span>
+    </div>
+    <h2>{post.data.title}</h2>
+  </div>
+  <div class="illustration" data-mark={post.data.mark} style={`--tone:${post.data.tone}`}>
+    <div class="paper">
+      {post.data.coverLabel ?? post.data.mark}
+      <small>{post.data.coverHint ?? '一起看看'}</small>
+    </div>
+    <i class="pencil"></i>
+  </div>
+</a>

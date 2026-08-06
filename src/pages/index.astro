@@ -1,0 +1,120 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import { getCollection } from 'astro:content';
+import { categories } from '../lib/categories';
+import { withBase } from '../lib/paths';
+
+const posts = (await getCollection('posts', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+---
+
+<BaseLayout title="NOTES — 個人部落格" current="home">
+  <div class="breadcrumbs">
+    <a href={withBase('/')}>首頁</a><span>›</span>文章列表
+  </div>
+
+  <Hero eyebrow="最新文章" title="個人部落格" />
+
+  <section class="filters" id="topics" aria-label="文章篩選">
+    <label class="filter-label" for="level">文章分類</label>
+    <select class="control" id="level">
+      {categories.map((item) => <option value={item.value}>{item.label}</option>)}
+    </select>
+    <form class="search-articles">
+      <input id="query" aria-label="搜尋文章" placeholder="搜尋文章" />
+      <button type="submit">⌕</button>
+    </form>
+    <select class="control sort" id="sort">
+      <option value="new">最新發表</option>
+      <option value="old">最早發表</option>
+    </select>
+  </section>
+
+  <hr class="divider" />
+
+  <section class="grid" id="articles">
+    {posts.map((post) => <ArticleCard post={post} />)}
+    <p class="empty">找不到符合條件的文章。</p>
+  </section>
+
+  <nav class="pagination" aria-label="分頁">
+    <button class="page-btn" type="button" disabled>‹</button>
+    <button class="page-btn active" type="button">1</button>
+    <button class="page-btn" type="button">›</button>
+  </nav>
+
+  <section class="plans" id="about-blog">
+    <h2 class="plans-title">這個部落格可以放什麼</h2>
+    <div class="plan-grid">
+      <div class="plan">
+        <div class="plan-icon">文</div>
+        <h3>長文與隨筆</h3>
+        <small>Markdown / MDX 撰寫</small>
+      </div>
+      <div class="plan">
+        <div class="plan-icon">影</div>
+        <h3>圖片與短片</h3>
+        <small>支援圖片與數秒 mp4</small>
+      </div>
+      <div class="plan">
+        <div class="plan-icon">連結</div>
+        <h3>外部連結</h3>
+        <small>參考資料一鍵跳轉</small>
+      </div>
+    </div>
+    <a class="contact" href={withBase('/showcase/')}>想看互動展示？前往展示館</a>
+  </section>
+</BaseLayout>
+
+<script>
+  const level = document.querySelector('#level');
+  const query = document.querySelector('#query');
+  const sort = document.querySelector('#sort');
+  const grid = document.querySelector('#articles');
+  const empty = document.querySelector('.empty');
+  const cards = [...document.querySelectorAll('.card')];
+
+  function update() {
+    if (!(query instanceof HTMLInputElement) || !(level instanceof HTMLSelectElement) || !(sort instanceof HTMLSelectElement) || !grid || !empty) {
+      return;
+    }
+
+    const term = query.value.trim().toLowerCase();
+    const lv = level.value;
+    let shown = cards.filter((card) => {
+      const matchLevel = lv === 'all' || card.getAttribute('data-level') === lv;
+      const text = `${card.getAttribute('data-title') ?? ''} ${card.textContent ?? ''}`.toLowerCase();
+      return matchLevel && text.includes(term);
+    });
+
+    cards.forEach((card) => {
+      card.style.display = shown.includes(card) ? 'flex' : 'none';
+    });
+
+    shown = shown.sort((a, b) => {
+      const aDate = a.getAttribute('data-date') ?? '';
+      const bDate = b.getAttribute('data-date') ?? '';
+      return sort.value === 'old' ? aDate.localeCompare(bDate) : bDate.localeCompare(aDate);
+    });
+
+    shown.forEach((card) => grid.insertBefore(card, empty));
+    empty.style.display = shown.length ? 'none' : 'block';
+  }
+
+  [level, sort].forEach((el) => el?.addEventListener('change', update));
+  query?.addEventListener('input', update);
+  document.querySelector('.search-articles')?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    update();
+  });
+
+  const params = new URLSearchParams(window.location.search);
+  const q = params.get('q');
+  if (q && query instanceof HTMLInputElement) {
+    query.value = q;
+  }
+  update();
+</script>

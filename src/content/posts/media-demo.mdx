@@ -1,0 +1,36 @@
+---
+title: 如何在文章裡附上圖片與短片
+description: 示範圖片、數秒 mp4，以及外部連結的寫法。
+pubDate: 2026-08-03
+category: tech
+tone: "#f6d7b8"
+mark: "媒體"
+coverLabel: "媒體"
+coverHint: "圖＋片示範"
+---
+
+文章不只是文字。這一頁示範三種常見內容形態。
+
+## 1. 圖片
+
+把檔案放到 `public/images/`，然後這樣引用：
+
+![淺色示意插圖](/images/sample-illustration.svg)
+
+## 2. 短片（mp4）
+
+把演示影片放到 `public/videos/demo.mp4` 後，在後台插入「短片（mp4）」元件，或直接寫：
+
+<Video src="/videos/demo.mp4" poster="/images/sample-illustration.svg" />
+
+建議長度控制在數秒到十數秒，檔案不要太大，比較適合 GitHub Pages。
+
+## 3. 外部連結
+
+例如 Astro 官方文件：
+
+[Astro Content Collections](https://docs.astro.build/en/guides/content-collections/)
+
+以及 GitHub Pages 說明：
+
+[GitHub Pages 文件](https://docs.github.com/pages)

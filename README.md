@@ -1,55 +1,53 @@
 # public-showcase
 
-## 中文
+入口已改為 **NOTES 個人部落格**（Astro），原本的 Demo Showcase 改為子頁：
 
-`public-showcase` 是一個靜態 HTML 展示站，用來收納與展示教材型 / 說明型互動頁面。它目前聚焦在把教科書內容轉成可讀性更高的單頁展示與互動示範。
+- 首頁（部落格）：https://brian861114-coder.github.io/public-showcase/
+- 展示館（舊入口）：https://brian861114-coder.github.io/public-showcase/showcase/
 
-### 目前包含的示範
-- `ch16_waves_demo.html`: 波動主題的長篇互動教材頁
-- `ch3_derivatives_demo.html`: 微分主題教材頁
-- `demo_all_components.html`: 元件庫與互動元件示範
-- `tokyo_trip/index.html`: 東京旅遊鐵路導覽 — 親子文化三日遊互動頁
-- `index.html`: 展示站入口頁
+## 本機開發（一鍵）
 
-### 內容特徵
-- 使用 MathJax 顯示公式
-- 長篇教學頁面排版
-- PDF 對照閱讀 / 分割視圖概念
-- 可重用的 callout、tooltip、slider、progress、tag filter 等 UI 元件
-- 適合放在 GitHub Pages 直接瀏覽
+雙擊 `start-blog.bat`，或：
 
-### 技術棧
-- HTML
-- CSS
-- JavaScript
-- MathJax
+```bash
+npm install
+npm start
+```
 
-### 專案定位
-這個 repo 的價值不在通用框架，而在具體展示：如何把教材、知識說明與互動式閱讀元件整合成一個乾淨可部署的靜態頁面。
+- 網站：http://127.0.0.1:4321/
+- 後台：http://127.0.0.1:4321/keystatic/
+- 展示館：http://127.0.0.1:4321/showcase/
 
-## English
+## 網站結構
 
-`public-showcase` is a static HTML showcase site for educational and explainer-style interactive pages. Its current focus is turning textbook-style material into more readable single-page presentations and reusable demos.
+| 路徑 | 內容 |
+|---|---|
+| `/` | NOTES 部落格首頁 |
+| `/posts/...` | 文章 |
+| `/about/` | 關於我 |
+| `/showcase/` | 舊 Demo Showcase 入口 |
+| `/showcase/tokyo_trip/` | 東京旅程 |
+| `/showcase/*.html` | 教材／元件示範頁 |
 
-### Current demos
-- `ch16_waves_demo.html`: long-form interactive page for a waves chapter
-- `ch3_derivatives_demo.html`: calculus / derivatives teaching page
-- `demo_all_components.html`: reusable UI and interaction component showcase
-- `tokyo_trip/index.html`: Tokyo railway tour guide — 3-day family cultural trip
-- `index.html`: showcase landing page
+## 新增文章
 
-### Content characteristics
-- MathJax-based formula rendering
-- long-form instructional page layout
-- PDF side-by-side / split-view reading concepts
-- reusable UI patterns such as callouts, tooltips, sliders, progress bars, and tag filters
-- static deployment friendly for GitHub Pages
+見下方檢查清單，或打開 Keystatic 後台。
 
-### Tech stack
-- HTML
-- CSS
-- JavaScript
-- MathJax
+### 用後台
 
-### Project positioning
-The point of this repo is not a general-purpose framework. The point is a concrete demonstration of how to package educational content and interactive reading components into clean, deployable static pages.
+1. `npm run dev` / `npm start`
+2. 打開 http://127.0.0.1:4321/keystatic/
+3. 新增或修改「文章」後儲存
+4. commit → push 更新 GitHub Pages
+
+### 用檔案
+
+1. 在 `src/content/posts/` 新增／修改 `.mdx`
+2. 媒體放 `public/images/`、`public/videos/`
+3. 本機預覽後 commit / push
+
+## 部署
+
+推送到 `main` 後，GitHub Actions 會 build Astro 並部署到 Pages。
+
+請確認 Repo → Settings → Pages → Source 為 **GitHub Actions**。

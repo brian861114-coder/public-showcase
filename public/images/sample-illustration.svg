@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-label="úr:Ò">
+  <rect width="1200" height="675" fill="#cce8f3"/>
+  <circle cx="180" cy="150" r="54" fill="none" stroke="#ffa600" stroke-width="16"/>
+  <circle cx="980" cy="480" r="80" fill="none" stroke="#f6b6bc" stroke-width="18"/>
+  <rect x="420" y="190" width="360" height="250" rx="18" fill="#ffffff" transform="rotate(-4 600 315)"/>
+  <text x="600" y="300" text-anchor="middle" font-family="Noto Sans TC, Microsoft JhengHei, sans-serif" font-size="54" font-weight="800" fill="#4a261d">NOTES</text>
+  <text x="600" y="360" text-anchor="middle" font-family="Noto Sans TC, Microsoft JhengHei, sans-serif" font-size="28" font-weight="700" fill="#fd5229">G:Ä</text>
+  <rect x="760" y="470" width="220" height="28" rx="14" fill="#ffa600" transform="rotate(-24 870 484)"/>
+</svg>

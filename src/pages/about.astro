@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../lib/paths';
+---
+
+<BaseLayout title="關於我 — NOTES" description="關於這個個人部落格" current="about">
+  <div class="breadcrumbs">
+    <a href={withBase('/')}>首頁</a><span>›</span>關於我
+  </div>
+
+  <div class="post-shell">
+    <div class="post-hero-card">
+      <div class="post-kicker">關於</div>
+      <h1>關於這個部落格</h1>
+      <p class="post-meta">用淺色中文介面，慢慢累積個人文章。</p>
+    </div>
+
+    <article class="post-body">
+      <p>
+        這是一個以 Astro 建置、預計部署到 GitHub Pages 的個人部落格。版面使用米白底、咖啡文字、橘紅強調色與藍色主視覺，避免深色大面積背景壓住文字。
+      </p>
+      <p>之後每篇文章都可以包含：</p>
+      <ul>
+        <li>純文字與標題層級</li>
+        <li>圖片說明</li>
+        <li>數秒長度的 mp4 演示</li>
+        <li>指向外部資料的連結</li>
+      </ul>
+      <p>
+        新文章請放到 <code>src/content/posts/</code>，媒體檔放到 <code>public/images/</code> 與 <code>public/videos/</code>。
+      </p>
+      <a class="back-link" href={withBase('/')}>‹ 回到文章列表</a>
+    </article>
+  </div>
+</BaseLayout>

@@ -1,0 +1,44 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Video from '../../components/Video.astro';
+import { categoryLabel } from '../../lib/categories';
+import { withBase } from '../../lib/paths';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const date = post.data.pubDate.toLocaleDateString('zh-TW', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout title={`${post.data.title} — NOTES`} description={post.data.description} current="posts">
+  <div class="breadcrumbs">
+    <a href={withBase('/')}>首頁</a><span>›</span>
+    <a href={`${withBase('/')}#articles`}>文章</a><span>›</span>
+    {post.data.title}
+  </div>
+
+  <div class="post-shell">
+    <div class="post-hero-card">
+      <div class="post-kicker">{categoryLabel(post.data.category)}</div>
+      <h1>{post.data.title}</h1>
+      <p class="post-meta">{date} · {post.data.description}</p>
+    </div>
+
+    <article class="post-body">
+      <Content components={{ Video }} />
+      <a class="back-link" href={`${withBase('/')}#articles`}>‹ 回到文章列表</a>
+    </article>
+  </div>
+</BaseLayout>
