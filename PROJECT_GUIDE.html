@@ -1,0 +1,852 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>專案導覽</title>
+<style>
+:root {
+  --paper: #f7f5f0;
+  --surface: #ffffff;
+  --surface-2: #f0ede6;
+  --ink: #1d1f23;
+  --ink-2: #4a4f57;
+  --ink-3: #7b8089;
+  --line: #e2ddd3;
+  --accent: #0f6e66;
+  --accent-soft: #dcefec;
+  --warn: #9a5b00;
+  --warn-soft: #fbf0dc;
+  --danger: #a3372f;
+  --danger-soft: #f8e3e0;
+  --ok: #2f6d2f;
+  --ok-soft: #e2f0dd;
+  --code-bg: #1f2227;
+  --code-ink: #e8e6e1;
+  --shadow: 0 1px 2px rgba(30, 25, 15, .05), 0 4px 16px rgba(30, 25, 15, .05);
+  --radius: 12px;
+  --sans: "Microsoft JhengHei UI", "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", system-ui, sans-serif;
+  --mono: "Cascadia Code", "Cascadia Mono", Consolas, "SF Mono", monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #141619; --surface: #1c1f23; --surface-2: #23272c;
+    --ink: #e9e7e2; --ink-2: #b7b9bd; --ink-3: #868a91; --line: #2f343a;
+    --accent: #5cc4b8; --accent-soft: #173a37;
+    --warn: #e8b35a; --warn-soft: #3a2d15;
+    --danger: #ef8a80; --danger-soft: #3d1f1c;
+    --ok: #8fcf8a; --ok-soft: #1f3320;
+    --code-bg: #0e1013; --code-ink: #e8e6e1;
+    --shadow: none; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #141619; --surface: #1c1f23; --surface-2: #23272c;
+  --ink: #e9e7e2; --ink-2: #b7b9bd; --ink-3: #868a91; --line: #2f343a;
+  --accent: #5cc4b8; --accent-soft: #173a37;
+  --warn: #e8b35a; --warn-soft: #3a2d15;
+  --danger: #ef8a80; --danger-soft: #3d1f1c;
+  --ok: #8fcf8a; --ok-soft: #1f3320;
+  --code-bg: #0e1013; --code-ink: #e8e6e1;
+  --shadow: none; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font: 16px/1.75 var(--sans); -webkit-font-smoothing: antialiased;
+}
+a { color: var(--accent); }
+code, .mono { font-family: var(--mono); font-size: .88em; }
+:not(pre) > code {
+  background: var(--surface-2); border: 1px solid var(--line);
+  padding: .05em .4em; border-radius: 6px; word-break: break-all;
+}
+
+/* Layout */
+.shell { display: grid; grid-template-columns: 232px minmax(0, 1fr); max-width: 1180px; margin: 0 auto; gap: 48px; padding: 0 32px; }
+nav.toc { position: sticky; top: 0; height: 100vh; overflow-y: auto; padding: 40px 0 32px; }
+.toc-title { font-size: 12px; letter-spacing: .12em; color: var(--ink-3); text-transform: uppercase; margin: 0 0 12px 12px; }
+.toc a {
+  display: flex; align-items: center; gap: 10px; padding: 6px 12px; border-radius: 8px;
+  color: var(--ink-2); text-decoration: none; font-size: 14.5px;
+}
+.toc a .n { font-family: var(--mono); font-size: 11.5px; color: var(--ink-3); width: 18px; }
+.toc a:hover { background: var(--surface-2); color: var(--ink); }
+.toc a.active { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+.toc a.active .n { color: var(--accent); }
+.toc-foot { margin: 20px 12px 0; padding-top: 16px; border-top: 1px solid var(--line); }
+.theme-btn {
+  font: inherit; font-size: 13px; color: var(--ink-2); background: none; border: 1px solid var(--line);
+  border-radius: 8px; padding: 4px 10px; cursor: pointer;
+}
+main { padding: 40px 0 96px; min-width: 0; }
+
+/* Hero */
+.hero { padding: 8px 0 28px; border-bottom: 1px solid var(--line); margin-bottom: 8px; }
+.eyebrow { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font-size: 13px; color: var(--ink-3); }
+.badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600; padding: 2px 10px; border-radius: 999px; }
+.badge::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.badge.active { color: var(--ok); background: var(--ok-soft); }
+.badge.maintained { color: var(--accent); background: var(--accent-soft); }
+.badge.paused { color: var(--warn); background: var(--warn-soft); }
+.badge.archived { color: var(--ink-3); background: var(--surface-2); }
+h1 { font-size: clamp(30px, 4.2vw, 42px); line-height: 1.2; margin: 14px 0 8px; letter-spacing: -.01em; }
+.tagline { font-size: 18px; color: var(--ink-2); margin: 0 0 18px; max-width: 46em; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; padding: 0; list-style: none; }
+.chips li { font-size: 13px; padding: 3px 10px; border-radius: 6px; background: var(--surface); border: 1px solid var(--line); color: var(--ink-2); }
+.pathline { font-family: var(--mono); font-size: 13px; color: var(--ink-3); word-break: break-all; }
+
+/* Sections */
+section { padding-top: 44px; }
+h2 { display: flex; align-items: baseline; gap: 12px; font-size: 23px; margin: 0 0 6px; }
+h2 .n { font-family: var(--mono); font-size: 13px; color: var(--accent); font-weight: 600; }
+.lede { color: var(--ink-3); font-size: 14.5px; margin: 0 0 18px; }
+.steps, .tasks, .checks { grid-template-columns: minmax(0, 1fr); }
+.card { min-width: 0; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
+
+/* TL;DR */
+.tldr { padding: 20px 24px; border-left: 4px solid var(--accent); }
+.tldr ol { margin: 0; padding-left: 1.3em; }
+.tldr li { margin: 4px 0; font-size: 16.5px; }
+.tldr li::marker { color: var(--accent); font-weight: 700; }
+
+/* Source tag */
+.src {
+  display: inline-block; font-family: var(--mono); font-size: 11.5px; color: var(--ink-3);
+  background: var(--surface-2); border-radius: 5px; padding: 0 6px; margin-top: 6px; word-break: break-all;
+}
+.src.unverified { color: var(--warn); background: var(--warn-soft); }
+
+/* Quickstart */
+.steps { counter-reset: step; display: grid; gap: 14px; }
+.step { padding: 16px 20px 16px 64px; position: relative; }
+.step::before {
+  counter-increment: step; content: counter(step);
+  position: absolute; left: 20px; top: 16px; width: 28px; height: 28px; border-radius: 50%;
+  background: var(--accent); color: var(--surface); font-weight: 700; font-size: 14px;
+  display: grid; place-items: center;
+}
+.step h3 { margin: 0 0 4px; font-size: 16.5px; }
+.step p { margin: 4px 0 0; color: var(--ink-2); font-size: 14.5px; }
+.cmd { position: relative; margin: 10px 0 0; }
+.cmd pre {
+  margin: 0; background: var(--code-bg); color: var(--code-ink); border-radius: 9px;
+  padding: 12px 84px 12px 14px; overflow-x: auto; font: 13.5px/1.6 var(--mono);
+}
+.copy {
+  position: absolute; top: 7px; right: 7px; font: 12px var(--sans); color: var(--code-ink);
+  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18); border-radius: 6px;
+  padding: 3px 10px; cursor: pointer;
+}
+.copy:hover { background: rgba(255,255,255,.2); }
+
+/* Glance */
+.glance { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; }
+.fact { padding: 16px 18px; }
+.fact .k { font-size: 12.5px; letter-spacing: .06em; color: var(--ink-3); }
+.fact .v { font-size: 15.5px; font-weight: 600; margin-top: 2px; word-break: break-word; }
+
+/* Flow */
+.flow { display: flex; flex-wrap: nowrap; align-items: stretch; gap: 0; overflow-x: auto; padding-bottom: 6px; }
+.node { flex: 1 0 190px; padding: 14px 16px; min-width: 0; }
+.node .src { word-break: normal; overflow-wrap: anywhere; }
+.node .t { font-weight: 700; font-size: 15px; }
+.node .d { font-size: 13.5px; color: var(--ink-2); margin-top: 2px; }
+.arrow { flex: 0 0 34px; display: grid; place-items: center; color: var(--accent); font-size: 20px; }
+
+/* Tree */
+.tree { padding: 18px 20px; font-family: var(--mono); font-size: 13.5px; line-height: 1.9; overflow-x: auto; }
+.tree .row { display: grid; grid-template-columns: minmax(180px, max-content) 1fr; gap: 20px; white-space: nowrap; }
+.tree .p { color: var(--ink); }
+.tree .p.dir { color: var(--accent); font-weight: 600; }
+.tree .note { font-family: var(--sans); color: var(--ink-3); white-space: normal; font-size: 13.5px; }
+
+/* Table */
+.tbl { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+.tbl th { text-align: left; font-size: 12.5px; color: var(--ink-3); font-weight: 600; letter-spacing: .05em; padding: 12px 18px; border-bottom: 1px solid var(--line); }
+.tbl td { padding: 12px 18px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.tbl tr:last-child td { border-bottom: 0; }
+.tbl td:first-child { font-family: var(--mono); font-size: 13px; word-break: break-all; width: 38%; }
+
+/* Tasks (details) */
+.tasks { display: grid; gap: 10px; }
+details.task { padding: 0; }
+details.task summary {
+  list-style: none; cursor: pointer; padding: 14px 20px; font-weight: 600; display: flex; justify-content: space-between; gap: 12px;
+}
+details.task summary::-webkit-details-marker { display: none; }
+details.task summary::after { content: "＋"; color: var(--accent); font-weight: 400; }
+details.task[open] summary::after { content: "－"; }
+details.task .body { padding: 0 20px 16px; border-top: 1px dashed var(--line); }
+details.task ol { margin: 12px 0 0; padding-left: 1.3em; color: var(--ink-2); }
+
+/* Pitfalls */
+.pits { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+.pit { padding: 18px 20px; border-top: 3px solid var(--danger); }
+.pit .sym { font-weight: 700; margin-bottom: 8px; }
+.pit dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: 14.5px; }
+.pit dt { color: var(--ink-3); font-size: 13px; padding-top: 1px; }
+.pit dd { margin: 0; color: var(--ink-2); }
+
+/* Verify */
+.checks { display: grid; gap: 10px; }
+.check { padding: 14px 20px; }
+.check .w { font-weight: 600; }
+
+/* Unknowns */
+.unknowns { padding: 18px 22px; background: var(--warn-soft); border-color: transparent; }
+.unknowns ul { margin: 0; padding-left: 1.2em; }
+.unknowns li { margin: 4px 0; }
+.unknowns li::marker { content: "？ "; color: var(--warn); font-weight: 700; }
+
+/* Glossary */
+.gloss { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.term { padding: 14px 18px; }
+.term .t { font-weight: 700; }
+.term .m { color: var(--ink-2); font-size: 14.5px; }
+
+.empty { color: var(--ink-3); font-size: 14.5px; font-style: italic; }
+footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 13px; color: var(--ink-3); }
+
+@media (max-width: 900px) {
+  .shell { grid-template-columns: 1fr; gap: 0; padding: 0 16px; }
+  nav.toc { position: static; height: auto; padding: 20px 0 0; display: none; }
+  main { padding-top: 24px; }
+  .flow { flex-direction: column; overflow: visible; }
+  .arrow { flex: 0 0 26px; transform: rotate(90deg); }
+  .node { flex: 0 0 auto; }
+  .tbl td:first-child { width: auto; }
+  .tbl, .tbl tbody, .tbl tr, .tbl td { display: block; }
+  .tbl thead { display: none; }
+  .tbl tr { border-bottom: 1px solid var(--line); padding: 8px 0; }
+  .tbl tr:last-child { border-bottom: 0; }
+  .tbl td { border: 0; padding: 4px 18px; }
+}
+@media print {
+  nav.toc, .copy, .theme-btn { display: none; }
+  .shell { display: block; }
+  body { background: #fff; }
+  details.task > .body { display: block; }
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <nav class="toc" aria-label="目錄">
+    <p class="toc-title">導覽</p>
+    <div id="toc"></div>
+    <div class="toc-foot"><button class="theme-btn" id="themeBtn" type="button">切換深淺色</button></div>
+  </nav>
+  <main id="app"></main>
+</div>
+
+<!--
+  ============================================================
+  內容資料區：只修改下面這個 JSON，不要改 HTML、CSS 或 JS。
+  欄位規格見 FILL_PROMPT.md。build.py 會自動替換 GUIDE_DATA 區塊。
+  ============================================================
+-->
+<script type="application/json" id="guide-data">
+/*GUIDE_DATA_START*/{
+  "meta": {
+    "id": "public-showcase",
+    "name": "NOTES 個人部落格與展示館",
+    "tagline": "Astro 部落格，底下掛教材與東京旅程靜態頁",
+    "status": "archived",
+    "reviewed": "2026-10-01",
+    "generated_by": "cursor-grok-4.6-medium via Cursor CLI",
+    "path": "C:\\Users\\brian\\Downloads\\10_projects\\19_archive\\public-showcase",
+    "stack": [
+      "Astro",
+      "MDX",
+      "React",
+      "Keystatic",
+      "TypeScript",
+      "GitHub Pages"
+    ]
+  },
+  "tldr": [
+    "這是以 Astro 建置的 `NOTES` 個人部落格；舊 Demo Showcase（教材頁、東京旅程中心）改掛在 `/showcase/` 靜態子站。",
+    "日常：本機用 `npm start` 或雙擊 `start-blog.bat` 開網站與 Keystatic；文章放 `src/content/posts/`，媒體放 `public/images/` 與 `public/videos/`，改完 `commit` 後推 `main` 由 Actions 部署。",
+    "正式 build 不會帶上 Keystatic；GitHub Pages 是專案站，路徑要靠 `withBase` 與 CI 的 `BASE`，不要假設根路徑永遠是 `/`。"
+  ],
+  "quickstart": [
+    {
+      "title": "安裝依賴",
+      "command": "npm install",
+      "note": "需要 Node `>=22.12.0`。CI 用 `npm ci`。",
+      "source": "package.json:5"
+    },
+    {
+      "title": "一鍵開本機站與後台",
+      "command": "npm start",
+      "note": "也可雙擊 `start-blog.bat`。腳本會在 `127.0.0.1:4321` 跑 `npm run dev`，並開啟網站與 `/keystatic/`。若埠已占用會直接開瀏覽器。",
+      "source": "start-blog.ps1:5"
+    },
+    {
+      "title": "確認三個本機入口",
+      "command": "",
+      "note": "網站 `http://127.0.0.1:4321/`、後台 `http://127.0.0.1:4321/keystatic/`、展示館 `http://127.0.0.1:4321/showcase/`。後台只在 `astro dev` 啟用。",
+      "source": "README.md:17"
+    },
+    {
+      "title": "本機建置檢查",
+      "command": "npm run build",
+      "note": "產出 `dist/`。本機預設 `base='/'`；CI 會注入 `BASE=/<repo>/`。",
+      "source": "package.json:11"
+    },
+    {
+      "title": "發佈到 GitHub Pages",
+      "command": "",
+      "note": "推到 `main`（或手動跑 workflow）。Repo Settings → Pages → Source 需為 GitHub Actions。線上網址見 `README.md`。",
+      "source": "README.md:49"
+    }
+  ],
+  "glance": [
+    {
+      "label": "入口",
+      "value": "部落格 `src/pages/index.astro`；文章動態路由 `src/pages/posts/[slug].astro`；展示館靜態頁 `public/showcase/index.html`",
+      "source": "src/pages/index.astro:14"
+    },
+    {
+      "label": "資料位置",
+      "value": "文章 `src/content/posts/*.mdx`；Keystatic 寫入同一目錄；圖片 `public/images/`；短片 `public/videos/`；東京旅程資料在 `public/showcase/tokyo_trip/`",
+      "source": "src/content.config.ts:5"
+    },
+    {
+      "label": "設定檔",
+      "value": "`astro.config.mjs`（site/base、Keystatic 僅 dev）、`keystatic.config.ts`、`src/content.config.ts`、`package.json`",
+      "source": "astro.config.mjs:15"
+    },
+    {
+      "label": "測試",
+      "value": "沒有測試腳本或 `*.test`／`*.spec` 檔；驗證靠本機 `dev`／`build`",
+      "source": "package.json:8"
+    },
+    {
+      "label": "對外連線",
+      "value": "部落格載入 Google Fonts；教材頁載入 jsdelivr MathJax；東京部分頁載入 Google Fonts。無後端 API。",
+      "source": "src/layouts/BaseLayout.astro:26"
+    },
+    {
+      "label": "部署方式",
+      "value": "`.github/workflows/deploy.yml`：`main` push 後 `npm ci` → `astro build` → 上傳 `dist` → `deploy-pages`",
+      "source": ".github/workflows/deploy.yml:1"
+    },
+    {
+      "label": "本機啟動腳本",
+      "value": "`start-blog.ps1`／`start-blog.bat`；`package.json` 的 `start` 轉呼叫該腳本",
+      "source": "package.json:10"
+    },
+    {
+      "label": "內容分類",
+      "value": "文章 `category` 僅允許 `essay`／`tech`／`life`／`learn`；`draft: true` 不進前台",
+      "source": "src/content.config.ts:11"
+    }
+  ],
+  "flow": [
+    {
+      "name": "撰寫文章",
+      "role": "在 `src/content/posts/` 新增 MDX，或本機 Keystatic（`storage.kind: local`）寫入同目錄與 frontmatter。",
+      "source": "keystatic.config.ts:5"
+    },
+    {
+      "name": "Content Collection",
+      "role": "`posts` collection 用 glob 載入 md/mdx，Zod 驗證欄位；`draft` 預設 false。",
+      "source": "src/content.config.ts:4"
+    },
+    {
+      "name": "Astro 頁面渲染",
+      "role": "首頁 `getCollection` 過濾草稿並依 `pubDate` 排序；文章頁 `getStaticPaths` 用 `post.id` 當 slug，MDX 可注入 `Video`。",
+      "source": "src/pages/index.astro:9"
+    },
+    {
+      "name": "路徑加 base",
+      "role": "`withBase` 把連結與媒體路徑接上 `import.meta.env.BASE_URL`，避免專案站子路徑壞掉。",
+      "source": "src/lib/paths.ts:1"
+    },
+    {
+      "name": "靜態展示資產",
+      "role": "`public/showcase/` 原樣輸出；教材 HTML 與 `tokyo_trip/` 不經 Astro 組件系統。",
+      "source": "public/showcase/index.html:52"
+    },
+    {
+      "name": "CI 建置與 Pages",
+      "role": "注入 `SITE` 與 `BASE=/<repo>/` 後 `npm run build`，把 `dist` 部署到 GitHub Pages。",
+      "source": ".github/workflows/deploy.yml:33"
+    }
+  ],
+  "tree": [
+    {
+      "path": "src/pages/",
+      "note": "Astro 路由：首頁、關於、文章 slug"
+    },
+    {
+      "path": "src/content/posts/",
+      "note": "部落格 MDX 正文與 frontmatter"
+    },
+    {
+      "path": "src/layouts/",
+      "note": "共用 HTML 殼、字型與全域樣式入口"
+    },
+    {
+      "path": "src/components/",
+      "note": "Header／Hero／卡片／Footer／Video"
+    },
+    {
+      "path": "src/lib/",
+      "note": "`withBase` 與文章分類對照"
+    },
+    {
+      "path": "src/styles/",
+      "note": "全站 CSS"
+    },
+    {
+      "path": "public/showcase/",
+      "note": "舊展示館入口與教材 HTML"
+    },
+    {
+      "path": "public/showcase/tokyo_trip/",
+      "note": "東京旅程靜態站、PWA、localStorage 工具"
+    },
+    {
+      "path": "public/images/",
+      "note": "文章圖片；Keystatic 預設寫入 `posts/`"
+    },
+    {
+      "path": "public/videos/",
+      "note": "短片 mp4 放置處"
+    },
+    {
+      "path": ".github/workflows/",
+      "note": "GitHub Pages 建置與部署"
+    },
+    {
+      "path": "keystatic.config.ts",
+      "note": "本機 CMS 欄位與文章 collection"
+    },
+    {
+      "path": "astro.config.mjs",
+      "note": "site／base 與是否掛 Keystatic"
+    },
+    {
+      "path": "start-blog.ps1",
+      "note": "Windows 一鍵啟動 dev server"
+    }
+  ],
+  "key_files": [
+    {
+      "path": "astro.config.mjs",
+      "why": "決定本機 `base`、正式站 `SITE`／`BASE`，以及 Keystatic 是否進入 integrations。",
+      "source": "astro.config.mjs:12"
+    },
+    {
+      "path": "src/content.config.ts",
+      "why": "改文章欄位、分類 enum 或草稿規則時，前後台 schema 都要對齊這裡。",
+      "source": "src/content.config.ts:6"
+    },
+    {
+      "path": "keystatic.config.ts",
+      "why": "後台表單、圖片目錄與 `Video` 區塊定義；和 content schema 不同步會讓編輯或 build 失敗。",
+      "source": "keystatic.config.ts:12"
+    },
+    {
+      "path": "src/lib/paths.ts",
+      "why": "所有站內連結與靜態媒體在 GitHub Pages 子路徑下都經過它。",
+      "source": "src/lib/paths.ts:1"
+    },
+    {
+      "path": "src/pages/index.astro",
+      "why": "首頁列表、分類／搜尋／排序的客戶端篩選，以及連到展示館的入口。",
+      "source": "src/pages/index.astro:8"
+    },
+    {
+      "path": "src/pages/posts/[slug].astro",
+      "why": "文章 URL 與 MDX 渲染方式；改 slug 規則或自訂元件從這裡下手。",
+      "source": "src/pages/posts/[slug].astro:8"
+    },
+    {
+      "path": ".github/workflows/deploy.yml",
+      "why": "發佈行為與 `BASE` 注入都在這裡；改 repo 名或改成 user site 要先改這個。",
+      "source": ".github/workflows/deploy.yml:34"
+    },
+    {
+      "path": "public/showcase/tokyo_trip/sw.js",
+      "why": "東京子站離線快取；改完頁面要上線時必須先加 `CACHE` 版本號。",
+      "source": "public/showcase/tokyo_trip/sw.js:1"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "用檔案新增一篇文章",
+      "steps": [
+        "在 `src/content/posts/` 新增 `.mdx`，填 `title`、`description`、`pubDate`、`category`（`essay`／`tech`／`life`／`learn`）",
+        "需要圖片或短片時放到 `public/images/`、`public/videos/`，文章內用路徑或 `<Video />`",
+        "本機預覽後 commit／push"
+      ],
+      "source": "README.md:43"
+    },
+    {
+      "title": "用 Keystatic 新增或改文章",
+      "steps": [
+        "跑 `npm start` 或 `npm run dev`",
+        "打開 `http://127.0.0.1:4321/keystatic/`，編輯「文章」後儲存（寫入本機檔案）",
+        "commit → push 才會更新 GitHub Pages；正式站沒有後台"
+      ],
+      "source": "README.md:36"
+    },
+    {
+      "title": "在文章裡加短片",
+      "steps": [
+        "把 mp4 放到 `public/videos/`（建議數秒到十數秒）",
+        "MDX 寫 `<Video src=\"/videos/....mp4\" />`，或後台插入「短片（mp4）」區塊",
+        "`Video.astro` 會對相對路徑呼叫 `withBase`"
+      ],
+      "source": "src/content/posts/media-demo.mdx:22"
+    },
+    {
+      "title": "更新東京旅程靜態頁後上線",
+      "steps": [
+        "改 `public/showcase/tokyo_trip/` 內 HTML／CSS／JS／圖片",
+        "若有實質內容變更，把 `sw.js` 第一行 `CACHE`（目前 `tokyo-trip-gh-v18`）結尾數字 +1",
+        "用 HTTP 預覽（不要 `file://`），再 commit／push"
+      ],
+      "source": "public/showcase/tokyo_trip/sw.js:1"
+    },
+    {
+      "title": "發佈整站",
+      "steps": [
+        "確認 Pages Source 是 GitHub Actions",
+        "推送到 `main`，或手動 `workflow_dispatch`",
+        "等 build job 用 `SITE`／`BASE` 產出 `dist` 並部署"
+      ],
+      "source": "README.md:51"
+    }
+  ],
+  "pitfalls": [
+    {
+      "symptom": "線上或 `astro build` 後沒有 `/keystatic/`，或後台 404",
+      "cause": "Keystatic 只在 `process.argv` 含 `dev` 時掛上；正式 build 刻意維持純靜態。另外後台路徑對結尾斜線敏感。",
+      "fix": "本機用 `astro dev`／`npm start` 編輯。不要指望 GitHub Pages 上有 CMS。`trailingSlash` 已設 `ignore` 以避免 `/keystatic` 404。",
+      "source": "astro.config.mjs:12"
+    },
+    {
+      "symptom": "部署後東京旅程仍看到舊頁，或離線內容過期",
+      "cause": "`sw.js` 用具名 CACHE 箱；沒把版本號 +1 時，訪客瀏覽器可能繼續用舊快取。",
+      "fix": "上線前把 `CACHE` 結尾數字 +1，強制重新整理；必要時在 DevTools 解除註冊 Service Worker。",
+      "source": "public/showcase/tokyo_trip/sw.js:1"
+    },
+    {
+      "symptom": "本機雙擊 HTML 後圖示、SW 或部分功能異常",
+      "cause": "`file://` 不是 HTTP，Service Worker 與部分相對資源會失效。",
+      "fix": "用 `npm start` 看整站，或對靜態子資料夾用 HTTP 伺服器預覽。",
+      "source": "public/showcase/tokyo_trip/GITHUB_PAGES_DEPLOY.md:37"
+    },
+    {
+      "symptom": "行前清單、收藏、旅費在另一台裝置不見",
+      "cause": "GitHub Pages 副本已移除後端同步；資料只在目前瀏覽器 `localStorage`。",
+      "fix": "接受本機-only；換裝置或清資料就要重填。不要在此站找雲端同步。",
+      "source": "public/showcase/tokyo_trip/README.md:3"
+    },
+    {
+      "symptom": "`start-blog.ps1` 顯示啟動逾時",
+      "cause": "90 秒內 `127.0.0.1:4321` 沒開起來，常見是還沒 `npm install` 或 `astro dev` 失敗。",
+      "fix": "先 `npm install`，再開命令視窗看 `npm run dev` 錯誤。",
+      "source": "start-blog.ps1:40"
+    },
+    {
+      "symptom": "寫了文章但首頁與文章路由都沒有",
+      "cause": "`draft: true` 會被 `getCollection` 過濾掉。",
+      "fix": "把 `draft` 設成 false，或後台取消「草稿（不在前台顯示）」。",
+      "source": "src/pages/index.astro:9"
+    }
+  ],
+  "verify": [
+    {
+      "what": "本機開發伺服器起來，首頁／後台／展示館可開",
+      "command": "npm start",
+      "source": "README.md:14"
+    },
+    {
+      "what": "正式靜態建置成功（產出 `dist/`）",
+      "command": "npm run build",
+      "source": "package.json:11"
+    },
+    {
+      "what": "本機預覽 build 結果",
+      "command": "npm run preview",
+      "source": "package.json:12"
+    }
+  ],
+  "unknowns": [
+    "`PROJECT_CARD.md` 仍寫根目錄靜態 `index.html`、無 `AGENTS.md`、啟動指令不明、`state: paused`；實際根目錄是 Astro（`src/pages/`、`AGENTS.md` 存在）。以程式碼為準。",
+    "`public/showcase/ARCHITECTURE_for_VibeCoder.md`（2026/08/06）寫首頁是四張展示卡片、路徑是 repo 根下 `tokyo_trip/`、且「沒有 `.github/`／沒有 CI」、Pages 用 Deploy from a branch。現況：部落格才是 `/`，展示在 `public/showcase/`，並有 `deploy.yml` 用 GitHub Actions。",
+    "`public/showcase/tokyo_trip/GITHUB_PAGES_DEPLOY.md` 的線上入口仍寫 `.../public-showcase/tokyo_trip/`，以及從 `github-pages/` 複製到 `public-showcase/tokyo_trip/`。實際靜態檔在 `public/showcase/tokyo_trip/`；`README.md` 線上路徑是 `/showcase/tokyo_trip/`。",
+    "未用瀏覽器或網路驗證 GitHub Pages 現況是否仍依 `README.md` 可開啟。",
+    "未讀 git commit 訊息，因此沒有把歷史 hotfix 寫進 `pitfalls`。",
+    "`src/components/Footer.astro` 的 `hello@example.com` 看起來是佔位；真實聯絡方式未查證。",
+    "根目錄未追蹤檔名 `x.includes('.glb')` 的用途未查證，未當正式資產。"
+  ],
+  "glossary": [
+    {
+      "term": "NOTES",
+      "meaning": "這個 Astro 站的部落格品牌名，首頁標題與頁首品牌都用它。"
+    },
+    {
+      "term": "展示館／Showcase",
+      "meaning": "舊的純 HTML 示範站，現在靜態放在 `/showcase/`，含教材頁與東京旅程。"
+    },
+    {
+      "term": "Keystatic",
+      "meaning": "本機 CMS；只在 `astro dev` 出現，存檔直接改 repo 裡的 MDX，不上雲端。"
+    },
+    {
+      "term": "withBase",
+      "meaning": "把站內路徑接上 GitHub Pages 的子目錄（例如 `/public-showcase`），避免連結指到網域根。"
+    },
+    {
+      "term": "CACHE（tokyo-trip-gh-v*）",
+      "meaning": "東京子站 Service Worker 的快取箱名稱；改網站內容後數字要 +1，訪客才拿得到新檔。"
+    },
+    {
+      "term": "draft",
+      "meaning": "文章 frontmatter 旗標；true 時 collection 查詢會排除，前台看不到。"
+    }
+  ]
+}/*GUIDE_DATA_END*/
+</script>
+
+<script>
+(function () {
+  var raw = document.getElementById("guide-data").textContent
+    .replace("/*GUIDE_DATA_START*/", "").replace("/*GUIDE_DATA_END*/", "");
+  var G;
+  try { G = JSON.parse(raw); } catch (e) {
+    document.getElementById("app").textContent = "導覽資料 JSON 格式錯誤：" + e.message;
+    return;
+  }
+  var app = document.getElementById("app");
+  var STATUS = { active: "開發中", maintained: "維護中", paused: "暫停", archived: "已封存" };
+
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+  // Inline `code` only; everything else stays plain text (no HTML injection).
+  function rich(tag, cls, text) {
+    var n = el(tag, cls);
+    String(text || "").split(/(`[^`]+`)/).forEach(function (part) {
+      if (/^`[^`]+`$/.test(part)) n.appendChild(el("code", null, part.slice(1, -1)));
+      else if (part) n.appendChild(document.createTextNode(part));
+    });
+    return n;
+  }
+  function src(s) {
+    var v = (s || "").trim() || "未查證";
+    return el("span", "src" + (v === "未查證" ? " unverified" : ""), v === "未查證" ? "未查證" : "來源：" + v);
+  }
+  function arr(x) { return Array.isArray(x) ? x : []; }
+
+  var sections = [];
+  function section(id, title, lede, build, items) {
+    var s = el("section"); s.id = id;
+    var h = el("h2"); h.appendChild(el("span", "n", String(sections.length + 1).padStart(2, "0")));
+    h.appendChild(document.createTextNode(title));
+    s.appendChild(h);
+    if (lede) s.appendChild(el("p", "lede", lede));
+    if (items !== undefined && arr(items).length === 0) s.appendChild(el("p", "empty", "（這個專案沒有相關內容）"));
+    else build(s);
+    sections.push({ id: id, title: title });
+    app.appendChild(s);
+  }
+
+  // Hero
+  var m = G.meta || {};
+  document.title = (m.name || "專案") + " · 導覽";
+  var hero = el("header", "hero");
+  var eb = el("div", "eyebrow");
+  var st = m.status in STATUS ? m.status : "archived";
+  eb.appendChild(el("span", "badge " + st, STATUS[st]));
+  if (m.reviewed) eb.appendChild(el("span", null, "檢視日期 " + m.reviewed));
+  if (m.id) eb.appendChild(el("span", "mono", m.id));
+  hero.appendChild(eb);
+  hero.appendChild(el("h1", null, m.name || "未命名專案"));
+  if (m.tagline) hero.appendChild(el("p", "tagline", m.tagline));
+  var chips = el("ul", "chips");
+  arr(m.stack).forEach(function (t) { chips.appendChild(el("li", null, t)); });
+  if (chips.children.length) hero.appendChild(chips);
+  if (m.path) hero.appendChild(el("div", "pathline", m.path));
+  app.appendChild(hero);
+
+  section("tldr", "三句話看懂", null, function (s) {
+    var c = el("div", "card tldr"), ol = el("ol");
+    arr(G.tldr).forEach(function (t) { ol.appendChild(rich("li", null, t)); });
+    c.appendChild(ol); s.appendChild(c);
+  }, G.tldr);
+
+  section("quickstart", "10 分鐘跑起來", "照順序做完，就能在本機看到它運作。", function (s) {
+    var w = el("div", "steps");
+    arr(G.quickstart).forEach(function (q) {
+      var c = el("div", "card step");
+      c.appendChild(el("h3", null, q.title));
+      if (q.command) {
+        var box = el("div", "cmd"), pre = el("pre"), btn = el("button", "copy", "複製");
+        pre.textContent = q.command; btn.type = "button";
+        btn.addEventListener("click", function () {
+          var done = function () { btn.textContent = "已複製"; setTimeout(function () { btn.textContent = "複製"; }, 1400); };
+          if (navigator.clipboard) navigator.clipboard.writeText(q.command).then(done, function () {});
+        });
+        box.appendChild(pre); box.appendChild(btn); c.appendChild(box);
+      }
+      if (q.note) c.appendChild(rich("p", null, q.note));
+      c.appendChild(src(q.source));
+      w.appendChild(c);
+    });
+    s.appendChild(w);
+  }, G.quickstart);
+
+  section("glance", "一眼看完", null, function (s) {
+    var g = el("div", "glance");
+    arr(G.glance).forEach(function (f) {
+      var c = el("div", "card fact");
+      c.appendChild(el("div", "k", f.label));
+      c.appendChild(rich("div", "v", f.value));
+      c.appendChild(src(f.source));
+      g.appendChild(c);
+    });
+    s.appendChild(g);
+  }, G.glance);
+
+  section("flow", "資料怎麼流", "從輸入到輸出的主要路徑。", function (s) {
+    var f = el("div", "flow");
+    arr(G.flow).forEach(function (n, i) {
+      if (i) f.appendChild(el("div", "arrow", "→"));
+      var c = el("div", "card node");
+      c.appendChild(el("div", "t", n.name));
+      c.appendChild(rich("div", "d", n.role));
+      c.appendChild(src(n.source));
+      f.appendChild(c);
+    });
+    s.appendChild(f);
+  }, G.flow);
+
+  section("tree", "資料夾地圖", "只列出值得知道的部分。", function (s) {
+    var c = el("div", "card tree");
+    arr(G.tree).forEach(function (t) {
+      var p = String(t.path || ""), clean = p.replace(/\/$/, "");
+      var depth = clean.split("/").length - 1;
+      var r = el("div", "row");
+      var pe = el("span", "p" + (/\/$/.test(p) ? " dir" : ""), "\u00a0".repeat(depth * 3) + (depth ? "└ " : "") + (clean.split("/").pop() + (/\/$/.test(p) ? "/" : "")));
+      r.appendChild(pe); r.appendChild(el("span", "note", t.note || ""));
+      c.appendChild(r);
+    });
+    s.appendChild(c);
+  }, G.tree);
+
+  section("files", "關鍵檔案", "改功能前先讀這幾個。", function (s) {
+    var c = el("div", "card"), t = el("table", "tbl");
+    var th = el("thead"), hr = el("tr");
+    hr.appendChild(el("th", null, "檔案")); hr.appendChild(el("th", null, "為什麼重要"));
+    th.appendChild(hr); t.appendChild(th);
+    var tb = el("tbody");
+    arr(G.key_files).forEach(function (k) {
+      var r = el("tr"); r.appendChild(el("td", null, k.path));
+      var d = rich("td", null, k.why); d.appendChild(el("br")); d.appendChild(src(k.source));
+      r.appendChild(d); tb.appendChild(r);
+    });
+    t.appendChild(tb); c.appendChild(t); s.appendChild(c);
+  }, G.key_files);
+
+  section("tasks", "常見任務", "點開看步驟。", function (s) {
+    var w = el("div", "tasks");
+    arr(G.tasks).forEach(function (k) {
+      var d = el("details", "card task"); d.appendChild(el("summary", null, k.title));
+      var b = el("div", "body"), ol = el("ol");
+      arr(k.steps).forEach(function (x) { ol.appendChild(rich("li", null, x)); });
+      b.appendChild(ol); b.appendChild(src(k.source)); d.appendChild(b); w.appendChild(d);
+    });
+    s.appendChild(w);
+  }, G.tasks);
+
+  section("pitfalls", "踩過的坑", "症狀 → 原因 → 解法。", function (s) {
+    var w = el("div", "pits");
+    arr(G.pitfalls).forEach(function (p) {
+      var c = el("div", "card pit");
+      c.appendChild(el("div", "sym", p.symptom));
+      var dl = el("dl");
+      dl.appendChild(el("dt", null, "原因")); dl.appendChild(rich("dd", null, p.cause));
+      dl.appendChild(el("dt", null, "解法")); dl.appendChild(rich("dd", null, p.fix));
+      c.appendChild(dl); c.appendChild(src(p.source)); w.appendChild(c);
+    });
+    s.appendChild(w);
+  }, G.pitfalls);
+
+  section("verify", "怎麼確認沒弄壞", null, function (s) {
+    var w = el("div", "checks");
+    arr(G.verify).forEach(function (v) {
+      var c = el("div", "card check");
+      c.appendChild(el("div", "w", v.what));
+      if (v.command) { var box = el("div", "cmd"), pre = el("pre"); pre.textContent = v.command; box.appendChild(pre); c.appendChild(box); }
+      c.appendChild(src(v.source)); w.appendChild(c);
+    });
+    s.appendChild(w);
+  }, G.verify);
+
+  section("unknowns", "尚未確認", "撰寫時查不到或互相矛盾的地方，使用前請先自行核對。", function (s) {
+    var c = el("div", "card unknowns"), ul = el("ul");
+    arr(G.unknowns).forEach(function (u) { ul.appendChild(rich("li", null, u)); });
+    c.appendChild(ul); s.appendChild(c);
+  }, G.unknowns);
+
+  section("glossary", "名詞", null, function (s) {
+    var w = el("div", "gloss");
+    arr(G.glossary).forEach(function (g) {
+      var c = el("div", "card term");
+      c.appendChild(el("div", "t", g.term)); c.appendChild(rich("div", "m", g.meaning));
+      w.appendChild(c);
+    });
+    s.appendChild(w);
+  }, G.glossary);
+
+  var ft = el("footer");
+  ft.textContent = "內容產生：" + (m.generated_by || "未註明") + "。標示「未查證」的項目沒有對應的原始檔案證據。";
+  app.appendChild(ft);
+
+  // TOC + scrollspy
+  var toc = document.getElementById("toc"), links = {};
+  sections.forEach(function (s, i) {
+    var a = el("a"); a.href = "#" + s.id;
+    a.appendChild(el("span", "n", String(i + 1).padStart(2, "0")));
+    a.appendChild(document.createTextNode(s.title));
+    toc.appendChild(a); links[s.id] = a;
+  });
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (e.isIntersecting) {
+          Object.keys(links).forEach(function (k) { links[k].classList.remove("active"); });
+          links[e.target.id].classList.add("active");
+        }
+      });
+    }, { rootMargin: "-10% 0px -80% 0px" });
+    sections.forEach(function (s) { io.observe(document.getElementById(s.id)); });
+  }
+
+  // Theme toggle (per-viewer convenience only)
+  var root = document.documentElement;
+  try { var saved = localStorage.getItem("guide-theme"); if (saved) root.dataset.theme = saved; } catch (e) {}
+  document.getElementById("themeBtn").addEventListener("click", function () {
+    var dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+    root.dataset.theme = dark ? "light" : "dark";
+    try { localStorage.setItem("guide-theme", root.dataset.theme); } catch (e) {}
+  });
+})();
+</script>
+</body>
+</html>
