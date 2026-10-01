@@ -5,12 +5,12 @@ summary: 靜態 HTML 展示站，收納教材互動頁與東京旅遊導覽
 state: paused
 locations:
   - host: nitro
-    path: C:\Users\brian\Downloads\10_projects\11_active\public-showcase
+    path: C:\Users\brian\Downloads\10_projects\19_archive\public-showcase
     role: source
 status_source: inline
 snapshot: summary
 related: []
-card_reviewed: 2026-09-24
+card_reviewed: 2026-10-01
 ---
 
 ## 用途
@@ -25,6 +25,7 @@ card_reviewed: 2026-09-24
 - 根目錄：`index.html`、`ch16_waves_demo.html`、`ch3_derivatives_demo.html`、`demo_all_components.html`
 - `tokyo_trip/`：旅遊導覽；`pages/`：章節分頁素材
 - 啟動／測試：README 未寫本機伺服器指令（靜態開啟／Pages）
+- 導覽手冊：`PROJECT_GUIDE.html`（cursor-grok-4.6-medium 產生，2026-10-01；來源未逐條人工核對）
 
 ## 外部依賴
 - 瀏覽器端 MathJax（README.md）
